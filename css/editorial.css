@@ -907,3 +907,215 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
   .footer__grid { padding-top: 56px; }
   .btn { padding: 14px 22px; letter-spacing: 0.12em; }
 }
+
+/* ==========================================================================
+   12 · RESEÑAS DE CLIENTES (formulario en la portada)
+   Bloque en línea con el resto del rediseño: filetes finos, esquinas rectas,
+   mayúsculas espaciadas en las etiquetas. Sin colores nuevos.
+   ========================================================================== */
+
+.aporte-testimonio {
+  margin-top: 72px;
+  border-top: var(--linea-fuerte);
+  padding-top: 48px;
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.aporte-testimonio__intro h3 {
+  font-family: var(--tipo-display);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1.6rem;
+  margin: 10px 0 14px;
+  color: var(--morado);
+}
+
+.aporte-testimonio__intro p {
+  color: var(--texto-suave);
+  max-width: 34ch;
+}
+
+.form-testimonio {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 28px;
+}
+
+.form-testimonio .campo--ancho { grid-column: 1 / -1; }
+
+.form-testimonio .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-testimonio label,
+.form-testimonio .campo__etiqueta {
+  font-family: var(--tipo-display);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--espaciado-etiqueta);
+  color: var(--texto-suave);
+}
+
+.form-testimonio .campo__opcional { text-transform: none; letter-spacing: 0; }
+
+.form-testimonio input[type="text"],
+.form-testimonio textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: var(--linea);
+  background: transparent;
+  padding: 10px 0;
+  font-family: var(--tipo-texto);
+  font-size: 1rem;
+  color: var(--texto);
+  border-radius: 0;
+  transition: border-color 0.2s ease;
+}
+
+.form-testimonio textarea {
+  border: var(--linea);
+  padding: 14px 16px;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.form-testimonio input[type="text"]:focus,
+.form-testimonio textarea:focus {
+  outline: none;
+  border-color: var(--morado);
+}
+
+.form-testimonio [aria-invalid="true"] { border-color: #b3261e; }
+
+.campo__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #b3261e;
+}
+
+.campo__pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.campo__contador {
+  font-family: var(--tipo-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--texto-suave);
+  white-space: nowrap;
+}
+
+.campo__contador.es-corto { color: var(--naranja); }
+
+/* Selector de estrellas */
+.estrellas-input {
+  display: flex;
+  gap: 6px;
+}
+
+.estrella-input {
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  cursor: pointer;
+  line-height: 0;
+  color: var(--borde);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.estrella-input svg { width: 26px; height: 26px; fill: currentColor; }
+.estrella-input.es-activa { color: var(--amarillo); }
+.estrella-input:hover { transform: translateY(-2px); }
+.estrella-input:focus-visible { outline: 2px solid var(--morado); outline-offset: 2px; }
+
+.form-testimonio__enviar {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: var(--linea);
+  padding-top: 24px;
+}
+
+.form-testimonio__nota {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+.aviso-testimonio {
+  margin: 20px 0 0;
+  grid-column: 1 / -1;
+  font-size: 0.9rem;
+  color: var(--morado);
+  border-left: 3px solid var(--amarillo);
+  padding-left: 14px;
+}
+
+/* Tarjeta de una reseña escrita por un cliente */
+.testimonio--cliente {
+  position: relative;
+  border-left: 3px solid var(--amarillo);
+}
+
+.testimonio__borrar {
+  margin-top: 14px;
+  align-self: flex-start;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: var(--tipo-display);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--texto-suave);
+  cursor: pointer;
+  border-bottom: 1px solid var(--borde);
+}
+
+.testimonio__borrar:hover { color: var(--morado); border-bottom-color: var(--morado); }
+
+@media (max-width: 900px) {
+  .aporte-testimonio { grid-template-columns: 1fr; gap: 32px; margin-top: 56px; }
+  .form-testimonio { grid-template-columns: 1fr; gap: 22px; }
+}
+
+/* ==========================================================================
+   13 · PRODUCTO SIN FOTO
+   Cuando el archivo de imagen indicado en js/productos-nuevos.js todavía no
+   existe, la tarjeta muestra un bloque neutro en lugar de un icono roto.
+   ========================================================================== */
+
+.producto-card__img-wrap.sin-foto,
+.sin-foto {
+  position: relative;
+  background: var(--gris-suave, #f2f0f5);
+  border: var(--linea);
+  min-height: 220px;
+}
+
+.sin-foto__aviso {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tipo-display);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--texto-suave);
+  text-align: center;
+  padding: 12px;
+}

@@ -1010,6 +1010,34 @@ function esPagina(nombre) {
     }
   ];
 
+  /* Se añaden los productos escritos en js/productos-nuevos.js (formato simple).
+     Ese archivo se carga antes que este y deja la lista ya normalizada en
+     window.PELITOS_PRODUCTOS_EXTRA. Si no está cargado, no pasa nada. */
+  var EXTRA = Array.isArray(global.PELITOS_PRODUCTOS_EXTRA)
+    ? global.PELITOS_PRODUCTOS_EXTRA
+    : [];
+
+  var yaUsados = {};
+  PRODUCTOS.forEach(function (p) {
+    yaUsados[p.id] = true;
+  });
+
+  EXTRA.forEach(function (p) {
+    if (yaUsados[p.id]) {
+      /* Mismo id: el producto nuevo reemplaza al del catálogo original, así se
+         puede corregir un producto sin editar este bloque. */
+      for (var i = 0; i < PRODUCTOS.length; i++) {
+        if (PRODUCTOS[i].id === p.id) {
+          PRODUCTOS[i] = p;
+          break;
+        }
+      }
+      return;
+    }
+    yaUsados[p.id] = true;
+    PRODUCTOS.push(p);
+  });
+
   global.PELITOS_CATALOGO = Object.freeze({
     moneda: "S/",
     productos: PRODUCTOS

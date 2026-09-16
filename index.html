@@ -412,7 +412,7 @@
           <p>Reseñas reales de dueños de mascotas que confían en nosotros.</p>
           <div style="margin-top:18px"><span class="badge-google">Reseñas verificadas de Google</span></div>
         </div>
-        <div class="rejilla rejilla--3 reveal">
+        <div class="rejilla rejilla--3 reveal" data-lista-testimonios>
 
           <div class="testimonio">
             <div class="testimonio__estrellas">
@@ -468,6 +468,80 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- Formulario: el propio cliente deja su reseña -->
+        <div class="aporte-testimonio reveal" id="dejar-resena">
+          <div class="aporte-testimonio__intro">
+            <span class="eyebrow">Tu opinión</span>
+            <h3>Deja tu reseña</h3>
+            <p>
+              Cuéntanos cómo fue la atención de tu mascota. Tu reseña aparece al instante
+              en esta página y puedes borrarla cuando quieras.
+            </p>
+          </div>
+
+          <form class="form-testimonio" data-form-testimonio novalidate>
+            <div class="campo">
+              <label for="tst-nombre">Tu nombre</label>
+              <input type="text" id="tst-nombre" name="nombre" maxlength="40"
+                     autocomplete="name" placeholder="María R." required>
+              <p class="campo__error" id="tst-nombre-error" data-error hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="tst-mascota">Tu mascota <span class="campo__opcional">(opcional)</span></label>
+              <input type="text" id="tst-mascota" name="mascota" maxlength="30"
+                     placeholder="Luna, shih tzu">
+              <p class="campo__error" data-error hidden></p>
+            </div>
+
+            <div class="campo campo--ancho">
+              <span class="campo__etiqueta" id="tst-estrellas-label">Tu calificación</span>
+              <div class="estrellas-input" role="radiogroup" aria-labelledby="tst-estrellas-label">
+                <button type="button" class="estrella-input" data-estrella="1" role="radio"
+                        aria-checked="false" aria-label="1 estrella">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button type="button" class="estrella-input" data-estrella="2" role="radio"
+                        aria-checked="false" aria-label="2 estrellas">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button type="button" class="estrella-input" data-estrella="3" role="radio"
+                        aria-checked="false" aria-label="3 estrellas">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button type="button" class="estrella-input" data-estrella="4" role="radio"
+                        aria-checked="false" aria-label="4 estrellas">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button type="button" class="estrella-input" data-estrella="5" role="radio"
+                        aria-checked="true" aria-label="5 estrellas">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+              </div>
+              <input type="hidden" name="estrellas" value="5">
+            </div>
+
+            <div class="campo campo--ancho">
+              <label for="tst-texto">Tu experiencia</label>
+              <textarea id="tst-texto" name="texto" rows="4" maxlength="400"
+                        placeholder="Qué servicio recibiste, cómo trataron a tu mascota, qué te gustó..."
+                        required></textarea>
+              <div class="campo__pie">
+                <p class="campo__error" data-error hidden></p>
+                <span class="campo__contador" data-contador aria-hidden="true">0 / 400</span>
+              </div>
+            </div>
+
+            <div class="campo campo--ancho form-testimonio__enviar">
+              <button type="submit" class="btn btn--dorado">Publicar mi reseña</button>
+              <p class="form-testimonio__nota">
+                Se guarda en este navegador. No pedimos correo ni teléfono.
+              </p>
+            </div>
+          </form>
+          <p class="aviso-testimonio" data-aviso-testimonio hidden role="status"></p>
         </div>
       </div>
     </section>
@@ -582,6 +656,7 @@
     <span>WhatsApp</span>
   </a>
 
-  <script src="js/main.js" defer></script>
+    <script src="js/testimonios.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>
