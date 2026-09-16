@@ -1093,29 +1093,31 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
 
 /* ==========================================================================
    13 · PRODUCTO SIN FOTO
-   Cuando el archivo de imagen indicado en js/productos-nuevos.js todavía no
-   existe, la tarjeta muestra un bloque neutro en lugar de un icono roto.
+   Cuando la foto indicada en js/productos-nuevos.js todavía no existe, main.js
+   marca la imagen con .img-sin-foto. Aquí se convierte en un bloque neutro con
+   un rótulo legible, en lugar del icono roto del navegador con el texto alt.
    ========================================================================== */
 
-.producto-card__img-wrap.sin-foto,
-.sin-foto {
-  position: relative;
-  background: var(--gris-suave, #f2f0f5);
-  border: var(--linea);
+.img-sin-foto {
+  color: transparent !important;   /* oculta el texto alternativo desmaquetado */
+  font-size: 0 !important;
   min-height: 220px;
+  background-color: var(--gris-suave, #f4f2f7);
+  border: var(--linea);
+  position: relative;
 }
 
-.sin-foto__aviso {
+.producto-card__img-wrap:has(.img-sin-foto)::after,
+.ficha-producto__media:has(.img-sin-foto)::after {
+  content: "Foto pendiente";
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  text-align: center;
   font-family: var(--tipo-display);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--texto-suave);
-  text-align: center;
-  padding: 12px;
 }

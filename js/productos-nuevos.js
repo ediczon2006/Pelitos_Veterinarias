@@ -210,30 +210,8 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
      cargarse ANTES que js/main.js. */
   global.PELITOS_PRODUCTOS_EXTRA = listos;
 
-  /* -----------------------------------------------------------------
-     Foto que falta = aviso claro, no un icono roto.
-     Si el archivo indicado no existe, la tarjeta muestra un bloque
-     neutro con el texto "Foto pendiente" en lugar de romperse.
-     ----------------------------------------------------------------- */
-  document.addEventListener(
-    "error",
-    function (ev) {
-      var img = ev.target;
-      if (!img || img.tagName !== "IMG") return;
-      if (img.dataset.fotoFallida === "1") return;
-      if (!img.closest(".producto-card, .ficha-producto, .modal-producto")) return;
-      img.dataset.fotoFallida = "1";
-      var envoltorio = img.parentElement;
-      if (envoltorio) envoltorio.classList.add("sin-foto");
-      img.style.visibility = "hidden";
-      if (envoltorio && !envoltorio.querySelector(".sin-foto__aviso")) {
-        var aviso = document.createElement("span");
-        aviso.className = "sin-foto__aviso";
-        aviso.textContent = "Foto pendiente";
-        envoltorio.appendChild(aviso);
-      }
-      console.warn("[Productos nuevos] Falta la foto: " + img.getAttribute("src"));
-    },
-    true // fase de captura: los eventos 'error' de <img> no burbujean
-  );
+  /* Nota sobre las fotos que faltan: si el archivo indicado en 'foto' todavía
+     no existe, main.js ya marca la imagen con la clase .img-sin-foto y css la
+     pinta como un bloque neutro con el rótulo «foto pendiente». No se rompe
+     nada: solo se ve el hueco hasta que subas la imagen. */
 })(window);
