@@ -34,22 +34,63 @@
 window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
-    titulo: "Cama para mascota",
-    precio: 35,
-    foto: "cama-mascota.jpg",
+    titulo: "Comedero doble con dispensador",
+    precio: 20,
+    foto: "comedero-doble-dispensador.jpg",
     categoria: "accesorios",
     resumen:
-      "Cama acolchada y lavable, ideal para perros y gatos de talla pequeña y mediana.",
-    tallas: ["Talla única"]
+      "Comedero doble con carita de gato y dispensador de agua al centro: en un solo plato sirves el alimento y mantienes el agua fresca.",
+    colores: ["Rosado"]
   },
 
   {
-    titulo: "Tazón para comer",
-    precio: 10,
-    foto: "tazon-comer.jpg",
+    titulo: "Comedero doble carita de oso",
+    precio: 18,
+    foto: "comedero-doble-oso.jpg",
     categoria: "accesorios",
     resumen:
-      "Comedero resistente, con base antideslizante y fácil de lavar."
+      "Dos tazones hondos en una sola base ancha, con forma de osito. La base amplia evita que se voltee mientras come.",
+    colores: ["Verde"]
+  },
+
+  {
+    titulo: "Comedero doble ovalado",
+    precio: 15,
+    foto: "comedero-doble-ovalado.jpg",
+    categoria: "accesorios",
+    resumen:
+      "Comedero ovalado de dos divisiones, bajo y liviano: agua a un lado y comida al otro. Ideal para cachorros y gatos.",
+    colores: ["Celeste"]
+  },
+
+  {
+    titulo: "Comedero elevado con base",
+    precio: 22,
+    foto: "comedero-elevado.jpg",
+    categoria: "accesorios",
+    resumen:
+      "Tazón elevado sobre patitas: la mascota come con el cuello en posición natural, mejor digestión y menos desorden en el piso.",
+    colores: ["Menta"]
+  },
+
+  {
+    titulo: "Tazón Woof",
+    precio: 10,
+    foto: "tazon-woof-rosado.jpg",
+    categoria: "accesorios",
+    resumen:
+      "Tazón de plástico resistente con diseño Woof, borde alto y fácil de lavar a mano.",
+    colores: ["Rosado"]
+  },
+
+  {
+    titulo: "Tazón huellitas",
+    precio: 10,
+    foto: "tazon-huellitas-naranja.jpg",
+    categoria: "accesorios",
+    resumen:
+      "Tazón con estampado de huellitas y base con apoyos que reducen el deslizamiento mientras la mascota come.",
+    colores: ["Naranja"]
   },
 
   {
@@ -58,7 +99,30 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     foto: "botella-agua.jpg",
     categoria: "accesorios",
     resumen:
-      "Botella con bebedero integrado para paseos y viajes: sirves agua sin derramar."
+      "Botella con bebedero integrado para paseos y viajes: aprietas y el agua llena el tazón, el resto vuelve a la botella. Libre de BPA.",
+    colores: ["Celeste"]
+  },
+
+  {
+    titulo: "Cama redonda con borde de borrego",
+    precio: 35,
+    foto: "cama-borrego-azul.jpg",
+    categoria: "accesorios",
+    resumen:
+      "Cama redonda con paredes acolchadas y borde de peluche borrego, base antideslizante y cojín removible para lavar.",
+    tallas: ["Talla única"],
+    colores: ["Azul"]
+  },
+
+  {
+    titulo: "Cama redonda estampado patitas",
+    precio: 35,
+    foto: "cama-patitas-morada.jpg",
+    categoria: "accesorios",
+    resumen:
+      "Cama redonda con estampado de huesitos y patitas, interior forrado en peluche y cojín removible. Abriga en las noches frías de Huánuco.",
+    tallas: ["Talla única"],
+    colores: ["Morado"]
   },
 
   {
@@ -67,7 +131,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     foto: "hueso-plastico.jpg",
     categoria: "accesorios",
     resumen:
-      "Juguete masticable que entretiene y ayuda a la limpieza dental del perro."
+      "Hueso masticable grande: entretiene por horas, calma la ansiedad y ayuda a la limpieza dental del perro."
   }
 
 ];
@@ -129,7 +193,11 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     morado: "#5b2a86",
     cafe: "#92400e",
     marron: "#92400e",
-    celeste: "#38bdf8"
+    celeste: "#38bdf8",
+    rosado: "#f472b6",
+    menta: "#7fd1bd",
+    turquesa: "#2dd4bf",
+    beige: "#e0d3b8"
   };
 
   function colorDe(nombre) {
