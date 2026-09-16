@@ -11,8 +11,9 @@
   <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/editorial.css" />
 
   <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
@@ -66,44 +67,30 @@
 
   <main>
     <!-- ================= HERO DINÁMICO DE ESTÉTICA ================= -->
-    <section class="hero" style="padding: 60px 0 75px;">
-      <div class="contenedor hero__grid">
-        <div>
-          <div class="badge-abierto" style="background:var(--naranja-claro); border-color:var(--naranja-borde); color:var(--naranja-oscuro);">
-            <span class="punto" style="background:var(--naranja);"></span>
-            Área Exclusiva de Grooming & Spa Canino
-          </div>
-          <h1 style="font-size:clamp(2.2rem, 5vw, 3.4rem); color:var(--morado); -webkit-text-fill-color: initial;">Pelitos Estética</h1>
-          <p style="margin-top:16px; font-size:1.15rem; color:var(--texto-suave); line-height:1.6;">
-            Peluquería canina profesional con cuidado, paciencia y agua temperada. Brindamos una experiencia relajante y libre de estrés para quien más te ama.
-          </p>
-
-          <div class="chips" style="margin-top:20px; grid-template-columns: repeat(3, 1fr);">
-            <span class="chip">🛁 Agua temperada</span>
-            <span class="chip">✂️ Cortes de raza</span>
-            <span class="chip">🧴 Cosmética hipoalergénica</span>
-            <span class="chip">🐾 ManiPaw & Oídos</span>
-            <span class="chip">🛡️ Desinfección UV</span>
-            <span class="chip">🚗 Recojo a domicilio</span>
-          </div>
-
-          <div class="acciones" style="margin-top:28px;">
-            <a class="btn btn--dorado" href="#cotizador">
-              Cotizar servicio ahora
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20hacer%20una%20consulta%20para%20mi%20mascota." target="_blank" rel="noopener">
-              WhatsApp Estética
-            </a>
-          </div>
+    <!-- ================= PORTADA ================= -->
+    <section class="portada" style="--foto: url('../images/estetica/entrada_estetica.jpeg');">
+      <div class="contenedor portada__inner">
+        <div class="badge-abierto">
+          <span class="punto" style="background:var(--naranja);"></span>
+          Área exclusiva de grooming &amp; spa canino
         </div>
-
-        <div class="hero__figura">
-          <img src="../images/estetica/entrada_estetica.jpeg" alt="Instalaciones de Pelitos Estética en Huánuco" />
-          <div class="tarjeta-flotante">
-            <b>Groomers certificados</b>
-            <span>Ambiente climatizado en Jr. Leoncio Prado 1336</span>
-          </div>
+        <span class="eyebrow eyebrow--claro">Jr. Leoncio Prado 1336 &middot; Huánuco</span>
+        <h1 class="portada__titulo">Pelitos <span class="hueco">Estética</span></h1>
+        <p class="portada__bajada">
+          Peluquería canina profesional con cuidado, paciencia y agua temperada. Una experiencia
+          relajante y libre de estrés para quien más te ama.
+        </p>
+        <div class="portada__pie">
+          <span>Agua temperada</span>
+          <span>Cortes de raza</span>
+          <span>Cosmética hipoalergénica</span>
+          <span>ManiPaw &amp; oídos</span>
+          <span>Desinfección UV</span>
+          <span>Recojo a domicilio</span>
+        </div>
+        <div class="acciones">
+          <a class="btn btn--dorado" href="#cotizador">Cotizar servicio</a>
+          <a class="btn btn--linea" href="https://api.whatsapp.com/send?phone=51948426656&amp;text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20hacer%20una%20consulta%20para%20mi%20mascota." target="_blank" rel="noopener">WhatsApp Estética</a>
         </div>
       </div>
     </section>

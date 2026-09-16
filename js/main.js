@@ -3813,8 +3813,48 @@ function esPagina(nombre) {
     });
   }
 
+  /* Barra de cita de la portada: arma el mensaje de WhatsApp con lo elegido.
+     Si el JavaScript falla, el formulario no hace nada raro: el visitante
+     sigue teniendo el botón de WhatsApp de la cabecera. */
+  function barraCita() {
+    var form = document.querySelector("[data-barra-cita]");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var servicio = (form.querySelector("[name=servicio]") || {}).value || "Consulta m\u00e9dica";
+      var mascota = ((form.querySelector("[name=mascota]") || {}).value || "").trim();
+      var cuando = (form.querySelector("[name=cuando]") || {}).value || "";
+
+      var numero =
+        (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.consultorio) ||
+        "51939356376";
+      if (/est\u00e9tica/i.test(servicio) && window.SITE && window.SITE.whatsapp) {
+        numero = window.SITE.whatsapp.estetica || numero;
+      }
+
+      var partes = [
+        "Hola Pelitos Veterinaria, quiero reservar una cita.",
+        "Servicio: " + servicio,
+        "Cu\u00e1ndo: " + cuando,
+      ];
+      if (mascota) partes.push("Mascota: " + mascota);
+      partes.push("\u00bfQu\u00e9 horarios tienen disponibles?");
+
+      var url =
+        "https://api.whatsapp.com/send?phone=" +
+        numero +
+        "&text=" +
+        encodeURIComponent(partes.join("\n"));
+
+      /* Se abre dentro del gesto del usuario para que no lo bloquee el navegador. */
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+  }
+
   /* --------------------------------------------------------- */
   listo(function () {
+    try { barraCita(); } catch (e) {}
     try { barraProgreso(); } catch (e) {}
     try { revelados(); } catch (e) {}
     try { tarjetasVivas(); } catch (e) {}

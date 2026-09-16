@@ -11,8 +11,9 @@
   <link rel="icon" type="image/png" href="images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/editorial.css" />
 
   <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
@@ -66,45 +67,54 @@
 
   <main>
     <!-- ================= HERO ================= -->
-    <section class="hero" style="position: relative;">
-      <!-- Luces ambientales y elementos flotantes animados -->
-      <div class="luz-ambiental luz-ambiental--naranja" aria-hidden="true"></div>
-      <div class="luz-ambiental luz-ambiental--morada" aria-hidden="true"></div>
-      <div class="decorativo-flotante decorativo-huella" style="top: 12%; right: 46%;" aria-hidden="true">🐾</div>
-      <div class="decorativo-flotante decorativo-huella decorativo-huella--dorada" style="bottom: 18%; left: 3%;" aria-hidden="true">✨</div>
-
-      <div class="contenedor hero__grid">
-        <div>
-          <div class="badge-abierto" data-horario>
-            <span class="punto"></span>
-            Abierto ahora &middot; Lun&ndash;Sáb 8:30&ndash;20:00
-          </div>
-          <span class="eyebrow">Huánuco, Perú</span>
-          <h1>PELITOS VETERINARIA</h1>
-          <p class="hero__slogan">Expertos en cuidar a quien más te ama</p>
-          <p class="texto">
-            Atención veterinaria integral para perros y gatos: consulta médica, medicina preventiva,
-            laboratorio, cirugía y un área exclusiva de estética canina, con un equipo cercano y
-            enfocado en el bienestar de tu mascota.
-          </p>
-          <div class="acciones">
-            <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">
-              Reservar cita
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios." target="_blank" rel="noopener">WhatsApp</a>
-            <a class="btn btn--linea" href="pages/servicios.html">Ver servicios</a>
-          </div>
+    <!-- ================= PORTADA ================= -->
+    <section class="portada" style="--foto: url('images/instalaciones/entrada_veterinaria.jpg');">
+      <div class="contenedor portada__inner">
+        <div class="badge-abierto" data-horario>
+          <span class="punto"></span>
+          Abierto ahora &middot; Lun&ndash;Sáb 8:30&ndash;20:00
         </div>
-
-        <div class="hero__figura">
-          <img src="images/instalaciones/entrada_veterinaria.jpg" alt="Consulta veterinaria en Pelitos Veterinaria" />
-          <div class="tarjeta-flotante">
-            <b>Pelitos Veterinaria</b>
-            <span>Jr. Leoncio Prado N.° 1336 &ndash; Huánuco</span>
-          </div>
+        <span class="eyebrow eyebrow--claro">Huánuco, Perú</span>
+        <h1 class="portada__titulo">Pelitos <span class="hueco">Veterinaria</span></h1>
+        <p class="portada__bajada">
+          Expertos en cuidar a quien más te ama. Consulta médica, medicina preventiva, laboratorio,
+          cirugía y un área exclusiva de estética canina, con un equipo cercano y enfocado en el
+          bienestar de tu mascota.
+        </p>
+        <div class="portada__pie">
+          <span>Jr. Leoncio Prado 1336</span>
+          <span>Lun&ndash;Sáb 8:30&ndash;20:00</span>
+          <span>WhatsApp 939 356 376</span>
         </div>
       </div>
+
+      <!-- Barra de cita: arma el mensaje de WhatsApp con lo que eliges. -->
+      <form class="barra-cita" data-barra-cita aria-label="Reservar una cita">
+        <div class="barra-cita__campo">
+          <label class="barra-cita__etiqueta" for="cita-servicio">Servicio</label>
+          <select id="cita-servicio" name="servicio">
+            <option>Consulta médica</option>
+            <option>Vacunación</option>
+            <option>Laboratorio y diagnóstico</option>
+            <option>Cirugía</option>
+            <option>Pelitos Estética</option>
+          </select>
+        </div>
+        <div class="barra-cita__campo">
+          <label class="barra-cita__etiqueta" for="cita-mascota">Mascota</label>
+          <input id="cita-mascota" name="mascota" type="text" placeholder="Nombre y raza" />
+        </div>
+        <div class="barra-cita__campo">
+          <label class="barra-cita__etiqueta" for="cita-cuando">Cuándo</label>
+          <select id="cita-cuando" name="cuando">
+            <option>Hoy mismo</option>
+            <option>Esta semana</option>
+            <option>La próxima semana</option>
+            <option>Solo quiero información</option>
+          </select>
+        </div>
+        <button class="barra-cita__boton" type="submit">Reservar cita</button>
+      </form>
     </section>
 
     <!-- ================= TICKER DINÁMICO TIPO PETSHOP ================= -->
@@ -162,33 +172,32 @@
           <h2>Todo lo que tu mascota necesita, en un solo lugar</h2>
         </div>
 
-        <div class="rejilla rejilla--4 reveal">
-          <a class="tarjeta" href="pages/servicios.html">
-            <svg class="tarjeta__icono" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2M5 2v2M5 4v7a6 6 0 0 0 12 0V4"/><circle cx="20" cy="10" r="2"/><path d="M11 17v1a4 4 0 0 0 8 0v-6"/></svg>
-            <h3>Servicios veterinarios</h3>
-            <p>Consulta, prevención, diagnóstico y tratamiento.</p>
-            <span class="enlace-flecha">Ver más <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="rejilla-destinos reveal">
+          <a class="destino" href="pages/servicios.html">
+            <img class="destino__foto" src="images/servicios/consulta.jpg" alt="Consultorio equipado de Pelitos Veterinaria en Huánuco" loading="lazy" />
+            <span class="destino__texto">
+              <span class="destino__marca">Clínica</span>
+              <span class="destino__nombre">Servicios Veterinarios</span>
+              <span class="destino__detalle">Consulta médica, prevención, diagnóstico y tratamiento</span>
+            </span>
           </a>
 
-          <a class="tarjeta" href="pages/estetica.html">
-            <svg class="tarjeta__icono" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/></svg>
-            <h3>Pelitos Estética</h3>
-            <p>Baño, grooming y cuidado estético.</p>
-            <span class="enlace-flecha">Ver más <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <a class="destino" href="pages/estetica.html">
+            <img class="destino__foto" src="images/estetica/perrito_cortado.jpg" alt="Área exclusiva de Pelitos Veterinaria en Huánuco" loading="lazy" />
+            <span class="destino__texto">
+              <span class="destino__marca">Grooming</span>
+              <span class="destino__nombre">Pelitos Estética</span>
+              <span class="destino__detalle">Baño, corte de raza y spa canino</span>
+            </span>
           </a>
 
-          <a class="tarjeta" href="pages/productos.html">
-            <svg class="tarjeta__icono" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
-            <h3>PetShop</h3>
-            <p>Productos esenciales para mascotas.</p>
-            <span class="enlace-flecha">Ver más <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
-
-          <a class="tarjeta" href="pages/contacto.html">
-            <svg class="tarjeta__icono" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <h3>Ubicación</h3>
-            <p>Cómo llegar a Pelitos Veterinaria.</p>
-            <span class="enlace-flecha">Ver más <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <a class="destino" href="pages/productos.html">
+            <img class="destino__foto" src="images/instalaciones/farmacia_veterinaria.jpg" alt="Entregas en Huánuco de Pelitos Veterinaria en Huánuco" loading="lazy" />
+            <span class="destino__texto">
+              <span class="destino__marca">Tienda</span>
+              <span class="destino__nombre">PetShop Pelitos</span>
+              <span class="destino__detalle">Alimento, cosmética y accesorios originales</span>
+            </span>
           </a>
         </div>
       </div>

@@ -1,0 +1,860 @@
+/* ==========================================================================
+   PELITOS VETERINARIA — CAPA EDITORIAL (css/editorial.css)
+
+   Qué es este archivo:
+   Una segunda hoja de estilos que se carga DESPUÉS de css/styles.css y le
+   cambia la piel al sitio siguiendo la referencia de artiemhotels.com:
+   portadas de foto a sangre completa, títulos en mayúsculas con letra hueca,
+   etiquetas pequeñas muy espaciadas, esquinas rectas, líneas finas, sombras
+   fuera y mucho más aire entre secciones.
+
+   Qué NO cambia: los colores de la marca. Todas las reglas de aquí usan las
+   mismas variables de styles.css (--morado, --naranja, --amarillo…), así que
+   la paleta sigue siendo la de Pelitos. Si quieres volver al diseño anterior,
+   basta con quitar el <link> de este archivo en las 8 páginas.
+
+   CONTENIDO:
+        1. TOKENS (radios, sombras, anchos, tipografías)
+        2. TIPOGRAFÍA EDITORIAL
+        3. CABECERA Y NAVEGACIÓN
+        4. PORTADAS DE FOTO (.portada)
+        5. BARRA DE CITA FLOTANTE
+        6. SECCIONES, TÍTULOS Y BLOQUES PARTIDOS
+        7. TARJETAS, BOTONES Y FORMULARIOS
+        8. TARJETAS DE FOTO CON TÍTULO HUECO
+        9. PIE DE PÁGINA
+       10. LIMPIEZA DE ADORNOS
+       11. RESPONSIVE
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1 · TOKENS
+   Redefinir estas variables ya endereza casi todo el sitio: cada componente
+   de styles.css las lee, así que las esquinas y las sombras cambian solas.
+   ========================================================================== */
+
+:root {
+  --radio: 0px;
+  --radio-lg: 0px;
+  --sombra: none;
+  --sombra-card: none;
+  --ancho: 1280px;
+
+  /* Los degradados pasan a color plano, como en la referencia. */
+  --grad-hero: var(--fondo);
+  --grad-morado: var(--morado-oscuro);
+  --grad-marca: var(--amarillo);
+  --grad-texto: linear-gradient(var(--morado), var(--morado));
+
+  /* Tipografías: geométrica para los títulos, humanista para leer. */
+  --tipo-display: "Jost", "Manrope", system-ui, sans-serif;
+  --tipo-texto: "Open Sans", "DM Sans", system-ui, sans-serif;
+
+  /* Ritmo editorial */
+  --aire-seccion: 128px;
+  --linea: 1px solid var(--borde);
+  --linea-fuerte: 1px solid rgba(30, 16, 48, 0.18);
+  --espaciado-etiqueta: 0.3em;
+}
+
+
+/* ==========================================================================
+   2 · TIPOGRAFÍA EDITORIAL
+   Títulos en mayúsculas, ligeros y espaciados. Cuerpo tranquilo y legible.
+   ========================================================================== */
+
+body {
+  font-family: var(--tipo-texto);
+  font-size: 1rem;
+  line-height: 1.78;
+  letter-spacing: 0.004em;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--tipo-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.14;
+}
+
+h1, h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 300;
+  line-height: 1.06;
+}
+
+h3 {
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+
+h4 { font-weight: 500; letter-spacing: 0.04em; }
+
+strong, b { font-weight: 600; }
+
+/* Letra hueca: el recurso más reconocible de la referencia. Se usa en una
+   palabra del título, nunca en todo el párrafo. */
+.hueco {
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--morado);
+  text-stroke: 1.2px var(--morado);
+  -webkit-text-fill-color: transparent;
+}
+
+.hueco--claro {
+  -webkit-text-stroke-color: #fff;
+  text-stroke: 1.2px #fff;
+}
+
+/* Etiqueta pequeña en mayúsculas con mucho espaciado, con su rayita. */
+.eyebrow,
+.promo-19__etiqueta,
+.petshop-hero__badge,
+.consejos-contador {
+  font-family: var(--tipo-display);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--espaciado-etiqueta);
+  color: var(--texto-suave);
+  background: none;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+.eyebrow::before {
+  width: 26px;
+  height: 1px;
+  background: var(--morado);
+  border-radius: 0;
+  margin-right: 12px;
+  vertical-align: 4px;
+}
+
+.eyebrow--claro { color: rgba(255, 255, 255, 0.92); }
+.eyebrow--claro::before { background: rgba(255, 255, 255, 0.85); }
+
+/* Cita destacada, como los mensajes emocionales de la referencia. */
+.frase-editorial {
+  font-family: var(--tipo-display);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  line-height: 1.32;
+  letter-spacing: 0.01em;
+  color: var(--morado);
+  max-width: 38rem;
+}
+
+
+/* ==========================================================================
+   3 · CABECERA Y NAVEGACIÓN
+   Fina, sin píldoras ni sombras: solo una línea inferior de un píxel.
+   ========================================================================== */
+
+.header {
+  background: var(--fondo);
+  border-bottom: var(--linea);
+  box-shadow: none;
+}
+
+.header.scrolled { box-shadow: none; border-bottom: var(--linea-fuerte); }
+
+.header__inner { padding: 18px 24px; }
+
+.nav { gap: 4px; }
+
+.nav a {
+  font-family: var(--tipo-display);
+  font-size: 0.82rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  border-radius: 0;
+  padding: 10px 14px;
+}
+
+.nav a:hover { background: none; color: var(--morado); }
+.nav a.activo { font-weight: 500; background: none; }
+
+.nav a::after {
+  height: 1px;
+  bottom: 4px;
+  left: 14px;
+  right: 14px;
+  width: auto;
+  background: var(--morado);
+}
+
+.nav-movil { border-top: var(--linea); }
+
+.nav-movil a {
+  font-family: var(--tipo-display);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  border-bottom: var(--linea);
+}
+
+.menu-btn { border-radius: 0; border: var(--linea-fuerte); }
+
+.logo img { height: 46px; }
+
+
+/* ==========================================================================
+   4 · PORTADAS DE FOTO (.portada)
+   Foto de borde a borde, un velo oscuro encima y el título abajo a la
+   izquierda. La foto se pasa desde el HTML con style="--foto: url(...)".
+   ========================================================================== */
+
+.portada {
+  position: relative;
+  min-height: 76vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 120px 0 84px;
+  background-image:
+    linear-gradient(180deg, rgba(30, 16, 48, 0.5) 0%, rgba(30, 16, 48, 0.15) 38%, rgba(30, 16, 48, 0.72) 100%),
+    var(--foto, none);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  isolation: isolate;
+}
+
+/* Portada corta para páginas de contenido (consejos, contacto, acceso). */
+.portada--corta { min-height: 52vh; padding: 108px 0 56px; }
+
+.portada__inner { position: relative; z-index: 2; }
+
+.portada__titulo {
+  margin-top: 18px;
+  font-size: clamp(2.5rem, 7vw, 5.4rem);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  -webkit-text-fill-color: #fff;
+  background: none;
+}
+
+.portada__titulo .hueco {
+  -webkit-text-stroke: 1.4px #fff;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.portada__bajada {
+  margin-top: 22px;
+  max-width: 40rem;
+  font-size: 1.04rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.portada__pie {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  font-family: var(--tipo-display);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* La insignia de horario, en versión sobre foto. */
+.portada .badge-abierto {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  border-radius: 0;
+  font-family: var(--tipo-display);
+  font-weight: 400;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 8px 14px;
+}
+
+.portada .acciones { margin-top: 30px; }
+
+.portada .btn--linea,
+.portada .btn--claro {
+  border-color: rgba(255, 255, 255, 0.7);
+  color: #fff;
+  background: none;
+}
+
+.portada .btn--linea:hover,
+.portada .btn--claro:hover {
+  background: #fff;
+  color: var(--morado);
+  border-color: #fff;
+}
+
+
+/* ==========================================================================
+   5 · BARRA DE CITA FLOTANTE
+   El equivalente a la barra de reserva que la referencia deja montada sobre
+   la foto: fondo blanco, columnas separadas por líneas y un botón sólido.
+   ========================================================================== */
+
+.barra-cita {
+  position: relative;
+  z-index: 3;
+  max-width: var(--ancho);
+  margin: 0 auto -44px;
+  width: calc(100% - 48px);
+  background: var(--superficie-blanca);
+  border: var(--linea);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  align-items: stretch;
+}
+
+.barra-cita__campo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 18px 22px;
+  border-right: var(--linea);
+  min-width: 0;
+}
+
+.barra-cita__campo:last-of-type { border-right: 0; }
+
+.barra-cita__etiqueta {
+  font-family: var(--tipo-display);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--texto-suave);
+}
+
+.barra-cita__valor,
+.barra-cita select,
+.barra-cita input {
+  font-family: var(--tipo-texto);
+  font-size: 0.94rem;
+  color: var(--texto);
+  border: 0;
+  background: none;
+  padding: 0;
+  width: 100%;
+  font-weight: 600;
+}
+
+.barra-cita select:focus-visible,
+.barra-cita input:focus-visible { outline: 2px solid var(--morado); outline-offset: 3px; }
+
+.barra-cita__boton {
+  border: 0;
+  border-radius: 0;
+  background: var(--morado);
+  color: #fff;
+  font-family: var(--tipo-display);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0 40px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.barra-cita__boton:hover { background: var(--morado-oscuro); }
+
+
+/* ==========================================================================
+   6 · SECCIONES, TÍTULOS Y BLOQUES PARTIDOS
+   ========================================================================== */
+
+.seccion { padding: var(--aire-seccion) 0; }
+.seccion--suave { background: var(--superficie); }
+
+.seccion--morada {
+  background: var(--morado-claro);
+  border-top: var(--linea);
+  border-bottom: var(--linea);
+}
+
+.titulo-bloque { max-width: 760px; }
+
+.titulo-bloque h2 {
+  margin-top: 18px;
+  font-size: clamp(1.7rem, 3.4vw, 2.9rem);
+  color: var(--texto);
+}
+
+.titulo-bloque p {
+  margin-top: 18px;
+  font-size: 1.02rem;
+  color: var(--texto-suave);
+  max-width: 46rem;
+}
+
+.titulo-bloque--centro p { margin-inline: auto; }
+
+/* Bloque partido a mitad de pantalla: color a un lado, foto al otro. */
+.bloque-partido {
+  position: relative;
+  background: var(--morado-claro);
+  padding: var(--aire-seccion) 0;
+}
+
+.bloque-partido::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 50%;
+  background: var(--superficie);
+  z-index: 0;
+}
+
+.bloque-partido > * { position: relative; z-index: 1; }
+
+.bloque-partido__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.bloque-partido__foto img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* Rejilla de datos con líneas, en vez de tarjetas con sombra. */
+.stats-grid,
+.rejilla--4,
+.rejilla--3,
+.rejilla--2 { gap: 1px; }
+
+/* Cifras grandes y ligeras. */
+.stat-card b,
+.stat-numero,
+.contador {
+  font-family: var(--tipo-display);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+
+/* ==========================================================================
+   7 · TARJETAS, BOTONES Y FORMULARIOS
+   ========================================================================== */
+
+.tarjeta,
+.servicio-card,
+.consejo-card,
+.producto-card,
+.equipo-card,
+.plan-card,
+.testimonio-card {
+  border-radius: 0;
+  box-shadow: none;
+  border: var(--linea);
+  background: var(--superficie-blanca);
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.tarjeta:hover,
+.servicio-card:hover,
+.consejo-card:hover,
+.producto-card:hover {
+  transform: none;
+  border-color: var(--morado);
+  box-shadow: none;
+}
+
+.tarjeta h3,
+.servicio-card h3,
+.consejo-card h3 { letter-spacing: 0.03em; }
+
+.tarjeta__icono,
+.servicio-card__ico {
+  border-radius: 0;
+  background: none;
+  color: var(--morado);
+  box-shadow: none;
+}
+
+/* Botones: rectos, en mayúsculas espaciadas y sin brillos. */
+.btn {
+  border-radius: 0;
+  font-family: var(--tipo-display);
+  font-weight: 500;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 16px 30px;
+  box-shadow: none;
+  border: 1px solid transparent;
+}
+
+.btn:hover { transform: none; box-shadow: none; }
+
+.btn--dorado,
+.btn--amarillo,
+.btn--cta {
+  background: var(--morado);
+  color: #fff;
+  border-color: var(--morado);
+}
+
+.btn--dorado::before,
+.btn--amarillo::before,
+.btn--cta::before { display: none; }
+
+.btn--dorado:hover,
+.btn--amarillo:hover,
+.btn--cta:hover {
+  background: var(--morado-oscuro);
+  border-color: var(--morado-oscuro);
+  color: #fff;
+  box-shadow: none;
+}
+
+.btn--naranja { background: var(--naranja); border-color: var(--naranja); }
+.btn--naranja:hover { background: var(--naranja-oscuro); border-color: var(--naranja-oscuro); box-shadow: none; }
+
+.btn--whatsapp:hover { box-shadow: none; background: #1eb257; }
+.btn--morado:hover { box-shadow: none; background: var(--morado-oscuro); }
+
+.btn--linea,
+.btn--claro {
+  border: 1px solid var(--texto);
+  color: var(--texto);
+  background: none;
+}
+
+.btn--linea:hover,
+.btn--claro:hover { background: var(--texto); color: #fff; border-color: var(--texto); }
+
+.btn--sm { border-radius: 0; padding: 11px 20px; font-size: 0.7rem; letter-spacing: 0.16em; }
+
+/* Píldoras de filtro y chips: rectangulares y discretas. */
+.filtro-pill,
+.chip,
+.petshop-chip,
+.selector-pill-btn,
+.variante-btn,
+.filtro-chip {
+  border-radius: 0;
+  font-family: var(--tipo-display);
+  letter-spacing: 0.08em;
+  box-shadow: none;
+}
+
+.filtro-pill,
+.filtro-chip {
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  border: var(--linea);
+  background: none;
+}
+
+.filtro-pill.activo,
+.filtro-chip.activo {
+  background: var(--morado);
+  border-color: var(--morado);
+  color: #fff;
+}
+
+/* Campos: línea inferior en vez de caja redondeada. */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  border-radius: 0 !important;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  border: 0;
+  border-bottom: var(--linea-fuerte);
+  background: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-bottom-color: var(--morado);
+  box-shadow: none;
+  outline: none;
+}
+
+.campo label,
+.campo__etiqueta {
+  font-family: var(--tipo-display);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--texto-suave);
+}
+
+.campo--mal input,
+.campo--mal select,
+.campo--mal textarea { border-bottom-color: #c0392b; }
+
+/* Diálogos y cajones también con esquinas rectas. */
+.modal-overlay .modal,
+.modal-caja,
+.cart-drawer,
+#lightbox-modal .modal,
+.pp-panel { border-radius: 0 !important; box-shadow: none; }
+
+
+/* ==========================================================================
+   8 · TARJETAS DE FOTO CON TÍTULO HUECO
+   El patrón de las tarjetas de hotel: foto, y encima el nombre en letra
+   hueca sobre una etiqueta pequeña.
+   ========================================================================== */
+
+.rejilla-destinos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.destino {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: #fff;
+  background: var(--texto);
+}
+
+.destino__foto {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.destino:hover .destino__foto { transform: scale(1.045); }
+
+.destino::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(30, 16, 48, 0) 40%, rgba(30, 16, 48, 0.78) 100%);
+}
+
+.destino__texto {
+  position: absolute;
+  z-index: 2;
+  left: 26px;
+  right: 26px;
+  bottom: 24px;
+}
+
+.destino__marca {
+  display: block;
+  font-family: var(--tipo-display);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.destino__nombre {
+  margin-top: 6px;
+  font-family: var(--tipo-display);
+  font-weight: 300;
+  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.3px #fff;
+}
+
+.destino__detalle {
+  margin-top: 10px;
+  font-family: var(--tipo-display);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.destino__lugar {
+  font-family: var(--tipo-display);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--texto-suave);
+  margin-bottom: 12px;
+  display: block;
+}
+
+
+/* ==========================================================================
+   9 · PIE DE PÁGINA
+   Bloque profundo de un solo color, como el verde de la referencia — aquí en
+   el morado oscuro de Pelitos.
+   ========================================================================== */
+
+.footer {
+  background: var(--morado-oscuro);
+  border-top: 0;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.footer__top {
+  background: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.footer__top p { color: rgba(255, 255, 255, 0.9); font-weight: 400; }
+.footer__top a { color: var(--amarillo); text-decoration: none; border-bottom: 1px solid currentColor; }
+.footer__top a:hover { color: #fff; }
+
+.footer__grid { padding-top: 76px; padding-bottom: 60px; gap: 48px; }
+
+.footer h3 {
+  font-family: var(--tipo-display);
+  font-weight: 300;
+  font-size: 1.5rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: #fff;
+  border: 0;
+  padding: 0;
+  margin-bottom: 18px;
+}
+
+.footer a,
+.footer p { color: rgba(255, 255, 255, 0.78); font-size: 0.92rem; }
+.footer a:hover { color: #fff; transform: none; }
+.footer__slogan { color: rgba(255, 255, 255, 0.92) !important; font-weight: 400; }
+
+.footer img { filter: brightness(0) invert(1); opacity: 0.95; }
+
+.footer__legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--tipo-display);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.footer__legal a { color: rgba(255, 255, 255, 0.72); }
+
+.social-link__icon { border-radius: 0 !important; border: 1px solid rgba(255, 255, 255, 0.35) !important; }
+.social-link__icon svg { fill: #fff; }
+
+
+/* ==========================================================================
+   10 · LIMPIEZA DE ADORNOS
+   La referencia no tiene luces de colores, emojis flotantes ni brillos: se
+   apoya solo en la foto y el aire. Se ocultan sin borrarlos del HTML.
+   ========================================================================== */
+
+.luz-ambiental,
+.decorativo-flotante,
+.hero__figura::before,
+.promo-19__caja::before { display: none !important; }
+
+.ticker-servicios {
+  background: var(--superficie);
+  border-top: var(--linea);
+  border-bottom: var(--linea);
+  color: var(--texto-suave);
+}
+
+.ticker-item {
+  font-family: var(--tipo-display);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--texto-suave);
+}
+
+.ticker-item .emoji { display: none; }
+
+/* Insignia de horario en fondo claro: rectangular y sobria. */
+.badge-abierto {
+  border-radius: 0;
+  background: none;
+  border: var(--linea-fuerte);
+  color: var(--texto);
+  font-family: var(--tipo-display);
+  font-weight: 400;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 8px 14px;
+}
+
+.badge-abierto .punto { background: var(--whatsapp); }
+.badge-abierto.din-cerrado .punto { background: #c0392b; }
+
+/* Sellos y precios: números ligeros, sin cápsulas de color. */
+.promo-19__sello,
+.cinta-oferta,
+.din-badge-off {
+  border-radius: 0;
+  font-family: var(--tipo-display);
+  letter-spacing: 0.1em;
+  box-shadow: none;
+}
+
+.avatar,
+.equipo-card__foto,
+.avatar-redondo { border-radius: 0 !important; }
+
+
+/* ==========================================================================
+   11 · RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  :root { --aire-seccion: 92px; }
+
+  .bloque-partido__grid { grid-template-columns: 1fr; gap: 36px; }
+  .bloque-partido::after { display: none; }
+  .rejilla-destinos { grid-template-columns: repeat(2, 1fr); }
+
+  .barra-cita { grid-template-columns: repeat(2, 1fr); }
+  .barra-cita__boton { grid-column: 1 / -1; padding: 18px 24px; }
+  .barra-cita__campo:nth-of-type(2) { border-right: 0; }
+}
+
+@media (max-width: 640px) {
+  :root { --aire-seccion: 72px; }
+
+  .portada { min-height: 82vh; padding: 104px 0 64px; }
+  .portada--corta { min-height: 46vh; }
+  .portada__titulo { font-size: clamp(2.1rem, 11vw, 3rem); letter-spacing: 0.04em; }
+  .portada__pie { gap: 14px; font-size: 0.66rem; letter-spacing: 0.14em; }
+
+  .rejilla-destinos { grid-template-columns: 1fr; }
+  .destino__foto { height: 320px; }
+
+  .barra-cita {
+    grid-template-columns: 1fr;
+    width: calc(100% - 32px);
+    margin-bottom: -32px;
+  }
+
+  .barra-cita__campo { border-right: 0; border-bottom: var(--linea); }
+  .footer__grid { padding-top: 56px; }
+  .btn { padding: 14px 22px; letter-spacing: 0.12em; }
+}

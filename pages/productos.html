@@ -11,8 +11,9 @@
   <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/editorial.css" />
 
   <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
@@ -78,30 +79,21 @@
 
   <main id="contenido">
     <!-- ================= HERO ================= -->
-    <section class="petshop-hero">
-      <div class="luz-ambiental luz-ambiental--naranja" aria-hidden="true"></div>
-      <div class="luz-ambiental luz-ambiental--morada" aria-hidden="true"></div>
-      <div class="decorativo-flotante decorativo-huella" style="top: 15%; left: 8%;" aria-hidden="true">🐾</div>
-      <div class="decorativo-flotante decorativo-huella decorativo-huella--dorada" style="top: 25%; right: 10%;" aria-hidden="true">✨</div>
-      <div class="decorativo-flotante decorativo-huella decorativo-huella--morada" style="bottom: 12%; left: 14%;" aria-hidden="true">🦴</div>
-
-      <div class="contenedor">
-        <div class="petshop-hero__header reveal">
-          <p class="petshop-hero__badge">
-            <span aria-hidden="true">✨</span> Catálogo oficial &bull; PetShop Pelitos
-          </p>
-          <h1 class="petshop-hero__titulo">Productos veterinarios con la ficha de contenido a la vista</h1>
-          <p class="petshop-hero__desc">
-            Elige la presentación, el sabor o la talla que necesita tu consentido y revisa los ingredientes
-            declarados en cada envase antes de comprar. Entregas en Huánuco o pedido directo por WhatsApp.
-          </p>
-
-          <ul class="petshop-trust-chips">
-            <li class="petshop-chip">🚚 Envíos a todo Huánuco</li>
-            <li class="petshop-chip">🛡️ Productos originales</li>
-            <li class="petshop-chip">🩺 Asesoría veterinaria</li>
-            <li class="petshop-chip">📲 Pedido rápido por WhatsApp</li>
-          </ul>
+    <!-- ================= PORTADA ================= -->
+    <section class="portada portada--corta" style="--foto: url('../images/instalaciones/farmacia_veterinaria.jpg');">
+      <div class="contenedor portada__inner">
+        <span class="eyebrow eyebrow--claro">Catálogo oficial</span>
+        <h1 class="portada__titulo">PetShop <span class="hueco">Pelitos</span></h1>
+        <p class="portada__bajada">
+          Elige la presentación, el sabor o la talla que necesita tu consentido y revisa los
+          ingredientes declarados en cada envase antes de comprar. Entregas en Huánuco o pedido
+          directo por WhatsApp.
+        </p>
+        <div class="portada__pie">
+          <span>Envíos en todo Huánuco</span>
+          <span>Productos originales</span>
+          <span>Asesoría veterinaria</span>
+          <span>Pedido por WhatsApp</span>
         </div>
       </div>
     </section>
