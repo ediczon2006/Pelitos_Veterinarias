@@ -1132,3 +1132,12 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
   letter-spacing: 0.18em;
   color: var(--texto-suave);
 }
+
+/* Los textos de ejemplo del formulario deben verse como pista, no como un
+   valor ya escrito: más claros y sin negrita. */
+.form-testimonio input::placeholder,
+.form-testimonio textarea::placeholder {
+  color: #a49caf;
+  font-weight: 400;
+  opacity: 1;
+}
