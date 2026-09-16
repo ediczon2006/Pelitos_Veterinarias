@@ -1141,3 +1141,11 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
   font-weight: 400;
   opacity: 1;
 }
+
+/* El título del producto en la ventana no debe pasar por debajo de la X de
+   cerrar: reservamos ese espacio y permitimos que el texto baje de línea. */
+.modal-header-prod { padding-right: 62px; }
+.modal-prod-titulo {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
