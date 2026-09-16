@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PetShop Pelitos | Alimentos, snacks y accesorios en Huánuco</title>
+  <meta name="description" content="Catálogo del PetShop de Pelitos Veterinaria: alimentos, snacks Naturalistic, antipulgas, accesorios e higiene, con ingredientes declarados y pedido directo por WhatsApp en Huánuco." />
+  <meta property="og:title" content="PetShop Pelitos | Huánuco" />
+  <meta property="og:description" content="Catálogo veterinario con ficha de contenido e ingredientes en cada producto. Pide directamente por WhatsApp." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
+  <script>document.documentElement.classList.add("js-din");</script>
+</head>
+<body data-pagina="petshop">
+  <noscript>
+    <div class="aviso-sin-js" role="alert">
+      Esta página funciona mejor con JavaScript activado. Sin él puedes leer todo el
+      contenido, pero el carrito, los filtros y el horario en vivo no estarán disponibles.
+      Escríbenos por WhatsApp al 939 356 376 y te atendemos igual.
+    </div>
+  </noscript>
+
+
+  <a class="solo-lectores" href="#contenido">Saltar al contenido principal</a>
+
+  <!-- ================= CABECERA ================= -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a class="logo" href="../index.html" aria-label="Pelitos Veterinaria — Inicio">
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" />
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="../index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="estetica.html">Estética</a>
+        <a class="activo" href="productos.html" aria-current="page">PetShop</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="consejos.html">Consejos Pelitos</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+
+      <div class="header__acciones">
+        <button class="btn btn--linea btn--sm cart-trigger" type="button" id="btn-abrir-carrito" aria-label="Ver carrito, vacío">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-count" id="badge-carrito" hidden>0</span>
+        </button>
+
+        <a class="btn btn--dorado btn--sm" href="https://api.whatsapp.com/send?phone=51939356376&amp;text=Hola%20Pelitos%2C%20quiero%20hacer%20un%20pedido%20de%20PetShop." target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+
+        <button class="menu-btn" type="button" data-menu-btn aria-label="Abrir menú" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="nav-movil" data-nav-movil aria-label="Navegación móvil">
+      <a href="../index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="estetica.html">Estética</a>
+      <a class="activo" href="productos.html" aria-current="page">PetShop</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="consejos.html">Consejos Pelitos</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&amp;text=Hola%20Pelitos%2C%20quiero%20hacer%20un%20pedido%20de%20PetShop." target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <!-- ================= HERO ================= -->
+    <section class="petshop-hero">
+      <div class="luz-ambiental luz-ambiental--naranja" aria-hidden="true"></div>
+      <div class="luz-ambiental luz-ambiental--morada" aria-hidden="true"></div>
+      <div class="decorativo-flotante decorativo-huella" style="top: 15%; left: 8%;" aria-hidden="true">🐾</div>
+      <div class="decorativo-flotante decorativo-huella decorativo-huella--dorada" style="top: 25%; right: 10%;" aria-hidden="true">✨</div>
+      <div class="decorativo-flotante decorativo-huella decorativo-huella--morada" style="bottom: 12%; left: 14%;" aria-hidden="true">🦴</div>
+
+      <div class="contenedor">
+        <div class="petshop-hero__header reveal">
+          <p class="petshop-hero__badge">
+            <span aria-hidden="true">✨</span> Catálogo oficial &bull; PetShop Pelitos
+          </p>
+          <h1 class="petshop-hero__titulo">Productos veterinarios con la ficha de contenido a la vista</h1>
+          <p class="petshop-hero__desc">
+            Elige la presentación, el sabor o la talla que necesita tu consentido y revisa los ingredientes
+            declarados en cada envase antes de comprar. Entregas en Huánuco o pedido directo por WhatsApp.
+          </p>
+
+          <ul class="petshop-trust-chips">
+            <li class="petshop-chip">🚚 Envíos a todo Huánuco</li>
+            <li class="petshop-chip">🛡️ Productos originales</li>
+            <li class="petshop-chip">🩺 Asesoría veterinaria</li>
+            <li class="petshop-chip">📲 Pedido rápido por WhatsApp</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TICKER ================= -->
+    <div class="ticker-servicios" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-item"><span class="emoji">🐾</span> Nutrición premium y dietas especiales <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🚚</span> Delivery en Huánuco <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">✨</span> Opciones personalizables en cada producto <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🩺</span> Asesoría médica veterinaria <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">💳</span> Yape, Plin y efectivo <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🐾</span> Nutrición premium y dietas especiales <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🚚</span> Delivery en Huánuco <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">✨</span> Opciones personalizables en cada producto <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🩺</span> Asesoría médica veterinaria <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">💳</span> Yape, Plin y efectivo <span class="separador-punto"></span></div>
+      </div>
+    </div>
+
+    <!-- ================= CONFIGURADOR DESTACADO ================= -->
+    <section class="seccion" id="configurador-destacado" aria-labelledby="titulo-configurador">
+      <div class="contenedor">
+        <div class="titulo-bloque reveal">
+          <p class="eyebrow">Configurador interactivo</p>
+          <h2 id="titulo-configurador">Arma la presentación que necesitas</h2>
+          <p>Cambia el peso, el sabor y la etapa de vida para ver el precio actualizado al instante.</p>
+        </div>
+
+        <article class="producto-destacado reveal">
+          <div class="producto-destacado__grid">
+            <div class="galeria-producto">
+              <div class="galeria-producto__principal">
+                <img data-destacado-img src="" alt="" width="900" height="1125" decoding="async" />
+              </div>
+            </div>
+
+            <div class="producto-info">
+              <div class="producto-info__header">
+                <p class="producto-info__cat" data-destacado-categoria></p>
+                <h3 class="producto-info__titulo" data-destacado-titulo></h3>
+                <p class="producto-info__resumen" data-destacado-resumen></p>
+              </div>
+
+              <p class="producto-precios">
+                <span class="precio-actual" data-destacado-precio>&nbsp;</span>
+              </p>
+
+              <div class="variante-seccion" data-destacado-variantes>
+                <!-- Los grupos de variantes se generan desde js/catalogo.js -->
+              </div>
+
+              <div class="variante-grupo">
+                <div class="variante-grupo__titulo">
+                  <label for="input-cantidad">Cantidad:</label>
+                </div>
+                <div class="cantidad-fila">
+                  <div class="cantidad-stepper">
+                    <button type="button" class="cantidad-btn" data-accion="cantidad-menos" aria-label="Disminuir cantidad">&minus;</button>
+                    <input type="text" class="cantidad-valor" id="input-cantidad" data-destacado-cantidad value="1" readonly inputmode="numeric" />
+                    <button type="button" class="cantidad-btn" data-accion="cantidad-mas" aria-label="Aumentar cantidad">+</button>
+                  </div>
+                  <p class="cantidad-subtotal">
+                    Subtotal: <strong data-destacado-subtotal aria-live="polite">&nbsp;</strong>
+                  </p>
+                </div>
+              </div>
+
+              <div class="compra-acciones">
+                <button type="button" class="btn-comprar-whatsapp" data-accion="destacado-whatsapp">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+                  Pedir por WhatsApp
+                </button>
+                <button type="button" class="btn-agregar-carrito" data-accion="destacado-carrito">
+                  Añadir al carrito
+                </button>
+              </div>
+
+              <ul class="producto-beneficios">
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Entrega rápida en Huánuco</span>
+                </li>
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Asesoría veterinaria incluida</span>
+                </li>
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Aceptamos Yape, Plin y efectivo</span>
+                </li>
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Garantía de producto original</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= CATÁLOGO ================= -->
+    <section class="seccion seccion--suave" id="catalogo" aria-labelledby="titulo-catalogo">
+      <div class="contenedor">
+        <div class="catalogo-header">
+          <div>
+            <p class="eyebrow">Catálogo general</p>
+            <h2 id="titulo-catalogo">Todos los productos</h2>
+            <p class="catalogo-resultados" id="contador-resultados" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="buscador-productos">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <label class="solo-lectores" for="buscador-input">Buscar producto o ingrediente</label>
+            <input type="search" id="buscador-input" placeholder="Buscar producto o ingrediente…" autocomplete="off" />
+          </div>
+
+          <div class="catalogo-filtros" id="filtros-categoria" role="group" aria-label="Filtrar por categoría">
+            <button type="button" class="filtro-pill activo" data-filtro="todos" aria-pressed="true">Todos</button>
+            <button type="button" class="filtro-pill" data-filtro="alimentos" aria-pressed="false">Alimentos</button>
+            <button type="button" class="filtro-pill" data-filtro="snacks" aria-pressed="false">Snacks</button>
+            <button type="button" class="filtro-pill" data-filtro="salud" aria-pressed="false">Salud &amp; Farmacia</button>
+            <button type="button" class="filtro-pill" data-filtro="accesorios" aria-pressed="false">Accesorios</button>
+            <button type="button" class="filtro-pill" data-filtro="higiene" aria-pressed="false">Higiene</button>
+          </div>
+        </div>
+
+        <p class="din-tira-oferta">
+          <span aria-hidden="true">🔥</span>
+          <span>Snacks Naturalistic en oferta: <strong>S/ 19 cada uno</strong> (antes hasta S/ 25) · packs x3 y x6 con descuento extra</span>
+        </p>
+
+        <div class="catalogo-grid" id="contenedor-productos">
+          <!-- Las tarjetas se generan desde js/catalogo.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= MODAL DE PRODUCTO ================= -->
+  <div class="modal-overlay" id="modal-opciones" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-prod-titulo">
+    <div class="modal-contenido">
+      <button type="button" class="modal-cerrar" data-accion="cerrar-modal" aria-label="Cerrar">&times;</button>
+
+      <div class="modal-header-prod">
+        <img id="modal-prod-img" class="modal-prod-img" src="" alt="" decoding="async" />
+        <div>
+          <h2 id="modal-prod-titulo" class="modal-prod-titulo">Producto</h2>
+          <p class="producto-precios producto-precios--modal">
+            <span class="precio-actual" id="modal-prod-precio" aria-live="polite">&nbsp;</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-body" id="modal-body-variantes">
+        <!-- Variantes y ficha técnica generadas dinámicamente -->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-temu-comprar modal-footer__principal" data-accion="modal-whatsapp">
+          Pedir por WhatsApp
+        </button>
+        <button type="button" class="btn-temu-carrito modal-footer__secundario" data-accion="modal-carrito">
+          Añadir al carrito
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CARRITO ================= -->
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="titulo-carrito">
+    <div class="cart-drawer__header">
+      <h2 id="titulo-carrito" class="cart-drawer__titulo">Tu carrito</h2>
+      <button type="button" class="cart-drawer__cerrar" data-accion="cerrar-carrito" aria-label="Cerrar carrito">&times;</button>
+    </div>
+
+    <div class="cart-drawer__body" id="cart-items-container">
+      <!-- Líneas del carrito generadas dinámicamente -->
+    </div>
+
+    <div class="cart-drawer__footer">
+      <p class="cart-total-fila">
+        <span>Total referencial:</span>
+        <span class="total-monto" id="cart-total-monto" aria-live="polite">S/ 0.00</span>
+      </p>
+      <button type="button" class="btn-temu-comprar cart-checkout" id="btn-checkout-whatsapp" data-accion="checkout" disabled>
+        Confirmar pedido por WhatsApp
+      </button>
+      <p class="cart-drawer__nota">
+        Los precios son referenciales. Confirmamos stock y el total final por WhatsApp antes de despachar.
+      </p>
+    </div>
+  </aside>
+  <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+
+  <!-- ================= EDITOR INTERNO DE PRECIOS =================
+       Se muestra únicamente si la URL incluye ?admin=1 (o #admin).
+       Es una herramienta de trabajo local: no es un panel con
+       permisos y los cambios no se publican solos. Ver el aviso
+       dentro del panel. -->
+  <button type="button" class="fab-admin" id="btn-admin-precios" hidden>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6 1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.33.2.69.17 1.05z"></path>
+    </svg>
+    Editar precios
+  </button>
+
+  <div class="pp-overlay" id="panel-precios" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="titulo-editor-precios">
+    <div class="pp-panel">
+      <div class="pp-panel__head">
+        <div>
+          <h2 id="titulo-editor-precios">Editor de precios del PetShop</h2>
+          <p>Ajusta el precio base de cada producto y el recargo de cada variante. El catálogo se actualiza al instante.</p>
+        </div>
+        <button type="button" class="pp-panel__cerrar" data-accion="cerrar-precios" aria-label="Cerrar editor">&times;</button>
+      </div>
+
+      <div class="pp-panel__body" id="panel-precios-body">
+        <!-- Formulario generado dinámicamente -->
+      </div>
+
+      <div class="pp-panel__footer">
+        <button type="button" class="pp-btn pp-btn--guardar" data-accion="guardar-precios">Aplicar precios</button>
+        <button type="button" class="pp-btn" data-accion="exportar-precios">Descargar lista (JSON)</button>
+        <button type="button" class="pp-btn pp-btn--reset" data-accion="reset-precios">Restablecer</button>
+        <p class="pp-aviso">
+          Esta herramienta trabaja <strong>solo en este navegador</strong>: los visitantes seguirán viendo los precios
+          publicados. Para publicarlos, descarga la lista y traslada los valores a <code>js/catalogo.js</code>.
+          Si necesitas que varias personas cambien precios y se vea en la web al momento, hace falta un backend.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= AVISOS ================= -->
+  <div class="toast-notif" id="toast-notif" role="status" aria-live="polite">
+    <span aria-hidden="true">✓</span>
+    <span id="toast-mensaje"></span>
+  </div>
+
+  <!-- ================= PIE ================= -->
+  <footer class="footer">
+    <div class="footer__top">
+      <p>📍 Jr. Leoncio Prado N.° 1336, Huánuco &nbsp;&middot;&nbsp; Lunes a sábado 8:30&ndash;20:00 &nbsp;&middot;&nbsp; <a href="https://api.whatsapp.com/send?phone=51939356376&amp;text=Hola%20Pelitos%2C%20quiero%20consultar%20sobre%20un%20producto." target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp</a></p>
+    </div>
+    <div class="footer__grid">
+      <div>
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" />
+        <p class="footer__slogan">Expertos en cuidar a quien más te ama</p>
+        <p class="footer__texto">PetShop veterinario y farmacia especializada en Huánuco, Perú.</p>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <p>Jr. Leoncio Prado N.° 1336</p>
+        <p>Huánuco, Perú</p>
+        <p>+51 939 356 376</p>
+        <a href="https://api.whatsapp.com/send?phone=51939356376&amp;text=Hola%20Pelitos%2C%20quiero%20hacer%20un%20pedido%20de%20PetShop." target="_blank" rel="noopener noreferrer">WhatsApp PetShop</a>
+        <p>Lun&ndash;Sáb &middot; 8:30 a.m. &ndash; 8:00 p.m.</p>
+      </div>
+      <div>
+        <h3>Secciones</h3>
+        <a href="../index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="estetica.html">Pelitos Estética</a>
+        <a href="productos.html">PetShop</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="consejos.html">Consejos Pelitos</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div>
+        <h3>Síguenos</h3>
+        <a href="https://www.facebook.com/share/1BjPfe6Rkg/" target="_blank" rel="noopener noreferrer"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.8l.4-3h-3.2V9.1c0-.9.3-1.6 1.6-1.6h1.7V4.8c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9V11H8v3h2.7v8h2.8z"/></svg></span><span>Facebook</span></a>
+        <a href="https://www.instagram.com/pelitosveterinaria" target="_blank" rel="noopener noreferrer"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.7" r="1.2"/></svg></span><span>Instagram</span></a>
+        <a href="https://www.tiktok.com/@pelitosveterinaria" target="_blank" rel="noopener noreferrer"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3h3c.2 1.7 1.2 3.1 2.8 4v3.1c-1.4-.1-2.8-.6-4-1.4v7.2c0 3.2-2.2 5.1-5.2 5.1-3.1 0-5.1-2-5.1-4.8 0-3 2.5-5.1 5.8-5.1.3 0 .6 0 .9.1v3c-.3-.1-.6-.2-.9-.2-1.1 0-2.3.7-2.3 2.1 0 1.2.9 2 2 2 1.3 0 2.1-.8 2.1-2.4V3z"/></svg></span><span>TikTok</span></a>
+        <a href="https://youtube.com/@pelitosveterinaria" target="_blank" rel="noopener noreferrer"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.7 12 4.7 12 4.7s-5.9 0-7.6.5a2.8 2.8 0 0 0-2 2C2 8.9 2 12 2 12s0 3.1.4 4.8a2.8 2.8 0 0 0 2 2c1.7.5 7.6.5 7.6.5s5.9 0 7.6-.5a2.8 2.8 0 0 0 2-2c.4-1.7.4-4.8.4-4.8s0-3.1-.4-4.8z"/><path fill="white" d="M10 9l5 3-5 3V9z"/></svg></span><span>YouTube</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Jr.+Leoncio+Prado+1336+Hu%C3%A1nuco" target="_blank" rel="noopener noreferrer">Ubicación en el mapa</a>
+      </div>
+    </div>
+    <div class="footer__legal">
+      &copy; <span data-anio>2026</span> Pelitos Veterinaria &middot; Huánuco, Perú &middot; Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- Botón WhatsApp flotante -->
+  <a class="fab" href="https://api.whatsapp.com/send?phone=51939356376&amp;text=Hola%20Pelitos%2C%20quiero%20hacer%20un%20pedido%20de%20PetShop." target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+
+  <script src="../js/main.js" defer></script>
+</body>
+</html>

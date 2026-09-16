@@ -1,0 +1,350 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Consejos Pelitos | Cuidado de mascotas en Huánuco</title>
+  <meta name="description" content="Desparasitación, vacunas del cachorro y señales para acudir al veterinario: consejos prácticos de Pelitos Veterinaria." />
+  <meta property="og:title" content="Consejos Pelitos | Cuidado de mascotas en Huánuco" />
+  <meta property="og:description" content="Desparasitación, vacunas del cachorro y señales para acudir al veterinario: consejos prácticos de Pelitos Veterinaria." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
+  <script>document.documentElement.classList.add("js-din");</script>
+</head>
+<body data-pagina="consejos">
+  <noscript>
+    <div class="aviso-sin-js" role="alert">
+      Esta página funciona mejor con JavaScript activado. Sin él puedes leer todo el
+      contenido, pero el carrito, los filtros y el horario en vivo no estarán disponibles.
+      Escríbenos por WhatsApp al 939 356 376 y te atendemos igual.
+    </div>
+  </noscript>
+
+
+  <header class="header">
+    <div class="header__inner">
+      <a class="logo" href="../index.html" aria-label="Pelitos Veterinaria — Inicio">
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" />
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="../index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="estetica.html">Estética</a>
+        <a href="productos.html">PetShop</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a class="activo" href="consejos.html">Consejos Pelitos</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+
+      <div class="header__acciones">
+        <a class="btn btn--dorado btn--sm" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">Reservar cita</a>
+        <button class="menu-btn" type="button" data-menu-btn aria-label="Abrir menú" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="nav-movil" data-nav-movil aria-label="Navegación móvil">
+      <a href="../index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="estetica.html">Estética</a>
+      <a href="productos.html">PetShop</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a class="activo" href="consejos.html">Consejos Pelitos</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">Reservar cita</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="pagina-hero">
+      <div class="contenedor">
+        <h1>Consejos Pelitos</h1>
+        <p>Información práctica para cuidar mejor a tu mascota en el día a día. Esta sección irá creciendo con nuevo contenido educativo.</p>
+      </div>
+    </section>
+
+    <!-- ================= CONSEJOS FILTRABLES ================= -->
+    <section class="seccion" id="consejos">
+      <div class="contenedor">
+        <div class="consejos-filtros" id="filtros-consejos" role="group" aria-label="Filtrar consejos por tema">
+          <button type="button" class="filtro-pill activo" data-tema-filtro="todos" aria-pressed="true">Todos</button>
+          <button type="button" class="filtro-pill" data-tema-filtro="cachorros" aria-pressed="false">Cachorros</button>
+          <button type="button" class="filtro-pill" data-tema-filtro="nutricion" aria-pressed="false">Nutrición</button>
+          <button type="button" class="filtro-pill" data-tema-filtro="prevencion" aria-pressed="false">Prevención</button>
+          <button type="button" class="filtro-pill" data-tema-filtro="estetica" aria-pressed="false">Estética</button>
+          <button type="button" class="filtro-pill" data-tema-filtro="emergencias" aria-pressed="false">Emergencias</button>
+        </div>
+        <p class="consejos-contador" id="contador-consejos" role="status" aria-live="polite"></p>
+
+        <div class="consejos-grid" id="grid-consejos">
+          <article class="consejo-card" data-tema="prevencion">
+            <span class="consejo-card__tema">Prevención</span>
+            <h2 class="consejo-card__titulo">¿Cada cuánto debo desparasitar a mi mascota?</h2>
+            <p class="consejo-card__resumen">La frecuencia depende de la edad, el estilo de vida y el ambiente.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Cachorros: desparasitación interna cada 15 días hasta los 3 meses.</li>
+              <li>Adultos: cada 3 meses como referencia general; más seguido si pasea en parques o come en la calle.</li>
+              <li>Antipulgas y garrapatas: revisión mensual, sobre todo en temporada de calor.</li>
+              <li>Si hay diarrea, vómitos o pérdida de peso, no esperes al siguiente ciclo: trae a tu mascota a consulta.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20%C2%BFCada%20cu%C3%A1nto%20debo%20desparasitar%20a%20mi%20mascota%3F" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="cachorros">
+            <span class="consejo-card__tema">Cachorros</span>
+            <h2 class="consejo-card__titulo">¿Qué vacunas necesita un cachorro?</h2>
+            <p class="consejo-card__resumen">El esquema inicial es la base de su protección durante toda la vida.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Primera dosis alrededor de las 6–8 semanas, según el estado de salud del cachorro.</li>
+              <li>Refuerzos cada 21 días hasta completar el esquema (parvovirus, distemper, hepatitis, parainfluenza).</li>
+              <li>Antirrábica según la edad indicada por el médico veterinario.</li>
+              <li>Evita paseos y contacto con otros perros hasta terminar el esquema.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20%C2%BFQu%C3%A9%20vacunas%20necesita%20un%20cachorro%3F" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="emergencias">
+            <span class="consejo-card__tema">Emergencias</span>
+            <h2 class="consejo-card__titulo">¿Cuándo debo llevar a mi mascota al veterinario?</h2>
+            <p class="consejo-card__resumen">Hay señales que no conviene dejar pasar ni un día.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Vómitos o diarrea por más de 24 horas, o con sangre.</li>
+              <li>Deja de comer o beber, o se esconde y no quiere moverse.</li>
+              <li>Dificultad para respirar, encías pálidas o muy rojas, temblores.</li>
+              <li>Cojera repentina, golpes, caídas o sospecha de que comió algo tóxico.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20%C2%BFCu%C3%A1ndo%20debo%20llevar%20a%20mi%20mascota%20al%20veterinario%3F" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="nutricion">
+            <span class="consejo-card__tema">Nutrición</span>
+            <h2 class="consejo-card__titulo">¿Cuánto alimento le corresponde a mi mascota?</h2>
+            <p class="consejo-card__resumen">La cantidad se calcula por peso, edad y nivel de actividad, no “a ojo”.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Divide la ración diaria en 3 tomas para cachorros y 2 para adultos.</li>
+              <li>Cambia de alimento de forma gradual, mezclando durante 7 días.</li>
+              <li>Los snacks no deben pasar del 10 % de las calorías del día.</li>
+              <li>Agua fresca y limpia siempre disponible: es parte de la dieta.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20%C2%BFCu%C3%A1nto%20alimento%20le%20corresponde%20a%20mi%20mascota%3F" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="nutricion">
+            <span class="consejo-card__tema">Nutrición</span>
+            <h2 class="consejo-card__titulo">Alimentos de casa que son peligrosos</h2>
+            <p class="consejo-card__resumen">Muchos alimentos cotidianos son tóxicos para perros y gatos.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Chocolate, café, uvas y pasas: pueden causar daño renal y neurológico.</li>
+              <li>Cebolla y ajo en cualquier forma, incluso en polvo.</li>
+              <li>Huesos cocidos: se astillan y pueden perforar el intestino.</li>
+              <li>Xilitol (chicles y dulces sin azúcar) y masa de pan cruda.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20Alimentos%20de%20casa%20que%20son%20peligrosos" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="estetica">
+            <span class="consejo-card__tema">Estética</span>
+            <h2 class="consejo-card__titulo">¿Cada cuánto bañar y cepillar a mi perro?</h2>
+            <p class="consejo-card__resumen">El baño en exceso reseca la piel; el cepillado nunca sobra.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Baño cada 3 a 4 semanas con shampoo específico para mascotas.</li>
+              <li>Cepillado 2 o 3 veces por semana; diario en razas de pelo largo.</li>
+              <li>Nunca uses shampoo humano: el pH de su piel es distinto.</li>
+              <li>Corte de uñas y limpieza de oídos cada 4 a 6 semanas.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20%C2%BFCada%20cu%C3%A1nto%20ba%C3%B1ar%20y%20cepillar%20a%20mi%20perro%3F" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="prevencion">
+            <span class="consejo-card__tema">Prevención</span>
+            <h2 class="consejo-card__titulo">Cuidado dental: el problema más ignorado</h2>
+            <p class="consejo-card__resumen">El sarro y la gingivitis afectan al corazón y a los riñones a largo plazo.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Cepillado con pasta dental veterinaria 3 veces por semana.</li>
+              <li>Snacks dentales y juguetes de mordida como apoyo, no como reemplazo.</li>
+              <li>Mal aliento persistente no es normal: es señal de revisión.</li>
+              <li>Profilaxis dental cuando el médico veterinario lo indique.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20Cuidado%20dental%3A%20el%20problema%20m%C3%A1s%20ignorado" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="cachorros">
+            <span class="consejo-card__tema">Cachorros</span>
+            <h2 class="consejo-card__titulo">Primeros días del cachorro en casa</h2>
+            <p class="consejo-card__resumen">Una llegada tranquila evita miedos que duran años.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Un espacio propio con cama, agua y pocos estímulos los primeros días.</li>
+              <li>Rutinas fijas de comida, juego y descanso.</li>
+              <li>Socialización progresiva recién después del esquema de vacunas.</li>
+              <li>Primera consulta y control de peso durante la primera semana.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20Primeros%20d%C3%ADas%20del%20cachorro%20en%20casa" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="consejo-card" data-tema="emergencias">
+            <span class="consejo-card__tema">Emergencias</span>
+            <h2 class="consejo-card__titulo">Golpe de calor: cómo actuar</h2>
+            <p class="consejo-card__resumen">En Huánuco los días soleados pueden ser riesgosos para razas braquicéfalas.</p>
+            <button type="button" class="consejo-card__toggle" aria-expanded="false">
+              <span>Ver recomendaciones</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="consejo-card__detalle">
+              <ul>
+              <li>Nunca dejes a tu mascota dentro del auto, ni con la ventana abierta.</li>
+              <li>Paseos temprano en la mañana o al final de la tarde.</li>
+              <li>Si jadea sin parar, se tambalea o tiene la lengua muy roja: sombra, agua fresca y ven de inmediato.</li>
+              <li>No lo cubras con hielo: enfría con agua a temperatura ambiente.</li>
+              </ul>
+              <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%3A%20Golpe%20de%20calor%3A%20c%C3%B3mo%20actuar" target="_blank" rel="noopener">Consultar por WhatsApp <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CALCULADORA DE EDAD ================= -->
+    <section class="seccion seccion--suave">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Herramienta</span>
+          <h2>¿Qué edad tiene tu perro en años humanos?</h2>
+          <p>Un cálculo aproximado según su tamaño, útil para saber cuándo empiezan los controles de mascota senior.</p>
+        </div>
+
+        <div class="calc-edad reveal" id="calc-edad">
+          <div class="calc-edad__campos">
+            <label class="calc-edad__campo">
+              <span>Edad de tu mascota (años)</span>
+              <input type="number" id="calc-anios" min="0.2" max="22" step="0.5" value="3" />
+            </label>
+            <label class="calc-edad__campo">
+              <span>Tamaño / peso adulto</span>
+              <select id="calc-tamano">
+                <option value="pequeno">Pequeño &middot; hasta 10 kg</option>
+                <option value="mediano" selected>Mediano &middot; 10 a 25 kg</option>
+                <option value="grande">Grande &middot; más de 25 kg</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="calc-edad__resultado">
+            <p class="calc-edad__num"><span id="calc-resultado">32</span><small>años humanos aprox.</small></p>
+            <p class="calc-edad__etapa" id="calc-etapa">Adulto joven</p>
+            <p class="calc-edad__nota" id="calc-nota">Control veterinario una vez al año.</p>
+          </div>
+        </div>
+
+        <p class="consejos-aviso">
+          Esta información es orientativa y no reemplaza una consulta veterinaria presencial.
+          Cada mascota necesita una evaluación individual.
+        </p>
+      </div>
+    </section>
+
+    <section class="seccion seccion--suave">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <h2>¿Tienes otra duda sobre tu mascota?</h2>
+          <p>Escríbenos y te respondemos con orientación profesional.</p>
+        </div>
+        <div class="acciones" style="justify-content:center">
+          <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20tengo%20una%20consulta%20sobre%20mi%20mascota." target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div>
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" />
+        <p class="footer__slogan">Expertos en cuidar a quien más te ama</p>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <p>Jr. Leoncio Prado N.° 1336 – Huánuco</p>
+        <p>+51 939 356 376</p>
+        <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">WhatsApp</a>
+        <p>Lunes a sábado · 8:30 a.m. – 8:00 p.m.</p>
+      </div>
+      <div>
+        <h3>Secciones</h3>
+        <a href="servicios.html">Servicios</a>
+        <a href="estetica.html">Pelitos Estética</a>
+        <a href="productos.html">PetShop</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="consejos.html">Consejos Pelitos</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div>
+        <h3>Síguenos</h3>
+        <a href="https://www.facebook.com/share/1BjPfe6Rkg/" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.8l.4-3h-3.2V9.1c0-.9.3-1.6 1.6-1.6h1.7V4.8c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9V11H8v3h2.7v8h2.8z"/></svg></span><span>Facebook</span></a>
+        <a href="https://www.instagram.com/pelitosveterinaria?stkn=NWhtazczZndzdTl0" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.7" r="1.2"/></svg></span><span>Instagram</span></a>
+        <a href="https://www.tiktok.com/@pelitosveterinaria?r=1&t=ZS-99cTBcWPhyf" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3h3c.2 1.7 1.2 3.1 2.8 4v3.1c-1.4-.1-2.8-.6-4-1.4v7.2c0 3.2-2.2 5.1-5.2 5.1-3.1 0-5.1-2-5.1-4.8 0-3 2.5-5.1 5.8-5.1.3 0 .6 0 .9.1v3c-.3-.1-.6-.2-.9-.2-1.1 0-2.3.7-2.3 2.1 0 1.2.9 2 2 2 1.3 0 2.1-.8 2.1-2.4V3z"/></svg></span><span>TikTok</span></a>
+        <a href="https://youtube.com/@pelitosveterinaria?si=zCkNrEdqcXtIqrQP" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.7 12 4.7 12 4.7s-5.9 0-7.6.5a2.8 2.8 0 0 0-2 2C2 8.9 2 12 2 12s0 3.1.4 4.8a2.8 2.8 0 0 0 2 2c1.7.5 7.6.5 7.6.5s5.9 0 7.6-.5a2.8 2.8 0 0 0 2-2c.4-1.7.4-4.8.4-4.8s0-3.1-.4-4.8z"/><path fill="white" d="M10 9l5 3-5 3V9z"/></svg></span><span>YouTube</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Jr.+Leoncio+Prado+1336+Hu%C3%A1nuco" target="_blank" rel="noopener">Ubicación en el mapa</a>
+      </div>
+    </div>
+    <div class="footer__legal">
+      © <span data-anio>2026</span> Pelitos Veterinaria · Huánuco, Perú · Espacio reservado para política de privacidad y términos de uso.
+    </div>
+  </footer>
+
+  <a class="fab" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+
+  <script src="../js/main.js" defer></script>
+</body>
+</html>
