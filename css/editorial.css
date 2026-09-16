@@ -169,12 +169,13 @@ strong, b { font-weight: 600; }
 
 .nav a {
   font-family: var(--tipo-display);
-  font-size: 0.82rem;
+  white-space: nowrap;
+  font-size: 0.8rem;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.1em;
   border-radius: 0;
-  padding: 10px 14px;
+  padding: 10px 11px;
 }
 
 .nav a:hover { background: none; color: var(--morado); }
@@ -183,8 +184,8 @@ strong, b { font-weight: 600; }
 .nav a::after {
   height: 1px;
   bottom: 4px;
-  left: 14px;
-  right: 14px;
+  left: 11px;
+  right: 11px;
   width: auto;
   background: var(--morado);
 }
@@ -212,24 +213,33 @@ strong, b { font-weight: 600; }
 
 .portada {
   position: relative;
+  z-index: 2; /* la barra de cita sobresale por encima de la sección siguiente */
   min-height: 76vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 120px 0 84px;
   background-image:
-    linear-gradient(180deg, rgba(30, 16, 48, 0.5) 0%, rgba(30, 16, 48, 0.15) 38%, rgba(30, 16, 48, 0.72) 100%),
+    linear-gradient(180deg, rgba(30, 16, 48, 0.62) 0%, rgba(30, 16, 48, 0.34) 34%, rgba(30, 16, 48, 0.88) 100%),
     var(--foto, none);
   background-size: cover;
   background-position: center;
+  background-color: var(--morado-oscuro); /* respaldo mientras carga la foto */
   color: #fff;
   isolation: isolate;
 }
+
+/* Cuando la portada lleva barra de cita, esta sobresale por el borde inferior. */
+.portada:has(.barra-cita) { padding-bottom: 0; }
 
 /* Portada corta para páginas de contenido (consejos, contacto, acceso). */
 .portada--corta { min-height: 52vh; padding: 108px 0 56px; }
 
 .portada__inner { position: relative; z-index: 2; }
+
+/* Cada dato de la portada en su propia línea: insignia, etiqueta, título. */
+.portada__inner > .badge-abierto { display: inline-flex; margin-bottom: 22px; }
+.portada__inner > .eyebrow { display: block; }
 
 .portada__titulo {
   margin-top: 18px;
@@ -243,7 +253,7 @@ strong, b { font-weight: 600; }
 }
 
 .portada__titulo .hueco {
-  -webkit-text-stroke: 1.4px #fff;
+  -webkit-text-stroke: 1.6px #fff;
   -webkit-text-fill-color: transparent;
   color: transparent;
   display: inline-block;
@@ -299,6 +309,24 @@ strong, b { font-weight: 600; }
   background: #fff;
   color: var(--morado);
   border-color: #fff;
+}
+
+/* Sobre foto, el botón principal va en blanco: es lo único que garantiza
+   contraste suficiente sin tocar la paleta. */
+.portada .btn--dorado,
+.portada .btn--amarillo,
+.portada .btn--cta {
+  background: #fff;
+  color: var(--morado);
+  border-color: #fff;
+}
+
+.portada .btn--dorado:hover,
+.portada .btn--amarillo:hover,
+.portada .btn--cta:hover {
+  background: var(--amarillo);
+  color: var(--amarillo-texto);
+  border-color: var(--amarillo);
 }
 
 
@@ -821,6 +849,23 @@ textarea {
 .avatar-redondo { border-radius: 0 !important; }
 
 
+
+/* Esquinas rectas en todo el sitio. styles.css fija radios en 159 reglas, así
+   que se aplanan de una sola vez y se dejan redondos solo los elementos que
+   son círculos por diseño: puntos de estado, contadores y estrellas. */
+*:not(.punto):not(.color-dot):not(.cart-count):not(.estrellas-oro):not(.din-ripple):not(svg):not(svg *) {
+  border-radius: 0 !important;
+}
+
+/* Los botones flotantes de WhatsApp y de «volver arriba» se mantienen como
+   pastilla y círculo: son controles utilitarios, no parte de la composición. */
+.fab,
+.din-arriba,
+.wa-flotante,
+.whatsapp-flotante,
+a[class*="whatsapp-float"] { border-radius: 99px !important; }
+
+
 /* ==========================================================================
    11 · RESPONSIVE
    ========================================================================== */
@@ -843,6 +888,10 @@ textarea {
   .portada { min-height: 82vh; padding: 104px 0 64px; }
   .portada--corta { min-height: 46vh; }
   .portada__titulo { font-size: clamp(2.1rem, 11vw, 3rem); letter-spacing: 0.04em; }
+
+  /* A tamaño pequeño el trazo de la letra hueca se cierra: se adelgaza. */
+  .portada__titulo .hueco,
+  .destino__nombre { -webkit-text-stroke-width: 0.9px; }
   .portada__pie { gap: 14px; font-size: 0.66rem; letter-spacing: 0.14em; }
 
   .rejilla-destinos { grid-template-columns: 1fr; }
