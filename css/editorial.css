@@ -1099,12 +1099,23 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
    ========================================================================== */
 
 .img-sin-foto {
-  color: transparent !important;   /* oculta el texto alternativo desmaquetado */
-  font-size: 0 !important;
+  /* Se oculta la propia imagen (y con ella el icono de «roto» del navegador y
+     el texto alternativo desmaquetado); el hueco lo pinta el contenedor. */
+  visibility: hidden !important;
+  min-height: 220px;
+}
+
+.producto-card__img-wrap:has(.img-sin-foto),
+.ficha-producto__media:has(.img-sin-foto),
+.modal-producto__media:has(.img-sin-foto) {
+  position: relative;
   min-height: 220px;
   background-color: var(--gris-suave, #f4f2f7);
   border: var(--linea);
-  position: relative;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='%23b9b2c4' stroke-width='1.3' stroke-linecap='round'%3E%3Crect x='3' y='3' width='18' height='18'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center 42%;
+  background-size: 42px;
 }
 
 .producto-card__img-wrap:has(.img-sin-foto)::after,
