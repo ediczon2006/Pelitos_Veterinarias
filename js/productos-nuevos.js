@@ -35,7 +35,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
     titulo: "Comedero doble con dispensador",
-    precio: 20,
+    precio: 10,
     foto: "comedero-doble-dispensador.jpg",
     categoria: "accesorios",
     resumen:
@@ -45,7 +45,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
     titulo: "Comedero doble carita de oso",
-    precio: 18,
+    precio: 10,
     foto: "comedero-doble-oso.jpg",
     categoria: "accesorios",
     resumen:
@@ -65,7 +65,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
     titulo: "Comedero elevado con base",
-    precio: 22,
+    precio: 10,
     foto: "comedero-elevado.jpg",
     categoria: "accesorios",
     resumen:

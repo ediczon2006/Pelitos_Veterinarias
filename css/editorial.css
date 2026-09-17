@@ -1149,3 +1149,34 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+/* ==========================================================================
+   14 · Bloque para mandar la reseña a Pelitos (aparece después de publicar)
+   y reseñas ya aprobadas por el negocio (las ve todo el mundo).
+   ========================================================================== */
+
+.resena-enviar {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--borde);
+  background: var(--gris-suave);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+}
+
+.resena-enviar__texto {
+  margin: 0;
+  flex: 1 1 240px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.testimonio--publicada {
+  border-left: 3px solid var(--morado);
+}
+
+@media (max-width: 600px) {
+  .resena-enviar { flex-direction: column; align-items: flex-start; }
+}

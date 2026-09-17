@@ -5,10 +5,12 @@
    Cómo funciona
    -------------
    · Las reseñas que escriben los clientes se guardan en el navegador de cada
-     persona (localStorage). Es decir: cada visitante ve las suyas junto a las
-     reseñas de ejemplo, pero NO viajan a un servidor ni las ve el resto de la
-     gente. Para que sean públicas de verdad hace falta un backend o un
-     formulario externo (Google Forms, Formspree, Sheets…). Ver nota al final.
+     persona (localStorage): el visitante ve la suya al instante, pero no viaja
+     a ningún servidor.
+   · Para que la reseña llegue a Pelitos, después de publicarla aparece el botón
+     "Enviar mi reseña a Pelitos" que la manda por WhatsApp ya redactada.
+   · Para que la vea TODO EL MUNDO, se copia en js/resenas-publicadas.js. Ese
+     archivo se pinta para todos los visitantes (moderación manual, sin spam).
    · Si el navegador bloquea el almacenamiento (modo incógnito estricto o una
      vista previa incrustada) la reseña se muestra igual durante la visita y no
      se rompe nada: solo no sobrevive a recargar la página.
@@ -122,11 +124,16 @@
     return html;
   }
 
-  function tarjetaHTML(t) {
+  function tarjetaHTML(t, publicada) {
     var mascota = t.mascota ? " &middot; " + esc(t.mascota) : "";
+    var pie = publicada
+      ? "Reseña de cliente" + (t.fecha ? " &middot; " + esc(fechaCorta(t.fecha)) : "")
+      : "Reseña desde la web &middot; " + esc(fechaRelativa(t.fecha));
     return (
-      '<article class="testimonio testimonio--cliente" data-id="' +
-      esc(t.id) +
+      '<article class="testimonio ' +
+      (publicada ? "testimonio--publicada" : "testimonio--cliente") +
+      '" data-id="' +
+      esc(t.id || "") +
       '">' +
       '<div class="testimonio__estrellas" aria-label="' +
       (Number(t.estrellas) || 5) +
@@ -145,15 +152,72 @@
       esc(t.nombre) +
       mascota +
       "</div>" +
-      '<div class="testimonio__fecha">Reseña desde la web &middot; ' +
-      esc(fechaRelativa(t.fecha)) +
+      '<div class="testimonio__fecha">' +
+      pie +
       "</div>" +
       "</div>" +
       "</div>" +
-      '<button type="button" class="testimonio__borrar" data-borrar="' +
-      esc(t.id) +
-      '" aria-label="Borrar mi reseña">Borrar mi reseña</button>' +
+      (publicada
+        ? ""
+        : '<button type="button" class="testimonio__borrar" data-borrar="' +
+          esc(t.id) +
+          '" aria-label="Borrar mi reseña">Borrar mi reseña</button>') +
       "</article>"
+    );
+  }
+
+  /** "2026-09-17" → "17 de setiembre de 2026" (si no se puede, devuelve tal cual) */
+  function fechaCorta(valor) {
+    var MESES = [
+      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "setiembre", "octubre", "noviembre", "diciembre"
+    ];
+    var m = String(valor || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return String(valor || "");
+    var mes = MESES[Number(m[2]) - 1];
+    if (!mes) return String(valor);
+    return Number(m[3]) + " de " + mes + " de " + m[1];
+  }
+
+  /** Reseñas aprobadas por el negocio: las ve todo el mundo. */
+  function pintarPublicadas(contenedor) {
+    var lista = window.PELITOS_RESENAS_PUBLICADAS;
+    if (!Array.isArray(lista) || !lista.length) return;
+    var limpias = lista
+      .filter(function (r) {
+        return r && String(r.nombre || "").trim() && String(r.texto || "").trim();
+      })
+      .map(function (r) {
+        return {
+          nombre: String(r.nombre).trim().slice(0, MAX_NOMBRE),
+          mascota: r.mascota ? String(r.mascota).trim().slice(0, 30) : "",
+          texto: String(r.texto).trim().slice(0, MAX_TEXTO),
+          estrellas: Math.min(5, Math.max(1, Number(r.estrellas) || 5)),
+          fecha: r.fecha || ""
+        };
+      });
+    if (!limpias.length) return;
+    contenedor.insertAdjacentHTML(
+      "afterbegin",
+      limpias
+        .map(function (r) {
+          return tarjetaHTML(r, true);
+        })
+        .join("")
+    );
+  }
+
+  /** Arma el enlace de WhatsApp con la reseña ya redactada. */
+  function enlaceWhatsApp(resena) {
+    var texto =
+      "Hola Pelitos, dejé una reseña en la web y quiero que la publiquen:\n\n" +
+      "Nombre: " + resena.nombre + "\n" +
+      (resena.mascota ? "Mascota: " + resena.mascota + "\n" : "") +
+      "Calificación: " + resena.estrellas + " de 5\n" +
+      "Reseña: " + resena.texto;
+    return (
+      "https://api.whatsapp.com/send?phone=51939356376&text=" +
+      encodeURIComponent(texto)
     );
   }
 
@@ -167,7 +231,11 @@
       }
     );
     if (!lista.length) return;
-    var html = lista.map(tarjetaHTML).join("");
+    var html = lista
+      .map(function (t) {
+        return tarjetaHTML(t, false);
+      })
+      .join("");
     contenedor.insertAdjacentHTML("afterbegin", html);
   }
 
@@ -250,6 +318,8 @@
     var form = document.querySelector("[data-form-testimonio]");
     if (!contenedor) return;
 
+    pintarPublicadas(contenedor);
+
     var lista = leer();
     pintar(lista, contenedor);
 
@@ -328,6 +398,15 @@
           : "¡Gracias! Tu reseña se muestra ahora, pero este navegador no permite guardarla."
       );
 
+      // El cliente puede mandarnos su reseña por WhatsApp para que la
+      // publiquemos en la web para todo el mundo.
+      var envio = document.querySelector("[data-enviar-resena]");
+      if (envio) {
+        var enlace = envio.querySelector("a");
+        if (enlace) enlace.href = enlaceWhatsApp(nueva);
+        envio.hidden = false;
+      }
+
       var nuevaTarjeta = contenedor.querySelector(".testimonio--cliente");
       if (nuevaTarjeta && nuevaTarjeta.scrollIntoView) {
         nuevaTarjeta.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -358,4 +437,8 @@
    Sirve Formspree, Google Apps Script sobre una hoja de cálculo, Airtable o
    Supabase. Recuerda moderar antes de publicar: un formulario abierto en
    internet recibe spam.
+
+   Mientras no haya servidor, el circuito que ya funciona es:
+   cliente publica → le sale el botón de WhatsApp → la reseña llega a Pelitos →
+   se copia en js/resenas-publicadas.js → la ve todo el mundo.
    -------------------------------------------------------------------------- */

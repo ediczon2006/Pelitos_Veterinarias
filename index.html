@@ -368,7 +368,7 @@
           </article>
           <article class="equipo-mini" style="--din-i:3">
             <div class="equipo-mini__foto">
-              <img src="images/equipo/diego.jpg" alt="Diego Paul Ponce de León Cadillo, Asistente Veterinario en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
+              <img src="images/equipo/diego.png" alt="Diego Paul Ponce de León Cadillo, Asistente Veterinario en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
             </div>
             <div class="equipo-mini__info">
               <span class="equipo-mini__cargo">Asistente Veterinario</span>
@@ -537,10 +537,21 @@
             <div class="campo campo--ancho form-testimonio__enviar">
               <button type="submit" class="btn btn--dorado">Publicar mi reseña</button>
               <p class="form-testimonio__nota">
-                Se guarda en este navegador. No pedimos correo ni teléfono.
+                Se publica al instante en tu navegador. No pedimos correo ni teléfono.
               </p>
             </div>
           </form>
+
+          <!-- Aparece recién después de publicar: manda la reseña a Pelitos
+               para que la publiquemos en la web para todos. -->
+          <div class="resena-enviar" data-enviar-resena hidden>
+            <p class="resena-enviar__texto">
+              ¿Quieres que tu reseña se vea en la página para todos? Mándanosla y
+              la publicamos.
+            </p>
+            <a class="btn btn--whatsapp btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376" target="_blank" rel="noopener">Enviar mi reseña a Pelitos</a>
+          </div>
+
           <p class="aviso-testimonio" data-aviso-testimonio hidden role="status"></p>
         </div>
       </div>
@@ -656,6 +667,7 @@
     <span>WhatsApp</span>
   </a>
 
+    <script src="js/resenas-publicadas.js" defer></script>
     <script src="js/testimonios.js" defer></script>
     <script src="js/main.js" defer></script>
 </body>
