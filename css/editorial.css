@@ -1180,3 +1180,10 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
 @media (max-width: 600px) {
   .resena-enviar { flex-direction: column; align-items: flex-start; }
 }
+
+/* Los <img> de las ventanas (galería/producto) nacen sin src y reciben la foto
+   al abrirse. Sin esto, algunos navegadores dibujan el icono de imagen rota. */
+img:not([src]),
+img[src=""] {
+  visibility: hidden;
+}
