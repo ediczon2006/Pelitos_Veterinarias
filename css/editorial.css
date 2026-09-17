@@ -1179,6 +1179,8 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
 
 @media (max-width: 600px) {
   .resena-enviar { flex-direction: column; align-items: flex-start; }
+  /* En columna, flex-basis actuaría como alto y dejaría un hueco enorme. */
+  .resena-enviar__texto { flex: 0 0 auto; }
 }
 
 /* Los <img> de las ventanas (galería/producto) nacen sin src y reciben la foto
