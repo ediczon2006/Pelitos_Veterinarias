@@ -146,7 +146,7 @@ const SITE = {
 ### Cambiar el precio de un producto del PetShop
 
 1. Abra `js/main.js` y busque `BLOQUE 3`.
-2. Busque el producto por su título (por ejemplo `Alimento Súper Premium Canino`).
+2. Busque el producto por su título (por ejemplo `Arnés y Correas para Mascotas`).
 3. Cambie el número que está en `precio:`. Se escribe con punto decimal: `48.0`.
 4. Si el producto tiene presentaciones (`variantes`), cada opción tiene su propio
    precio o su `delta` (lo que suma o resta al precio base). Cambie solo el número.

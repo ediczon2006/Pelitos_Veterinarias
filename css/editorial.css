@@ -914,6 +914,14 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
    mayúsculas espaciadas en las etiquetas. Sin colores nuevos.
    ========================================================================== */
 
+.sin-resenas {
+  text-align: center;
+  color: var(--texto-suave);
+  max-width: 52ch;
+  margin: 0 auto;
+}
+.sin-resenas[hidden] { display: none; }
+
 .aporte-testimonio {
   margin-top: 72px;
   border-top: var(--linea-fuerte);

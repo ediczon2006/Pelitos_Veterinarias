@@ -440,50 +440,7 @@ function esPagina(nombre) {
 
   var PRODUCTOS = [
     // ==================================================================
-    // ALIMENTO (producto del configurador destacado)
-    // ==================================================================
-    {
-      id: "alimento-super-premium-canino",
-      categoria: "alimentos",
-      categoriaTexto: "Nutrición & Salud Canina",
-      titulo: "Alimento Súper Premium Canino",
-      resumen:
-        "Fórmula balanceada con ingredientes de alta digestibilidad, probióticos y omegas 3 y 6 para pelaje brillante y vitalidad.",
-      imagen: "../images/productos/producto-1.jpg",
-      precio: 48.0,
-      destacado: true,
-      variantes: [
-        {
-          nombre: "Presentación",
-          opciones: [
-            { label: "1.5 kg", extra: 0 },
-            { label: "3.0 kg", extra: 37, predeterminada: true },
-            { label: "7.5 kg", extra: 132 },
-            { label: "15 kg", extra: 262 }
-          ]
-        },
-        {
-          nombre: "Sabor o fórmula",
-          opciones: [
-            { label: "Pollo & Arroz", color: "#eab308", extra: 0 },
-            { label: "Salmón & Camote", color: "#f97316", extra: 0 },
-            { label: "Cordero Hipoalergénico", color: "#8b5cf6", extra: 0 }
-          ]
-        },
-        {
-          nombre: "Etapa de vida",
-          opciones: [
-            { label: "Cachorro", extra: 0 },
-            { label: "Adulto raza pequeña", extra: 0, predeterminada: true },
-            { label: "Adulto raza grande", extra: 0 },
-            { label: "Senior +7 años", extra: 0 }
-          ]
-        }
-      ]
-    },
-
-    // ==================================================================
-    // ACCESORIOS, SALUD E HIGIENE
+    // ACCESORIOS
     // ==================================================================
     {
       id: "arnes-correas",
@@ -511,93 +468,6 @@ function esPagina(nombre) {
             { label: "Naranja", color: "#f0791e", extra: 0 },
             { label: "Azul", color: "#2563eb", extra: 0 },
             { label: "Rojo", color: "#dc2626", extra: 0 }
-          ]
-        }
-      ]
-    },
-    {
-      id: "antipulgas-desparasitantes",
-      categoria: "salud",
-      categoriaTexto: "Salud & Farmacia",
-      titulo: "Antipulgas y Desparasitantes",
-      resumen:
-        "Pipetas, comprimidos y collares antiparasitarios dosificados por rango de peso, contra pulgas, garrapatas y parásitos internos. Te indicamos la dosis exacta y la fecha del refuerzo antes de comprar.",
-      imagen: "../images/productos/producto-antipulgas.jpg",
-      precio: 50.0,
-      requiereAsesoria: true,
-      variantes: [
-        {
-          nombre: "Rango de peso",
-          opciones: [
-            { label: "2 a 3.5 kg", extra: 0 },
-            { label: "3.5 a 7.5 kg", extra: 8 },
-            { label: "7.5 a 15 kg", extra: 18 },
-            { label: "15 a 30 kg", extra: 28 },
-            { label: "30 a 60 kg", extra: 40 }
-          ]
-        },
-        {
-          nombre: "Presentación",
-          opciones: [
-            { label: "1 unidad (mensual)", extra: 0 },
-            { label: "Caja x3 unidades", extra: 90 }
-          ]
-        }
-      ]
-    },
-    {
-      id: "cama-ortopedica",
-      categoria: "accesorios",
-      categoriaTexto: "Camas & Confort",
-      titulo: "Cama Ortopédica y Suave",
-      resumen:
-        "Cama con base de espuma de alta densidad y borde elevado que sirve de apoyo para la cabeza: alivia caderas y articulaciones en perros mayores. Funda exterior lavable y tres tamaños de 50 a 90 cm.",
-      imagen: "../images/productos/producto-cama.jpg",
-      precio: 55.0,
-      variantes: [
-        {
-          nombre: "Tamaño",
-          opciones: [
-            { label: "50 cm (pequeño)", extra: 0 },
-            { label: "70 cm (mediano)", extra: 25 },
-            { label: "90 cm (grande)", extra: 50 }
-          ]
-        },
-        {
-          nombre: "Color",
-          opciones: [
-            { label: "Gris clínico", color: "#9ca3af", extra: 0 },
-            { label: "Rosa palo", color: "#f472b6", extra: 0 },
-            { label: "Café moca", color: "#92400e", extra: 0 }
-          ]
-        }
-      ]
-    },
-    {
-      id: "shampoo-dermatologico",
-      categoria: "higiene",
-      categoriaTexto: "Higiene & Cosmética",
-      titulo: "Shampoo y Cuidado Dermatológico",
-      resumen:
-        "Línea dermatológica de pH neutro para mascotas: avena para piel sensible, fórmula antiparasitaria, realce de pelo blanco o brillo intenso. No irrita los ojos y viene en 250 ml, 500 ml y 1 litro.",
-      imagen: "../images/productos/producto-shampoo.jpg",
-      precio: 25.0,
-      variantes: [
-        {
-          nombre: "Fórmula",
-          opciones: [
-            { label: "Piel sensible (avena)", extra: 0 },
-            { label: "Antipulgas / antiparasitario", extra: 5 },
-            { label: "Pelo blanco / radiante", extra: 4 },
-            { label: "Brillo & suavidad", extra: 3 }
-          ]
-        },
-        {
-          nombre: "Volumen",
-          opciones: [
-            { label: "250 ml", extra: 0 },
-            { label: "500 ml", extra: 15 },
-            { label: "1 litro", extra: 40 }
           ]
         }
       ]

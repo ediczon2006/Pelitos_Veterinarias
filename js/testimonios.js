@@ -318,10 +318,20 @@
     var form = document.querySelector("[data-form-testimonio]");
     if (!contenedor) return;
 
+    // Mensaje «aún no hay reseñas»: se muestra solo mientras la rejilla esté vacía.
+    var aviso_vacio = document.querySelector("[data-sin-resenas]");
+    function refrescarVacio() {
+      if (aviso_vacio) aviso_vacio.hidden = contenedor.children.length > 0;
+    }
+    if (typeof MutationObserver === "function") {
+      new MutationObserver(refrescarVacio).observe(contenedor, { childList: true });
+    }
+
     pintarPublicadas(contenedor);
 
     var lista = leer();
     pintar(lista, contenedor);
+    refrescarVacio();
 
     // Borrar la propia reseña (solo afecta a este navegador).
     contenedor.addEventListener("click", function (ev) {
