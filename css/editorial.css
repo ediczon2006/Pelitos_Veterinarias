@@ -1214,3 +1214,12 @@ img[src=""] {
     -webkit-line-clamp: 4;
   }
 }
+
+/* Descripción dentro de la ventana de producto: los productos sin variantes
+   (bolsas de 1 kg) abrían la ventana con el cuerpo vacío. */
+.modal-prod-desc {
+  margin: 0 0 16px;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #46505e;
+}

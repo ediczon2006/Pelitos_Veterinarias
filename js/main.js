@@ -1957,7 +1957,15 @@ function esPagina(nombre) {
         "Confirmaremos la dosis según el peso de tu mascota antes de entregarlo.</p>"
       : "";
 
+    /* Descripción también en la ventana: sin ella, un producto sin variantes
+       (por ejemplo una bolsa de 1 kg) mostraba un cuerpo completamente vacío. */
+    var textoDesc = p.resumen || (p.ficha && p.ficha.descripcion) || "";
+    var descripcion = textoDesc
+      ? '<p class="modal-prod-desc">' + esc(textoDesc) + "</p>"
+      : "";
+
     modalCuerpo.innerHTML =
+      descripcion +
       (p.variantes || [])
         .map(function (grupo) {
           return grupoVarianteHTML(p, grupo, 0, seleccionModal[grupo.nombre]);
