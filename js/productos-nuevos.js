@@ -33,6 +33,44 @@
 
 window.PELITOS_PRODUCTOS_NUEVOS = [
 
+  /* ---------- Alimento en bolsa de 1 kg ---------- */
+
+  {
+    titulo: "Ricocan Cachorros razas pequeñas 1 kg",
+    precio: 12,
+    foto: "ricocan-cachorros-1kg.jpg",
+    categoria: "alimentos",
+    resumen:
+      "Alimento completo para cachorros de razas pequeñas, sabor carne y leche. Croquetas pequeñas fáciles de masticar, con DHA, prebióticos, multivitaminas, minerales orgánicos y omega 3 y 6 para el cerebro, la visión y las defensas. Bolsa de 1 kg con cierre fácil."
+  },
+
+  {
+    titulo: "Ricocat Gatitos 1 kg",
+    precio: 12,
+    foto: "ricocat-gatitos-1kg.jpg",
+    categoria: "alimentos",
+    resumen:
+      "Alimento para gatitos de 1 a 12 meses, sabor carne, pescado y leche. Croquetas marinadas con DHA, taurina, calcio y fósforo para el desarrollo del cerebro, la visión, los huesos y una digestión tranquila. Bolsa de 1 kg con cierre fácil."
+  },
+
+  {
+    titulo: "Canbo Súper Premium Cachorro Cordero 1 kg",
+    precio: 22,
+    foto: "canbo-cachorro-cordero-1kg.jpg",
+    categoria: "alimentos",
+    resumen:
+      "Súper premium de cordero para cachorros de razas pequeñas: 30 % de proteína y 18 % de grasa, con glucosamina para las articulaciones, fibra prebiótica, DHA/EPA y minerales orgánicos. Fórmula avanzada en bolsa de 1 kg."
+  },
+
+  {
+    titulo: "Canbo Súper Premium Gatitos Pollo 1 kg",
+    precio: 22,
+    foto: "canbo-gatitos-pollo-1kg.jpg",
+    categoria: "alimentos",
+    resumen:
+      "Desarrollo inicial para gatitos hasta 12 meses, con pollo: 40 % de proteína y 18 % de grasa, tecnología Bio Protect con prebióticos, taurina y vitamina A para la visión, y EPA/DHA para el sistema nervioso. Bolsa de 1 kg."
+  },
+
   {
     titulo: "Comedero doble con dispensador",
     precio: 10,

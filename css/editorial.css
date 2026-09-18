@@ -1189,3 +1189,28 @@ img:not([src]),
 img[src=""] {
   visibility: hidden;
 }
+
+/* ==========================================================================
+   15 · DESCRIPCIÓN CORTA EN LA TARJETA DE PRODUCTO
+   Antes la tarjeta solo mostraba título, variantes y precio: el texto
+   `resumen` del catálogo no se pintaba en ninguna parte. Se limita a tres
+   líneas para que todas las tarjetas de la grilla conserven la misma altura.
+   ========================================================================== */
+
+.producto-card__desc {
+  margin: 6px 0 10px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #55606e;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .producto-card__desc {
+    font-size: 0.83rem;
+    -webkit-line-clamp: 4;
+  }
+}

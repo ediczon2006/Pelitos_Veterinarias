@@ -490,6 +490,8 @@ function esPagina(nombre) {
       categoria: "accesorios",
       categoriaTexto: "Accesorios & Paseo",
       titulo: "Arnés y Correas para Mascotas",
+      resumen:
+        "Arnés acolchado con correa a juego: reparte la fuerza en el pecho para no lastimar el cuello, cierres regulables, bandas reflectivas para el paseo nocturno y cuatro tallas de S a XL en cuatro colores.",
       imagen: "../images/productos/producto-arnes.jpg",
       precio: 38.0,
       variantes: [
@@ -518,6 +520,8 @@ function esPagina(nombre) {
       categoria: "salud",
       categoriaTexto: "Salud & Farmacia",
       titulo: "Antipulgas y Desparasitantes",
+      resumen:
+        "Pipetas, comprimidos y collares antiparasitarios dosificados por rango de peso, contra pulgas, garrapatas y parásitos internos. Te indicamos la dosis exacta y la fecha del refuerzo antes de comprar.",
       imagen: "../images/productos/producto-antipulgas.jpg",
       precio: 50.0,
       requiereAsesoria: true,
@@ -546,6 +550,8 @@ function esPagina(nombre) {
       categoria: "accesorios",
       categoriaTexto: "Camas & Confort",
       titulo: "Cama Ortopédica y Suave",
+      resumen:
+        "Cama con base de espuma de alta densidad y borde elevado que sirve de apoyo para la cabeza: alivia caderas y articulaciones en perros mayores. Funda exterior lavable y tres tamaños de 50 a 90 cm.",
       imagen: "../images/productos/producto-cama.jpg",
       precio: 55.0,
       variantes: [
@@ -572,6 +578,8 @@ function esPagina(nombre) {
       categoria: "higiene",
       categoriaTexto: "Higiene & Cosmética",
       titulo: "Shampoo y Cuidado Dermatológico",
+      resumen:
+        "Línea dermatológica de pH neutro para mascotas: avena para piel sensible, fórmula antiparasitaria, realce de pelo blanco o brillo intenso. No irrita los ojos y viene en 250 ml, 500 ml y 1 litro.",
       imagen: "../images/productos/producto-shampoo.jpg",
       precio: 25.0,
       variantes: [
@@ -599,6 +607,8 @@ function esPagina(nombre) {
       categoria: "accesorios",
       categoriaTexto: "Accesorios & Comederos",
       titulo: "Comedero y Bebedero Ergonómico",
+      resumen:
+        "Platos ergonómicos a la altura correcta para comer sin forzar el cuello: modelo anti-ahogo de comida lenta, doble plato de acero inoxidable y bebedero automático por gravedad. Antideslizantes y aptos para lavavajillas.",
       imagen: "../images/productos/producto-comedero.jpg",
       precio: 28.0,
       variantes: [
@@ -1695,6 +1705,13 @@ function esPagina(nombre) {
       })
       .join("");
 
+    /* Descripción corta de la tarjeta: se prefiere `resumen`; si el producto
+       solo trae ficha técnica, se reutiliza su descripción. */
+    var textoDesc = p.resumen || (p.ficha && p.ficha.descripcion) || "";
+    var descripcion = textoDesc
+      ? '<p class="producto-card__desc">' + esc(textoDesc) + "</p>"
+      : "";
+
     var btnFicha = p.ficha
       ? '<button type="button" class="btn-ver-contenido" data-accion="abrir-ficha" data-id="' +
         esc(p.id) +
@@ -1725,6 +1742,7 @@ function esPagina(nombre) {
       esc(p.titulo) +
       "</h3>" +
       presentacion +
+      descripcion +
       sellos +
       '<ul class="producto-card__tipos-resumen">' +
       resumenVariantes +
