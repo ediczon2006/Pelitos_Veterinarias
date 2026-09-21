@@ -4,16 +4,16 @@
 
    Cómo funciona
    -------------
-   · Las reseñas que escriben los clientes se guardan en el navegador de cada
-     persona (localStorage): el visitante ve la suya al instante, pero no viaja
-     a ningún servidor.
+   · Las reseñas que escriben los clientes se quedan en su propia pantalla
+     mientras la pestaña esté abierta: el visitante ve la suya al instante,
+     pero no viaja a ningún servidor.
    · Para que la reseña llegue a Pelitos, después de publicarla aparece el botón
      "Enviar mi reseña a Pelitos" que la manda por WhatsApp ya redactada.
    · Para que la vea TODO EL MUNDO, se copia en js/resenas-publicadas.js. Ese
      archivo se pinta para todos los visitantes (moderación manual, sin spam).
-   · Si el navegador bloquea el almacenamiento (modo incógnito estricto o una
-     vista previa incrustada) la reseña se muestra igual durante la visita y no
-     se rompe nada: solo no sobrevive a recargar la página.
+   · La reseña no sobrevive a recargar la página, y eso es a propósito: así la
+     web funciona igual en modo incógnito y dentro de vistas previas. El
+     circuito bueno es el de WhatsApp, que sí llega a Pelitos.
    · Todo el texto se escapa antes de pintarlo, así que nadie puede inyectar
      HTML desde el formulario.
    ========================================================================== */
@@ -21,7 +21,7 @@
 (function () {
   "use strict";
 
-  var CLAVE = "pelitos:testimonios:v1";
+
   var MAX_GUARDADOS = 30;
   var MIN_TEXTO = 25;
   var MAX_TEXTO = 400;
@@ -40,29 +40,24 @@
       .replace(/'/g, "&#39;");
   }
 
-  /* Almacenamiento con red de seguridad: si localStorage falla se usa una
-     variable en memoria y la página sigue funcionando. */
-  var enMemoria = null;
+  /* Almacenamiento: la resena vive en esta variable mientras la pestana este
+     abierta. No se usa el almacen permanente del navegador por dos razones: el
+     resto de la web tampoco lo usa (ver "Almacenamiento en memoria de la
+     sesion" en js/main.js) y en las vistas previas incrustadas esta bloqueado,
+     lo que hacia fallar la pagina entera.
+
+     Si algun dia quiere que la resena sobreviva a recargar la pagina, un
+     programador puede cambiar las dos funciones de abajo para que lean y
+     escriban en el almacen del navegador, siempre dentro de un try/catch. */
+  var enMemoria = [];
 
   function leer() {
-    try {
-      var bruto = window.localStorage.getItem(CLAVE);
-      if (!bruto) return [];
-      var lista = JSON.parse(bruto);
-      return Array.isArray(lista) ? lista.filter(valida) : [];
-    } catch (e) {
-      return Array.isArray(enMemoria) ? enMemoria : [];
-    }
+    return Array.isArray(enMemoria) ? enMemoria.filter(valida) : [];
   }
 
   function escribir(lista) {
-    enMemoria = lista;
-    try {
-      window.localStorage.setItem(CLAVE, JSON.stringify(lista));
-      return true;
-    } catch (e) {
-      return false; // se conserva solo en memoria
-    }
+    enMemoria = Array.isArray(lista) ? lista : [];
+    return false; // false = "no sobrevive a recargar la pagina"
   }
 
   /* Descarta entradas corruptas o de versiones antiguas. */
@@ -251,7 +246,9 @@
       if (aviso) {
         aviso.textContent = mensaje;
         aviso.hidden = false;
-        campo.setAttribute("aria-describedby", aviso.id || "");
+        // Solo se enlaza si el aviso tiene id; si no, un aria-describedby
+        // vacío confunde al lector de pantalla.
+        if (aviso.id) campo.setAttribute("aria-describedby", aviso.id);
       }
     } else {
       campo.removeAttribute("aria-invalid");
@@ -260,6 +257,31 @@
         aviso.hidden = true;
       }
     }
+  }
+
+  /* Deja el selector de estrellas en el valor del campo oculto, sin tocar
+     los eventos. Se usa después de enviar una reseña. */
+  function reiniciarEstrellas(form) {
+    var oculto = form.querySelector('[name="estrellas"]');
+    if (!oculto) return;
+    oculto.value = oculto.value || "5";
+    var valor = Number(oculto.value) || 5;
+    Array.prototype.forEach.call(form.querySelectorAll("[data-estrella]"), function (b) {
+      var v = Number(b.getAttribute("data-estrella"));
+      b.classList.toggle("es-activa", v <= valor);
+      b.setAttribute("aria-checked", v === valor ? "true" : "false");
+      b.tabIndex = v === valor ? 0 : -1;
+    });
+  }
+
+  /* Vuelve a pintar el contador de caracteres sin conectar otro evento. */
+  function refrescarContador(form) {
+    var area = form.querySelector('[name="texto"]');
+    var salida = form.querySelector("[data-contador]");
+    if (!area || !salida) return;
+    var n = area.value.trim().length;
+    salida.textContent = n + " / " + MAX_TEXTO;
+    salida.classList.toggle("es-corto", n > 0 && n < MIN_TEXTO);
   }
 
   function conectarEstrellas(form) {
@@ -313,25 +335,28 @@
     refrescar();
   }
 
+  /* La tarjeta de "todavía no hay reseñas" solo debe verse cuando de verdad no
+     hay ninguna. En cuanto aparece una, se esconde; si se borran todas, vuelve.
+     Así el hueco de la página nunca queda vacío ni sobra la tarjeta. */
+  function ajustarEspera(contenedor) {
+    var espera = contenedor.querySelector("[data-testimonio-espera]");
+    if (!espera) return;
+    var hay = contenedor.querySelector(
+      ".testimonio--cliente, .testimonio--publicada"
+    );
+    espera.hidden = !!hay;
+  }
+
   function iniciar() {
     var contenedor = document.querySelector("[data-lista-testimonios]");
     var form = document.querySelector("[data-form-testimonio]");
     if (!contenedor) return;
 
-    // Mensaje «aún no hay reseñas»: se muestra solo mientras la rejilla esté vacía.
-    var aviso_vacio = document.querySelector("[data-sin-resenas]");
-    function refrescarVacio() {
-      if (aviso_vacio) aviso_vacio.hidden = contenedor.children.length > 0;
-    }
-    if (typeof MutationObserver === "function") {
-      new MutationObserver(refrescarVacio).observe(contenedor, { childList: true });
-    }
-
     pintarPublicadas(contenedor);
 
     var lista = leer();
     pintar(lista, contenedor);
-    refrescarVacio();
+    ajustarEspera(contenedor);
 
     // Borrar la propia reseña (solo afecta a este navegador).
     contenedor.addEventListener("click", function (ev) {
@@ -343,6 +368,7 @@
       });
       escribir(lista);
       pintar(lista, contenedor);
+      ajustarEspera(contenedor);
       avisar("Reseña borrada.");
     });
 
@@ -395,17 +421,20 @@
       };
 
       lista = [nueva].concat(lista).slice(0, MAX_GUARDADOS);
-      var guardado = escribir(lista);
+      escribir(lista);
       pintar(lista, contenedor);
+      ajustarEspera(contenedor);
 
+      // Se limpia el formulario y se vuelven a poner las 5 estrellas y el
+      // contador en cero SIN volver a conectar los eventos: si se conectaran
+      // otra vez, cada reseña enviada dejaría un listener extra pegado a cada
+      // estrella (fuga de memoria y clics contados varias veces).
       form.reset();
-      conectarEstrellas(form);
-      contador(form);
+      reiniciarEstrellas(form);
+      refrescarContador(form);
 
       avisar(
-        guardado
-          ? "¡Gracias! Tu reseña ya aparece arriba."
-          : "¡Gracias! Tu reseña se muestra ahora, pero este navegador no permite guardarla."
+        "¡Gracias! Tu reseña ya aparece arriba. Mándanosla por WhatsApp para que la publiquemos para todos."
       );
 
       // El cliente puede mandarnos su reseña por WhatsApp para que la

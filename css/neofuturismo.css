@@ -1,0 +1,953 @@
+/* ==========================================================================
+   PELITOS VETERINARIA · CAPA NEO-FUTURISTA
+   --------------------------------------------------------------------------
+   QUÉ ES ESTE ARCHIVO
+   Es la "piel" de la web: el color, la letra y las formas. Se carga en tercer
+   lugar, después de styles.css (la estructura) y editorial.css (las medidas),
+   y por eso manda sobre los dos. Si algún día quiere volver al diseño
+   anterior, basta con borrar UNA línea en cada página:
+
+       <link rel="stylesheet" href="css/neofuturismo.css" />
+
+   ...y la web vuelve al estilo editorial sin tocar nada más.
+
+   --------------------------------------------------------------------------
+   DE DÓNDE SALE EL ESTILO
+   El neo-futurismo de verdad (el de la Ciudad de las Artes y las Ciencias de
+   Valencia o el Centro Heydar Aliyev de Bakú) NO es oscuro ni de neones: es
+   blanco, luminoso y curvo. Sus rasgos son cuatro, y los cuatro están abajo:
+
+     1. CURVAS QUE BARREN  → esquinas muy desiguales, un lado casi recto y el
+                             otro un arco enorme (--arco).
+     2. COSTILLAS          → líneas finas y repetidas, como el esqueleto de un
+                             edificio (.costillas y los ::before de sección).
+     3. SUPERFICIE NACARADA→ blanco vidriado con un reflejo de color muy tenue
+                             (--vidrio, --nacar).
+     4. ESTANQUE REFLEJANTE→ las fotos se reflejan abajo, difuminadas, como en
+                             el agua de esos edificios (.portada::after).
+
+   La letra de los títulos es Panchang: formas anchas y algo orgánicas, esa
+   "tipografía ilustrativa" que pidió, en lugar de una geométrica corriente.
+
+   --------------------------------------------------------------------------
+   LOS COLORES DE PELITOS NO CAMBIAN
+   El morado #5b2a86, el naranja #f0791e y el amarillo #ffb703 siguen siendo
+   los mismos de siempre. Aquí sólo se usan de otra manera: mezclados en un
+   reflejo tornasolado (--iris) en vez de en bloques planos.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1 · TOKENS
+   Los "ajustes generales". Cambie un valor aquí y cambia en toda la web.
+   ========================================================================== */
+
+:root {
+  /* --- Curvas -------------------------------------------------------------
+     El arco es la firma del estilo. Un valor grande y uno pequeño en
+     diagonal: así la forma parece estar en movimiento.                     */
+  --radio: 22px;
+  --radio-lg: 38px;
+  --arco: 128px 24px 128px 24px;
+  --arco-inv: 24px 128px 24px 128px;
+  --arco-suave: 72px 18px 72px 18px;
+
+  /* --- Luz ---------------------------------------------------------------
+     Sombras claras y muy abiertas: dan sensación de peso ligero, no de
+     cajas apiladas.                                                        */
+  --sombra: 0 26px 70px -28px rgba(61, 28, 92, 0.26);
+  --sombra-card: 0 18px 44px -24px rgba(61, 28, 92, 0.22);
+  --sombra-alta: 0 38px 90px -30px rgba(61, 28, 92, 0.34);
+
+  --ancho: 1240px;
+  --aire-seccion: 118px;
+
+  /* --- Superficies nacaradas --------------------------------------------- */
+  --nacar: linear-gradient(152deg, #ffffff 0%, #fdfbff 46%, #f7f1fb 100%);
+  --nacar-calido: linear-gradient(152deg, #fffdf9 0%, #fdf6ff 100%);
+  --vidrio: rgba(255, 255, 255, 0.72);
+  --vidrio-borde: rgba(255, 255, 255, 0.9);
+
+  /* --- Reflejo tornasolado ----------------------------------------------
+     Los tres colores de Pelitos en un solo barrido. Se usa en líneas finas,
+     en palabras sueltas y en los bordes que se iluminan al pasar el ratón. */
+  --iris: linear-gradient(104deg, #5b2a86 0%, #7031a7 26%, #f0791e 68%, #ffb703 100%);
+
+  /* OJO: el reflejo de arriba termina en amarillo, y el amarillo sobre blanco
+     casi no se lee. Para pintar LETRAS existe esta segunda versión, que acaba
+     en naranja oscuro y mantiene el contraste que exige la accesibilidad.
+     Regla simple: --iris para líneas, fondos y botones; --iris-texto para
+     cualquier cosa que haya que leer. */
+  --iris-texto: linear-gradient(100deg, #5b2a86 0%, #7031a7 34%, #d2600f 72%, #c25406 100%);
+
+  /* Y una tercera para el FONDO DE LOS BOTONES, que llevan letras blancas
+     encima. Termina en naranja quemado (#b8500a) porque sobre el amarillo de
+     --iris el blanco daba 1.75 de contraste: prácticamente ilegible. Así el
+     peor punto del degradado da 5.01, por encima del 4.5 exigido. */
+  --iris-boton: linear-gradient(104deg, #5b2a86 0%, #7031a7 30%, #b8500a 100%);
+
+  --grad-hero: var(--nacar);
+  --grad-morado: linear-gradient(142deg, #2f1547 0%, #5b2a86 52%, #7b3bb3 100%);
+  --grad-marca: var(--iris);
+  --grad-texto: var(--iris-texto); /* styles.css lo usa para letras */
+
+  /* --- Letra -------------------------------------------------------------
+     Panchang para los títulos (la ilustrativa) y Satoshi para leer.        */
+  --tipo-display: "Panchang", "Jost", system-ui, sans-serif;
+  --tipo-texto: "Satoshi", "Open Sans", system-ui, sans-serif;
+
+  --linea: 1px solid rgba(91, 42, 134, 0.1);
+  --linea-fuerte: 1px solid rgba(91, 42, 134, 0.2);
+  --espaciado-etiqueta: 0.22em;
+
+  /* Las costillas: la trama de líneas finas repetidas. */
+  --trama-costillas: repeating-linear-gradient(
+    90deg,
+    rgba(91, 42, 134, 0.16) 0 1px,
+    transparent 1px 13px
+  );
+}
+
+
+/* ==========================================================================
+   2 · TIPOGRAFÍA ILUSTRATIVA
+   Panchang tiene letras anchas y con carácter. Por eso los títulos ya NO van
+   en mayúsculas ni muy separados: en mayúsculas se perdería justo lo que la
+   hace distinta. Se dejan en tamaño grande y con poco espacio entre letras.
+   ========================================================================== */
+
+body {
+  font-family: var(--tipo-texto);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  letter-spacing: 0;
+  background: var(--nacar);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--tipo-display);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  text-transform: none;
+}
+
+h1, h2 {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  text-transform: none;
+}
+
+h1 { font-size: clamp(2.3rem, 5.2vw, 4rem); }
+h2 { font-size: clamp(1.85rem, 3.4vw, 2.85rem); }
+h3 { font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 500; letter-spacing: -0.01em; }
+h4 { font-weight: 500; letter-spacing: -0.005em; text-transform: none; }
+
+strong, b { font-weight: 700; }
+
+/* Etiquetas pequeñas: aquí sí van en mayúsculas, porque son señalización,
+   no lectura. Van en Satoshi, que aguanta mejor el tamaño diminuto. */
+.eyebrow,
+.etiqueta {
+  font-family: var(--tipo-texto) !important;
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* Palabra tornasolada: se pinta el degradado de Pelitos dentro de la letra.
+   Úselo en UNA palabra del título, nunca en un párrafo entero. */
+.titulo-tornasol {
+  background: var(--iris-texto);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Letra hueca: sólo el contorno. En este estilo se engruesa un poco, porque
+   Panchang tiene trazos más anchos que la letra anterior. */
+.hueco {
+  color: transparent;
+  -webkit-text-stroke: 1.6px var(--morado);
+  -webkit-text-fill-color: transparent;
+  paint-order: stroke fill;
+}
+
+.hueco--claro { -webkit-text-stroke-color: rgba(255, 255, 255, 0.95); }
+
+
+/* ==========================================================================
+   3 · COSTILLAS Y ARCOS (las dos formas del estilo)
+   ========================================================================== */
+
+/* Las costillas se aplican solas en las secciones alternas (apartado 7) y en
+   el pie (apartado 11); no hace falta tocar el HTML para que salgan. */
+
+
+/* ==========================================================================
+   4 · CABECERA
+   Vidrio esmerilado con un hilo de color abajo.
+   ========================================================================== */
+
+.header {
+  background: rgba(255, 255, 255, 0.76) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 0 !important;
+  box-shadow: 0 1px 0 rgba(91, 42, 134, 0.08), 0 18px 40px -34px rgba(61, 28, 92, 0.4);
+  position: relative;
+}
+
+/* El hilo de color de la cabecera. */
+.header::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--iris);
+  opacity: 0.55;
+}
+
+.nav a {
+  font-family: var(--tipo-texto);
+  font-weight: 600;
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  border-radius: 999px;
+}
+
+
+/* ==========================================================================
+   5 · PORTADAS DE FOTO
+   Aquí vive el rasgo más visible: la esquina que barre en curva y el
+   "estanque" que refleja la foto por abajo.
+   ========================================================================== */
+
+.portada {
+  /* El velo se aclara un poco y se tiñe de morado: la foto respira más que
+     en el estilo anterior, pero el texto blanco sigue leyéndose. */
+  background-image:
+    linear-gradient(176deg, rgba(31, 14, 50, 0.7) 0%, rgba(38, 17, 62, 0.46) 40%, rgba(24, 10, 40, 0.92) 100%),
+    var(--foto, none);
+  /* La curva que barre: casi recta arriba, un arco enorme abajo a la derecha.
+     NO se pone overflow:hidden aquí: el redondeo ya recorta la foto por sí
+     solo, y con overflow la barra de cita (que asoma por el borde de abajo a
+     propósito) quedaba cortada por la mitad. */
+  border-radius: 0 0 clamp(60px, 14vw, 190px) 0;
+}
+
+/* El estanque reflejante: una banda de luz difusa al pie de la foto. No es
+   una imagen, es luz pintada con CSS, así que no pesa nada. */
+.portada::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 190px;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(255, 183, 3, 0.09) 44%, rgba(91, 42, 134, 0.34) 100%);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.portada__titulo {
+  text-transform: none;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 7.4vw, 5.6rem);
+  line-height: 0.98;
+}
+
+.portada__titulo .hueco { -webkit-text-stroke-width: 2px; }
+
+.portada__bajada { font-size: 1.06rem; line-height: 1.66; }
+
+.portada__pie {
+  font-family: var(--tipo-texto);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-size: 0.7rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* La insignia de horario, ahora en cápsula de vidrio. */
+.portada .badge-abierto {
+  border-radius: 999px;
+  font-family: var(--tipo-texto);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+
+/* ==========================================================================
+   6 · BARRA DE CITA
+   Deja de ser un rectángulo y pasa a ser una cápsula vidriada.
+   ========================================================================== */
+
+.barra-cita {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid var(--vidrio-borde);
+  box-shadow: var(--sombra-alta);
+  overflow: hidden;
+}
+
+.barra-cita__campo { border-color: rgba(91, 42, 134, 0.12); }
+
+.barra-cita label,
+.barra-cita__campo > span {
+  font-family: var(--tipo-texto);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-size: 0.62rem;
+}
+
+.barra-cita select,
+.barra-cita input {
+  font-family: var(--tipo-texto);
+  font-size: 0.98rem;
+  border-radius: 0;
+}
+
+.barra-cita button,
+.barra-cita .btn {
+  border-radius: 999px;
+  background: var(--iris-boton);
+  border: 0;
+  color: #fff;
+  font-family: var(--tipo-texto);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+
+/* ==========================================================================
+   7 · SECCIONES
+   Cada sección alterna arranca con un arco de luz muy tenue arriba, para que
+   el ojo note que ha cambiado de bloque sin necesidad de una línea dura.
+   ========================================================================== */
+
+.seccion { position: relative; }
+
+.seccion--suave {
+  background: var(--nacar-calido) !important;
+  border-radius: clamp(40px, 8vw, 120px) 0 clamp(40px, 8vw, 120px) 0;
+}
+
+/* Las costillas asomando en el borde superior de las secciones alternas. */
+.seccion--suave::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 54px;
+  background: var(--trama-costillas);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.titulo-bloque,
+.titulo-bloque h2 {
+  text-transform: none;
+  letter-spacing: -0.025em;
+}
+
+/* La rayita de encima de los títulos pasa a ser tornasolada. */
+.eyebrow::before,
+.titulo-bloque::before {
+  background: var(--iris) !important;
+}
+
+
+/* ==========================================================================
+   8 · TARJETAS, BOTONES Y FORMULARIOS
+   ========================================================================== */
+
+.tarjeta,
+.producto-card,
+.servicio-card,
+.consejo-card,
+.testimonio,
+.pp-producto {
+  border-radius: var(--arco-suave);
+  background: var(--nacar);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--sombra-card);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Al pasar el ratón la tarjeta se eleva y se le enciende un hilo de color
+   arriba. Es el mismo gesto de "luz que recorre la estructura". */
+.tarjeta::after,
+.producto-card::after,
+.servicio-card::after,
+.consejo-card::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: var(--iris);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tarjeta:hover::after,
+.producto-card:hover::after,
+.servicio-card:hover::after,
+.consejo-card:hover::after {
+  transform: scaleX(1);
+}
+
+.tarjeta:hover,
+.producto-card:hover,
+.servicio-card:hover,
+.consejo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-alta);
+}
+
+/* La foto de la tarjeta hereda el arco, recortada por arriba. */
+.producto-card__img-wrap {
+  border-radius: 0;
+}
+
+/* --- Botones ---------------------------------------------------------------
+   Cápsulas. El principal lleva el degradado de Pelitos y un brillo que lo
+   recorre al pasar el ratón.                                              */
+.btn,
+button.btn,
+a.btn {
+  border-radius: 999px;
+  font-family: var(--tipo-texto);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s ease, background 0.4s ease, color 0.4s ease;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn--cta,
+.btn--dorado,
+.btn--amarillo,
+.btn--morado {
+  background: var(--iris-boton) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 16px 34px -18px rgba(91, 42, 134, 0.7);
+}
+
+.btn--cta:hover,
+.btn--dorado:hover,
+.btn--amarillo:hover,
+.btn--morado:hover {
+  box-shadow: 0 22px 44px -18px rgba(240, 121, 30, 0.6);
+  filter: saturate(118%);
+}
+
+/* El brillo que recorre el botón. */
+.btn--cta::before,
+.btn--dorado::before,
+.btn--amarillo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(104deg, transparent 20%, rgba(255, 255, 255, 0.42) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn--cta:hover::before,
+.btn--dorado:hover::before,
+.btn--amarillo:hover::before {
+  transform: translateX(120%);
+}
+
+.btn--linea,
+.btn--claro {
+  border-radius: 999px;
+  border: 1.5px solid rgba(91, 42, 134, 0.3);
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.btn--linea:hover,
+.btn--claro:hover {
+  border-color: transparent;
+  background: var(--morado);
+  color: #fff;
+}
+
+/* --- Campos de formulario ----------------------------------------------- */
+input,
+select,
+textarea {
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(91, 42, 134, 0.14);
+  font-family: var(--tipo-texto);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--morado-mid);
+  box-shadow: 0 0 0 3px rgba(112, 49, 167, 0.14);
+  outline: none;
+}
+
+/* La barra de cita va dentro de una cápsula: sus campos no llevan caja. */
+.barra-cita input,
+.barra-cita select {
+  border: 0;
+  background: none;
+  border-radius: 0 !important;
+}
+
+/* --- Filtros del PetShop ------------------------------------------------ */
+.filtro-pill,
+.chip,
+.selector-pill-btn {
+  border-radius: 999px !important;
+  font-family: var(--tipo-texto);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  border: 1px solid rgba(91, 42, 134, 0.16);
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.35s ease;
+}
+
+.filtro-pill.activo,
+.filtro-pill[aria-pressed="true"],
+.chip.activo,
+.selector-pill-btn.activo {
+  background: var(--iris-boton) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+/* --- Precios ------------------------------------------------------------ */
+.producto-card__precio,
+.cart-item-precio {
+  font-family: var(--tipo-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* La etiqueta de descuento, en cápsula tornasolada. */
+.badge-descuento {
+  border-radius: 999px !important;
+  background: var(--iris-boton) !important;
+  color: #fff !important;
+  border: 0 !important;
+  font-family: var(--tipo-texto);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+
+/* ==========================================================================
+   9 · TARJETAS DE FOTO CON TÍTULO HUECO (las tres áreas de la portada)
+   Cada una recibe el arco, alternando el lado para que la fila no parezca
+   tres cajas iguales: eso es la "asimetría dinámica" del estilo.
+   ========================================================================== */
+
+.area-cover {
+  border-radius: var(--arco);
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.6s ease;
+}
+
+.area-cover:nth-child(even) { border-radius: var(--arco-inv); }
+
+.area-cover:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-alta);
+}
+
+.area-cover__titulo {
+  font-family: var(--tipo-display);
+  text-transform: none;
+  letter-spacing: -0.02em;
+}
+
+.area-cover__titulo .hueco,
+.area-cover .hueco { -webkit-text-stroke-width: 2px; }
+
+
+/* ==========================================================================
+   10 · RESEÑAS DE CLIENTES
+   ========================================================================== */
+
+.testimonio { border-radius: var(--arco-suave); }
+
+/* Tarjeta de "todavía no hay reseñas". Se ve claramente como un espacio en
+   espera, no como una reseña de verdad: borde punteado y sin foto ni nombre. */
+.testimonio--espera {
+  /* Ocupa el ancho completo de la rejilla: si se quedara en una sola columna,
+     el hueco de al lado se vería como un error de maquetación. */
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  background: transparent;
+  border: 1.5px dashed rgba(91, 42, 134, 0.3);
+  box-shadow: none;
+  color: var(--texto-suave, #6b6076);
+}
+
+/* La comilla decorativa de las reseñas no va aquí: se cruzaba con la primera
+   línea del texto, y además esto no es una cita de nadie. */
+.testimonio--espera::before,
+.testimonio--espera::after,
+.testimonio--espera .testimonio__texto::before {
+  content: none !important;
+  display: none !important;
+}
+
+.testimonio--espera svg { color: #9d84c2; }
+
+.testimonio--espera .testimonio__texto {
+  font-style: normal;
+  margin: 0;
+}
+
+/* La cinta de oferta era un rectángulo recto en morado y rosa: no combinaba
+   con la marca ni con las curvas. Ahora es una cápsula con el degradado de
+   botones (letras blancas, 5.01 de contraste como mínimo). */
+.cinta-oferta,
+.cinta-oferta--dcto {
+  border-radius: 999px !important;
+  background: var(--iris-boton) !important;
+  color: #fff !important;
+  border: 0 !important;
+  font-family: var(--tipo-texto);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 12px 26px -14px rgba(91, 42, 134, 0.65);
+}
+
+/* El botón "Elegir opciones" seguía amarillo con letras oscuras, el único
+   botón con otro aspecto en toda la tienda. */
+.btn-elegir-opciones {
+  border-radius: 999px !important;
+  background: var(--iris-boton) !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+
+/* Los números 01–06 de los pasos estaban en un lila casi blanco (1.28 de
+   contraste): se veían como una mancha. Este lila da 3.22, que es lo mínimo
+   legible para letras de este tamaño, y sigue siendo discreto. */
+.tarjeta__num {
+  color: #9d84c2 !important;
+  font-family: var(--tipo-display);
+}
+
+.testimonio__avatar {
+  border-radius: 999px;
+  background: var(--iris-boton) !important;
+  color: #fff !important;
+  font-family: var(--tipo-display);
+}
+
+.form-testimonio { position: relative; }
+
+[data-estrella] {
+  border-radius: 999px;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-estrella]:hover { transform: scale(1.18) rotate(-6deg); }
+
+
+/* ==========================================================================
+   11 · PIE DE PÁGINA
+   Arco arriba a la izquierda + costillas, para cerrar con la misma forma con
+   la que abre la portada.
+   ========================================================================== */
+
+.footer {
+  background: var(--grad-morado) !important;
+  border-radius: clamp(50px, 10vw, 150px) 0 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Las costillas del pie, en claro sobre el morado. */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 120px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.14) 0 1px,
+    transparent 1px 15px
+  );
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.footer h3,
+.footer h4 {
+  font-family: var(--tipo-display);
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+
+/* ==========================================================================
+   12 · BOTÓN FLOTANTE DE WHATSAPP
+   ========================================================================== */
+
+.fab {
+  border-radius: 999px !important;
+  box-shadow: 0 20px 44px -18px rgba(37, 211, 102, 0.62);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fab:hover { transform: translateY(-3px) scale(1.03); }
+
+
+/* ==========================================================================
+   13 · CARRITO Y VENTANAS
+   ========================================================================== */
+
+.cart-drawer,
+.modal-contenido,
+.auth-modal-card {
+  border-radius: var(--radio-lg);
+  background: var(--nacar);
+  border: 1px solid var(--vidrio-borde);
+  box-shadow: var(--sombra-alta);
+}
+
+.modal-overlay,
+.cart-backdrop,
+.auth-modal-overlay {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  background: rgba(31, 14, 50, 0.44);
+}
+
+
+/* ==========================================================================
+   14 · PANTALLAS PEQUEÑAS
+   En el móvil los arcos se reducen: un arco de 128px en una pantalla de
+   375px se come la tarjeta entera.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  :root {
+    --arco: 64px 16px 64px 16px;
+    --arco-inv: 16px 64px 16px 64px;
+    --arco-suave: 40px 14px 40px 14px;
+    --aire-seccion: 72px;
+  }
+
+  .portada { border-radius: 0 0 72px 0; }
+
+  /* La barra de cita deja de ser cápsula: en vertical una cápsula deforma
+     los campos. Pasa a caja con esquinas muy redondeadas. */
+  .barra-cita { border-radius: 28px; }
+
+  .footer { border-radius: 56px 0 0 0; }
+
+  /* En el celular, el título y los botones de Pelitos Estética se salían 44 px
+     de la pantalla. El motivo: una rejilla de una sola columna, por defecto,
+     nunca se encoge por debajo del ancho de su contenido más terco (una
+     palabra larga o una foto). Con minmax(0, 1fr) se le permite encogerse. */
+  .hero__grid,
+  .contenedor > .grid,
+  [class*="__grid"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  /* Y por si acaso: ninguna imagen ni palabra puede pasarse del borde. */
+  img, video, svg { max-width: 100%; height: auto; }
+
+  h1, h2, h3, .titulo-bloque, .hueco { overflow-wrap: break-word; }
+
+  /* Las etiquetas de Pelitos Estética iban en una fila que no se parte y se
+     salían 44 px sin dejar forma de desplazarlas. Ahora bajan de línea. */
+  .chips {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px;
+  }
+
+  /* Este botón de la página Nosotros también se salía: ahora se ajusta. */
+  .btn--pequeno, .btn--peq {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* Quien tenga activado "reducir movimiento" en su teléfono no ve ninguna de
+   las animaciones de arriba. */
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta, .producto-card, .servicio-card, .consejo-card,
+  .area-cover, .btn, [data-estrella], .fab {
+    transition: none !important;
+  }
+  .tarjeta:hover, .producto-card:hover, .servicio-card:hover,
+  .consejo-card:hover, .area-cover:hover, .btn:hover { transform: none !important; }
+}
+
+
+/* ==========================================================================
+   PASADA DE ACABADO
+   Ajustes de prolijidad sobre la piel neo-futurista. No cambia los colores
+   de la marca: solo separa, alinea y da relieve a lo que estaba pegado.
+   ========================================================================== */
+
+/* --- 1. Las rejillas estaban pegadas ---------------------------------------
+   La capa editorial dejaba las filas de tarjetas con una separacion de 1 px,
+   asi que cuatro tarjetas blancas sobre fondo casi blanco se leian como un
+   solo bloque continuo y parecian desalineadas. Vuelven a respirar. */
+.rejilla--2,
+.rejilla--3,
+.rejilla--4 { gap: 26px; }
+
+/* --- 2. Ritmo vertical -----------------------------------------------------
+   118 px arriba y abajo de cada seccion dejaba huecos muertos enormes al
+   desplazarse. 92 px sigue siendo amplio y la pagina se siente mas firme. */
+:root {
+  --aire-seccion: 92px;
+  /* La esquina de 72 px se comia el interior de las tarjetas. 30 px mantiene
+     el gesto asimetrico de la marca sin parecer una burbuja. */
+  --arco-suave: 30px 10px 30px 10px;
+}
+
+/* --- 3. Tarjetas: misma altura y el enlace siempre abajo -------------------
+   Antes cada tarjeta terminaba donde terminaba su texto, asi que los "Ver mas"
+   de una misma fila quedaban a distinta altura. */
+.rejilla > .tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  height: 100%;
+  padding: 30px 28px;
+}
+
+.rejilla > .tarjeta .enlace-flecha { margin-top: auto; }
+
+/* --- 4. Borde visible ------------------------------------------------------
+   El borde de las tarjetas era blanco al 90 % sobre un fondo casi blanco:
+   en la practica no existia y todo se veia deslavado. */
+.tarjeta,
+.servicio-card,
+.consejo-card,
+.producto-card,
+.plan-card,
+.equipo-card,
+.testimonio { border: 1px solid rgba(91, 42, 134, 0.13); }
+
+/* --- 5. Los iconos casi no se veian ---------------------------------------
+   La capa editorial les habia quitado el fondo y la forma, y quedaban como
+   un trazo gris diminuto en la esquina. Vuelven a ser una pastilla con el
+   degradado de la marca. */
+.tarjeta__icono,
+.servicio-card__ico {
+  width: 46px;
+  height: 46px;
+  padding: 11px;
+  box-sizing: border-box;
+  flex: none;
+  border-radius: 14px 5px 14px 5px;
+  background: linear-gradient(140deg, rgba(91, 42, 134, 0.11), rgba(240, 121, 30, 0.13));
+  color: var(--morado);
+  box-shadow: none;
+}
+
+/* --- 6. Movimiento al pasar el mouse --------------------------------------
+   La capa editorial habia anulado el hover con "transform: none", asi que las
+   tarjetas eran completamente inertes. Ahora se levantan un poco, el borde se
+   tine de morado y la flecha del enlace avanza. */
+.tarjeta:hover,
+.tarjeta:focus-visible,
+.servicio-card:hover,
+.consejo-card:hover,
+.plan-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(91, 42, 134, 0.34);
+  box-shadow: 0 24px 50px -26px rgba(61, 28, 92, 0.34);
+}
+
+.enlace-flecha svg { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.tarjeta:hover .enlace-flecha svg,
+.servicio-card:hover .enlace-flecha svg { transform: translateX(5px); }
+
+/* Quien tenga activado "reducir movimiento" en su sistema no ve el
+   desplazamiento; solo el cambio de borde. */
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta:hover,
+  .servicio-card:hover,
+  .consejo-card:hover,
+  .plan-card:hover { transform: none; }
+  .tarjeta:hover .enlace-flecha svg { transform: none; }
+}
+
+/* --- 7. Titulos de seccion ------------------------------------------------
+   Centrados y sin limite de ancho se partian en tres lineas cortas. */
+.titulo-bloque--centro h2 {
+  max-width: 24ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- 8. Celular -----------------------------------------------------------*/
+@media (max-width: 720px) {
+  :root {
+    --aire-seccion: 60px;
+    --arco-suave: 22px 8px 22px 8px;
+  }
+  .rejilla--2,
+  .rejilla--3,
+  .rejilla--4 { gap: 16px; }
+  .rejilla > .tarjeta { padding: 24px 22px; }
+  .titulo-bloque--centro h2 { max-width: none; }
+}
+
+/* --- 9. El numero grande se cruzaba con el titulo -------------------------
+   El "01", "02"... va en una esquina flotante, sin ocupar sitio, asi que un
+   titulo largo como "Medicina preventiva" se le metia debajo y las letras
+   quedaban pegadas al numero. Se le reserva el espacio. */
+.tarjeta__num { font-size: 1.75rem; }
+.tarjeta__num + h3 { padding-right: 4.3rem; }
+
+@media (max-width: 720px) {
+  .tarjeta__num { font-size: 1.5rem; }
+  .tarjeta__num + h3 { padding-right: 3.6rem; }
+}

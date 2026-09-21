@@ -4,29 +4,52 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PetShop Pelitos | Alimentos, snacks y accesorios en Huánuco</title>
-  <meta name="description" content="Catálogo del PetShop de Pelitos Veterinaria: alimentos, snacks Naturalistic y accesorios, con ingredientes declarados y pedido directo por WhatsApp en Huánuco." />
+  <meta name="description" content="Catálogo del PetShop de Pelitos Veterinaria: alimentos, snacks Naturalistic, antipulgas, accesorios e higiene, con ingredientes declarados y pedido directo por WhatsApp en Huánuco." />
+
+    <!-- ============================================================
+         VISTA PREVIA AL COMPARTIR EN WHATSAPP Y REDES SOCIALES
+         Cuando alguien pega el enlace de la pagina, se muestra la
+         imagen images/logo/compartir.jpg con este titulo y texto.
+
+         IMPORTANTE: cuando ya tenga su dominio propio (por ejemplo
+         https://pelitosveterinaria.com) reemplace el valor de
+         og:image y og:url por la direccion completa, asi:
+         content="https://pelitosveterinaria.com/images/logo/compartir.jpg"
+         Facebook y WhatsApp necesitan la direccion completa, no la ruta corta.
+         ============================================================ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pelitos Veterinaria" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:title" content="PetShop Pelitos | Alimentos, snacks y accesorios en Huánuco" />
+    <meta property="og:description" content="Catálogo del PetShop de Pelitos Veterinaria: alimentos, snacks Naturalistic, antipulgas, accesorios e higiene, con ingredientes declarados y pedido directo por WhatsApp en Huánuco." />
+    <meta property="og:image" content="../images/logo/compartir.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PetShop Pelitos | Alimentos, snacks y accesorios en Huánuco" />
+    <meta name="twitter:description" content="Catálogo del PetShop de Pelitos Veterinaria: alimentos, snacks Naturalistic, antipulgas, accesorios e higiene, con ingredientes declarados y pedido directo por WhatsApp en Huánuco." />
+    <meta name="twitter:image" content="../images/logo/compartir.jpg" />
   <meta property="og:title" content="PetShop Pelitos | Huánuco" />
   <meta property="og:description" content="Catálogo veterinario con ficha de contenido e ingredientes en cada producto. Pide directamente por WhatsApp." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&display=swap" />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <!-- Tipografias del estilo neo-futurista: Panchang (titulos) y Satoshi (texto). -->
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=panchang@400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" />
   <link rel="stylesheet" href="../css/styles.css" />
+  <!-- Capa editorial: le cambia la piel al sitio (esquinas rectas, mas aire,
+       titulos en mayusculas). Para volver al diseno anterior, borre esta linea. -->
   <link rel="stylesheet" href="../css/editorial.css" />
+  <!-- Piel neo-futurista. Borre esta linea y vuelve el diseno anterior. -->
+  <link rel="stylesheet" href="../css/neofuturismo.css" />
 
   <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
 </head>
 <body data-pagina="petshop">
-  <noscript>
-    <div class="aviso-sin-js" role="alert">
-      Esta página funciona mejor con JavaScript activado. Sin él puedes leer todo el
-      contenido, pero el carrito, los filtros y el horario en vivo no estarán disponibles.
-      Escríbenos por WhatsApp al 939 356 376 y te atendemos igual.
-    </div>
-  </noscript>
-
 
   <a class="solo-lectores" href="#contenido">Saltar al contenido principal</a>
 
@@ -34,7 +57,7 @@
   <header class="header" id="header">
     <div class="header__inner">
       <a class="logo" href="../index.html" aria-label="Pelitos Veterinaria — Inicio">
-        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" />
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" decoding="async" />
       </a>
 
       <nav class="nav" aria-label="Navegación principal">
@@ -79,21 +102,30 @@
 
   <main id="contenido">
     <!-- ================= HERO ================= -->
-    <!-- ================= PORTADA ================= -->
-    <section class="portada portada--corta" style="--foto: url('../images/instalaciones/farmacia_veterinaria.jpg');">
-      <div class="contenedor portada__inner">
-        <span class="eyebrow eyebrow--claro">Catálogo oficial</span>
-        <h1 class="portada__titulo">PetShop <span class="hueco">Pelitos</span></h1>
-        <p class="portada__bajada">
-          Elige la presentación, el sabor o la talla que necesita tu consentido y revisa los
-          ingredientes declarados en cada envase antes de comprar. Entregas en Huánuco o pedido
-          directo por WhatsApp.
-        </p>
-        <div class="portada__pie">
-          <span>Envíos en todo Huánuco</span>
-          <span>Productos originales</span>
-          <span>Asesoría veterinaria</span>
-          <span>Pedido por WhatsApp</span>
+    <section class="petshop-hero">
+      <div class="luz-ambiental luz-ambiental--naranja" aria-hidden="true"></div>
+      <div class="luz-ambiental luz-ambiental--morada" aria-hidden="true"></div>
+      <div class="decorativo-flotante decorativo-huella" style="top: 15%; left: 8%;" aria-hidden="true">🐾</div>
+      <div class="decorativo-flotante decorativo-huella decorativo-huella--dorada" style="top: 25%; right: 10%;" aria-hidden="true">✨</div>
+      <div class="decorativo-flotante decorativo-huella decorativo-huella--morada" style="bottom: 12%; left: 14%;" aria-hidden="true">🦴</div>
+
+      <div class="contenedor">
+        <div class="petshop-hero__header reveal">
+          <p class="petshop-hero__badge">
+            <span aria-hidden="true">✨</span> Catálogo oficial &bull; PetShop Pelitos
+          </p>
+          <h1 class="petshop-hero__titulo">Productos veterinarios con la ficha de contenido a la vista</h1>
+          <p class="petshop-hero__desc">
+            Elige la presentación, el sabor o la talla que necesita tu consentido y revisa los ingredientes
+            declarados en cada envase antes de comprar. Entregas en Huánuco o pedido directo por WhatsApp.
+          </p>
+
+          <ul class="petshop-trust-chips">
+            <li class="petshop-chip">🚚 Envíos a todo Huánuco</li>
+            <li class="petshop-chip">🛡️ Productos originales</li>
+            <li class="petshop-chip">🩺 Asesoría veterinaria</li>
+            <li class="petshop-chip">📲 Pedido rápido por WhatsApp</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -101,18 +133,191 @@
     <!-- ================= TICKER ================= -->
     <div class="ticker-servicios" aria-hidden="true">
       <div class="ticker-track">
-        <div class="ticker-item"><span class="emoji">🐾</span> Alimentos, snacks y accesorios <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🐾</span> Nutrición premium y dietas especiales <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">🚚</span> Delivery en Huánuco <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">✨</span> Opciones personalizables en cada producto <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">🩺</span> Asesoría médica veterinaria <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">💳</span> Yape, Plin y efectivo <span class="separador-punto"></span></div>
-        <div class="ticker-item"><span class="emoji">🐾</span> Alimentos, snacks y accesorios <span class="separador-punto"></span></div>
+        <div class="ticker-item"><span class="emoji">🐾</span> Nutrición premium y dietas especiales <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">🚚</span> Delivery en Huánuco <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">✨</span> Opciones personalizables en cada producto <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">🩺</span> Asesoría médica veterinaria <span class="separador-punto"></span></div>
         <div class="ticker-item"><span class="emoji">💳</span> Yape, Plin y efectivo <span class="separador-punto"></span></div>
       </div>
     </div>
+
+    <!-- ================= VITRINA DINÁMICA =================
+         Carrusel de fotos de la tienda: conjuntos de ropa y estante de
+         promociones. Cambia de foto solo cada 6 segundos y se detiene
+         cuando el visitante pasa el mouse encima.
+
+         PARA CAMBIAR UNA FOTO O UN TEXTO: edite los <li class="vitrina__slide">
+         de abajo. Cada uno tiene su imagen, su titulo y su descripcion.
+         PARA AGREGAR OTRA FOTO: copie un <li ...> completo y peguelo al final;
+         los puntos de navegacion se crean solos, no hay que tocar el JavaScript.
+         PARA CAMBIAR LA VELOCIDAD: en js/main.js busque VITRINA_MS.
+         ==================================================== -->
+    <section class="seccion vitrina-seccion" aria-labelledby="titulo-vitrina">
+      <div class="contenedor">
+        <div class="titulo-bloque reveal">
+          <p class="eyebrow">Novedades en tienda</p>
+          <h2 id="titulo-vitrina">Ropa para mascotas y estante de promociones</h2>
+          <p>
+            Así se ve nuestra vitrina en Jr. Leoncio Prado N.° 1336: conjuntos, chalecos y
+            abrigos por talla, y un estante completo de accesorios en promoción.
+          </p>
+        </div>
+
+        <div class="vitrina reveal" id="vitrina-petshop" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Fotos de ropa y promociones de la tienda">
+          <div class="vitrina__ventana">
+            <ul class="vitrina__pista" data-vitrina-pista>
+              <li class="vitrina__slide activo">
+                <img src="../images/productos/vitrina-conjuntos-ropa.jpg" alt="Percha con conjuntos de ropa para mascotas: polares, chalecos, vestidos y mantas" width="1448" height="1086" decoding="async" />
+                <div class="vitrina__texto">
+                  <span class="vitrina__chip">Colección de temporada</span>
+                  <h3 class="vitrina__titulo">Conjuntos de ropa para tu mascota</h3>
+                  <p class="vitrina__desc">
+                    Polares, chalecos con forro sherpa, vestidos, casacas jean y mantas.
+                    Tallas para razas pequeñas y medianas.
+                  </p>
+                </div>
+              </li>
+
+              <li class="vitrina__slide">
+                <img src="../images/productos/vitrina-conjunto-polar.jpg" alt="Conjunto polar a cuadros rojo con pantalón gris para perro" width="1086" height="1448" loading="lazy" decoding="async" />
+                <div class="vitrina__texto">
+                  <span class="vitrina__chip">Abrigo completo</span>
+                  <h3 class="vitrina__titulo">Conjunto polar a cuadros</h3>
+                  <p class="vitrina__desc">
+                    Casaca de polar con capucha y pantalón con bolsillos, en una sola pieza.
+                    Para las mañanas frías de Huánuco.
+                  </p>
+                </div>
+              </li>
+
+              <li class="vitrina__slide">
+                <img src="../images/productos/vitrina-chaleco-lila.jpg" alt="Chaleco lila con forro sherpa rosado para mascota" width="1086" height="1448" loading="lazy" decoding="async" />
+                <div class="vitrina__texto">
+                  <span class="vitrina__chip">Muy pedido</span>
+                  <h3 class="vitrina__titulo">Chaleco con forro sherpa</h3>
+                  <p class="vitrina__desc">
+                    Exterior resistente al agua y forro peluche por dentro, con broches al
+                    frente para ponerlo y sacarlo en segundos.
+                  </p>
+                </div>
+              </li>
+
+              <li class="vitrina__slide">
+                <img src="../images/productos/vitrina-promociones.jpg" alt="Estante de la tienda con accesorios en promoción: bebederos, comederos, juguetes y cepillos" width="1024" height="1536" loading="lazy" decoding="async" />
+                <div class="vitrina__texto">
+                  <span class="vitrina__chip vitrina__chip--dcto">Promociones</span>
+                  <h3 class="vitrina__titulo">Estante de accesorios en promoción</h3>
+                  <p class="vitrina__desc">
+                    Bebederos portátiles, comederos, bozales, juguetes, cepillos y
+                    limpiapatas. Los kits de accesorios están con 40% de descuento.
+                  </p>
+                </div>
+              </li>
+            </ul>
+
+            <button class="vitrina__flecha vitrina__flecha--izq" type="button" data-vitrina-anterior aria-label="Foto anterior">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <button class="vitrina__flecha vitrina__flecha--der" type="button" data-vitrina-siguiente aria-label="Foto siguiente">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <div class="vitrina__barra">
+            <div class="vitrina__puntos" data-vitrina-puntos aria-label="Elegir foto"></div>
+            <p class="vitrina__contador" data-vitrina-contador aria-live="polite">1 / 4</p>
+            <a class="btn btn--linea btn--sm vitrina__cta" href="#catalogo">Ver todos los productos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONFIGURADOR DESTACADO ================= -->
+    <section class="seccion" id="configurador-destacado" aria-labelledby="titulo-configurador">
+      <div class="contenedor">
+        <div class="titulo-bloque reveal">
+          <p class="eyebrow">Configurador interactivo</p>
+          <h2 id="titulo-configurador">Arma la presentación que necesitas</h2>
+          <p>Cambia el peso, el sabor y la etapa de vida para ver el precio actualizado al instante.</p>
+        </div>
+
+        <article class="producto-destacado reveal">
+          <div class="producto-destacado__grid">
+            <div class="galeria-producto">
+              <div class="galeria-producto__principal">
+                <img data-destacado-img alt="" width="900" height="1125" decoding="async" loading="lazy" />
+              </div>
+            </div>
+
+            <div class="producto-info">
+              <div class="producto-info__header">
+                <p class="producto-info__cat" data-destacado-categoria></p>
+                <h3 class="producto-info__titulo" data-destacado-titulo></h3>
+                <p class="producto-info__resumen" data-destacado-resumen></p>
+              </div>
+
+              <p class="producto-precios">
+                <span class="precio-actual" data-destacado-precio>&nbsp;</span>
+              </p>
+
+              <div class="variante-seccion" data-destacado-variantes>
+                <!-- Los grupos de variantes se generan desde el catálogo (js/main.js + js/productos-nuevos.js) -->
+              </div>
+
+              <div class="variante-grupo">
+                <div class="variante-grupo__titulo">
+                  <label for="input-cantidad">Cantidad:</label>
+                </div>
+                <div class="cantidad-fila">
+                  <div class="cantidad-stepper">
+                    <button type="button" class="cantidad-btn" data-accion="cantidad-menos" aria-label="Disminuir cantidad">&minus;</button>
+                    <input type="text" class="cantidad-valor" id="input-cantidad" data-destacado-cantidad value="1" readonly inputmode="numeric" />
+                    <button type="button" class="cantidad-btn" data-accion="cantidad-mas" aria-label="Aumentar cantidad">+</button>
+                  </div>
+                  <p class="cantidad-subtotal">
+                    Subtotal: <strong data-destacado-subtotal aria-live="polite">&nbsp;</strong>
+                  </p>
+                </div>
+              </div>
+
+              <div class="compra-acciones">
+                <button type="button" class="btn-comprar-whatsapp" data-accion="destacado-whatsapp">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+                  Pedir por WhatsApp
+                </button>
+                <button type="button" class="btn-agregar-carrito" data-accion="destacado-carrito">
+                  Añadir al carrito
+                </button>
+              </div>
+
+              <ul class="producto-beneficios">
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Entrega rápida en Huánuco</span>
+                </li>
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Asesoría veterinaria incluida</span>
+                </li>
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Aceptamos Yape, Plin y efectivo</span>
+                </li>
+                <li class="producto-beneficio-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Garantía de producto original</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <!-- ================= CATÁLOGO ================= -->
     <section class="seccion seccion--suave" id="catalogo" aria-labelledby="titulo-catalogo">
@@ -134,7 +339,10 @@
             <button type="button" class="filtro-pill activo" data-filtro="todos" aria-pressed="true">Todos</button>
             <button type="button" class="filtro-pill" data-filtro="alimentos" aria-pressed="false">Alimentos</button>
             <button type="button" class="filtro-pill" data-filtro="snacks" aria-pressed="false">Snacks</button>
+            <button type="button" class="filtro-pill" data-filtro="salud" aria-pressed="false">Salud &amp; Farmacia</button>
             <button type="button" class="filtro-pill" data-filtro="accesorios" aria-pressed="false">Accesorios</button>
+            <button type="button" class="filtro-pill" data-filtro="ropa" aria-pressed="false">Ropa</button>
+            <button type="button" class="filtro-pill" data-filtro="higiene" aria-pressed="false">Higiene</button>
           </div>
         </div>
 
@@ -144,7 +352,7 @@
         </p>
 
         <div class="catalogo-grid" id="contenedor-productos">
-          <!-- Las tarjetas se generan desde js/catalogo.js -->
+          <!-- Las tarjetas se generan desde el catálogo (js/main.js + js/productos-nuevos.js) -->
         </div>
       </div>
     </section>
@@ -156,7 +364,7 @@
       <button type="button" class="modal-cerrar" data-accion="cerrar-modal" aria-label="Cerrar">&times;</button>
 
       <div class="modal-header-prod">
-        <img id="modal-prod-img" class="modal-prod-img" src="" alt="" decoding="async" />
+        <img id="modal-prod-img" class="modal-prod-img" alt="" decoding="async" loading="lazy" />
         <div>
           <h2 id="modal-prod-titulo" class="modal-prod-titulo">Producto</h2>
           <p class="producto-precios producto-precios--modal">
@@ -239,7 +447,7 @@
         <button type="button" class="pp-btn pp-btn--reset" data-accion="reset-precios">Restablecer</button>
         <p class="pp-aviso">
           Esta herramienta trabaja <strong>solo en este navegador</strong>: los visitantes seguirán viendo los precios
-          publicados. Para publicarlos, descarga la lista y traslada los valores a <code>js/catalogo.js</code>.
+          publicados. Para publicarlos, descarga la lista y traslada los valores a <code>js/productos-nuevos.js</code>.
           Si necesitas que varias personas cambien precios y se vea en la web al momento, hace falta un backend.
         </p>
       </div>
@@ -259,7 +467,7 @@
     </div>
     <div class="footer__grid">
       <div>
-        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" />
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" decoding="async" />
         <p class="footer__slogan">Expertos en cuidar a quien más te ama</p>
         <p class="footer__texto">PetShop veterinario y farmacia especializada en Huánuco, Perú.</p>
       </div>
@@ -301,7 +509,337 @@
     <span>WhatsApp</span>
   </a>
 
+  <!-- Productos nuevos del PetShop: es el archivo que edita la tienda.
+       Debe cargarse ANTES de main.js. -->
   <script src="../js/productos-nuevos.js" defer></script>
   <script src="../js/main.js" defer></script>
-</body>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://perplexity.localhost","http://localhost:1420","http://127.0.0.1:1420","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="position:relative;left:-${scrollX}px;top:-${scrollY}px">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+
+</script></body>
 </html>

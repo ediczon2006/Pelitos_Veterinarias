@@ -71,6 +71,10 @@
 /* ========== BASE ========== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Cualquier elemento con el atributo hidden queda oculto siempre.
+   No borre esta regla: el sitio usa hidden para esconder botones y avisos. */
+[hidden] { display: none !important; }
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px; /* Evita que la cabecera fija corte los títulos al navegar */
@@ -944,26 +948,15 @@ a.tarjeta:hover, .tarjeta--hover:hover {
 }
 .fab:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 36px rgba(37,211,102,0.52); }
 
-/* Bloqueo del scroll de fondo mientras hay cualquier diálogo abierto.
-   Regla GLOBAL: la usan el carrito del PetShop, el visor de Estética y la
-   galería automática. Antes solo existía (y estaba roto) para el PetShop. */
-body.sin-scroll {
-  overflow: hidden;
-}
-
-/* ========== REVEAL ==========
-   IMPORTANTE: solo se esconde el contenido cuando el JavaScript está activo
-   (la clase .js-din la pone un script en el <head> de cada página).
-   Si el JS no carga, el contenido se ve normal en lugar de quedar invisible. */
-.js-din .reveal {
+/* ========== REVEAL ========== */
+.reveal {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.65s ease, transform 0.65s ease;
 }
-.js-din .reveal.visible { opacity: 1; transform: none; }
+.reveal.visible { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .js-din .reveal,
   .reveal, .badge-abierto, .hero h1, .hero__slogan, .hero p.texto, .acciones, .hero__figura {
     opacity: 1; transform: none; animation: none; transition: none;
   }
@@ -1670,6 +1663,36 @@ body.sin-scroll {
   font-weight: 800;
   color: #d32f2f;
   line-height: 1;
+}
+
+/* Etiqueta que se muestra cuando el producto todavia no tiene precio
+   publicado (precio: 0 en el Bloque 3 de js/main.js).
+   En esas tarjetas la etiqueta va arriba y el boton debajo, a todo el ancho,
+   para que el texto nunca se corte en dos lineas. */
+.producto-card__precio-consultar {
+  display: block;
+  text-align: center;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--morado);
+  background: var(--morado-claro);
+  border: 1px solid rgba(91, 42, 134, 0.16);
+  border-radius: 999px;
+  padding: 7px 12px;
+  line-height: 1.15;
+}
+
+.producto-card__footer:has(.producto-card__precio-consultar) {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.producto-card__footer:has(.producto-card__precio-consultar)
+  .btn-elegir-opciones {
+  justify-content: center;
 }
 
 .producto-card__precio-antes {
@@ -3331,14 +3354,14 @@ body.sin-scroll {
    Utilidades
    --------------------------------------------------------- */
 
-/* Bloquea el scroll del fondo mientras hay un diálogo abierto. */
-body[data-pagina="petshop"].sin-scroll {
+body[data-pagina="petshop"] /* Bloquea el scroll del fondo mientras hay un diálogo abierto. */
+body.sin-scroll {
   overflow: hidden;
 }
 
-/* Imagen que no se pudo cargar: marcador neutro,
-sin icono roto. */
-body[data-pagina="petshop"] .img-sin-foto {
+body[data-pagina="petshop"] /* Imagen que no se pudo cargar: marcador neutro,
+body[data-pagina="petshop"] sin icono roto. */
+.img-sin-foto {
   background: var(--morado-claro)
     url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='%235b2a86' stroke-width='1.4' stroke-linecap='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='4'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E")
     center / 44px no-repeat;
@@ -3363,22 +3386,22 @@ body[data-pagina="petshop"] :where(button, a, input, summary):focus-visible {
   border-radius: 8px;
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Cabecera del catálogo
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .catalogo-resultados {
+.catalogo-resultados {
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--texto-suave);
   margin-top: 8px;
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Tarjeta de producto
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .producto-card__presentacion {
+.producto-card__presentacion {
   font-size: 0.78rem;
   color: var(--texto-suave);
   margin: 2px 0 8px;
@@ -3447,11 +3470,11 @@ body[data-pagina="petshop"] .btn-ver-contenido:hover {
   border-color: var(--morado);
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Variantes
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .variante-btn__extra {
+.variante-btn__extra {
   font-size: 0.76rem;
   font-weight: 800;
   color: var(--naranja-oscuro);
@@ -3461,11 +3484,11 @@ body[data-pagina="petshop"] .variante-btn.activo .variante-btn__extra {
   color: inherit;
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Ficha técnica (dentro del modal)
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .modal-aviso {
+.modal-aviso {
   margin-top: 14px;
   padding: 11px 13px;
   font-size: 0.82rem;
@@ -3653,11 +3676,11 @@ body[data-pagina="petshop"] .ficha-reverso figcaption {
   color: var(--texto-suave);
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Carrito
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .cart-backdrop {
+.cart-backdrop {
   position: fixed;
   inset: 0;
   z-index: 85;
@@ -3727,11 +3750,11 @@ body[data-pagina="petshop"] #btn-checkout-whatsapp:disabled {
   filter: grayscale(0.4);
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Editor interno de precios
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .fab-admin {
+.fab-admin {
   position: fixed;
   left: 18px;
   bottom: 20px;
@@ -4028,7 +4051,7 @@ body[data-pagina="petshop"] .pp-aviso code {
   border-radius: 5px;
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Responsive
    --------------------------------------------------------- */
 
@@ -4066,11 +4089,11 @@ body[data-pagina="petshop"] .ficha-acordeon__flecha {
   }
 }
 
-/* ---------------------------------------------------------
+body[data-pagina="petshop"] /* ---------------------------------------------------------
    Ajustes de maquetación que antes iban en atributos style=""
    --------------------------------------------------------- */
 
-body[data-pagina="petshop"] .petshop-trust-chips,
+.petshop-trust-chips,
 body[data-pagina="petshop"] .producto-beneficios {
   list-style: none;
   margin: 0;
@@ -4182,6 +4205,230 @@ body[data-pagina="petshop"] .footer__texto {
   color: var(--texto-suave);
 }
 
+/* ---------------------------------------------------------
+   Vitrina dinámica (carrusel de ropa y promociones)
+   Está en pages/productos.html, arriba del catálogo.
+   Colores y bordes usan las variables de marca del Bloque 1.
+   --------------------------------------------------------- */
+
+body[data-pagina="petshop"] .vitrina-seccion {
+  background: linear-gradient(180deg, #ffffff 0%, var(--superficie) 100%);
+}
+
+body[data-pagina="petshop"] .vitrina {
+  position: relative;
+  border-radius: 26px;
+  background: var(--superficie-blanca);
+  border: 1px solid var(--borde);
+  box-shadow: 0 22px 48px rgba(61, 28, 92, 0.12);
+  overflow: hidden;
+  outline: none;
+}
+
+body[data-pagina="petshop"] .vitrina:focus-visible {
+  box-shadow: 0 0 0 3px var(--morado-mid), 0 22px 48px rgba(61, 28, 92, 0.12);
+}
+
+/* Ventana: recorta las fotos; la pista se desliza dentro */
+body[data-pagina="petshop"] .vitrina__ventana {
+  position: relative;
+  overflow: hidden;
+}
+
+body[data-pagina="petshop"] .vitrina__pista {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+body[data-pagina="petshop"] .vitrina__slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 100%;
+  height: clamp(340px, 54vw, 540px);
+  overflow: hidden;
+  /* El fondo es la misma foto ampliada y borrosa. La pone el JavaScript
+     (busque backgroundImage en js/main.js) para que las fotos verticales
+     se vean completas, sin recortar la ropa. */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Velo borroso sobre el fondo ampliado */
+body[data-pagina="petshop"] .vitrina__slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(26px) saturate(115%);
+  background: rgba(30, 16, 48, 0.42);
+}
+
+body[data-pagina="petshop"] .vitrina__slide img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  transform: scale(1);
+  transition: transform 7s ease-out;
+}
+
+/* Acercamiento lento de la foto que está a la vista */
+body[data-pagina="petshop"] .vitrina__slide.activo img {
+  transform: scale(1.05);
+}
+
+/* Cartel de texto encima de la foto, con velo oscuro para que se lea */
+body[data-pagina="petshop"] .vitrina__texto {
+  z-index: 2;
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 64px 26px 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 16, 48, 0) 0%,
+    rgba(30, 16, 48, 0.55) 45%,
+    rgba(30, 16, 48, 0.88) 100%
+  );
+  color: #ffffff;
+}
+
+body[data-pagina="petshop"] .vitrina__chip {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1e1030;
+  background: var(--grad-marca, linear-gradient(135deg, #ffb703, #f0791e));
+}
+
+body[data-pagina="petshop"] .vitrina__chip--dcto {
+  color: #ffffff;
+  background: linear-gradient(135deg, #7031a7, #d63384);
+}
+
+body[data-pagina="petshop"] .vitrina__titulo {
+  margin: 0 0 8px;
+  font-size: clamp(1.25rem, 2.6vw, 1.85rem);
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+body[data-pagina="petshop"] .vitrina__desc {
+  margin: 0;
+  max-width: 54ch;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Flechas laterales */
+body[data-pagina="petshop"] .vitrina__flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--morado);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6px 18px rgba(30, 16, 48, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body[data-pagina="petshop"] .vitrina__flecha:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+body[data-pagina="petshop"] .vitrina__flecha--izq { left: 14px; }
+body[data-pagina="petshop"] .vitrina__flecha--der { right: 14px; }
+
+/* Barra inferior: puntos, contador y botón */
+body[data-pagina="petshop"] .vitrina__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--borde);
+  background: var(--superficie-blanca);
+}
+
+body[data-pagina="petshop"] .vitrina__puntos {
+  display: flex;
+  gap: 8px;
+}
+
+body[data-pagina="petshop"] .vitrina__punto {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--borde);
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+body[data-pagina="petshop"] .vitrina__punto.activo {
+  width: 28px;
+  background: var(--morado);
+}
+
+body[data-pagina="petshop"] .vitrina__contador {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+}
+
+body[data-pagina="petshop"] .vitrina__cta {
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  body[data-pagina="petshop"] .vitrina__texto {
+    padding: 54px 18px 18px;
+  }
+  body[data-pagina="petshop"] .vitrina__flecha {
+    width: 38px;
+    height: 38px;
+  }
+  body[data-pagina="petshop"] .vitrina__cta {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Si el visitante pidió menos animaciones, nada se mueve solo */
+@media (prefers-reduced-motion: reduce) {
+  body[data-pagina="petshop"] .vitrina__pista,
+  body[data-pagina="petshop"] .vitrina__slide img {
+    transition: none;
+  }
+  body[data-pagina="petshop"] .vitrina__slide.activo img {
+    transform: scale(1);
+  }
+}
+
+
 
 /* ==========================================================================
    BLOQUE 3 · NOSOTROS (solo la página Nosotros)
@@ -4230,8 +4477,8 @@ body[data-pagina="nosotros"] .titulo-bloque h2 {
       line-height: 1.65;
     }
     
-/* Adaptaciones para la sección Nuestro Equipo existente - Limpieza clínica */
-body[data-pagina="nosotros"] .seccion--suave .tarjeta {
+    body[data-pagina="nosotros"] /* Adaptaciones para la sección Nuestro Equipo existente - Limpieza clínica */
+    .seccion--suave .tarjeta {
       background-color: #ffffff !important;
       border: 1.5px solid var(--borde) !important;
       text-align: center;
@@ -4258,8 +4505,8 @@ body[data-pagina="nosotros"] .seccion--suave .tarjeta {
       font-size: 0.875rem;
     }
 
-/* Imagen de cabecera */
-body[data-pagina="nosotros"] .imagen-destacada-contenedor {
+    body[data-pagina="nosotros"] /* Imagen de cabecera */
+    .imagen-destacada-contenedor {
       max-width: 1200px;
       margin: 0 auto 3rem auto;
       padding: 0 1.5rem;
@@ -4272,10 +4519,10 @@ body[data-pagina="nosotros"] .imagen-destacada-contenedor {
       display: block;
     }
 
-/* ========================================= */
-/* NUEVOS ESTILOS: SECCIÓN MAPA Y CONTACTO   */
+    body[data-pagina="nosotros"] /* ========================================= */
+    /* NUEVOS ESTILOS: SECCIÓN MAPA Y CONTACTO   */
     /* ========================================= */
-body[data-pagina="nosotros"] .seccion-contacto-final {
+    .seccion-contacto-final {
       max-width: 1200px;
       margin: 4rem auto;
       padding: 0 1.5rem;
@@ -4316,12 +4563,6 @@ body[data-pagina="nosotros"] .seccion-contacto-final {
       font-size: 0.85rem;
       letter-spacing: 1px;
       margin-bottom: 1.5rem;
-    }
-    /* Estado cerrado (lo pone el JS con la clase din-cerrado). */
-    body[data-pagina="nosotros"] .badge-abierto-img.din-cerrado {
-      background-color: #fee2e2;
-      color: #b91c1c;
-      border-color: #fecaca;
     }
     body[data-pagina="nosotros"] .texto-morado-info {
       color: var(--morado);
@@ -4374,8 +4615,8 @@ body[data-pagina="nosotros"] .seccion-contacto-final {
       height: 18px;
       fill: currentColor;
     }
-/* Colores de marcas */
-body[data-pagina="nosotros"] .bg-facebook { background-color: #1877F2; }
+    body[data-pagina="nosotros"] /* Colores de marcas */
+    .bg-facebook { background-color: #1877F2; }
     body[data-pagina="nosotros"] .bg-instagram { background-color: #E1306C; }
     body[data-pagina="nosotros"] .bg-tiktok { background-color: #000000; }
     body[data-pagina="nosotros"] .bg-whatsapp { background-color: #25D366; }
@@ -4393,11 +4634,11 @@ body[data-pagina="nosotros"] .bg-facebook { background-color: #1877F2; }
       border: 0;
     }
 
-/* ========================================= */
-/* NUEVOS ESTILOS: FOOTER LIMPIO (Imagen 2)  */
+    body[data-pagina="nosotros"] /* ========================================= */
+    /* NUEVOS ESTILOS: FOOTER LIMPIO (Imagen 2)  */
     /* ========================================= */
     /* Ocultamos el footer original para usar el nuevo diseño sin borrar el tuyo */
-body[data-pagina="nosotros"] .footer {
+    .footer {
       display: none !important; 
     }
     
@@ -4448,8 +4689,8 @@ body[data-pagina="nosotros"] .footer-nuevo a {
       color: var(--morado);
       text-decoration: underline;
     }
-/* Estilo especial para la columna de redes con iconos pequeños */
-body[data-pagina="nosotros"] .footer-nuevo .enlace-red {
+    body[data-pagina="nosotros"] /* Estilo especial para la columna de redes con iconos pequeños */
+    .footer-nuevo .enlace-red {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -4472,11 +4713,11 @@ body[data-pagina="nosotros"] .footer-nuevo .enlace-red {
       font-size: 0.85rem;
     }
 
-/* ========================================= */
-/* BOTÓN FLOTANTE WHATSAPP VERDE (Imagen 2)  */
+    body[data-pagina="nosotros"] /* ========================================= */
+    /* BOTÓN FLOTANTE WHATSAPP VERDE (Imagen 2)  */
     /* ========================================= */
     /* Ocultamos el fab original para usar el nuevo estilo */
-body[data-pagina="nosotros"] .fab {
+    .fab {
       display: none !important;
     }
 
@@ -4781,6 +5022,14 @@ body[data-pagina="nosotros"] .fab {
 @keyframes dinLatido {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.055); }
+}
+
+/* Cinta para los productos con "descuento: 40" (campaña de kits).
+   Se diferencia de la cinta naranja de oferta con el morado de marca. */
+.cinta-oferta--dcto {
+  color: #ffffff;
+  background: linear-gradient(135deg, #7031a7, #d63384);
+  box-shadow: 0 8px 20px rgba(112, 49, 167, 0.35);
 }
 .producto-card__img-wrap { position: relative; }
 
@@ -5864,19 +6113,3 @@ body[data-pagina="nosotros"] .fab {
 .auth-fuerza[data-nivel="3"] i { background: #22c55e; }
 .auth-fuerza[data-nivel="4"] i { background: #16a34a; }
 .auth-toggle-pass.activo { color: var(--morado, #5b2a86); }
-
-/* ==========================================================================
-   AVISO SIN JAVASCRIPT (<noscript>)
-   Antes ninguna página advertía nada: sin JS el visitante veía una tienda
-   sin carrito ni filtros y sin ninguna explicación.
-   ========================================================================== */
-.aviso-sin-js {
-  margin: 0;
-  padding: 14px 20px;
-  background: #fef3c7;
-  color: #7c2d12;
-  border-bottom: 2px solid #f59e0b;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  text-align: center;
-}

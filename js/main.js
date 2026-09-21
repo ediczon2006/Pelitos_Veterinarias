@@ -35,31 +35,6 @@ const SITE = {
   },
 };
 
-/* Números que quedaron escritos a mano dentro del HTML (decenas de enlaces).
-   Se usan solo para reconocerlos y reemplazarlos por los de SITE, de modo que
-   cambiar un teléfono en un solo sitio realmente afecte a TODO el sitio. */
-const WHATSAPP_HEREDADOS = {
-  "51939356376": "consultorio",
-  "51948426656": "estetica",
-};
-
-function sincronizarEnlacesWhatsapp() {
-  document.querySelectorAll('a[href*="api.whatsapp.com"]').forEach((a) => {
-    try {
-      const url = new URL(a.href);
-      const actual = url.searchParams.get("phone");
-      const rol = WHATSAPP_HEREDADOS[actual];
-      if (!rol) return;
-      const nuevo = SITE.whatsapp[rol];
-      if (!nuevo || nuevo === actual) return;
-      url.searchParams.set("phone", nuevo);
-      a.href = url.toString();
-    } catch (e) {
-      /* Un href malformado no debe interrumpir el resto de la página. */
-    }
-  });
-}
-
 function enlaceWhatsapp(texto, numero = SITE.whatsapp.consultorio) {
   const mensaje = String(texto || "Hola, quiero reservar una cita en Pelitos Veterinaria.");
   return `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
@@ -73,33 +48,22 @@ function sanitizarTexto(valor, max = 80) {
     .slice(0, max);
 }
 
-/* ÚNICA regla de teléfono del sitio: mínimo 9 dígitos (celular peruano),
-   máximo 15 (norma E.164, permite prefijo de país).
-   Antes había tres reglas distintas: 6-15 aquí, >=9 en contacto y >=9 en
-   registro con un mensaje que decía "necesitamos 9 dígitos". */
-const TELEFONO_MIN_DIGITOS = 9;
-const TELEFONO_MAX_DIGITOS = 15;
-
 function telefonoValido(valor) {
   const digitos = String(valor || "").replace(/\D/g, "");
-  return digitos.length >= TELEFONO_MIN_DIGITOS && digitos.length <= TELEFONO_MAX_DIGITOS;
+  return digitos.length >= 6 && digitos.length <= 15;
 }
 
 function abrirExterno(url) {
-  /* Con "noopener" el navegador devuelve null, así que no hay ventana que
-     desvincular a mano: el `ventana.opener = null` anterior era código muerto. */
-  window.open(url, "_blank", "noopener,noreferrer");
+  const ventana = window.open(url, "_blank", "noopener,noreferrer");
+  if (ventana) ventana.opener = null;
 }
 
 // Se publican para que los demás bloques de este archivo puedan reutilizarlas.
 window.SITE = SITE;
 window.enlaceWhatsapp = enlaceWhatsapp;
 window.abrirExterno = abrirExterno;
-window.sincronizarEnlacesWhatsapp = sincronizarEnlacesWhatsapp;
 
 document.addEventListener("DOMContentLoaded", () => {
-  sincronizarEnlacesWhatsapp();
-
   const header = document.querySelector(".header");
   if (header) {
     const actualizarCabecera = () => {
@@ -143,16 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
     elementos.forEach((el) => el.classList.add("visible"));
-    /* Sin animación, pero el número SÍ debe mostrar su valor final. */
-    document.querySelectorAll("[data-target]").forEach((el) => animarContador(el, true));
   } else if (elementos.length) {
     const observador = new IntersectionObserver(
       (entradas) => {
         entradas.forEach((entrada) => {
           if (!entrada.isIntersecting) return;
           entrada.target.classList.add("visible");
-          /* Con arrow function: forEach pasa el índice como 2.º argumento y activaría `sinAnimar`. */
-          entrada.target.querySelectorAll("[data-target]").forEach((n) => animarContador(n));
+          entrada.target.querySelectorAll("[data-target]").forEach(animarContador);
           observador.unobserve(entrada.target);
         });
       },
@@ -182,8 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const mascota = sanitizarTexto(datos.get("mascota"), 60);
       const servicioRaw = sanitizarTexto(datos.get("servicio"), 40);
       const servicio = serviciosPermitidos.includes(servicioRaw) ? servicioRaw : "Consulta";
-      /* 600 = el mismo maxlength que declara el <textarea> del formulario. */
-      const mensaje = sanitizarTexto(datos.get("mensaje"), 600);
+      const mensaje = sanitizarTexto(datos.get("mensaje"), 400);
 
       let error = "";
       if (nombre.length < 2) error = "Ingresa tu nombre.";
@@ -219,22 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* Único animador de contadores del sitio.
-   `sinAnimar` pinta directamente el valor final (movimiento reducido).
-   La marca `data-contador-hecho` evita que dos llamadas peleen por el mismo número. */
-function animarContador(el, sinAnimar) {
-  if (!el || el.dataset.contadorHecho === "1") return;
+function animarContador(el) {
   const target = Number(el.dataset.target);
   if (!Number.isFinite(target) || target <= 0) return;
 
   const sufijo = el.dataset.sufijo || "+";
-  el.dataset.contadorHecho = "1";
-
-  if (sinAnimar) {
-    el.textContent = `${target}${sufijo}`;
-    return;
-  }
-
   const duracion = 1400;
   const inicio = performance.now();
 
@@ -262,6 +211,11 @@ function esPagina(nombre) {
 (function () {
   "use strict";
 
+  /* OJO (decisión del negocio, no es un error que se pueda "arreglar" aquí):
+     esta web no tiene servidor, así que el acceso es solo una demostración.
+     La "sesión" vive en esta variable y se pierde al cambiar de página, por lo
+     que en el resto del sitio nadie sabe quién entró. Para que el acceso sea
+     real hace falta un servicio de cuentas (Firebase, Supabase, etc.). */
   var sesion = null; // memoria de la sesión actual
 
   function mostrarToast(mensaje, icono) {
@@ -347,21 +301,13 @@ function esPagina(nombre) {
       ok = valor.length >= 3;
       msg = valor ? (ok ? "Gracias." : "Ingresa al menos 3 caracteres.") : "";
     } else if (tipo === "telefono") {
-      ok = telefonoValido(valor);
-      msg = valor
-        ? ok
-          ? "Número válido."
-          : "Necesitamos al menos " + TELEFONO_MIN_DIGITOS + " dígitos."
-        : "";
+      ok = valor.replace(/\D/g, "").length >= 9;
+      msg = valor ? (ok ? "Número válido." : "Necesitamos 9 dígitos.") : "";
     }
 
     if (grupo) {
-      /* Un campo obligatorio vacío también se marca en rojo: antes no se
-         pintaba nada y el aviso decía "revisa los campos marcados en rojo". */
-      var faltaObligatorio = input.required && !valor;
       grupo.classList.toggle("auth-ok", ok && valor.length > 0);
-      grupo.classList.toggle("auth-mal", (!ok && valor.length > 0) || faltaObligatorio);
-      if (faltaObligatorio && !msg) msg = "Este dato es obligatorio.";
+      grupo.classList.toggle("auth-mal", !ok && valor.length > 0);
     }
     if (pista) pista.textContent = msg;
     return ok || (!input.required && !valor);
@@ -398,26 +344,12 @@ function esPagina(nombre) {
     });
   }
 
-  /* Enlaces que solo muestran un aviso (antes usaban onclick="..." en el HTML,
-     lo que impide aplicar una CSP estricta). */
-  document.addEventListener("click", function (e) {
-    var enlace = e.target.closest("[data-aviso]");
-    if (!enlace) return;
-    e.preventDefault();
-    mostrarToast(
-      enlace.getAttribute("data-aviso"),
-      enlace.getAttribute("data-aviso-icono") || ""
-    );
-  });
-
-  /* ÚNICO sistema de avisos del sitio. Antes había tres (mostrarToast, avisar y
-     un window.PelitosAviso del bloque de efectos que nadie llamaba). */
-  window.PelitosAviso = mostrarToast;
-
   window.PelitosAuth = {
     mostrarToast: mostrarToast,
     guardarUsuario: guardarUsuario,
     usuarioActual: usuarioActual,
+    abrirModal: abrirModal,
+    mostrarVista: mostrarVista,
     validarCampo: validar
   };
 
@@ -439,67 +371,10 @@ function esPagina(nombre) {
   "use strict";
 
   var PRODUCTOS = [
-    // ==================================================================
-    // ACCESORIOS
-    // ==================================================================
-    {
-      id: "arnes-correas",
-      categoria: "accesorios",
-      categoriaTexto: "Accesorios & Paseo",
-      titulo: "Arnés y Correas para Mascotas",
-      resumen:
-        "Arnés acolchado con correa a juego: reparte la fuerza en el pecho para no lastimar el cuello, cierres regulables, bandas reflectivas para el paseo nocturno y cuatro tallas de S a XL en cuatro colores.",
-      imagen: "../images/productos/producto-arnes.jpg",
-      precio: 38.0,
-      variantes: [
-        {
-          nombre: "Talla",
-          opciones: [
-            { label: "S (pequeño)", extra: 0 },
-            { label: "M (mediano)", extra: 6 },
-            { label: "L (grande)", extra: 11 },
-            { label: "XL (extra grande)", extra: 16 }
-          ]
-        },
-        {
-          nombre: "Color",
-          opciones: [
-            { label: "Morado Pelitos", color: "#5b2a86", extra: 0 },
-            { label: "Naranja", color: "#f0791e", extra: 0 },
-            { label: "Azul", color: "#2563eb", extra: 0 },
-            { label: "Rojo", color: "#dc2626", extra: 0 }
-          ]
-        }
-      ]
-    },
-    {
-      id: "comedero-bebedero",
-      categoria: "accesorios",
-      categoriaTexto: "Accesorios & Comederos",
-      titulo: "Comedero y Bebedero Ergonómico",
-      resumen:
-        "Platos ergonómicos a la altura correcta para comer sin forzar el cuello: modelo anti-ahogo de comida lenta, doble plato de acero inoxidable y bebedero automático por gravedad. Antideslizantes y aptos para lavavajillas.",
-      imagen: "../images/productos/producto-comedero.jpg",
-      precio: 28.0,
-      variantes: [
-        {
-          nombre: "Modelo",
-          opciones: [
-            { label: "Anti-ahogo lento", extra: 0 },
-            { label: "Doble plato de acero", extra: 8 },
-            { label: "Automático por gravedad", extra: 15 }
-          ]
-        },
-        {
-          nombre: "Color",
-          opciones: [
-            { label: "Turquesa", color: "#06b6d4", extra: 0 },
-            { label: "Naranja", color: "#f97316", extra: 0 },
-            { label: "Verde menta", color: "#10b981", extra: 0 }
-          ]
-        }
-      ]
-    },
+    // Nota: aquí estaban seis productos de foto genérica (alimento súper
+    // premium, arnés, antipulgas, cama ortopédica, shampoo y comedero).
+    // Se retiraron a pedido de la tienda porque no eran productos reales del
+    // local. Para volver a poner uno, copie cualquier bloque { ... } de abajo.
 
     // ==================================================================
     // LÍNEA NATURALISTIC (Grupo MOR)
@@ -887,12 +762,410 @@ function esPagina(nombre) {
         uso: "Uso veterinario. Usar siempre como suplemento del alimento principal.",
         importador: "Comercial Aquamundo Perú SAC / Grupo MOR"
       }
+    },
+
+    // ==================================================================
+    // ┌────────────────────────────────────────────────────────────────┐
+    // │  NUEVOS PRODUCTOS — AGREGADOS EL 18/09/2026                    │
+    // │                                                                │
+    // │  PRECIOS: cada ficha ya tiene un PRECIO DE REFERENCIA tomado    │
+    // │  de tiendas veterinarias peruanas el 18/09/2026. Debajo de      │
+    // │  cada precio hay un comentario que dice de donde salio.         │
+    // │  REVISELOS con sus precios reales y cambie el numero. Se        │
+    // │  escribe con punto decimal: 35.5 (no 35,5).                     │
+    // │  Si pone precio: 0, la web muestra "Precio a consultar" y solo   │
+    // │  ofrece el pedido por WhatsApp (no entra al carrito).           │
+    // │                                                                │
+    // │  Las presentaciones ("variantes") suman con "extra":            │
+    // │      extra: 0   = no cambia el precio                           │
+    // │      extra: 12  = cuesta 12 soles mas que el precio base        │
+    // └────────────────────────────────────────────────────────────────┘
+    // ==================================================================
+
+    // 1) Desinfectante de ambientes ECAKLIN (Lab ECA) — 750 ml
+    {
+      id: "ecaklin-desinfectante",
+      categoria: "higiene",
+      categoriaTexto: "Higiene del Hogar",
+      titulo: "ECAKLIN Desinfectante de Ambientes",
+      resumen:
+        "Desinfectante de ambientes y objetos para espacios donde vive la mascota. Neutraliza olores, atóxico y seguro al contacto según la etiqueta del envase.",
+      imagen: "../images/productos/ecaklin-desinfectante-ambientes.jpg",
+      precio: 43.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // referencia set/2026: lumpet.pe S/34.90, mascotify.pe S/35.00, misterpet.pe S/45.00
+      variantes: [
+        {
+          nombre: "Versión",
+          opciones: [
+            { label: "ECAKLIN Dogs (perros) 750 ml", extra: 0 },
+            { label: "ECAKLIN Cats (gatos) 750 ml", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 2) Máscara texturizadora 4 Groomer — 230 g
+    {
+      id: "4groomer-mascara-texturizadora",
+      categoria: "higiene",
+      categoriaTexto: "Estética & Cosmética",
+      titulo: "4 Groomer Máscara Texturizadora",
+      resumen:
+        "Máscara de almendra y teztuán para un pelaje sano, suave y brillante. Sin parabenos ni siliconas, de uso profesional en estética canina. Envase de 230 g.",
+      imagen: "../images/productos/4groomer-mascara-texturizadora.jpg",
+      precio: 60.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // referencia set/2026: linea importada IBASA 4Groomer 230 g, R$130.99 en Brasil (petcerto.com.br)
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "230 g con dosificador", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 3) Condicionador profesional 4 Groomer — 250 ml
+    {
+      id: "4groomer-condicionador",
+      categoria: "higiene",
+      categoriaTexto: "Estética & Cosmética",
+      titulo: "4 Groomer Condicionador Profesional",
+      resumen:
+        "Condicionador desenredante de uso profesional, pH balanceado, para todas las razas. Hidrata, suaviza y facilita el peinado. Envase de 250 ml.",
+      imagen: "../images/productos/4groomer-condicionador.jpg",
+      precio: 40.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // referencia set/2026: acondicionador IBASA 250 ml S/28.40 (convet) y S/42.60 (petmas.pe); 4Groomer es la linea profesional
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "250 ml", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 4) Champú medicado IBASA Animal Health — 200 ml
+    {
+      id: "ibasa-champu-medicado",
+      categoria: "salud",
+      categoriaTexto: "Salud & Farmacia",
+      titulo: "IBASA Champú Medicado",
+      resumen:
+        "Champús de uso veterinario IBASA Animal Health en envase de 200 ml: versión hipoalergénica para pieles sensibles y versión con cetoconazol para el tratamiento de micosis en perros y gatos.",
+      imagen: "../images/productos/ibasa-champu-medicado.jpg",
+      precio: 60.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // revisado set/2026: cetoconazol 2% IBASA 200 ml S/64.90 (promart.pe) y S/79.90 (ripley.com.pe);
+      // 100 ml S/29.20 (convet). Se subio de 59.90 a 64.90 para no quedar debajo del costo de reposicion.
+      requiereAsesoria: true,
+      variantes: [
+        {
+          nombre: "Fórmula",
+          opciones: [
+            { label: "Hipoalergénico con aloe vera 200 ml", extra: 0 },
+            { label: "Cetoconazol antimicótico 200 ml", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 5) ECA DERM solución tópica en spray (Lab ECA) — 200 ml
+    {
+      id: "ecaderm-solucion-topica",
+      categoria: "salud",
+      categoriaTexto: "Salud & Farmacia",
+      titulo: "ECA DERM Solución Tópica",
+      resumen:
+        "Solución tópica en spray para perros y gatos, aliada contra pulgas y garrapatas. Hidrata y cuida la piel. Uso veterinario, en frasco de 120 ml o de 500 ml.",
+      imagen: "../images/productos/ecaderm-solucion-topica.jpg",
+      precio: 40.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // revisado set/2026: Lab ECA vende dos tamanos, no uno de 200 ml: 120 ml S/31.00 (misterpet.pe)
+      // y 500 ml S/55.00-65.00 (mascotasvetshop.pe S/55.00, misterpet.pe S/60.00, miau.pe S/65.00).
+      requiereAsesoria: true,
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "Spray 120 ml", extra: 0, predeterminada: true },
+            { label: "Spray 500 ml", extra: 31 }
+          ]
+        }
+      ]
+    },
+
+    // 6) ECA DERM crema regeneradora (Lab ECA)
+    {
+      id: "ecaderm-crema-regeneradora",
+      categoria: "salud",
+      categoriaTexto: "Salud & Farmacia",
+      titulo: "ECA DERM Crema Regeneradora",
+      resumen:
+        "Crema de uso tópico antibiótica, cicatrizante y desinfectante, indicada para todo tipo de piel en perros y gatos. Producto de venta libre, uso veterinario.",
+      imagen: "../images/productos/ecaderm-crema-regeneradora.jpg",
+      precio: 35.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // referencia set/2026: 60 g S/25.00-30.00 (brisapet.pe S/27.00, mascotify.pe S/30.00)
+      requiereAsesoria: true,
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "Pote de crema", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 7) ECAÓTIC limpiador auricular (Lab ECA) — 60 ml
+    {
+      id: "ecaotic-limpiador-auricular",
+      categoria: "salud",
+      categoriaTexto: "Salud & Farmacia",
+      titulo: "ECAÓTIC Limpiador Auricular",
+      resumen:
+        "Limpiador de oídos a base de ácido hipocloroso para perros y gatos. Uso veterinario, contenido neto 60 ml. Producto peruano de Lab ECA.",
+      imagen: "../images/productos/ecaotic-limpiador-auricular.jpg",
+      precio: 35.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // referencia set/2026: 60 ml S/18.50 (rappi) y S/19.90 (superpet.pe, allju.pe)
+      requiereAsesoria: true,
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "60 ml", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 8) Serie descalonia Huellas Pet Care (GLACSA) — 50 ml
+    {
+      id: "huellas-descalonia",
+      categoria: "salud",
+      categoriaTexto: "Salud & Farmacia",
+      titulo: "Huellas Pet Care · Serie descalonia",
+      resumen:
+        "Sprays de 50 ml de la línea descalonia de Huellas Pet Care (GLACSA), en sus tres versiones: Go!!, Force y Flection. Consulte con la veterinaria cuál corresponde a su mascota.",
+      imagen: "../images/productos/huellas-descalonia-serie.jpg",
+      precio: 38.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
+      // ESTIMADO: no se encontro lista publica de esta linea; se comparo con sprays veterinarios similares (S/42.00-51.90). CONFIRME CON SU PROVEEDOR
+      requiereAsesoria: true,
+      variantes: [
+        {
+          nombre: "Versión",
+          opciones: [
+            { label: "descalonia Go!! 50 ml", extra: 0 },
+            { label: "descalonia Force 50 ml", extra: 0 },
+            { label: "descalonia Flection 50 ml", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // ==================================================================
+    // ┌────────────────────────────────────────────────────────────────┐
+    // │  KITS DE ACCESORIOS — CAMPAÑA CON 40% DE DESCUENTO             │
+    // │                                                                │
+    // │  Estos tres kits llevan la linea:                               │
+    // │      descuento: 40,                                             │
+    // │  Eso significa: escriba en "precio" el PRECIO NORMAL del kit     │
+    // │  y la web sola resta el 40%, muestra el precio regular tachado   │
+    // │  y pinta la cinta "-40% de descuento" sobre la foto.            │
+    // │                                                                │
+    // │  Ejemplo: precio: 100  ->  la web muestra S/ 60.00 y S/ 100.00  │
+    // │  tachado. Para terminar la campaña, borre la linea descuento.    │
+    // │  Para cambiar el porcentaje, cambie el 40 por otro numero.       │
+    // │                                                                │
+    // │  Nota: el descuento se aplica al precio base. Si una opcion      │
+    // │  suma dinero con "extra", escriba ese monto ya rebajado.         │
+    // └────────────────────────────────────────────────────────────────┘
+    // ==================================================================
+
+    // 9) Kit de accesorios básico (comedero, bebedero portátil, manta, juguete)
+    {
+      id: "kit-accesorios-basico",
+      categoria: "accesorios",
+      categoriaTexto: "Kits de Accesorios",
+      titulo: "Kit de Accesorios Básico",
+      resumen:
+        "Comedero antideslizante, bebedero portátil Aqua Dog, manta polar, cortaúñas con lima y pelota dispensadora. Ideal para quienes recién reciben a su mascota.",
+      imagen: "../images/productos/kit-accesorios-basico.jpg",
+      precio: 87.00,   // PRECIO NORMAL — puede cambiarlo cuando quiera.
+      // Con el 40 % de descuento de abajo, la web cobra S/ 52.20 por las 5 piezas.
+      descuento: 40,
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "Kit completo de 5 piezas", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 10) Kit de accesorios completo (cepillado, comedero lento, limpiapatas)
+    {
+      id: "kit-accesorios-completo",
+      categoria: "accesorios",
+      categoriaTexto: "Kits de Accesorios",
+      titulo: "Kit de Accesorios Completo",
+      resumen:
+        "Rastrillo deslanador, peine doble de grooming, comedero lento antiansiedad, limpiapatas Wash Foot Cup, juguete mordedor de hueso y pelota sonora.",
+      imagen: "../images/productos/kit-accesorios-completo.jpg",
+      precio: 83.00,   // PRECIO NORMAL — puede cambiarlo cuando quiera.
+      // Con el 40 % de descuento de abajo, la web cobra S/ 49.80 por las 6 piezas.
+      descuento: 40,
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "Kit completo de 6 piezas", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 11) Kit de accesorios para gatos (torre de juegos, guante, comedero doble)
+    {
+      id: "kit-accesorios-gatos",
+      categoria: "accesorios",
+      categoriaTexto: "Kits de Accesorios",
+      titulo: "Kit de Accesorios para Gatos",
+      resumen:
+        "Torre de juegos Tower of Tracks, caña con plumas, guante deslanador True Touch, cortaúñas con lima y comedero doble. Pensado para gatos en casa.",
+      imagen: "../images/productos/kit-accesorios-gatos.jpg",
+      precio: 82.53,   // PRECIO NORMAL — puede cambiarlo cuando quiera.
+      // Con el 40 % de descuento de abajo, la web cobra S/ 49.52 por las 6 piezas.
+      descuento: 40,
+      variantes: [
+        {
+          nombre: "Presentación",
+          opciones: [
+            { label: "Kit completo de 5 piezas", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // ==================================================================
+    // ┌────────────────────────────────────────────────────────────────┐
+    // │  ROPA PARA MASCOTAS — LA VITRINA DE LA TIENDA                  │
+    // │  AGREGADO EL 18/09/2026                                        │
+    // │                                                                │
+    // │  Son las mismas prendas que se ven en el carrusel de fotos de   │
+    // │  la vitrina; ahora tambien se pueden comprar desde la web.      │
+    // │  Los precios son DE REFERENCIA del mercado peruano (set/2026):  │
+    // │  cambie el numero por su precio real de mostrador.              │
+    // │                                                                │
+    // │  La talla suma dinero con "extra": las tallas grandes llevan     │
+    // │  mas tela, por eso cuestan un poco mas. Si usted cobra igual     │
+    // │  todas las tallas, ponga extra: 0 en todas.                      │
+    // └────────────────────────────────────────────────────────────────┘
+    // ==================================================================
+
+    // 12) Conjunto polar a cuadros (casaca con capucha + pantalón)
+    {
+      id: "ropa-conjunto-polar",
+      categoria: "ropa",
+      categoriaTexto: "Ropa para Mascotas",
+      titulo: "Conjunto Polar a Cuadros",
+      resumen:
+        "Conjunto de dos piezas en polar: casaca a cuadros con capucha y pantalón con bolsillos. Abriga de verdad en las mañanas frías de Huánuco y se pone en segundos por la espalda.",
+      imagen: "../images/productos/vitrina-conjunto-polar.jpg",
+      precio: 45.00,   // PRECIO DE REFERENCIA — puede cambiarlo cuando quiera.
+      // referencia set/2026: enteritos y conjuntos de polar S/42.00-55.00 (elpetshop.pe, wompet.pe)
+      variantes: [
+        {
+          nombre: "Talla",
+          opciones: [
+            { label: "XS (Chihuahua, Poodle toy)", extra: 0 },
+            { label: "S (Shih Tzu, Pug)", extra: 0, predeterminada: true },
+            { label: "M (Schnauzer, Beagle)", extra: 6 },
+            { label: "L (Cocker, Border Collie)", extra: 12 }
+          ]
+        },
+        {
+          nombre: "Modelo",
+          opciones: [
+            { label: "Cuadros rojo con pantalón gris", color: "#b91c1c", extra: 0 },
+            { label: "Cuadros azul con pantalón gris", color: "#1d4ed8", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 13) Chaleco con forro sherpa (el más pedido de la vitrina)
+    {
+      id: "ropa-chaleco-sherpa",
+      categoria: "ropa",
+      categoriaTexto: "Ropa para Mascotas",
+      titulo: "Chaleco con Forro Sherpa",
+      resumen:
+        "Chaleco de exterior resistente al agua con forro peluche sherpa por dentro y broches al frente: se pone y se saca en segundos, sin pasarlo por la cabeza. El más pedido de la vitrina.",
+      imagen: "../images/productos/vitrina-chaleco-lila.jpg",
+      precio: 42.00,   // PRECIO DE REFERENCIA — puede cambiarlo cuando quiera.
+      // referencia set/2026: abrigo sherpa polar S/42.00 (elpetshop.pe), chaleco térmico S/55.00 (wompet.pe)
+      variantes: [
+        {
+          nombre: "Talla",
+          opciones: [
+            { label: "XS (Chihuahua, Poodle toy)", extra: 0 },
+            { label: "S (Shih Tzu, Pug)", extra: 0, predeterminada: true },
+            { label: "M (Schnauzer, Beagle)", extra: 6 },
+            { label: "L (Cocker, Border Collie)", extra: 12 }
+          ]
+        },
+        {
+          nombre: "Color",
+          opciones: [
+            { label: "Lila con forro rosado", color: "#a78bfa", extra: 0 },
+            { label: "Celeste con forro crema", color: "#7dd3fc", extra: 0 },
+            { label: "Rosado con forro celeste", color: "#f9a8d4", extra: 0 }
+          ]
+        }
+      ]
+    },
+
+    // 14) Vestidos, casacas y mantas de temporada (la percha completa)
+    {
+      id: "ropa-temporada",
+      categoria: "ropa",
+      categoriaTexto: "Ropa para Mascotas",
+      titulo: "Vestidos, Casacas y Mantas de Temporada",
+      resumen:
+        "La percha completa de la tienda: poleras de algodón, casacas jean, vestidos con vuelo y mantas polar, en tallas para razas pequeñas y medianas. Elija la prenda y la talla; le confirmamos el stock y el color por WhatsApp.",
+      imagen: "../images/productos/vitrina-conjuntos-ropa.jpg",
+      precio: 10.00,   // Prenda mas economica (la polera). La web cobra el 40 % menos (ver "descuento").
+      descuento: 40,
+      // Las demas prendas suman con "extra": manta +2 (S/12), vestido +5 (S/15), casaca jean +5 (S/15).
+      // referencia set/2026: poleras desde S/27.00 (cat-oh.com), vestidos S/35.00 (falabella.com.pe), casacas S/34.90 (petuniverse.com.pe)
+      variantes: [
+        {
+          nombre: "Prenda",
+          opciones: [
+            { label: "Polera de algodón", extra: 0 },
+            { label: "Manta polar", extra: 2 },
+            { label: "Vestido con vuelo", extra: 5, predeterminada: true },
+            { label: "Casaca jean", extra: 5 }
+          ]
+        },
+        {
+          nombre: "Talla",
+          opciones: [
+            { label: "XS", extra: 0 },
+            { label: "S", extra: 0, predeterminada: true },
+            { label: "M", extra: 1 },
+            { label: "L", extra: 2 }
+          ]
+        }
+      ]
     }
   ];
 
-  /* Se añaden los productos escritos en js/productos-nuevos.js (formato simple).
+
+  /* Se anaden los productos escritos en js/productos-nuevos.js (formato simple).
      Ese archivo se carga antes que este y deja la lista ya normalizada en
-     window.PELITOS_PRODUCTOS_EXTRA. Si no está cargado, no pasa nada. */
+     window.PELITOS_PRODUCTOS_EXTRA. Si no esta cargado, no pasa nada. */
   var EXTRA = Array.isArray(global.PELITOS_PRODUCTOS_EXTRA)
     ? global.PELITOS_PRODUCTOS_EXTRA
     : [];
@@ -904,7 +1177,7 @@ function esPagina(nombre) {
 
   EXTRA.forEach(function (p) {
     if (yaUsados[p.id]) {
-      /* Mismo id: el producto nuevo reemplaza al del catálogo original, así se
+      /* Mismo id: el producto nuevo reemplaza al del catalogo original, asi se
          puede corregir un producto sin editar este bloque. */
       for (var i = 0; i < PRODUCTOS.length; i++) {
         if (PRODUCTOS[i].id === p.id) {
@@ -939,9 +1212,7 @@ function esPagina(nombre) {
 
   var CATALOGO = window.PELITOS_CATALOGO;
   if (!CATALOGO || !Array.isArray(CATALOGO.productos)) {
-    console.error(
-      "[PetShop] No se encontró el catálogo (window.PELITOS_CATALOGO, BLOQUE 3 de js/main.js)."
-    );
+    console.error("[PetShop] No se encontró el catálogo (BLOQUE 3 de js/main.js). Revisa el orden de los <script>.");
     return;
   }
 
@@ -956,9 +1227,8 @@ function esPagina(nombre) {
     typeof window.abrirExterno === "function"
       ? window.abrirExterno
       : function (url) {
-          /* Con "noopener" el navegador ya devuelve null: no hay opener que
-             limpiar (el `v.opener = null` anterior nunca se ejecutaba). */
-          window.open(url, "_blank", "noopener,noreferrer");
+          var v = window.open(url, "_blank", "noopener,noreferrer");
+          if (v) v.opener = null;
         };
 
   var enlaceWhatsapp =
@@ -1012,9 +1282,6 @@ function esPagina(nombre) {
   // viven mientras la pestaña esté abierta. Se evita el almacenamiento del
   // navegador para que la tienda funcione en cualquier entorno (incógnito,
   // vistas previas incrustadas, navegadores con cookies restringidas).
-  // OJO: por eso NADA sobrevive a un F5. Si algún día se quiere persistir,
-  // basta cambiar estas dos funciones por localStorage; la validación de
-  // cargarCarrito() ya está preparada para datos viejos o corruptos.
   var memoria = {};
 
   function leerJSON(clave, porDefecto) {
@@ -1045,7 +1312,8 @@ function esPagina(nombre) {
    * Ajustes guardados en el navegador. Forma:
    *   { "<idProducto>": { base: 2350, extras: { "Grupo|Opción": 4200 } } }
    * Los valores están en céntimos. Si un producto no tiene ajuste,
-   * manda el precio escrito en el catálogo del BLOQUE 3 de js/main.js.
+   * manda el precio escrito en el catálogo
+   * (BLOQUE 3 de js/main.js, o js/productos-nuevos.js).
    */
   var ajustes = normalizarAjustes(leerJSON(CLAVE_PRECIOS, {}));
 
@@ -1070,16 +1338,28 @@ function esPagina(nombre) {
     return limpio;
   }
 
-  function precioBase(producto) {
-    /* Guarda contra productos retirados del catálogo: el carrito podía
-       conservar un id que ya no existe y aquí reventaba con TypeError. */
-    if (!producto) return 0;
+  /* ---- Descuento por campaña ("descuento: 40" en el Bloque 3) ----
+     Si un producto tiene "descuento", en el Bloque 3 se escribe el precio
+     NORMAL y aqui la web resta el porcentaje. Asi el precio tachado y el
+     "-40%" salen solos, sin escribir dos precios. */
+  function porcentajeDescuento(producto) {
+    var d = Number(producto && producto.descuento) || 0;
+    return d > 0 && d < 100 ? d : 0;
+  }
+
+  /** Precio de lista, antes de aplicar el descuento de campaña. */
+  function precioRegular(producto) {
     var a = ajustes[producto.id];
     return a && a.base !== undefined ? a.base : aCentimos(producto.precio);
   }
 
+  function precioBase(producto) {
+    var base = precioRegular(producto);
+    var pct = porcentajeDescuento(producto);
+    return pct ? Math.round((base * (100 - pct)) / 100) : base;
+  }
+
   function recargo(producto, nombreGrupo, opcion) {
-    if (!producto || !opcion) return 0;
     var a = ajustes[producto.id];
     var clave = nombreGrupo + "|" + opcion.label;
     if (a && a.extras && a.extras[clave] !== undefined) return a.extras[clave];
@@ -1088,11 +1368,9 @@ function esPagina(nombre) {
 
   /** Precio total de un producto con un conjunto de opciones elegidas. */
   function precioCon(producto, seleccion) {
-    if (!producto) return 0;
-    var elegido = seleccion || {};
     var total = precioBase(producto);
     (producto.variantes || []).forEach(function (grupo) {
-      var label = elegido[grupo.nombre];
+      var label = seleccion[grupo.nombre];
       var opcion = buscarOpcion(grupo, label);
       if (opcion) total += recargo(producto, grupo.nombre, opcion);
     });
@@ -1120,34 +1398,38 @@ function esPagina(nombre) {
     return total;
   }
 
+  /* ---- Productos sin precio publicado ----
+     Si en el Bloque 3 un producto tiene "precio: 0", la web no inventa
+     un monto: muestra "Precio a consultar" y solo permite pedirlo por
+     WhatsApp. En cuanto se escriba el precio, la tarjeta y el carrito
+     funcionan normalmente sin tocar nada mas. */
+  function sinPrecio(producto) {
+    return !(precioBase(producto) > 0);
+  }
+
   /* ---- Oferta: precio regular tachado y % de descuento ----
-     Un producto está en oferta si su ficha de el catálogo del BLOQUE 3 de js/main.js
-     incluye "precioAntes" mayor que el precio publicado. */
+     Un producto está en oferta si en el Bloque 3 tiene "precioAntes"
+     mayor que el precio publicado, o si tiene "descuento: 40". */
   function enOferta(producto) {
-    return (
-      !!producto &&
-      Number(producto.precioAntes) > 0 &&
-      aCentimos(producto.precioAntes) > precioBase(producto)
-    );
+    return precioAnterior(producto) > precioBase(producto);
+  }
+
+  /** Precio tachado en céntimos: el de campaña o el escrito en precioAntes. */
+  function precioAnterior(producto) {
+    if (porcentajeDescuento(producto)) return precioRegular(producto);
+    return aCentimos(producto.precioAntes);
   }
 
   /** Diferencia en céntimos entre el precio regular y el de oferta. */
   function deltaOferta(producto) {
     if (!enOferta(producto)) return 0;
-    return aCentimos(producto.precioAntes) - precioBase(producto);
+    return precioAnterior(producto) - precioBase(producto);
   }
 
-  /* El porcentaje se calcula SOBRE EL PRECIO QUE SE MUESTRA TACHADO.
-     Antes el tachado incluía los recargos de variantes y el porcentaje no, así
-     que la tarjeta podía decir "-27%" junto a dos cifras cuya diferencia real
-     era del 12%. */
-  function porcentajeOferta(producto, precioActual) {
+  function porcentajeOferta(producto) {
     if (!enOferta(producto)) return 0;
-    var actual =
-      precioActual === undefined ? precioBase(producto) : precioActual;
-    var antes = actual + deltaOferta(producto);
-    if (antes <= 0) return 0;
-    return Math.round(((antes - actual) / antes) * 100);
+    var antes = precioAnterior(producto);
+    return Math.round(((antes - precioBase(producto)) / antes) * 100);
   }
 
   /** HTML del precio tachado + etiqueta de descuento (o cadena vacía). */
@@ -1158,7 +1440,7 @@ function esPagina(nombre) {
       esc(formatear(precioActual + deltaOferta(producto))) +
       "</span> " +
       '<span class="din-badge-off">-' +
-      porcentajeOferta(producto, precioActual) +
+      porcentajeOferta(producto) +
       "%</span>"
     );
   }
@@ -1184,17 +1466,8 @@ function esPagina(nombre) {
   var FOCUSABLES =
     'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
 
-  /** ¿Ese diálogo ya está en la pila? La pila guarda objetos {el, foco},
-      así que hay que comparar la propiedad .el (indexOf(el) daba siempre -1). */
-  function enPila(el) {
-    for (var i = 0; i < pilaDialogos.length; i++) {
-      if (pilaDialogos[i].el === el) return true;
-    }
-    return false;
-  }
-
   function abrirDialogo(el) {
-    if (!el || enPila(el)) return;
+    if (!el || pilaDialogos.indexOf(el) !== -1) return;
     pilaDialogos.push({ el: el, foco: document.activeElement });
     el.classList.add("abierto");
     el.setAttribute("aria-hidden", "false");
@@ -1223,9 +1496,7 @@ function esPagina(nombre) {
   document.addEventListener("keydown", function (e) {
     if (!pilaDialogos.length) return;
     if (e.key === "Escape") {
-      /* stopImmediatePropagation: stopPropagation NO frena a los demás
-         listeners de keydown registrados en este mismo document. */
-      e.stopImmediatePropagation();
+      e.stopPropagation();
       cerrarDialogoSuperior();
       return;
     }
@@ -1235,9 +1506,7 @@ function esPagina(nombre) {
     var focusables = Array.prototype.filter.call(
       activo.querySelectorAll(FOCUSABLES),
       function (el) {
-        /* getClientRects: offsetParent es null en elementos position:fixed
-           y los dejaba fuera del ciclo de Tab. */
-        return el.getClientRects().length > 0 || el === document.activeElement;
+        return el.offsetParent !== null || el === document.activeElement;
       }
     );
     if (!focusables.length) return;
@@ -1260,8 +1529,7 @@ function esPagina(nombre) {
       var el = e.target;
       if (el && el.tagName === "IMG" && !el.dataset.falloImagen) {
         el.dataset.falloImagen = "1";
-        /* No se borra el src: el lightbox lo necesita y quitarlo abría el
-           visor con una imagen vacía. Basta la clase del marcador. */
+        el.removeAttribute("src");
         el.classList.add("img-sin-foto");
       }
     },
@@ -1277,12 +1545,7 @@ function esPagina(nombre) {
   function avisar(texto) {
     var toast = document.getElementById("toast-notif");
     var mensaje = document.getElementById("toast-mensaje");
-    /* Si la página no trae el toast fijo en el HTML, se usa el aviso global en
-       lugar de perder el mensaje en silencio. */
-    if (!toast || !mensaje) {
-      if (typeof window.PelitosAviso === "function") window.PelitosAviso(texto);
-      return;
-    }
+    if (!toast || !mensaje) return;
     mensaje.textContent = texto;
     toast.classList.add("visible");
     window.clearTimeout(temporizadorAviso);
@@ -1341,13 +1604,6 @@ function esPagina(nombre) {
     refrescarDestacado();
   }
 
-  /* `esc()` protege contra HTML, pero NO contra CSS: dentro de style="background:"
-     un valor como "red;background-image:url(...)" seguiría siendo válido. Solo se
-     aceptan colores hexadecimales. */
-  function colorSeguro(valor) {
-    return /^#[0-9a-fA-F]{3,8}$/.test(String(valor || "")) ? String(valor) : "";
-  }
-
   function grupoVarianteHTML(producto, grupo, numero, seleccionado) {
     var opciones = grupo.opciones
       .map(function (op) {
@@ -1362,10 +1618,8 @@ function esPagina(nombre) {
           '" data-opcion="' +
           esc(op.label) +
           '">' +
-          (colorSeguro(op.color)
-            ? '<span class="color-dot" style="background:' +
-              esc(colorSeguro(op.color)) +
-              '"></span> '
+          (op.color
+            ? '<span class="color-dot" style="background:' + esc(op.color) + '"></span> '
             : "") +
           esc(op.label) +
           (extra > 0 ? ' <span class="variante-btn__extra">+' + esc(formatear(extra)) + "</span>" : "") +
@@ -1474,13 +1728,6 @@ function esPagina(nombre) {
   var filtroActual = "todos";
   var terminoBusqueda = "";
 
-  /* Quita tildes y pasa a minúsculas: sin esto "nutricion" no encontraba
-     "Nutrición" ni "salmon" encontraba "Salmón". */
-  function sinTildes(valor) {
-    var t = String(valor || "").toLowerCase();
-    return t.normalize ? t.normalize("NFD").replace(/[\u0300-\u036f]/g, "") : t;
-  }
-
   function textoBuscable(p) {
     var partes = [p.titulo, p.categoriaTexto, p.resumen || ""];
     if (p.ficha) {
@@ -1492,7 +1739,7 @@ function esPagina(nombre) {
         partes.push(i.titulo, i.detalle);
       });
     }
-    return sinTildes(partes.join(" "));
+    return partes.join(" ").toLowerCase();
   }
 
   function productosVisibles() {
@@ -1530,12 +1777,6 @@ function esPagina(nombre) {
     Array.prototype.forEach.call(rejilla.children, function (card, i) {
       card.style.setProperty("--din-i", String(i % 10));
     });
-
-    /* Las tarjetas recién creadas no pasan por el arranque de los efectos:
-       se les vuelven a poner las clases de luz y elevación. */
-    if (window.PelitosEfectos && typeof window.PelitosEfectos.refrescar === "function") {
-      window.PelitosEfectos.refrescar(rejilla);
-    }
   }
 
   function tarjetaHTML(p) {
@@ -1575,27 +1816,30 @@ function esPagina(nombre) {
       })
       .join("");
 
-    /* Descripción corta de la tarjeta: se prefiere `resumen`; si el producto
-       solo trae ficha técnica, se reutiliza su descripción. */
-    var textoDesc = p.resumen || (p.ficha && p.ficha.descripcion) || "";
-    var descripcion = textoDesc
-      ? '<p class="producto-card__desc">' + esc(textoDesc) + "</p>"
-      : "";
-
     var btnFicha = p.ficha
       ? '<button type="button" class="btn-ver-contenido" data-accion="abrir-ficha" data-id="' +
         esc(p.id) +
         '">Ver contenido e ingredientes</button>'
       : "";
 
+    /* Texto descriptivo de la tarjeta: primero "resumen", si no la descripcion
+       de la ficha tecnica. Si el producto no tiene ninguno, no pinta nada. */
+    function descripcionCorta(prod) {
+      if (prod.resumen) return prod.resumen;
+      if (prod.ficha && prod.ficha.descripcion) return prod.ficha.descripcion;
+      return "";
+    }
+
     return (
       '<article class="producto-card">' +
       '<div class="producto-card__img-wrap">' +
-      (enOferta(p)
-        ? /* formatear() respeta los céntimos: con toFixed(0) un precio de
-             S/ 19.50 se anunciaba en la cinta como "S/ 20". */
-          '<span class="cinta-oferta">🔥 Oferta ' +
-          esc(formatear(precioBase(p))) +
+      (porcentajeDescuento(p)
+        ? '<span class="cinta-oferta cinta-oferta--dcto">⚡ -' +
+          porcentajeDescuento(p) +
+          "% de descuento</span>"
+        : enOferta(p)
+        ? '<span class="cinta-oferta">🔥 Oferta S/ ' +
+          (precioBase(p) / 100).toFixed(0) +
           "</span>"
         : "") +
       '<img src="' +
@@ -1611,8 +1855,12 @@ function esPagina(nombre) {
       '<h3 class="producto-card__titulo">' +
       esc(p.titulo) +
       "</h3>" +
+      // Descripcion del producto. Usa el campo "resumen" del Bloque 3; si el
+      // producto no lo tiene pero si trae ficha tecnica, usa ficha.descripcion.
+      (descripcionCorta(p)
+        ? '<p class="producto-card__desc">' + esc(descripcionCorta(p)) + "</p>"
+        : "") +
       presentacion +
-      descripcion +
       sellos +
       '<ul class="producto-card__tipos-resumen">' +
       resumenVariantes +
@@ -1620,15 +1868,18 @@ function esPagina(nombre) {
       btnFicha +
       '<div class="producto-card__footer">' +
       '<div class="producto-card__precios">' +
-      '<span class="producto-card__precio-etiqueta">Desde</span> ' +
-      '<span class="producto-card__precio">' +
-      esc(formatear(precioDesde(p))) +
-      "</span> " +
-      htmlAntes(p, precioDesde(p)) +
+      (sinPrecio(p)
+        ? '<span class="producto-card__precio-consultar">Precio a consultar</span>'
+        : '<span class="producto-card__precio-etiqueta">Desde</span> ' +
+          '<span class="producto-card__precio">' +
+          esc(formatear(precioDesde(p))) +
+          "</span> " +
+          htmlAntes(p, precioDesde(p))) +
       "</div>" +
       '<button type="button" class="btn-elegir-opciones" data-accion="abrir-opciones" data-id="' +
       esc(p.id) +
-      '">Elegir opciones' +
+      '">' +
+      (sinPrecio(p) ? "Consultar" : "Elegir opciones") +
       '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
       "</button>" +
       "</div>" +
@@ -1659,7 +1910,7 @@ function esPagina(nombre) {
       buscador.addEventListener("input", function () {
         window.clearTimeout(pendiente);
         pendiente = window.setTimeout(function () {
-          terminoBusqueda = sinTildes(buscador.value.trim());
+          terminoBusqueda = buscador.value.trim().toLowerCase();
           renderCatalogo();
         }, 150);
       });
@@ -1827,15 +2078,7 @@ function esPagina(nombre) {
         "Confirmaremos la dosis según el peso de tu mascota antes de entregarlo.</p>"
       : "";
 
-    /* Descripción también en la ventana: sin ella, un producto sin variantes
-       (por ejemplo una bolsa de 1 kg) mostraba un cuerpo completamente vacío. */
-    var textoDesc = p.resumen || (p.ficha && p.ficha.descripcion) || "";
-    var descripcion = textoDesc
-      ? '<p class="modal-prod-desc">' + esc(textoDesc) + "</p>"
-      : "";
-
     modalCuerpo.innerHTML =
-      descripcion +
       (p.variantes || [])
         .map(function (grupo) {
           return grupoVarianteHTML(p, grupo, 0, seleccionModal[grupo.nombre]);
@@ -1858,8 +2101,21 @@ function esPagina(nombre) {
     var el = document.getElementById("modal-prod-precio");
     if (el) {
       var unit = precioCon(productoModal, seleccionModal);
-      el.textContent = formatear(unit);
-      pintarAntes(el, productoModal, unit);
+      if (sinPrecio(productoModal)) {
+        el.textContent = "A consultar";
+        pintarAntes(el, null, 0);
+      } else {
+        el.textContent = formatear(unit);
+        pintarAntes(el, productoModal, unit);
+      }
+    }
+
+    // Sin precio publicado no se puede sumar al carrito: solo pedido por WhatsApp.
+    var btnCarrito = modal
+      ? modal.querySelector('[data-accion="modal-carrito"]')
+      : null;
+    if (btnCarrito) {
+      btnCarrito.hidden = sinPrecio(productoModal);
     }
   }
 
@@ -1925,12 +2181,19 @@ function esPagina(nombre) {
       var p = porId(linea.id);
       if (!p) return; // producto retirado del catálogo
 
+      // Se revisa CADA grupo de variantes por separado. Si una sola opción ya
+      // no se vende, la línea entera se descarta (antes, al fallar un grupo,
+      // los siguientes se rellenaban con el valor por defecto aunque la línea
+      // se fuera a descartar de todos modos: sobraba).
       var seleccion = {};
       var completo = true;
       (p.variantes || []).forEach(function (grupo) {
         var elegido = linea.opciones ? linea.opciones[grupo.nombre] : null;
-        if (!buscarOpcion(grupo, elegido)) completo = false;
-        seleccion[grupo.nombre] = completo ? elegido : opcionPredeterminada(grupo).label;
+        if (!buscarOpcion(grupo, elegido)) {
+          completo = false;
+          return;
+        }
+        seleccion[grupo.nombre] = elegido;
       });
       if (!completo) return; // variante que ya no se vende
 
@@ -1960,7 +2223,7 @@ function esPagina(nombre) {
 
     if (existente) {
       if (existente.cantidad >= MAX_UNIDADES) {
-        avisar("Ya tienes el máximo de " + MAX_UNIDADES + " unidades de este producto.");
+        avisar("Ya tienes el máximo de unidades de este producto en el carrito.");
         return;
       }
       existente.cantidad = Math.min(MAX_UNIDADES, existente.cantidad + suma);
@@ -1981,13 +2244,7 @@ function esPagina(nombre) {
       quitarDelCarrito(indice);
       return;
     }
-    /* Comprobado en el navegador: al llegar a 99 el botón «+» no daba NINGUNA
-       señal y parecía que la página se había colgado. */
-    if (nueva > MAX_UNIDADES) {
-      avisar("Ya tienes el máximo de " + MAX_UNIDADES + " unidades de este producto.");
-      return;
-    }
-    linea.cantidad = nueva;
+    linea.cantidad = Math.min(MAX_UNIDADES, nueva);
     guardarCarrito();
     renderCarrito();
   }
@@ -2028,9 +2285,7 @@ function esPagina(nombre) {
     if (disparador) {
       disparador.setAttribute(
         "aria-label",
-        unidades === 0
-          ? "Ver carrito, vacío"
-          : "Ver carrito, " + unidades + (unidades === 1 ? " artículo" : " artículos")
+        unidades === 0 ? "Ver carrito, vacío" : "Ver carrito, " + unidades + " artículos"
       );
     }
 
@@ -2046,20 +2301,6 @@ function esPagina(nombre) {
         "<p>Elige tus productos y variantes para comenzar tu pedido.</p>" +
         "</div>";
       return;
-    }
-
-    /* Se descartan las líneas cuyo producto ya no está en el catálogo antes de
-       pintar: antes se usaba `p` sin comprobar y el carrito quedaba en blanco. */
-    var lineasVivas = carrito.filter(function (linea) {
-      return !!porId(linea.id);
-    });
-    if (lineasVivas.length !== carrito.length) {
-      carrito = lineasVivas;
-      guardarCarrito();
-      if (!carrito.length) {
-        renderCarrito();
-        return;
-      }
     }
 
     cuerpo.innerHTML = carrito
@@ -2181,9 +2422,13 @@ function esPagina(nombre) {
       .concat(lineasVariante(producto, seleccion))
       .concat([
         "*Cantidad:* " + unidades,
-        "*Total referencial:* " + formatear(unitario * unidades),
+        sinPrecio(producto)
+          ? "*Precio:* por confirmar"
+          : "*Total referencial:* " + formatear(unitario * unidades),
         "",
-        "¿Tienen stock disponible para entrega en Huánuco?"
+        sinPrecio(producto)
+          ? "¿Me confirman el precio y si hay stock para entrega en Huánuco?"
+          : "¿Tienen stock disponible para entrega en Huánuco?"
       ])
       .join("\n");
 
@@ -2196,12 +2441,7 @@ function esPagina(nombre) {
       return;
     }
 
-    /* Igual que en renderCarrito: solo productos que siguen en el catálogo. */
-    var lineas = carrito
-      .filter(function (linea) {
-        return !!porId(linea.id);
-      })
-      .map(function (linea, i) {
+    var lineas = carrito.map(function (linea, i) {
       var p = porId(linea.id);
       var unitario = precioCon(p, linea.opciones);
       var variante = (p.variantes || [])
@@ -2230,8 +2470,6 @@ function esPagina(nombre) {
       .concat([
         "",
         "*Total referencial:* " + formatear(totalCarrito()),
-        "_Este total lo calculó la página en el navegador del cliente: debe" +
-          " confirmarse desde la lista de precios oficial antes de cobrar._",
         "",
         "¿Me confirman stock, el tiempo de entrega en Huánuco y los medios de pago disponibles?"
       ])
@@ -2247,7 +2485,8 @@ function esPagina(nombre) {
    * Importante: esto NO es un panel de administración con permisos.
    * Todo ocurre en el navegador de quien lo abre, así que los cambios
    * solo los ve esa persona. Es una calculadora para preparar la lista
-   * de precios y exportarla a el catálogo del BLOQUE 3 de js/main.js, que es la fuente real.
+   * de precios y copiarla a mano al catálogo, que es la fuente real:
+   * BLOQUE 3 de js/main.js, o js/productos-nuevos.js.
    * Por eso no lleva contraseña: una clave escrita en el JavaScript
    * público no protege nada y da una falsa sensación de seguridad.
    *
@@ -2350,14 +2589,9 @@ function esPagina(nombre) {
     var nuevos = {};
     var invalidos = 0;
 
-    var PRECIO_MAXIMO = 9999; // el mismo max que declara el HTML
-
     function numeroDe(input) {
-      var crudo = String(input.value).trim();
-      var n = Number(crudo);
-      /* Un campo vacío daba Number("") = 0 y dejaba el producto GRATIS.
-         También se respeta aquí el máximo del HTML. */
-      if (crudo === "" || !Number.isFinite(n) || n < 0 || n > PRECIO_MAXIMO) {
+      var n = Number(input.value);
+      if (!Number.isFinite(n) || n < 0) {
         invalidos++;
         input.classList.add("pp-input--error");
         return null;
@@ -2405,11 +2639,13 @@ function esPagina(nombre) {
     refrescarPrecioModal();
     renderCarrito();
 
-    /* Antes decía "recordados en este navegador" y era falso: los ajustes viven
-       en memoria y se pierden al recargar. Ahora se avisa lo que ocurre de
-       verdad y se recuerda exportar. */
+    /* OJO: los precios se aplican solo en esta pestaña. Al recargar la página
+       vuelven los del catálogo, porque no se guardan en el navegador (ver
+       "Almacenamiento en memoria de la sesión" arriba). Para que el cambio sea
+       de verdad hay que pulsar "Descargar lista" y copiar los precios al
+       catálogo (BLOQUE 3 de js/main.js o js/productos-nuevos.js). */
     avisar(
-      "Precios aplicados solo en esta pestaña. Se pierden al recargar: usa \u00abExportar\u00bb y pégalos en el BLOQUE 3 de js/main.js."
+      "Precios aplicados en esta pestaña. Para que queden fijos: Descargar lista y copiarlos al catálogo."
     );
   }
 
@@ -2421,7 +2657,7 @@ function esPagina(nombre) {
     refrescarDestacado();
     refrescarPrecioModal();
     renderCarrito();
-    avisar("Precios restablecidos a los valores del catálogo (BLOQUE 3 de js/main.js).");
+    avisar("Precios restablecidos a los valores del catálogo (js/main.js).");
   }
 
   /** Descarga los ajustes como JSON para pasarlos al catálogo real. */
@@ -2517,7 +2753,175 @@ function esPagina(nombre) {
   }
 
   // =========================================================
-  // 10. Arranque
+  // 10. Vitrina dinámica de ropa y promociones
+  // =========================================================
+  /*
+    Es el carrusel de fotos que está arriba del catálogo, en
+    pages/productos.html (busque VITRINA DINÁMICA en ese archivo).
+
+    Como funciona:
+      - Cambia de foto solo cada 6 segundos.
+      - Se detiene cuando el visitante pasa el mouse encima, cuando usa
+        el teclado o cuando la pestaña no está a la vista.
+      - También se puede mover con las flechas, con los puntos de abajo
+        y arrastrando con el dedo en el celular.
+      - Si el sistema del visitante pide menos animaciones, no se mueve solo.
+
+    Para agregar, quitar o cambiar una foto o un texto NO hay que tocar
+    este código: se edita la lista de <li class="vitrina__slide"> dentro
+    de pages/productos.html. Los puntos de navegación se crean solos.
+
+    Para cambiar cada cuánto pasa de foto, cambie el 6000 de abajo
+    (está en milisegundos: 6000 = 6 segundos).
+  */
+
+  var VITRINA_MS = 6000; // tiempo que dura cada foto en pantalla
+
+  function conectarVitrina() {
+    var vitrina = document.getElementById("vitrina-petshop");
+    if (!vitrina) return;
+
+    var pista = vitrina.querySelector("[data-vitrina-pista]");
+    var slides = [].slice.call(vitrina.querySelectorAll(".vitrina__slide"));
+    var puntos = vitrina.querySelector("[data-vitrina-puntos]");
+    var etiqueta = vitrina.querySelector("[data-vitrina-contador]");
+    if (!pista || slides.length === 0) return;
+
+    // Fondo borroso: cada foto se repite ampliada detras de si misma, asi
+    // las fotos verticales se ven completas y sin bordes vacios.
+    slides.forEach(function (slide) {
+      var img = slide.querySelector("img");
+      if (img) slide.style.backgroundImage = 'url("' + img.getAttribute("src") + '")';
+    });
+
+    var actual = 0;
+    var temporizador = null;
+    var enPausa = false;
+    var menosMovimiento =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Puntos de navegación: uno por cada foto, creados automáticamente
+    var botonesPunto = [];
+    if (puntos) {
+      puntos.innerHTML = "";
+      slides.forEach(function (slide, i) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "vitrina__punto";
+        var titulo = slide.querySelector(".vitrina__titulo");
+        b.setAttribute(
+          "aria-label",
+          "Ver " + (titulo ? titulo.textContent.trim() : "imagen " + (i + 1))
+        );
+        b.addEventListener("click", function () {
+          ir(i);
+          reiniciarReloj();
+        });
+        puntos.appendChild(b);
+        botonesPunto.push(b);
+      });
+    }
+
+    function ir(indice) {
+      actual = (indice + slides.length) % slides.length;
+      pista.style.transform = "translateX(-" + actual * 100 + "%)";
+      slides.forEach(function (s, i) {
+        s.classList.toggle("activo", i === actual);
+        s.setAttribute("aria-hidden", i === actual ? "false" : "true");
+      });
+      botonesPunto.forEach(function (b, i) {
+        b.classList.toggle("activo", i === actual);
+        b.setAttribute("aria-current", i === actual ? "true" : "false");
+      });
+      if (etiqueta) {
+        etiqueta.textContent = actual + 1 + " / " + slides.length;
+      }
+    }
+
+    function reiniciarReloj() {
+      window.clearInterval(temporizador);
+      temporizador = null;
+      if (menosMovimiento || enPausa || slides.length < 2) return;
+      temporizador = window.setInterval(function () {
+        ir(actual + 1);
+      }, VITRINA_MS);
+    }
+
+    function pausar() {
+      enPausa = true;
+      reiniciarReloj();
+    }
+
+    function reanudar() {
+      enPausa = false;
+      reiniciarReloj();
+    }
+
+    var anterior = vitrina.querySelector("[data-vitrina-anterior]");
+    var siguiente = vitrina.querySelector("[data-vitrina-siguiente]");
+    if (anterior) {
+      anterior.addEventListener("click", function () {
+        ir(actual - 1);
+        reiniciarReloj();
+      });
+    }
+    if (siguiente) {
+      siguiente.addEventListener("click", function () {
+        ir(actual + 1);
+        reiniciarReloj();
+      });
+    }
+
+    vitrina.addEventListener("mouseenter", pausar);
+    vitrina.addEventListener("mouseleave", reanudar);
+    vitrina.addEventListener("focusin", pausar);
+    vitrina.addEventListener("focusout", reanudar);
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) pausar();
+      else reanudar();
+    });
+
+    // Flechas del teclado cuando la vitrina tiene el foco
+    vitrina.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") {
+        ir(actual - 1);
+        reiniciarReloj();
+      }
+      if (e.key === "ArrowRight") {
+        ir(actual + 1);
+        reiniciarReloj();
+      }
+    });
+
+    // Arrastre con el dedo en celulares
+    var inicioX = null;
+    vitrina.addEventListener(
+      "touchstart",
+      function (e) {
+        inicioX = e.touches[0].clientX;
+        pausar();
+      },
+      { passive: true }
+    );
+    vitrina.addEventListener(
+      "touchend",
+      function (e) {
+        if (inicioX === null) return;
+        var dif = e.changedTouches[0].clientX - inicioX;
+        if (Math.abs(dif) > 40) ir(actual + (dif < 0 ? 1 : -1));
+        inicioX = null;
+        reanudar();
+      },
+      { passive: true }
+    );
+
+    ir(0);
+    reiniciarReloj();
+  }
+
+  // =========================================================
+  // 11. Arranque
   // =========================================================
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -2527,19 +2931,94 @@ function esPagina(nombre) {
     conectarModal();
     conectarCarrito();
     conectarPanel();
+    conectarVitrina();
     renderCatalogo();
   });
 })();
 
 
 /* ==========================================================================
-   BLOQUE 5 · (ELIMINADO)
-   La cabecera al bajar, el observer de .reveal, los contadores animados y el
-   año dinámico ya los hace el BLOQUE 1 para TODAS las páginas. Este bloque
-   repetía lo mismo solo para el inicio y provocaba dos animaciones peleando
-   por el mismo número y dos umbrales distintos para la clase "scrolled".
-   No agregar código aquí: usar el BLOQUE 1.
+   BLOQUE 5 · PÁGINA INICIO
+   Cabecera al bajar la página y contadores animados.
+   Se ejecuta solo cuando el <body> tiene data-pagina="inicio".
    ========================================================================== */
+
+(function () {
+  if (!esPagina("inicio")) return;   // solo se ejecuta en esta página
+
+  // Efecto de vidrio en la cabecera al bajar la pagina
+  const header = document.getElementById('header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  }
+
+  // Animación de contadores
+  function animarContador(el) {
+    const target = +el.dataset.target;
+    // Si el numero del HTML esta mal escrito, se pinta tal cual y se sale.
+    // (Antes el contador se quedaba girando para siempre en segundo plano.)
+    if (!Number.isFinite(target) || target <= 0) {
+      el.textContent = el.dataset.target || '';
+      return;
+    }
+    // El "5" es el unico contador que lleva la palabra años; el resto lleva "+".
+    const sufijo = target === 5 ? ' años' : '+';
+    const duracion = 1800;
+    const paso = Math.max(1, Math.ceil(target / (duracion / 16)));
+    let actual = 0;
+    const timer = setInterval(() => {
+      actual = Math.min(actual + paso, target);
+      el.textContent = actual + sufijo;
+      if (actual >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  // Intersection Observer para reveal y contadores
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('[data-target]').forEach(animarContador);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* Barra de cita de la portada: arma el mensaje y lo abre en WhatsApp.
+     No guarda nada ni manda correos: solo redacta el texto por el cliente.
+     Para cambiar el numero de WhatsApp, edite TELEFONO_CITA de abajo. */
+  const TELEFONO_CITA = '51939356376';
+  const barraCita = document.querySelector('[data-barra-cita]');
+  if (barraCita) {
+    barraCita.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const dato = (nombre) => {
+        const campo = barraCita.querySelector('[name="' + nombre + '"]');
+        return campo ? String(campo.value).trim() : '';
+      };
+      const servicio = dato('servicio');
+      const mascota = dato('mascota');
+      const dia = dato('dia');
+      const texto =
+        'Hola Pelitos, quiero reservar una cita.\n' +
+        (servicio ? 'Servicio: ' + servicio + '\n' : '') +
+        (mascota ? 'Mascota: ' + mascota + '\n' : '') +
+        (dia ? 'Cuando: ' + dia : '');
+      window.open(
+        'https://api.whatsapp.com/send?phone=' + TELEFONO_CITA + '&text=' + encodeURIComponent(texto),
+        '_blank',
+        'noopener'
+      );
+    });
+  }
+
+  // Año dinámico
+  document.querySelectorAll('[data-anio]').forEach(el => el.textContent = new Date().getFullYear());
+})();
 
 
 /* ==========================================================================
@@ -2689,78 +3168,34 @@ function esPagina(nombre) {
     var form = document.querySelector("[data-form-cita]");
     if (!form) return;
 
-    function validarCampo(input, mostrarVacio) {
+    function validarCampo(input) {
       var tipo = input.dataset.validar;
       var valor = input.value.trim();
       var pista = input.parentElement.querySelector("[data-pista]");
       var ok = true;
       var msg = "";
 
-      /* Campo vacío y aún sin enviar: se deja la ayuda original en lugar de
-         acusar al usuario de un error que todavía no cometió. */
-      if (!valor && !mostrarVacio && tipo !== "opcional") {
-        input.parentElement.classList.remove("campo--ok", "campo--mal");
-        input.removeAttribute("aria-invalid");
-        if (pista && pista.dataset.pistaOriginal !== undefined) {
-          pista.textContent = pista.dataset.pistaOriginal;
-        }
-        return tipo === "opcional";
-      }
-
       if (tipo === "texto") {
         ok = valor.length >= 3;
         msg = ok ? "Perfecto, gracias." : "Ingresa al menos 3 caracteres.";
       } else if (tipo === "telefono") {
-        ok = telefonoValido(valor);
-        msg = ok
-          ? "Número válido."
-          : "Necesitamos al menos " + TELEFONO_MIN_DIGITOS + " dígitos.";
+        var digitos = valor.replace(/\D/g, "");
+        ok = digitos.length >= 9;
+        msg = ok ? "Número válido." : "Necesitamos un número de 9 dígitos.";
       } else if (tipo === "opcional") {
         ok = true;
         msg = valor ? "Listo, anotado." : "Opcional, nos ayuda a preparar la atención.";
       }
 
       input.parentElement.classList.toggle("campo--ok", ok && valor.length > 0);
-      input.parentElement.classList.toggle("campo--mal", !ok);
-      /* El rojo solo se ve: sin aria-invalid un lector de pantalla no se
-         enteraba de que el campo estaba mal (detectado al probar el form). */
-      if (ok) input.removeAttribute("aria-invalid");
-      else input.setAttribute("aria-invalid", "true");
-      if (pista) {
-        pista.textContent = msg;
-        if (!pista.id) {
-          pista.id = "pista-" + (input.name || input.id || "campo");
-        }
-        input.setAttribute("aria-describedby", pista.id);
-      }
+      input.parentElement.classList.toggle("campo--mal", !ok && valor.length > 0);
+      if (pista) pista.textContent = msg;
       return ok;
     }
 
-    var campos = form.querySelectorAll("[data-validar]");
-    campos.forEach(function (input) {
-      var pista = input.parentElement.querySelector("[data-pista]");
-      if (pista) pista.dataset.pistaOriginal = pista.textContent;
+    form.querySelectorAll("[data-validar]").forEach(function (input) {
       input.addEventListener("input", function () { validarCampo(input); });
       input.addEventListener("blur", function () { validarCampo(input); });
-    });
-
-    /* Esta validación ahora SÍ frena el envío. Antes solo pintaba colores y el
-       formulario se enviaba igual desde el BLOQUE 1 con otras reglas.
-       stopImmediatePropagation corta el otro listener de submit del mismo form. */
-    form.addEventListener("submit", function (evento) {
-      var primerMal = null;
-      campos.forEach(function (input) {
-        if (!validarCampo(input, true) && !primerMal) primerMal = input;
-      });
-      if (!primerMal) return;
-      evento.preventDefault();
-      evento.stopImmediatePropagation();
-      var caja = form.querySelector("[data-error]");
-      if (caja) {
-        caja.textContent = "Revisa los campos marcados en rojo.";
-        caja.hidden = false;
-      }
-      primerMal.focus();
     });
 
     /* Contador de caracteres del mensaje */
@@ -2816,73 +3251,44 @@ function esPagina(nombre) {
     }
   };
 
-  /* Escribe en un nodo solo si existe: si mañana se renombra un id del HTML,
-     el cotizador sigue funcionando en vez de lanzar una excepción que dejaba
-     sin conectar todo lo que viene después (galería, FAQ, comparador). */
-  function ponerTexto(id, valor) {
-    const nodo = document.getElementById(id);
-    if (nodo) nodo.textContent = valor;
-  }
-
-  /* El estado inicial se LEE de los botones marcados como .activo en el HTML.
-     Antes estaba escrito a mano y mostraba un tamaño que no existía en la
-     interfaz ("Toy / Mini (0-5 Kg)" frente al botón "Pequeño (0-5 kg)"). */
-  const btnPesoInicial = document.querySelector('#selector-peso .selector-pill-btn.activo');
-  const btnServicioInicial = document.querySelector('#selector-servicio .selector-pill-btn.activo');
-
   let estadoCotizador = {
-    pesoId: (btnPesoInicial && btnPesoInicial.dataset.peso) || "0-5",
-    pesoNombre: (btnPesoInicial && btnPesoInicial.dataset.pesoNombre) || "Toy / Mini (hasta 5 kg)",
-    servicioId: (btnServicioInicial && btnServicioInicial.dataset.servicio) || "clasico",
-    servicioNombre:
-      (btnServicioInicial && btnServicioInicial.dataset.nombre) ||
-      "Servicio Clásico (Duchita + Corte)",
+    pesoId: "0-5",
+    pesoNombre: "Toy / Mini (0-5 Kg)",
+    servicioId: "clasico",
+    servicioNombre: "Servicio Clásico (Duchita + Corte)",
     extras: []
   };
 
   function recalcularCotizador() {
     const tarifaObj = TARIFAS[estadoCotizador.servicioId] || TARIFAS.clasico;
-    const base = tarifaObj[estadoCotizador.pesoId];
-    /* Si la combinación no está en la matriz NO se inventa un precio.
-       Antes el respaldo era 40, que cobraba de más en "Amor Express" (25). */
-    const hayPrecio = typeof base === "number" && isFinite(base);
-    const precioBase = hayPrecio ? base : 0;
-
+    const precioBase = tarifaObj[estadoCotizador.pesoId] || 40;
+  
     let extrasMonto = 0;
     estadoCotizador.extras.forEach(e => { extrasMonto += e.costo; });
 
     const totalFinal = precioBase + extrasMonto;
-    const textoBase = hayPrecio ? `S/ ${precioBase.toFixed(2)}` : "A consultar";
-    const textoTotal = hayPrecio ? `S/ ${totalFinal.toFixed(2)}` : "A consultar";
 
     // Actualizar UI
-    ponerTexto('resumen-peso', estadoCotizador.pesoNombre);
-    ponerTexto('resumen-servicio', estadoCotizador.servicioNombre);
-    ponerTexto('resumen-precio-base', textoBase);
-    ponerTexto('resumen-extras-monto', `+S/ ${extrasMonto.toFixed(2)}`);
-    ponerTexto('resumen-total', textoTotal);
-    ponerTexto('resumen-tiempo', tarifaObj.tiempo || "A consultar");
+    document.getElementById('resumen-peso').textContent = estadoCotizador.pesoNombre;
+    document.getElementById('resumen-servicio').textContent = estadoCotizador.servicioNombre;
+    document.getElementById('resumen-precio-base').textContent = `S/ ${precioBase.toFixed(2)}`;
+    document.getElementById('resumen-extras-monto').textContent = `+S/ ${extrasMonto.toFixed(2)}`;
+    document.getElementById('resumen-total').textContent = `S/ ${totalFinal.toFixed(2)}`;
+    document.getElementById('resumen-tiempo').textContent = tarifaObj.tiempo;
 
     // Actualizar enlace de WhatsApp con los datos completos
-    const extrasLista = estadoCotizador.extras.length > 0
+    const extrasLista = estadoCotizador.extras.length > 0 
       ? "\n*Adicionales:* " + estadoCotizador.extras.map(e => e.nombre).join(', ')
       : "";
 
-    /* Las líneas van sin sangría: el texto se envía tal cual por WhatsApp y
-       antes cada renglón llegaba con dos espacios delante. */
-    const msg = [
-      "¡Hola Pelitos Estética! Deseo reservar cita:",
-      "*Servicio:* " + estadoCotizador.servicioNombre,
-      "*Tamaño de mi mascota:* " + estadoCotizador.pesoNombre + extrasLista,
-      "*Total estimado:* " + textoTotal + " (a confirmar por el local)",
-      "",
-      "¿Tienen turnos disponibles para esta semana en su sede de Jr. Leoncio Prado?"
-    ].join("\n");
+    const msg = `¡Hola Pelitos Estética! Deseo reservar cita:
+  *Servicio:* ${estadoCotizador.servicioNombre}
+  *Tamaño de mi mascota:* ${estadoCotizador.pesoNombre}${extrasLista}
+  *Total estimado:* S/ ${totalFinal.toFixed(2)}
 
-    const btnWa = document.getElementById('btn-whatsapp-cotizador');
-    if (btnWa) {
-      btnWa.href = enlaceWhatsapp(msg, SITE.whatsapp.estetica);
-    }
+  ¿Tienen turnos disponibles para esta semana en su sede de Jr. Leoncio Prado?`;
+
+    document.getElementById('btn-whatsapp-cotizador').href = `https://api.whatsapp.com/send?phone=51948426656&text=${encodeURIComponent(msg)}`;
   }
 
   // Eventos selector de peso
@@ -2928,7 +3334,6 @@ function esPagina(nombre) {
   document.querySelectorAll('.faq-pregunta').forEach(btn => {
     btn.addEventListener('click', () => {
       const card = btn.closest('.faq-card');
-      if (!card) return;
       const estaActivo = card.classList.contains('activo');
       document.querySelectorAll('.faq-card').forEach(c => c.classList.remove('activo'));
       if (!estaActivo) {
@@ -2938,68 +3343,36 @@ function esPagina(nombre) {
   });
 
   // Lightbox para fotos
+  
   const modalLightbox = document.getElementById('lightbox-modal');
   const imgLightbox = document.getElementById('lightbox-img');
   const captionLightbox = document.getElementById('lightbox-caption');
 
-  function cerrarFotoGrande() {
-    if (!modalLightbox) return;
-    modalLightbox.classList.remove('abierto');
-    modalLightbox.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('sin-scroll');
-    if (focoPrevio && typeof focoPrevio.focus === 'function') focoPrevio.focus();
-  }
-
-  var focoPrevio = null;
-
   function abrirFotoGrande(src, caption) {
     if (!modalLightbox || !imgLightbox) return;
-    focoPrevio = document.activeElement;
     imgLightbox.src = src;
-    imgLightbox.alt = caption || "Foto ampliada";
-    if (captionLightbox) captionLightbox.textContent = caption || "";
+    captionLightbox.textContent = caption || "";
     modalLightbox.classList.add('abierto');
     modalLightbox.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('sin-scroll');
-    var cerrar = document.getElementById('lightbox-cerrar');
-    if (cerrar) cerrar.focus();
   }
 
-  /* Las fotos de la galería ya no usan onclick="..." en el HTML (rompía con
-     comillas en los pies de foto e impedía cualquier CSP estricta): ahora
-     declaran data-foto / data-pie y se atienden con un solo listener. */
-  document.addEventListener("click", function (e) {
-    var zona = e.target.closest("[data-foto]");
-    if (!zona) return;
-    abrirFotoGrande(zona.getAttribute("data-foto"), zona.getAttribute("data-pie"));
-  });
+  // Las fotos de la galería la llaman desde el HTML con onclick="abrirFotoGrande(...)",
+  // por eso se publica aquí para que el HTML la encuentre.
 
-  document.addEventListener("keydown", function (e) {
-    if (e.key !== "Enter" && e.key !== " ") return;
-    var zona = e.target.closest && e.target.closest("[data-foto]");
-    if (!zona) return;
-    e.preventDefault();
-    abrirFotoGrande(zona.getAttribute("data-foto"), zona.getAttribute("data-pie"));
-  });
-
-  // Se mantiene publicada por compatibilidad con enlaces antiguos.
+  
   window.abrirFotoGrande = abrirFotoGrande;
 
-  /* Cada nodo se comprueba antes de usarlo: si falta uno, el resto del bloque
-     sigue funcionando en lugar de romperse con un TypeError. */
-  var btnCerrarLb = document.getElementById('lightbox-cerrar');
-  if (btnCerrarLb) btnCerrarLb.addEventListener('click', cerrarFotoGrande);
+  document.getElementById('lightbox-cerrar').addEventListener('click', () => {
+    modalLightbox.classList.remove('abierto');
+    modalLightbox.setAttribute('aria-hidden', 'true');
+  });
 
-  if (modalLightbox) {
-    modalLightbox.addEventListener('click', (e) => {
-      if (e.target === modalLightbox) cerrarFotoGrande();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalLightbox.classList.contains('abierto')) {
-        cerrarFotoGrande();
-      }
-    });
-  }
+  modalLightbox.addEventListener('click', (e) => {
+    if (e.target === modalLightbox) {
+      modalLightbox.classList.remove('abierto');
+      modalLightbox.setAttribute('aria-hidden', 'true');
+    }
+  });
 })();
 
 
@@ -3018,12 +3391,9 @@ function esPagina(nombre) {
     var despues = document.getElementById("comparador-despues");
     var linea = document.getElementById("comparador-linea");
     var rango = document.getElementById("comparador-rango");
-    /* Sin los tres nodos no hay comparador: se sale sin lanzar excepciones. */
-    if (!despues || !linea || !rango) return;
 
     function pintar(valor) {
       var v = Math.max(0, Math.min(100, valor));
-      if (!isFinite(v)) v = 50;
       despues.style.setProperty("--pos", v + "%");
       linea.style.left = v + "%";
     }
@@ -3042,18 +3412,10 @@ function esPagina(nombre) {
     caja.addEventListener("pointerdown", function (e) {
       if (e.target === rango) return;
       arrastrando = true;
-      /* Captura del puntero: así el arrastre termina siempre, incluso si el
-         dedo sale de la imagen o el sistema cancela el gesto. */
-      if (caja.setPointerCapture && e.pointerId !== undefined) {
-        try { caja.setPointerCapture(e.pointerId); } catch (err) {}
-      }
       desdeEvento(e);
     });
     window.addEventListener("pointermove", function (e) { if (arrastrando) desdeEvento(e); });
-    function soltar() { arrastrando = false; }
-    window.addEventListener("pointerup", soltar);
-    window.addEventListener("pointercancel", soltar);
-    window.addEventListener("blur", soltar);
+    window.addEventListener("pointerup", function () { arrastrando = false; });
 
     pintar(50);
   })();
@@ -3115,7 +3477,8 @@ function esPagina(nombre) {
         const nombre = document.getElementById("reg-nombre").value.trim();
         const email = document.getElementById("reg-email").value.trim();
         const tel = document.getElementById("reg-tel").value.replace(/\D/g, "");
-        /* El campo de mascota es opcional y puede no existir en la página. */
+        // Campo opcional: puede no existir en la página, así que se protege
+        // (antes, si faltaba, el registro se rompía sin avisar).
         const campoMascota = document.getElementById("reg-mascota");
         const mascota = campoMascota ? campoMascota.value.trim() : "";
 
@@ -3128,14 +3491,9 @@ function esPagina(nombre) {
           "Correo: " + encodeURIComponent(email) + "%0A" +
           "Celular: " + encodeURIComponent(tel) +
           (mascota ? "%0AMascota: " + encodeURIComponent(mascota) : "");
-        /* Se abre DENTRO del gesto del usuario: dentro de un setTimeout el
-           navegador lo trataba como ventana emergente y la bloqueaba. */
-        abrirExterno(
-          "https://api.whatsapp.com/send?phone=" +
-            SITE.whatsapp.consultorio +
-            "&text=" +
-            texto
-        );
+        setTimeout(() => {
+          window.open("https://api.whatsapp.com/send?phone=51939356376&text=" + texto, "_blank", "noopener");
+        }, 700);
       });
     }
 
@@ -3294,37 +3652,38 @@ function esPagina(nombre) {
     });
   }
 
-  /* Contador numérico: delega en el ÚNICO animador del sitio (BLOQUE 1).
-     Antes había una segunda implementación aquí y ambas escribían el mismo
-     textContent con duraciones distintas. */
+  /* Contador numérico (para estadísticas fuera de .reveal) */
   function contador(el) {
-    if (typeof animarContador === "function") animarContador(el, reduce);
+    if (el.dataset.dinHecho === "1") return;
+    el.dataset.dinHecho = "1";
+    var meta = Number(el.dataset.target);
+    if (!isFinite(meta) || meta <= 0) return;
+    var sufijo = el.dataset.sufijo || "+";
+    if (reduce) {
+      el.textContent = meta + sufijo;
+      return;
+    }
+    var t0 = performance.now();
+    var dur = 1400;
+    function tick(t) {
+      var p = Math.min((t - t0) / dur, 1);
+      var suave = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(meta * suave) + sufijo;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   /* ---------------------------------------------------------
      3. Tarjetas: luz que sigue al cursor + elevación
      --------------------------------------------------------- */
-  var SELECTOR_TARJETAS =
-    ".tarjeta, .producto-card, .dato, .razon, .login-beneficio-item, .galeria-card";
-
-  function marcarTarjetas(raiz) {
-    (raiz || document).querySelectorAll(SELECTOR_TARJETAS).forEach(function (t) {
+  function tarjetasVivas() {
+    var tarjetas = document.querySelectorAll(
+      ".tarjeta, .producto-card, .dato, .razon, .login-beneficio-item, .galeria-card"
+    );
+    tarjetas.forEach(function (t) {
       t.classList.add("din-luz", "din-flota");
     });
-  }
-
-  function tarjetasVivas() {
-    marcarTarjetas(document);
-
-    /* El catálogo del PetShop se vuelve a pintar al filtrar o buscar y las
-       tarjetas nuevas nacían sin efectos. Con este gancho el propio
-       renderCatalogo puede pedir que se vuelvan a marcar. */
-    window.PelitosEfectos = {
-      refrescar: function (raiz) {
-        marcarTarjetas(raiz);
-      }
-    };
-
     if (reduce) return;
 
     document.addEventListener(
@@ -3434,10 +3793,7 @@ function esPagina(nombre) {
         var s = img.getAttribute("src") || "";
         return (
           /\/(instalaciones|estetica|servicios|equipo)\//.test(s) &&
-          !img.closest("a") &&
-          /* La galería de Estética tiene su propio visor (data-foto):
-             sin esta exclusión un clic abría DOS ventanas superpuestas. */
-          !img.closest("[data-foto]")
+          !img.closest("a")
         );
       }
     );
@@ -3469,24 +3825,14 @@ function esPagina(nombre) {
         (origen.alt || "Foto") + " · " + (indice + 1) + " de " + imagenes.length;
     }
 
-    var focoAnterior = null;
-
     function abrir(i) {
       mostrar(i);
-      focoAnterior = document.activeElement;
       caja.classList.add("abierto");
-      /* Se usa la MISMA clase que el resto de diálogos: antes este visor tocaba
-         body.style.overflow y al cerrarlo devolvía el scroll aunque siguiera
-         abierto otro diálogo. */
-      document.body.classList.add("sin-scroll");
-      var btnCerrar = caja.querySelector(".din-lightbox__cerrar");
-      if (btnCerrar) btnCerrar.focus();
+      document.body.style.overflow = "hidden";
     }
-
     function cerrar() {
       caja.classList.remove("abierto");
-      document.body.classList.remove("sin-scroll");
-      if (focoAnterior && typeof focoAnterior.focus === "function") focoAnterior.focus();
+      document.body.style.overflow = "";
     }
 
     imagenes.forEach(function (el, i) {
@@ -3530,41 +3876,15 @@ function esPagina(nombre) {
         Horario: lunes a sábado, 8:30 a 20:00 (hora de Perú)
      --------------------------------------------------------- */
   function horarioEnVivo() {
-    /* Solo las insignias marcadas con data-horario.
-       Antes se tomaban TODAS las .badge-abierto y se borraba su texto: en
-       estética eso destruía el rótulo "Área Exclusiva de Grooming...".
-       data-horario="corto" muestra solo ABIERTO / CERRADO. */
-    var badges = document.querySelectorAll("[data-horario]");
+    var badges = document.querySelectorAll(".badge-abierto");
     if (!badges.length) return;
 
-    /* Hora de Perú sin depender de reparsear un texto localizado
-       (ese truco fallaba en algunos navegadores). */
-    function partesLima() {
-      try {
-        var f = new Intl.DateTimeFormat("en-US", {
-          timeZone: "America/Lima",
-          weekday: "short",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }).formatToParts(new Date());
-        var v = {};
-        f.forEach(function (p) {
-          v[p.type] = p.value;
-        });
-        var dias = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
-        var h = parseInt(v.hour, 10) % 24;
-        return { dia: dias[v.weekday], minutos: h * 60 + parseInt(v.minute, 10) };
-      } catch (err) {
-        var d = new Date();
-        return { dia: d.getDay(), minutos: d.getHours() * 60 + d.getMinutes() };
-      }
-    }
-
     function estado() {
-      var p = partesLima();
-      var dia = p.dia; // 0 domingo
-      var minutos = p.minutos;
+      var ahora = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "America/Lima" })
+      );
+      var dia = ahora.getDay(); // 0 domingo
+      var minutos = ahora.getHours() * 60 + ahora.getMinutes();
       var abierto = dia >= 1 && dia <= 6 && minutos >= 510 && minutos < 1200;
       return { abierto: abierto, dia: dia, minutos: minutos };
     }
@@ -3573,27 +3893,13 @@ function esPagina(nombre) {
       var e = estado();
       badges.forEach(function (b) {
         var punto = b.querySelector(".punto");
-        var texto;
-        if (b.getAttribute("data-horario") === "corto") {
-          texto = e.abierto ? "ABIERTO" : "CERRADO";
-          b.classList.toggle("din-cerrado", !e.abierto);
-          b.textContent = "";
-          if (punto) b.appendChild(punto);
-          b.appendChild(document.createTextNode(punto ? " " + texto : texto));
-          return;
-        }
-        if (e.abierto) {
-          texto = "Abierto ahora · Lun–Sáb 8:30–20:00";
-        } else if (e.dia === 0) {
-          texto = "Cerrado hoy · Abrimos lunes 8:30 a.m.";
-        } else if (e.minutos < 510) {
-          texto = "Cerrado · Abrimos hoy a las 8:30 a.m.";
-        } else if (e.dia === 6) {
-          /* Sábado después de las 20:00: el domingo NO se abre. */
-          texto = "Cerrado · Abrimos el lunes a las 8:30 a.m.";
-        } else {
-          texto = "Cerrado · Abrimos mañana a las 8:30 a.m.";
-        }
+        var texto = e.abierto
+          ? "Abierto ahora · Lun–Sáb 8:30–20:00"
+          : e.dia === 0
+          ? "Cerrado hoy · Abrimos lunes 8:30 a.m."
+          : e.minutos < 510
+          ? "Cerrado · Abrimos hoy a las 8:30 a.m."
+          : "Cerrado · Abrimos mañana a las 8:30 a.m.";
         b.classList.toggle("din-cerrado", !e.abierto);
         b.textContent = "";
         if (punto) b.appendChild(punto);
@@ -3605,10 +3911,23 @@ function esPagina(nombre) {
   }
 
   /* ---------------------------------------------------------
-     9. (Eliminado) Aquí vivía un TERCER sistema de toasts que sobrescribía
-        window.PelitosAviso y al que nunca se llamaba. El aviso único se
-        define ahora en el bloque de sesión (window.PelitosAviso).
+     9. Toast genérico reutilizable: window.PelitosAviso("...")
      --------------------------------------------------------- */
+  function toast() {
+    var el = document.createElement("div");
+    el.className = "din-toast";
+    el.setAttribute("role", "status");
+    document.body.appendChild(el);
+    var tmp = null;
+    window.PelitosAviso = function (msg) {
+      el.textContent = String(msg || "");
+      el.classList.add("visible");
+      window.clearTimeout(tmp);
+      tmp = window.setTimeout(function () {
+        el.classList.remove("visible");
+      }, 3200);
+    };
+  }
 
   /* ---------------------------------------------------------
      10. Scrollspy: marca el enlace de la sección visible
@@ -3737,48 +4056,8 @@ function esPagina(nombre) {
     });
   }
 
-  /* Barra de cita de la portada: arma el mensaje de WhatsApp con lo elegido.
-     Si el JavaScript falla, el formulario no hace nada raro: el visitante
-     sigue teniendo el botón de WhatsApp de la cabecera. */
-  function barraCita() {
-    var form = document.querySelector("[data-barra-cita]");
-    if (!form) return;
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var servicio = (form.querySelector("[name=servicio]") || {}).value || "Consulta m\u00e9dica";
-      var mascota = ((form.querySelector("[name=mascota]") || {}).value || "").trim();
-      var cuando = (form.querySelector("[name=cuando]") || {}).value || "";
-
-      var numero =
-        (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.consultorio) ||
-        "51939356376";
-      if (/est\u00e9tica/i.test(servicio) && window.SITE && window.SITE.whatsapp) {
-        numero = window.SITE.whatsapp.estetica || numero;
-      }
-
-      var partes = [
-        "Hola Pelitos Veterinaria, quiero reservar una cita.",
-        "Servicio: " + servicio,
-        "Cu\u00e1ndo: " + cuando,
-      ];
-      if (mascota) partes.push("Mascota: " + mascota);
-      partes.push("\u00bfQu\u00e9 horarios tienen disponibles?");
-
-      var url =
-        "https://api.whatsapp.com/send?phone=" +
-        numero +
-        "&text=" +
-        encodeURIComponent(partes.join("\n"));
-
-      /* Se abre dentro del gesto del usuario para que no lo bloquee el navegador. */
-      window.open(url, "_blank", "noopener,noreferrer");
-    });
-  }
-
   /* --------------------------------------------------------- */
   listo(function () {
-    try { barraCita(); } catch (e) {}
     try { barraProgreso(); } catch (e) {}
     try { revelados(); } catch (e) {}
     try { tarjetasVivas(); } catch (e) {}
@@ -3787,6 +4066,7 @@ function esPagina(nombre) {
     try { parallax(); } catch (e) {}
     try { lightbox(); } catch (e) {}
     try { horarioEnVivo(); } catch (e) {}
+    try { toast(); } catch (e) {}
     try { scrollspy(); } catch (e) {}
     try { ticker(); } catch (e) {}
     try { filtrosGenericos(); } catch (e) {}

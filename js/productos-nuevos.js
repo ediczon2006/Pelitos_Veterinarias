@@ -18,13 +18,23 @@
    titulo    (obligatorio) Nombre del producto.
    precio    (obligatorio) En soles, solo el número:  35   o   10.50
    foto      (obligatorio) Nombre del archivo dentro de images/productos/
-   categoria (opcional)    "accesorios" | "alimentos" | "snacks" | "salud" | "higiene"
+   categoria (opcional)    "accesorios" | "alimentos" | "snacks" | "salud" | "higiene" | "ropa"
                            Si no la pones, va a "accesorios".
    resumen   (opcional)    Una o dos frases que se muestran en la ficha.
+   descuento (opcional)    Rebaja en por ciento:  40   → la web cobra el 40 %
+                           menos, tacha el precio de lista y pinta la cinta
+                           «-40 % de descuento». Para terminar la campana,
+                           borra esta linea y vuelve el precio normal.
    tallas    (opcional)    ["Chico", "Mediano"]  → crea el selector de tamaño.
                            Para cobrar más por una talla:  ["Chico", "Mediano +10"]
                            (el número después del + son soles adicionales).
    colores   (opcional)    ["Gris", "Rosa", "Azul"]  → crea el selector de color.
+   opciones  (opcional)    ["Opción A", "Opción B +5"]  → selector genérico, para
+                           cuando no es ni talla ni color (ej. versión, fórmula,
+                           tipo de prenda). El texto del selector se llama
+                           "Presentación" salvo que pongas "opcionesNombre".
+   opcionesNombre (opcional) Título del selector de "opciones", ej. "Fórmula",
+                           "Versión", "Prenda". Solo se usa junto con "opciones".
    oferta    (opcional)    Precio anterior, para que salga el precio tachado.
    asesoria  (opcional)    true si el producto necesita indicación veterinaria.
 
@@ -83,7 +93,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
     titulo: "Comedero doble carita de oso",
-    precio: 10,
+    precio: 15,
     foto: "comedero-doble-oso.jpg",
     categoria: "accesorios",
     resumen:
@@ -93,7 +103,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
     titulo: "Comedero doble ovalado",
-    precio: 15,
+    precio: 10,
     foto: "comedero-doble-ovalado.jpg",
     categoria: "accesorios",
     resumen:
@@ -170,7 +180,13 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     categoria: "accesorios",
     resumen:
       "Hueso masticable grande: entretiene por horas, calma la ansiedad y ayuda a la limpieza dental del perro."
-  }
+  },
+
+  /* NOTA: los productos de laboratorio (ECA, IBASA, 4 Groomer, Huellas), los
+     kits y la ropa NO se escriben aqui: ya estan en el catalogo grande de
+     js/main.js con su ficha tecnica completa (ingredientes, dosis, registro).
+     Si los repite aqui apareceran dos veces en el PetShop. */
+
 
 ];
 
@@ -190,7 +206,8 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     snacks: "Snacks & Premios",
     salud: "Salud & Farmacia",
     accesorios: "Accesorios & Confort",
-    higiene: "Higiene & Cosmética"
+    higiene: "Higiene & Cosmética",
+    ropa: "Ropa para Mascotas"
   };
 
   /** "Cama para mascota" → "cama-para-mascota" */
@@ -285,6 +302,17 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
       });
     }
 
+    if (Array.isArray(bruto.opciones) && bruto.opciones.length) {
+      variantes.push({
+        nombre: String(bruto.opcionesNombre || "Presentación"),
+        opciones: bruto.opciones.map(function (o, i) {
+          var op = aOpcion(o);
+          if (i === 0) op.predeterminada = true;
+          return op;
+        })
+      });
+    }
+
     var producto = {
       id: slug(bruto.id || titulo) || "producto-nuevo-" + (indice + 1),
       categoria: categoria,
@@ -296,6 +324,11 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     };
 
     if (bruto.resumen) producto.resumen = String(bruto.resumen);
+
+    /* Descuento de campana: se pasa igual que en el catalogo de main.js, asi
+       un producto de esta lista tambien puede salir rebajado. */
+    var rebaja = Number(bruto.descuento);
+    if (Number.isFinite(rebaja) && rebaja > 0 && rebaja < 100) producto.descuento = rebaja;
     if (bruto.asesoria) producto.requiereAsesoria = true;
 
     var antes = Number(bruto.oferta);

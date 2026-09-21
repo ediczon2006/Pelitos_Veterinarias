@@ -35,8 +35,7 @@
    ========================================================================== */
 
 :root {
-  --radio: 0px;
-  --radio-lg: 0px;
+  /* Los radios los fija ahora css/neofuturismo.css (apartado 1). */
   --sombra: none;
   --sombra-card: none;
   --ancho: 1280px;
@@ -220,7 +219,7 @@ strong, b { font-weight: 600; }
   justify-content: flex-end;
   padding: 120px 0 84px;
   background-image:
-    linear-gradient(180deg, rgba(30, 16, 48, 0.62) 0%, rgba(30, 16, 48, 0.34) 34%, rgba(30, 16, 48, 0.88) 100%),
+    linear-gradient(180deg, rgba(26, 12, 42, 0.72) 0%, rgba(26, 12, 42, 0.58) 34%, rgba(26, 12, 42, 0.94) 100%),
     var(--foto, none);
   background-size: cover;
   background-position: center;
@@ -601,34 +600,14 @@ strong, b { font-weight: 600; }
   color: #fff;
 }
 
-/* Campos: línea inferior en vez de caja redondeada. */
-input:not([type="checkbox"]):not([type="radio"]),
-select,
-textarea {
-  border-radius: 0 !important;
-}
-
-.campo input,
-.campo select,
-.campo textarea {
-  border: 0;
-  border-bottom: var(--linea-fuerte);
-  background: none;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
-  border-bottom-color: var(--morado);
-  box-shadow: none;
-  outline: none;
-}
+/* RETIRADO (piel neo-futurista). Aqui los campos eran una simple linea
+   inferior, sin caja. Ahora son capsulas redondeadas y las define
+   css/neofuturismo.css (apartado 8). Se mantiene abajo solo el aviso de
+   campo mal rellenado, que no depende del estilo. */
 
 .campo label,
 .campo__etiqueta {
-  font-family: var(--tipo-display);
+  font-family: var(--tipo-texto);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -637,14 +616,14 @@ textarea {
 
 .campo--mal input,
 .campo--mal select,
-.campo--mal textarea { border-bottom-color: #c0392b; }
+.campo--mal textarea { border-color: #c0392b; }
 
 /* Diálogos y cajones también con esquinas rectas. */
 .modal-overlay .modal,
 .modal-caja,
 .cart-drawer,
 #lightbox-modal .modal,
-.pp-panel { border-radius: 0 !important; box-shadow: none; }
+.pp-panel { box-shadow: none; }
 
 
 /* ==========================================================================
@@ -785,7 +764,7 @@ textarea {
 
 .footer__legal a { color: rgba(255, 255, 255, 0.72); }
 
-.social-link__icon { border-radius: 0 !important; border: 1px solid rgba(255, 255, 255, 0.35) !important; }
+.social-link__icon { border: 1px solid rgba(255, 255, 255, 0.35) !important; }
 .social-link__icon svg { fill: #fff; }
 
 
@@ -844,26 +823,16 @@ textarea {
   box-shadow: none;
 }
 
-.avatar,
-.equipo-card__foto,
-.avatar-redondo { border-radius: 0 !important; }
+/* RETIRADO (piel neo-futurista): avatares y fotos de equipo vuelven a ser
+   redondos, como los define styles.css. */
 
 
 
-/* Esquinas rectas en todo el sitio. styles.css fija radios en 159 reglas, así
-   que se aplanan de una sola vez y se dejan redondos solo los elementos que
-   son círculos por diseño: puntos de estado, contadores y estrellas. */
-*:not(.punto):not(.color-dot):not(.cart-count):not(.estrellas-oro):not(.din-ripple):not(svg):not(svg *) {
-  border-radius: 0 !important;
-}
-
-/* Los botones flotantes de WhatsApp y de «volver arriba» se mantienen como
-   pastilla y círculo: son controles utilitarios, no parte de la composición. */
-.fab,
-.din-arriba,
-.wa-flotante,
-.whatsapp-flotante,
-a[class*="whatsapp-float"] { border-radius: 99px !important; }
+/* RETIRADO (piel neo-futurista). Aqui habia una regla que ponia TODAS las
+   esquinas de la web en recto de golpe. El estilo neo-futurista se apoya
+   justo en lo contrario —arcos muy desiguales—, asi que la regla se quito en
+   lugar de discutirla con mas !important desde css/neofuturismo.css.
+   Si algun dia vuelve al estilo editorial recto, hay que devolverla. */
 
 
 /* ==========================================================================
@@ -913,14 +882,6 @@ a[class*="whatsapp-float"] { border-radius: 99px !important; }
    Bloque en línea con el resto del rediseño: filetes finos, esquinas rectas,
    mayúsculas espaciadas en las etiquetas. Sin colores nuevos.
    ========================================================================== */
-
-.sin-resenas {
-  text-align: center;
-  color: var(--texto-suave);
-  max-width: 52ch;
-  margin: 0 auto;
-}
-.sin-resenas[hidden] { display: none; }
 
 .aporte-testimonio {
   margin-top: 72px;
@@ -1230,4 +1191,83 @@ img[src=""] {
   font-size: 0.94rem;
   line-height: 1.6;
   color: #46505e;
+}
+
+/* ==========================================================================
+   12 · TRES AREAS EN PORTADA (referencia artiemhotels.com)
+   Foto de fondo, una etiqueta chica en mayusculas y el nombre grande en
+   letra hueca encima. La foto se pasa desde el HTML con style="--foto: url()".
+   ========================================================================== */
+
+.areas-portada {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 56px;
+}
+
+.area-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 340px;
+  padding: 28px;
+  text-decoration: none;
+  background-image:
+    linear-gradient(180deg, rgba(30, 16, 48, 0.12) 0%, rgba(30, 16, 48, 0.72) 100%),
+    var(--foto, none);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--morado-oscuro);
+  overflow: hidden;
+}
+
+/* La foto se acerca despacio al pasar el mouse. */
+.area-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  transition: inset 0.4s ease;
+  pointer-events: none;
+}
+
+.area-cover:hover::after { inset: 10px; }
+
+.area-cover__etiqueta {
+  position: relative;
+  font-family: var(--tipo-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: #fff;
+}
+
+.area-cover__titulo {
+  position: relative;
+  margin-top: 2px;
+  font-family: var(--tipo-display);
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.05;
+  color: transparent;
+  -webkit-text-stroke: 1.4px #fff;
+  -webkit-text-fill-color: transparent;
+}
+
+.area-cover:focus-visible { outline: 2px solid var(--morado); outline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .areas-portada { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
+  .area-cover { min-height: 240px; padding: 22px; }
+}
+
+/* Si el visitante pide menos animaciones, el borde no se mueve. */
+@media (prefers-reduced-motion: reduce) {
+  .area-cover::after { transition: none; }
+  .area-cover:hover::after { inset: 0; }
 }
