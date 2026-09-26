@@ -258,8 +258,19 @@ strong, b { font-weight: 600; }
   display: inline-block;
 }
 
+/* Eslogan debajo del nombre "Pelitos Veterinaria". */
+.portada__eslogan {
+  margin-top: 16px;
+  font-family: var(--tipo-display);
+  font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
 .portada__bajada {
-  margin-top: 22px;
+  margin-top: 14px;
   max-width: 40rem;
   font-size: 1.04rem;
   line-height: 1.7;
