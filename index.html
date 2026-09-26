@@ -145,6 +145,25 @@
             <option>Solo quiero informaci&oacute;n</option>
           </select>
         </div>
+        <!-- Horario de citas: 9:00 a.m. a 1:00 p.m. y 3:00 p.m. a 7:00 p.m.
+             Para cambiar las horas, edite las opciones de abajo. -->
+        <div class="barra-cita__campo">
+          <label class="barra-cita__etiqueta" for="cita-hora">Hora</label>
+          <select id="cita-hora" name="hora">
+            <optgroup label="Ma&ntilde;ana (9:00 a.m. &ndash; 1:00 p.m.)">
+              <option value="9:00 a.m.">9:00 a.m.</option>
+              <option value="10:00 a.m.">10:00 a.m.</option>
+              <option value="11:00 a.m.">11:00 a.m.</option>
+              <option value="12:00 p.m.">12:00 p.m.</option>
+            </optgroup>
+            <optgroup label="Tarde (3:00 p.m. &ndash; 7:00 p.m.)">
+              <option value="3:00 p.m.">3:00 p.m.</option>
+              <option value="4:00 p.m.">4:00 p.m.</option>
+              <option value="5:00 p.m.">5:00 p.m.</option>
+              <option value="6:00 p.m.">6:00 p.m.</option>
+            </optgroup>
+          </select>
+        </div>
         <button type="submit" class="barra-cita__boton">Reservar cita</button>
       </form>
     </section>

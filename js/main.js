@@ -2994,6 +2994,38 @@ function esPagina(nombre) {
   const TELEFONO_CITA = '51939356376';
   const barraCita = document.querySelector('[data-barra-cita]');
   if (barraCita) {
+    /* Si elige "Hoy", se desactivan las horas que ya pasaron. */
+    const selectDia = barraCita.querySelector('[name="dia"]');
+    const selectHora = barraCita.querySelector('[name="hora"]');
+    const aHora24 = (texto) => {
+      const m = /^(\d{1,2}):(\d{2})\s*([ap])/i.exec(texto);
+      if (!m) return 0;
+      let h = parseInt(m[1], 10) % 12;
+      if (m[3].toLowerCase() === 'p') h += 12;
+      return h * 60 + parseInt(m[2], 10);
+    };
+    const actualizarHoras = () => {
+      if (!selectDia || !selectHora) return;
+      const esHoy = selectDia.value === 'Hoy';
+      const ahora = new Date();
+      const minutos = ahora.getHours() * 60 + ahora.getMinutes();
+      let primeraLibre = null;
+      Array.from(selectHora.options).forEach((op) => {
+        op.disabled = esHoy && aHora24(op.value) <= minutos;
+        if (!op.disabled && !primeraLibre) primeraLibre = op;
+      });
+      if (selectHora.selectedOptions[0] && selectHora.selectedOptions[0].disabled && primeraLibre) {
+        primeraLibre.selected = true;
+      }
+      /* Si hoy ya no quedan horas, se pasa a "Mañana". */
+      if (esHoy && !primeraLibre) {
+        selectDia.value = 'Mañana';
+        actualizarHoras();
+      }
+    };
+    if (selectDia) selectDia.addEventListener('change', actualizarHoras);
+    actualizarHoras();
+
     barraCita.addEventListener('submit', (e) => {
       e.preventDefault();
       const dato = (nombre) => {
@@ -3003,11 +3035,13 @@ function esPagina(nombre) {
       const servicio = dato('servicio');
       const mascota = dato('mascota');
       const dia = dato('dia');
+      const hora = dato('hora');
       const texto =
         'Hola Pelitos, quiero reservar una cita.\n' +
         (servicio ? 'Servicio: ' + servicio + '\n' : '') +
         (mascota ? 'Mascota: ' + mascota + '\n' : '') +
-        (dia ? 'Cuando: ' + dia : '');
+        (dia ? 'Cuando: ' + dia + '\n' : '') +
+        (hora && dia !== 'Solo quiero información' ? 'Hora: ' + hora : '');
       window.open(
         'https://api.whatsapp.com/send?phone=' + TELEFONO_CITA + '&text=' + encodeURIComponent(texto),
         '_blank',
