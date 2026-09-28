@@ -8,14 +8,6 @@
 
     <!-- ============================================================
          VISTA PREVIA AL COMPARTIR EN WHATSAPP Y REDES SOCIALES
-         Cuando alguien pega el enlace de la pagina, se muestra la
-         imagen images/logo/compartir.jpg con este titulo y texto.
-
-         IMPORTANTE: cuando ya tenga su dominio propio (por ejemplo
-         https://pelitosveterinaria.com) reemplace el valor de
-         og:image y og:url por la direccion completa, asi:
-         content="https://pelitosveterinaria.com/images/logo/compartir.jpg"
-         Facebook y WhatsApp necesitan la direccion completa, no la ruta corta.
          ============================================================ -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Pelitos Veterinaria" />
@@ -29,25 +21,354 @@
     <meta name="twitter:title" content="Pelitos Estética | Peluquería Canina Profesional y Spa en Huánuco" />
     <meta name="twitter:description" content="Peluquería canina con cuidado y bienestar en Huánuco: baños, grooming, cortes de raza, baños medicados y spa con agua temperada en Jr. Leoncio Prado 1336." />
     <meta name="twitter:image" content="../images/logo/compartir.jpg" />
-  <meta property="og:title" content="Pelitos Estética | Peluquería Canina en Huánuco" />
-  <meta property="og:description" content="Cuidado y estética con amor para tu mascota. Consulta precios por peso y reserva en línea." />
-  <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
-  <!-- Tipografias del estilo neo-futurista: Panchang (titulos) y Satoshi (texto). -->
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=panchang@400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" />
   <link rel="stylesheet" href="../css/styles.css" />
-  <!-- Capa editorial: le cambia la piel al sitio (esquinas rectas, mas aire,
-       titulos en mayusculas). Para volver al diseno anterior, borre esta linea. -->
   <link rel="stylesheet" href="../css/editorial.css" />
-  <!-- Piel neo-futurista. Borre esta linea y vuelve el diseno anterior. -->
   <link rel="stylesheet" href="../css/neofuturismo.css" />
 
-  <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
+
+  <style id="pelitos-productos-fix">
+    /* ===== Corrección y mejora visual de la galería de productos ===== */
+    .seccion--productos {
+      padding-top: 34px;
+      padding-bottom: 54px;
+    }
+
+    .seccion--productos .boton-desplegable-productos {
+      width: min(100%, 520px);
+      margin: 10px auto 14px;
+      padding: 14px 18px;
+      border: 1px solid rgba(108, 57, 145, .16);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+      color: var(--morado, #6d28d9);
+      justify-content: space-between;
+    }
+
+    .seccion--productos .boton-desplegable-productos svg {
+      flex: 0 0 auto;
+    }
+
+    .seccion--productos .productos-ocultos {
+      max-height: none;
+      overflow: visible;
+      opacity: 1;
+      margin-top: 8px;
+    }
+
+    .seccion--productos .grilla-productos-ejemplo {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+      padding: 8px 0 4px;
+    }
+
+    .seccion--productos .producto-card {
+      min-width: 0;
+      border: 1px solid rgba(15, 23, 42, .09);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, .07);
+    }
+
+    .seccion--productos .producto-card__media {
+      min-height: 0;
+      height: 255px;
+      padding: 12px;
+      background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+      display: grid;
+      place-items: center;
+    }
+
+    .seccion--productos .producto-card__media .producto-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #fff;
+      border: 0;
+      border-radius: 10px;
+      box-shadow: none;
+      transition: transform .25s ease;
+    }
+
+    .seccion--productos .producto-card:hover .producto-card__media .producto-img {
+      transform: scale(1.025);
+    }
+
+    .seccion--productos .producto-card__body {
+      padding: 14px 15px 16px;
+      gap: 7px;
+    }
+
+    .seccion--productos .producto-card h3 {
+      font-size: 1rem;
+      line-height: 1.28;
+    }
+
+    .seccion--productos .producto-card p {
+      font-size: .84rem;
+      line-height: 1.48;
+    }
+
+    .seccion--productos .producto-card__uso {
+      margin-top: 4px !important;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: rgba(124, 58, 237, .055);
+      font-size: .79rem !important;
+    }
+
+    .seccion--productos .producto-card__tipo {
+      font-size: .66rem;
+      padding: 4px 8px;
+    }
+
+    .seccion--productos .productos-investigacion {
+      margin: 14px auto 0;
+      max-width: 900px;
+      font-size: .76rem;
+    }
+
+    .seccion--productos .imagen-error {
+      position: relative;
+    }
+
+    .seccion--productos .imagen-error::after {
+      content: "Imagen no disponible";
+      position: absolute;
+      inset: 12px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(108,57,145,.28);
+      border-radius: 10px;
+      color: var(--morado, #6d28d9);
+      background: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1100px) {
+      .seccion--productos .grilla-productos-ejemplo {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .seccion--productos .grilla-productos-ejemplo {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .seccion--productos .producto-card__media {
+        height: 280px;
+      }
+    }
+  </style>
+
+  <!-- ESTILOS PARA LA NUEVA SECCIÓN DESPLEGABLE -->
+  <style>
+    .boton-desplegable-productos {
+      background: none;
+      border: none;
+      color: var(--texto);
+      font-family: inherit;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      transition: color 0.3s ease;
+    }
+    
+    .boton-desplegable-productos:hover {
+      color: var(--morado);
+    }
+    
+    .boton-desplegable-productos svg {
+      transition: transform 0.3s ease;
+    }
+    
+    .boton-desplegable-productos.abierto svg {
+      transform: rotate(180deg);
+    }
+
+    .productos-ocultos {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-top 0.3s;
+    }
+
+    .productos-ocultos.abierto {
+      max-height: 8000px; 
+      opacity: 1;
+      margin-top: 20px;
+    }
+
+    .grilla-productos-ejemplo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .producto-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--superficie, #fff);
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .producto-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.13);
+      border-color: rgba(124, 58, 237, 0.22);
+    }
+
+    .producto-card__media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      padding: 14px;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .producto-card__media .producto-img {
+      width: 100%;
+      height: 280px;
+      aspect-ratio: auto;
+      object-fit: contain;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .producto-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding: 18px 18px 20px;
+      height: 100%;
+    }
+
+    .producto-card__tipo {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--naranja-claro, #fff7ed);
+      color: var(--naranja-oscuro, #9a3412);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .producto-card h3 {
+      margin: 0;
+      color: var(--morado, #6d28d9);
+      font-size: 1.12rem;
+      line-height: 1.3;
+    }
+
+    .producto-card p {
+      margin: 0;
+      color: var(--texto-suave, #64748b);
+      line-height: 1.55;
+      font-size: .9rem;
+    }
+
+    .producto-card__uso {
+      margin-top: 2px !important;
+      padding: 10px 12px;
+      border-radius: 11px;
+      background: rgba(124, 58, 237, 0.055);
+      color: var(--texto, #0f172a) !important;
+      font-size: .84rem !important;
+    }
+
+    .producto-card__uso strong {
+      color: var(--morado, #6d28d9);
+    }
+
+    .productos-investigacion {
+      margin: 8px 0 0;
+      text-align: center;
+      color: var(--texto-suave, #64748b);
+      font-size: .8rem;
+      line-height: 1.5;
+    }
+
+    .hero-mensaje-instalaciones {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto 18px;
+      width: min(100%, 720px);
+      padding: 18px 22px 20px;
+      border: 1px solid rgba(108, 57, 145, 0.18);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(250,245,255,.96));
+      box-shadow: 0 18px 40px rgba(74, 33, 101, 0.13);
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-mensaje-instalaciones::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, #7c3aa8, #e7a13a);
+    }
+    .hero-mensaje-instalaciones__kicker {
+      display: block;
+      margin-bottom: 6px;
+      font-family: "Manrope", sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #a15d1a;
+    }
+    .hero-mensaje-instalaciones strong {
+      display: block;
+      font-family: "Panchang", "Manrope", sans-serif;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      line-height: 1.25;
+      letter-spacing: .01em;
+      color: #5f2b7e;
+      text-wrap: balance;
+    }
+    .hero-mensaje-instalaciones > span:last-child {
+      display: block;
+      margin-top: 8px;
+      font-family: "Satoshi", "Open Sans", sans-serif;
+      font-size: clamp(.86rem, 1.4vw, 1rem);
+      line-height: 1.5;
+      color: var(--texto-suave);
+    }
+  </style>
 </head>
 <body data-pagina="estetica">
 
@@ -123,11 +444,215 @@
         </div>
 
         <div class="hero__figura">
+          <div class="hero-mensaje-instalaciones" role="note" aria-label="Mensaje destacado de Pelitos Estética">
+            <span class="hero-mensaje-instalaciones__kicker">🐾 Pelitos Estética</span>
+            <strong>Somos la única estética canina profesional en Huánuco</strong>
+            <span>Contamos con instalaciones exclusivas para el cuidado y bienestar de tu engreído.</span>
+          </div>
           <img src="../images/estetica/entrada_estetica.jpeg" alt="Instalaciones de Pelitos Estética en Huánuco" loading="lazy" decoding="async" />
           <div class="tarjeta-flotante">
             <b>Groomers certificados</b>
             <span>Ambiente climatizado en Jr. Leoncio Prado 1336</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRODUCTOS Y HERRAMIENTAS UTILIZADAS EN ESTÉTICA ================= -->
+    <section class="seccion seccion--productos" id="productos-estetica">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Cosmética e Instrumentos de Alta Gama</span>
+          <h2>Productos y Herramientas en Pelitos Estética</h2>
+          <p>Fotografías reales de los productos y herramientas profesionales utilizados en grooming y spa.</p>
+        </div>
+
+        <button
+          id="btn-toggle-productos"
+          class="boton-desplegable-productos reveal abierto"
+          type="button"
+          aria-expanded="true"
+          aria-controls="galeria-productos-contenido">
+          Ver productos y herramientas utilizadas
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div id="galeria-productos-contenido" class="productos-ocultos abierto">
+          <div class="grilla-productos-ejemplo">
+
+            <!-- 05.png: Piedra pómez -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/05.png" class="producto-img" alt="Piedra pómez para estética" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Exfoliación</span>
+                <h3>Piedra Pómez Estética</h3>
+                <p>Piedra porosa natural para el cuidado dermatológico y exfoliación de almohadillas.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Cuidado de patas y callosidades.</p>
+              </div>
+            </article>
+
+            <!-- 06.png: Carda / Slicker Brush -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/06.png" class="producto-img" alt="Carda profesional" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Grooming</span>
+                <h3>Carda Profesional (Slicker)</h3>
+                <p>Cepillo con púas finas de acero inoxidable montadas sobre base flexible.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Desenredar nudos y remover pelo muerto.</p>
+              </div>
+            </article>
+
+            <!-- 07.png: Rastrillo deslanador -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/07.png" class="producto-img" alt="Rastrillo deslanador" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Deslanado</span>
+                <h3>Rastrillo Deslanador</h3>
+                <p>Herramienta especializada con dientes redondeados de alta eficiencia.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Retiro profundo de subpelo en época de muda.</p>
+              </div>
+            </article>
+
+            <!-- 08.png: Tijera recta -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/08.png" class="producto-img" alt="Tijeras rectas" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Corte</span>
+                <h3>Tijeras Rectas de Precisión</h3>
+                <p>Tijeras de acero inoxidable para acabados rectos y estilizados.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Dar contorno y corte general al manto.</p>
+              </div>
+            </article>
+
+            <!-- 09.png: Tijeras de entresacar -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/09.png" class="producto-img" alt="Tijeras de entresacar" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Esculpido</span>
+                <h3>Tijeras Dentadas de Entresacar</h3>
+                <p>Diseño con una hoja de dientes para texturizar.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Reducir volumen sin alterar el largo.</p>
+              </div>
+            </article>
+
+            <!-- 10.png: Tijeras esculpido doble -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/10.png" class="producto-img" alt="Tijeras de esculpido" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Estilizado</span>
+                <h3>Tijeras Escultoras Avanzadas</h3>
+                <p>Herramienta profesional para transiciones suaves de corte.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Difuminar líneas y desbastar densidad.</p>
+              </div>
+            </article>
+
+            <!-- 11.png: Tijeras profesionales de acabado -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/11.png" class="producto-img" alt="Tijeras de acabado" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Acabado</span>
+                <h3>Tijeras de Acabado Fino</h3>
+                <p>Ergonómicas y perfectamente calibradas para detalles finales.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Pulido y detalles en orejas y patas.</p>
+              </div>
+            </article>
+
+            <!-- 12.png: Esteticista / Groomer -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/12.png" class="producto-img" alt="Groomer profesional" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Nuestro Equipo</span>
+                <h3>Groomer Certificado Pelitos</h3>
+                <p>Profesional especializado en manejo sin estrés y técnicas de spa.</p>
+                <p class="producto-card__uso"><strong>Sede:</strong> Jr. Leoncio Prado 1336, Huánuco.</p>
+              </div>
+            </article>
+
+            <!-- 14.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/14.png" class="producto-img" alt="Accesorio de estética 14" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Equipamiento</span>
+                <h3>Accesorio Profesional de Grooming</h3>
+                <p>Instrumento utilizado durante los procesos de mantenimiento estético.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Apoyo técnico en sesión de belleza.</p>
+              </div>
+            </article>
+
+            <!-- 15.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/15.png" class="producto-img" alt="Accesorio de estética 15" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Equipamiento</span>
+                <h3>Implemento de Estética Canina</h3>
+                <p>Herramienta auxiliar empleada en el salón de belleza.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Asistencia en procedimientos de spa.</p>
+              </div>
+            </article>
+
+            <!-- 16.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/16.png" class="producto-img" alt="Accesorio de estética 16" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Instrumento</span>
+                <h3>Herramienta Especializada de Salón</h3>
+                <p>Equipo auxiliar para el confort y cuidado de la mascota.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Aplicación en sesiones de grooming.</p>
+              </div>
+            </article>
+
+            <!-- 17.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/17.png" class="producto-img" alt="Accesorio de estética 17" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Instrumento</span>
+                <h3>Instrumento de Soporte Estético</h3>
+                <p>Elemento complementario en el área de trabajo de peluquería.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Labores de estética general.</p>
+              </div>
+            </article>
+
+            <!-- 18.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/18.png" class="producto-img" alt="Accesorio de estética 18" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Instrumento</span>
+                <h3>Herramienta de Acabado Pelitos</h3>
+                <p>Implemento utilizado para detalles finales de presentación.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Protocolo de entrega final.</p>
+              </div>
+            </article>
+
+          </div>
+          <p class="productos-investigacion">Las fotografías corresponden a las herramientas y productos reales utilizados en nuestra sede de Huánuco.</p>
         </div>
       </div>
     </section>
@@ -143,10 +668,7 @@
 
         <div class="cotizador-estetica reveal">
           <div class="cotizador-grid">
-            <!-- Columna de Selección -->
             <div class="cotizador-opciones">
-              
-              <!-- 1. Peso / Tamaño -->
               <div>
                 <div class="cotizador-grupo-titulo">
                   <span class="badge-num">1</span>
@@ -172,7 +694,6 @@
                 </div>
               </div>
 
-              <!-- 2. Servicio Principal -->
               <div>
                 <div class="cotizador-grupo-titulo">
                   <span class="badge-num">2</span>
@@ -198,7 +719,6 @@
                 </div>
               </div>
 
-              <!-- 3. Adicionales opcionales -->
               <div>
                 <div class="cotizador-grupo-titulo">
                   <span class="badge-num">3</span>
@@ -238,7 +758,6 @@
 
             </div>
 
-            <!-- Columna de Resumen Dinámico -->
             <div class="cotizador-resumen">
               <h3>
                 <span>📋</span> Resumen de tu Reserva
@@ -293,7 +812,6 @@
         </div>
 
         <div class="rejilla rejilla--4 reveal">
-          <!-- Servicio Clásico -->
           <article class="tarjeta">
             <span class="tarjeta__num">01</span>
             <div class="tarjeta__icono" style="background:#fef3c7; color:#b45309;">✂️</div>
@@ -320,7 +838,6 @@
             </a>
           </article>
 
-          <!-- Amor Express -->
           <article class="tarjeta">
             <span class="tarjeta__num">02</span>
             <div class="tarjeta__icono" style="background:#fee2e2; color:#b91c1c;">⚡</div>
@@ -347,7 +864,6 @@
             </a>
           </article>
 
-          <!-- Spa Relajante -->
           <article class="tarjeta">
             <span class="tarjeta__num">03</span>
             <div class="tarjeta__icono" style="background:#e0e7ff; color:#4338ca;">🧴</div>
@@ -374,7 +890,6 @@
             </a>
           </article>
 
-          <!-- Momento Real VIP -->
           <article class="tarjeta">
             <span class="tarjeta__num">04</span>
             <div class="tarjeta__icono" style="background:#fdf2f8; color:#be185d;">👑</div>
@@ -484,7 +999,6 @@
           <p>Fotografías reales de los trabajos realizados en nuestra sede de Huánuco.</p>
         </div>
         
-         
         <div class="rejilla rejilla--3 reveal">
           <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/perrito_.jpg', 'Grooming y deslanado canino')">
             <img src="../images/estetica/perrito_.jpg" alt="Perrito en proceso de estética" loading="lazy" decoding="async" />
@@ -506,12 +1020,13 @@
               <span>✨ Entrega radiante y perfumado</span>
             </div>
           </div>
-           <div class="galeria-card-zoom" style="width: 100%; height: 320px; border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Ingreso a Pelitos Estética')">
-  <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
-  <div class="galeria-card-overlay">
-    <span>📍 Jr. Leoncio Prado 1336</span>
-  </div>
-</div>
+
+          <div class="galeria-card-zoom" style="width: 100%; height: 320px; border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Ingreso a Pelitos Estética')">
+            <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+            <div class="galeria-card-overlay">
+              <span>📍 Jr. Leoncio Prado 1336</span>
+            </div>
+          </div>
 
           <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/recepcion_estetica.jpeg', 'Recepción de Pelitos Estética')">
             <img src="../images/estetica/recepcion_estetica.jpeg" alt="Recepción de estética" loading="lazy" decoding="async" />
@@ -526,7 +1041,7 @@
               <span>🚿 Área de tinas temperadas</span>
             </div>
           </div>
-
+        </div>
 
         <div class="acciones" style="justify-content:center; margin-top:36px;">
           <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20ver%20m%C3%A1s%20fotos%20de%20cortes%20de%20raza." target="_blank" rel="noopener">
@@ -648,334 +1163,22 @@
     <span>WhatsApp Estética</span>
   </a>
 
+  <!-- SCRIPT PARA EL BOTÓN DESPLEGABLE DE PRODUCTOS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const btnToggle = document.getElementById('btn-toggle-productos');
+      const contenidoProductos = document.getElementById('galeria-productos-contenido');
+      
+      if(btnToggle && contenidoProductos) {
+        btnToggle.addEventListener('click', function() {
+          const abierto = this.classList.toggle('abierto');
+          contenidoProductos.classList.toggle('abierto', abierto);
+          this.setAttribute('aria-expanded', String(abierto));
+        });
+      }
+    });
+  </script>
+
   <script src="../js/main.js" defer></script>
-<script data-pplx-inline-edit>
-(function () {
-  if (window === window.top) return;
-
-  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://perplexity.localhost","http://localhost:1420","http://127.0.0.1:1420","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
-  const MAX_FONT_BYTES = 500 * 1024;
-  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
-  let scrollForwarding = false;
-  let scrollRaf = 0;
-  let trustedTopOrigin = null;
-
-  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
-  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
-  // across multiple labels.
-  function matchesAllowedOrigin(origin) {
-    if (!origin) return false;
-    for (const entry of allowedParentOrigins) {
-      if (!entry.includes("*")) {
-        if (entry === origin) return true;
-        continue;
-      }
-      const pattern = new RegExp(
-        "^" +
-          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
-          "$",
-      );
-      if (pattern.test(origin)) return true;
-    }
-    return false;
-  }
-
-  // Trust decision: when the sender is same-origin-visible (event.origin is a
-  // real origin like https://www.perplexity.ai) we trust event.origin directly.
-  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
-  // broker's stamped `parentOrigin` to identify the top window. The fallback
-  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
-  // on the response path (see postToTrustedTop) to ensure replies can't be
-  // delivered to anyone but the actual top window of that claimed origin.
-  function getTrustedParentOrigin(event) {
-    const forwardedParentOrigin =
-      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
-    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
-    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
-  }
-
-  // All responses go to window.top with targetOrigin = the allowlisted origin.
-  // An attacker that iframes us inside their own null-origin broker can claim
-  // any parentOrigin they like, but the browser will drop the reply whenever
-  // the real top's origin doesn't match — so the screenshot never leaves.
-  function postToTrustedTop(message) {
-    if (!trustedTopOrigin) return;
-    try {
-      window.top.postMessage(message, trustedTopOrigin);
-    } catch (_error) {}
-  }
-
-  function inlineAll(original, clone) {
-    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
-
-    try {
-      const computedStyle = getComputedStyle(original);
-      // cssText on a computed style is the serialized declaration in modern
-      // Chromium/Safari — a single read beats enumerating ~400 longhand
-      // properties. Firefox returns "" here, so we fall back on empty.
-      const serialized = computedStyle.cssText;
-      if (serialized) {
-        clone.style.cssText = serialized;
-      } else {
-        const parts = new Array(computedStyle.length);
-        for (let index = 0; index < computedStyle.length; index += 1) {
-          const property = computedStyle[index];
-          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
-        }
-        clone.style.cssText = parts.join("");
-      }
-    } catch (_error) {}
-
-    const originalChildren = original.children;
-    const clonedChildren = clone.children;
-    for (
-      let index = 0;
-      index < originalChildren.length && index < clonedChildren.length;
-      index += 1
-    ) {
-      inlineAll(originalChildren[index], clonedChildren[index]);
-    }
-  }
-
-  function extractFontUrl(srcValue) {
-    const matches = [
-      ...srcValue.matchAll(
-        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
-      ),
-    ];
-    if (matches.length === 0) return null;
-    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
-    if (woff2) return woff2[1];
-    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
-    if (woff) return woff[1];
-    return matches[0][1];
-  }
-
-  // Cache resolved font URL -> data URI across captures. Fonts on a page
-  // essentially never change, and a batch run emits multiple captures back to
-  // back — without this we'd refetch + re-base64 every time.
-  const fontDataUriCache = new Map();
-  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
-
-  async function fetchAsDataUri(url) {
-    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
-    let dataUri = null;
-    try {
-      const response = await fetch(url, { mode: "cors", credentials: "omit" });
-      if (response.ok) {
-        const blob = await response.blob();
-        if (blob.size <= MAX_FONT_BYTES) {
-          dataUri = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () =>
-              resolve(typeof reader.result === "string" ? reader.result : null);
-            reader.onerror = () => resolve(null);
-            reader.readAsDataURL(blob);
-          });
-        }
-      }
-    } catch (_error) {
-      dataUri = null;
-    }
-    fontDataUriCache.set(url, dataUri);
-    return dataUri;
-  }
-
-  function collectFontFaceRuleTexts() {
-    const rules = [];
-    for (const sheet of document.styleSheets) {
-      let cssRules;
-      try {
-        cssRules = sheet.cssRules;
-      } catch (_error) {
-        continue;
-      }
-      if (!cssRules) continue;
-      for (const rule of cssRules) {
-        const cssText = rule.cssText || "";
-        if (cssText.startsWith("@font-face")) rules.push(cssText);
-      }
-    }
-    return rules;
-  }
-
-  async function buildInlinedFontCss() {
-    const ruleTexts = collectFontFaceRuleTexts();
-    if (ruleTexts.length === 0) return null;
-
-    const resolved = ruleTexts.map((cssText) => {
-      if (!SRC_DECLARATION_RE.test(cssText)) return null;
-      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
-      if (!srcMatch) return null;
-      const url = extractFontUrl(srcMatch[1]);
-      if (!url) return null;
-      try {
-        return { cssText, url: new URL(url, document.baseURI).href };
-      } catch (_error) {
-        return null;
-      }
-    });
-
-    const dataUris = await Promise.all(
-      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
-    );
-
-    const inlined = [];
-    let totalBytes = 0;
-    for (let index = 0; index < resolved.length; index += 1) {
-      const entry = resolved[index];
-      const dataUri = dataUris[index];
-      if (!entry || !dataUri) continue;
-      const approxBytes = dataUri.length * 0.75;
-      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
-      totalBytes += approxBytes;
-      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
-    }
-    return inlined.length > 0 ? inlined.join("\n") : null;
-  }
-
-  function stripExternal(clone) {
-    const images = clone.querySelectorAll("img");
-    for (let index = 0; index < images.length; index += 1) {
-      const src = images[index].getAttribute("src");
-      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
-    }
-
-    const elements = clone.querySelectorAll("*");
-    for (let index = 0; index < elements.length; index += 1) {
-      const style = elements[index].style.cssText;
-      if (style && style.includes("url(")) {
-        elements[index].style.cssText = style.replace(
-          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
-          "none",
-        );
-      }
-    }
-  }
-
-  function emitScroll() {
-    scrollRaf = 0;
-    if (!scrollForwarding) return;
-    postToTrustedTop({
-      type: "INLINE_EDIT_SCROLL",
-      scrollX: window.scrollX,
-      scrollY: window.scrollY,
-    });
-  }
-
-  window.addEventListener(
-    "scroll",
-    function () {
-      if (!scrollForwarding || scrollRaf) return;
-      scrollRaf = requestAnimationFrame(emitScroll);
-    },
-    { passive: true, capture: true },
-  );
-
-  async function handleCaptureRequest(event) {
-    const requestId = event.data.requestId;
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    function postResult(dataUrl) {
-      postToTrustedTop({
-        type: "INLINE_EDIT_SCREENSHOT_RESULT",
-        requestId,
-        dataUrl,
-        scrollX,
-        scrollY,
-      });
-    }
-
-    try {
-      // Wait for any pending web fonts to resolve so both inline metrics and
-      // the @font-face inlining below see the same loaded faces.
-      if (document.fonts && document.fonts.ready) {
-        try {
-          await document.fonts.ready;
-        } catch (_error) {}
-      }
-
-      const clone = document.documentElement.cloneNode(true);
-      inlineAll(document.documentElement, clone);
-
-      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
-      for (let index = 0; index < removedNodes.length; index += 1) {
-        removedNodes[index].remove();
-      }
-
-      stripExternal(clone);
-
-      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
-      // can resolve them — external font URLs aren't fetched during
-      // foreignObject rendering, which would otherwise force a fallback face
-      // and change text metrics.
-      const inlinedFontCss = await buildInlinedFontCss();
-      if (inlinedFontCss) {
-        const styleEl = document.createElement("style");
-        styleEl.textContent = inlinedFontCss;
-        const head = clone.querySelector("head");
-        if (head) head.appendChild(styleEl);
-        else clone.insertBefore(styleEl, clone.firstChild);
-      }
-
-      const html = new XMLSerializer().serializeToString(clone);
-      const svg =
-        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
-        '<foreignObject width="100%" height="100%">' +
-        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
-        `<div style="position:relative;left:-${scrollX}px;top:-${scrollY}px">` +
-        html +
-        "</div></div></foreignObject></svg>";
-      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-      const image = new Image();
-      image.onload = function () {
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        canvas.getContext("2d").drawImage(image, 0, 0);
-        postResult(canvas.toDataURL("image/png"));
-      };
-      image.onerror = function () {
-        postResult(null);
-      };
-      image.src = svgUrl;
-    } catch (_error) {
-      postResult(null);
-    }
-  }
-
-  window.addEventListener("message", function (event) {
-    if (!event.data) return;
-    // Only accept messages from the direct parent frame. Blocks sibling /
-    // unrelated-window postMessage senders that could otherwise reach us.
-    if (event.source !== window.parent) return;
-
-    const trustedParentOrigin = getTrustedParentOrigin(event);
-    if (!trustedParentOrigin) return;
-    trustedTopOrigin = trustedParentOrigin;
-
-    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
-      scrollForwarding = true;
-      emitScroll();
-      return;
-    }
-
-    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
-      scrollForwarding = false;
-      if (scrollRaf) cancelAnimationFrame(scrollRaf);
-      scrollRaf = 0;
-      return;
-    }
-
-    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
-
-    handleCaptureRequest(event);
-  });
-})();
-
-
-</script></body>
+</body>
 </html>
