@@ -92,12 +92,16 @@
         <span class="eyebrow eyebrow--claro">Hu&aacute;nuco, Per&uacute;</span>
         
         <h1 class="portada__titulo">Pelitos <span class="hueco">Veterinaria</span></h1>
+<<<<<<< HEAD
         
         <!-- NUEVO: Frase debajo del título con letra bonita -->
         <h2 style="font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #fff; margin-top: -10px; margin-bottom: 20px; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.4);">
           Expertos en cuidar al que más te ama
         </h2>
 
+=======
+        <p class="portada__eslogan">Expertos en cuidar a quien m&aacute;s te ama</p>
+>>>>>>> 8a8247e98527976f96578ff23fd4ce3e2910e8c1
         <p class="portada__bajada">
           Consulta m&eacute;dica, medicina preventiva,
           laboratorio, cirug&iacute;a, est&eacute;tica canina y petshop, con un equipo cercano
@@ -135,6 +139,25 @@
           <input type="date" id="cita-dia" name="dia" style="background: transparent; border: none; font-family: inherit; font-size: 1rem; color: inherit; width: 100%; outline: none; cursor: pointer; margin-top: 2px;" required />
         </div>
 
+        <div class="barra-cita__campo">
+          <label class="barra-cita__etiqueta" for="cita-hora">Hora</label>
+          <select id="cita-hora" name="hora">
+            <optgroup label="Ma&ntilde;ana (9:00 a.m. &ndash; 1:00 p.m.)">
+              <option value="9:00 a.m.">9:00 a.m.</option>
+              <option value="10:00 a.m.">10:00 a.m.</option>
+              <option value="11:00 a.m.">11:00 a.m.</option>
+              <option value="12:00 p.m.">12:00 p.m.</option>
+            </optgroup>
+            <optgroup label="Tarde (3:00 p.m. &ndash; 7:00 p.m.)">
+              <option value="3:00 p.m.">3:00 p.m.</option>
+              <option value="4:00 p.m.">4:00 p.m.</option>
+              <option value="5:00 p.m.">5:00 p.m.</option>
+              <option value="6:00 p.m.">6:00 p.m.</option>
+            </optgroup>
+          </select>
+        </div>
+        <!-- Horario de citas: 9:00 a.m. a 1:00 p.m. y 3:00 p.m. a 7:00 p.m.
+             Para cambiar las horas, edite las opciones de abajo. -->
         <div class="barra-cita__campo">
           <label class="barra-cita__etiqueta" for="cita-hora">Hora</label>
           <select id="cita-hora" name="hora">
