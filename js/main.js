@@ -1754,186 +1754,357 @@ function esPagina(nombre) {
   }
 
   // =========================================================
-  // 5. Catálogo: render, filtros y buscador
+  // 5. Catálogo: render, filtros, orden, buscador y páginas
+  //    Diseño tipo "tienda": barra lateral con Ordenar por, Especies,
+  //    Marcas y Categorías; tarjetas limpias y paginación.
   // =========================================================
 
   var rejilla = document.getElementById("contenedor-productos");
-  var filtroActual = "todos";
+  var POR_PAGINA = 12;
   var terminoBusqueda = "";
+  var ordenActual = "";               // "", "precio-asc", "precio-desc", "az", "za"
+  var filtrosActivos = { especie: [], marca: [], categoria: [] };
+  var paginaActual = 1;
+
+  var NOMBRES_CATEGORIA = {
+    alimentos: "Alimentos",
+    snacks: "Snacks",
+    salud: "Salud & Farmacia",
+    higiene: "Higiene & Estética",
+    accesorios: "Accesorios",
+    ropa: "Ropa"
+  };
+
+  /* Marcas conocidas: si el producto no trae "marca", se detecta por el nombre. */
+  var MARCAS_CONOCIDAS = [
+    "Naturalistic", "4 Groomer", "ECAKLIN", "IBASA", "ECA DERM", "ECAÓTIC",
+    "Huellas Pet Care", "Ricocan", "Ricocat", "Canbo"
+  ];
+
+  function sinTildes(t) {
+    return String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+
+  /** Marca del producto: campo "marca", la ficha técnica o el nombre. */
+  function marcaDe(p) {
+    if (p.marca) return p.marca;
+    var texto = sinTildes(p.titulo + " " + (p.ficha && p.ficha.marca ? p.ficha.marca : ""));
+    for (var i = 0; i < MARCAS_CONOCIDAS.length; i++) {
+      if (texto.indexOf(sinTildes(MARCAS_CONOCIDAS[i]).replace(/\s+/g, " ")) !== -1 ||
+          texto.replace(/\s+/g, "").indexOf(sinTildes(MARCAS_CONOCIDAS[i]).replace(/\s+/g, "")) !== -1) {
+        return MARCAS_CONOCIDAS[i];
+      }
+    }
+    return "Pelitos";
+  }
+
+  /** Especie: campo "especie" ("perro", "gato" o ["perro","gato"]) o se deduce del texto. */
+  var ESPECIE_POR_ID = {
+    "ricocat-gatitos-1-kg": "gato",
+    "canbo-super-premium-gatitos-pollo-1-kg": "gato",
+    "kit-accesorios-gatos": "gato",
+    "ecaklin-desinfectante": "ambos",
+    "huellas-descalonia": "ambos",
+    "comedero-doble-con-dispensador": "ambos",
+    "comedero-doble-carita-de-oso": "ambos",
+    "comedero-doble-ovalado": "ambos",
+    "comedero-elevado-con-base": "ambos",
+    "tazon-huellitas": "ambos",
+    "cama-redonda-con-borde-de-borrego": "ambos",
+    "cama-redonda-estampado-patitas": "ambos",
+    "tazon-woof": "perro",
+    "botella-bebedero-portatil": "perro",
+    "hueso-de-plastico": "perro",
+    "kit-accesorios-basico": "perro",
+    "kit-accesorios-completo": "perro"
+  };
+
+  function especiesDe(p) {
+    if (p.especie) return [].concat(p.especie).map(sinTildes);
+    var fijo = ESPECIE_POR_ID[p.id];
+    if (fijo) return fijo === "ambos" ? ["perro", "gato"] : [fijo];
+    if (/naturalistic|4groomer|ricocan|canbo-super-premium-cachorro|ropa-/.test(p.id)) return ["perro"];
+    var t = sinTildes([p.titulo, p.categoriaTexto, p.resumen, p.ficha && p.ficha.descripcion].join(" "));
+    if (/perros? y gatos?|gatos? y perros?|mascotas?\b/.test(t) && !/para perros|para gatos/.test(t)) return ["perro", "gato"];
+    var gato = /\bgat|felin|ricocat/.test(t);
+    var perro = /\bperr|cachorr|canin|\bdog\b|ricocan/.test(t) || p.categoria === "ropa";
+    if (gato && !perro) return ["gato"];
+    if (perro && !gato) return ["perro"];
+    return ["perro", "gato"];
+  }
 
   function textoBuscable(p) {
-    var partes = [p.titulo, p.categoriaTexto, p.resumen || ""];
+    var partes = [p.titulo, p.categoriaTexto, p.resumen || "", marcaDe(p)];
     if (p.ficha) {
       partes.push(p.ficha.marca, p.ficha.presentacion, p.ficha.descripcion);
-      (p.ficha.sellos || []).forEach(function (s) {
-        partes.push(s);
-      });
-      (p.ficha.ingredientes || []).forEach(function (i) {
-        partes.push(i.titulo, i.detalle);
-      });
+      (p.ficha.sellos || []).forEach(function (s) { partes.push(s); });
+      (p.ficha.ingredientes || []).forEach(function (i) { partes.push(i.titulo, i.detalle); });
     }
-    return partes.join(" ").toLowerCase();
+    return sinTildes(partes.join(" "));
+  }
+
+  function productosBase() {
+    return CATALOGO.productos.filter(function (p) { return !p.destacado; });
+  }
+
+  function cumple(p, excluir) {
+    if (excluir !== "especie" && filtrosActivos.especie.length) {
+      var esp = especiesDe(p);
+      if (!filtrosActivos.especie.some(function (e) { return esp.indexOf(e) !== -1; })) return false;
+    }
+    if (excluir !== "marca" && filtrosActivos.marca.length && filtrosActivos.marca.indexOf(marcaDe(p)) === -1) return false;
+    if (excluir !== "categoria" && filtrosActivos.categoria.length && filtrosActivos.categoria.indexOf(p.categoria) === -1) return false;
+    if (terminoBusqueda && textoBuscable(p).indexOf(terminoBusqueda) === -1) return false;
+    return true;
   }
 
   function productosVisibles() {
-    return CATALOGO.productos.filter(function (p) {
-      if (p.destacado) return false; // ya tiene su propia sección
-      if (filtroActual !== "todos" && p.categoria !== filtroActual) return false;
-      if (terminoBusqueda && textoBuscable(p).indexOf(terminoBusqueda) === -1) return false;
-      return true;
-    });
+    var lista = productosBase().filter(function (p) { return cumple(p); });
+    var precio = function (p) { return sinPrecio(p) ? Infinity : precioDesde(p); };
+    if (ordenActual === "precio-asc") lista.sort(function (a, b) { return precio(a) - precio(b); });
+    if (ordenActual === "precio-desc") lista.sort(function (a, b) { return (precio(b) === Infinity ? -1 : precio(b)) - (precio(a) === Infinity ? -1 : precio(a)); });
+    if (ordenActual === "az") lista.sort(function (a, b) { return a.titulo.localeCompare(b.titulo, "es"); });
+    if (ordenActual === "za") lista.sort(function (a, b) { return b.titulo.localeCompare(a.titulo, "es"); });
+    return lista;
+  }
+
+  /* ---- Barra lateral de filtros (se arma sola con los datos del catálogo) ---- */
+  var ICONO_CHECK = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  function opcionHTML(grupo, valor, texto, cantidad, activo) {
+    return (
+      '<label class="ps-check' + (cantidad === 0 && !activo ? " ps-check--vacio" : "") + '">' +
+      '<input type="checkbox" data-grupo="' + esc(grupo) + '" value="' + esc(valor) + '"' + (activo ? " checked" : "") + " />" +
+      '<span class="ps-check__caja">' + ICONO_CHECK + "</span>" +
+      '<span class="ps-check__texto">' + esc(texto) + "</span>" +
+      (cantidad !== null ? '<span class="ps-check__num">' + cantidad + "</span>" : "") +
+      "</label>"
+    );
+  }
+
+  function grupoHTML(id, titulo, contenido, abierto) {
+    return (
+      '<div class="ps-grupo' + (abierto ? " abierto" : "") + '" data-ps-grupo="' + id + '">' +
+      '<button type="button" class="ps-grupo__titulo" aria-expanded="' + (abierto ? "true" : "false") + '">' +
+      "<span>" + titulo + "</span>" +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>' +
+      "</button>" +
+      '<div class="ps-grupo__cuerpo">' + contenido + "</div>" +
+      "</div>"
+    );
+  }
+
+  var gruposAbiertos = { orden: true, especie: true, marca: false, categoria: true };
+
+  function renderFiltros() {
+    var caja = document.getElementById("ps-filtros-cuerpo");
+    if (!caja) return;
+    var base = productosBase();
+
+    function contar(grupo, prueba) {
+      return base.filter(function (p) { return cumple(p, grupo) && prueba(p); }).length;
+    }
+
+    var orden = [
+      ["precio-asc", "Precio menor"],
+      ["precio-desc", "Precio mayor"],
+      ["az", "Nombre A-Z"],
+      ["za", "Nombre Z-A"]
+    ].map(function (o) { return opcionHTML("orden", o[0], o[1], null, ordenActual === o[0]); }).join("");
+
+    var especies = [["perro", "Perro"], ["gato", "Gato"]].map(function (e) {
+      return opcionHTML("especie", e[0], e[1], contar("especie", function (p) { return especiesDe(p).indexOf(e[0]) !== -1; }), filtrosActivos.especie.indexOf(e[0]) !== -1);
+    }).join("");
+
+    var marcas = [];
+    base.forEach(function (p) { var m = marcaDe(p); if (marcas.indexOf(m) === -1) marcas.push(m); });
+    marcas.sort(function (a, b) { return a.localeCompare(b, "es"); });
+    var marcasHTML = marcas.map(function (m) {
+      return opcionHTML("marca", m, m, contar("marca", function (p) { return marcaDe(p) === m; }), filtrosActivos.marca.indexOf(m) !== -1);
+    }).join("");
+
+    var cats = [];
+    base.forEach(function (p) { if (cats.indexOf(p.categoria) === -1) cats.push(p.categoria); });
+    var ordenCats = Object.keys(NOMBRES_CATEGORIA);
+    cats.sort(function (a, b) { return ordenCats.indexOf(a) - ordenCats.indexOf(b); });
+    var catsHTML = cats.map(function (c) {
+      return opcionHTML("categoria", c, NOMBRES_CATEGORIA[c] || c, contar("categoria", function (p) { return p.categoria === c; }), filtrosActivos.categoria.indexOf(c) !== -1);
+    }).join("");
+
+    caja.innerHTML =
+      grupoHTML("orden", "Ordenar por", orden, gruposAbiertos.orden) +
+      grupoHTML("especie", "Especies", especies, gruposAbiertos.especie) +
+      grupoHTML("categoria", "Categorías", catsHTML, gruposAbiertos.categoria) +
+      grupoHTML("marca", "Marcas", marcasHTML, gruposAbiertos.marca);
+
+    var hayFiltros = ordenActual || terminoBusqueda || filtrosActivos.especie.length || filtrosActivos.marca.length || filtrosActivos.categoria.length;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ps-limpiar]"), function (b) { b.hidden = !hayFiltros; });
+
+    var nActivos = filtrosActivos.especie.length + filtrosActivos.marca.length + filtrosActivos.categoria.length + (ordenActual ? 1 : 0);
+    var badge = document.getElementById("ps-filtros-num");
+    if (badge) { badge.textContent = nActivos; badge.hidden = !nActivos; }
   }
 
   function renderCatalogo() {
     if (!rejilla) return;
     var lista = productosVisibles();
+    var paginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
+    if (paginaActual > paginas) paginaActual = paginas;
 
     var contador = document.getElementById("contador-resultados");
-    if (contador) {
-      contador.textContent =
-        lista.length === 1 ? "1 producto" : lista.length + " productos";
-    }
+    if (contador) contador.textContent = lista.length === 1 ? "1 producto" : lista.length + " productos";
+    var verN = document.getElementById("ps-ver-n");
+    if (verN) verN.textContent = lista.length === 1 ? "Ver 1 producto" : "Ver " + lista.length + " productos";
+
+    renderFiltros();
 
     if (!lista.length) {
       rejilla.innerHTML =
         '<div class="catalogo-vacio">' +
         '<p class="catalogo-vacio__icono" aria-hidden="true">🔍</p>' +
         "<h3>No se encontraron productos</h3>" +
-        "<p>Prueba con otra palabra clave o elige otra categoría.</p>" +
+        "<p>Prueba con otra palabra o quita algún filtro.</p>" +
+        '<button type="button" class="ps-limpiar" data-ps-limpiar>Limpiar filtros</button>' +
         "</div>";
+      renderPaginacion(0);
       return;
     }
 
-    rejilla.innerHTML = lista.map(tarjetaHTML).join("");
-
-    /* Escalonado de la animación de entrada al filtrar o buscar */
+    var inicio = (paginaActual - 1) * POR_PAGINA;
+    rejilla.innerHTML = lista.slice(inicio, inicio + POR_PAGINA).map(tarjetaHTML).join("");
     Array.prototype.forEach.call(rejilla.children, function (card, i) {
       card.style.setProperty("--din-i", String(i % 10));
     });
+    renderPaginacion(paginas);
+  }
+
+  function renderPaginacion(paginas) {
+    var nav = document.getElementById("ps-paginacion");
+    if (!nav) return;
+    if (paginas <= 1) { nav.innerHTML = ""; return; }
+    var html = '<button type="button" class="ps-pag__flecha" data-pagina="' + (paginaActual - 1) + '"' + (paginaActual === 1 ? " disabled" : "") + ' aria-label="Página anterior">‹</button>';
+    for (var i = 1; i <= paginas; i++) {
+      html += '<button type="button" class="ps-pag__num' + (i === paginaActual ? " activo" : "") + '" data-pagina="' + i + '"' + (i === paginaActual ? ' aria-current="page"' : "") + ">" + i + "</button>";
+    }
+    html += '<button type="button" class="ps-pag__flecha" data-pagina="' + (paginaActual + 1) + '"' + (paginaActual === paginas ? " disabled" : "") + ' aria-label="Página siguiente">›</button>';
+    nav.innerHTML = html;
   }
 
   function tarjetaHTML(p) {
-    var sellos =
-      p.ficha && p.ficha.sellos && p.ficha.sellos.length
-        ? '<ul class="ficha-sellos ficha-sellos--card">' +
-          p.ficha.sellos
-            .slice(0, 3)
-            .map(function (s) {
-              return '<li class="ficha-sello">' + esc(s) + "</li>";
-            })
-            .join("") +
-          "</ul>"
-        : "";
+    var especies = especiesDe(p).map(function (e) {
+      return '<span class="ps-card__tag">' + (e === "gato" ? "Gato" : "Perro") + "</span>";
+    }).join("");
 
-    var presentacion =
-      p.ficha && p.ficha.presentacion
-        ? '<p class="producto-card__presentacion">' + esc(p.ficha.presentacion) + "</p>"
-        : "";
-
-    var resumenVariantes = (p.variantes || [])
-      .map(function (g) {
-        return (
-          '<li class="tipo-mini-tag"><strong>' +
-          esc(g.nombre) +
-          ":</strong> " +
-          esc(
-            g.opciones
-              .slice(0, 3)
-              .map(function (o) {
-                return o.label;
-              })
-              .join(" · ")
-          ) +
-          "</li>"
-        );
-      })
-      .join("");
-
-    var btnFicha = p.ficha
-      ? '<button type="button" class="btn-ver-contenido" data-accion="abrir-ficha" data-id="' +
-        esc(p.id) +
-        '">Ver contenido e ingredientes</button>'
-      : "";
-
-    /* Texto descriptivo de la tarjeta: primero "resumen", si no la descripcion
-       de la ficha tecnica. Si el producto no tiene ninguno, no pinta nada. */
-    function descripcionCorta(prod) {
-      if (prod.resumen) return prod.resumen;
-      if (prod.ficha && prod.ficha.descripcion) return prod.ficha.descripcion;
-      return "";
+    var hayVariasTarifas = precioDesde(p) !== precioCon(p, seleccionMaxima(p));
+    var etiquetaOferta = "";
+    if (!sinPrecio(p) && enOferta(p)) {
+      var pct = Math.round((deltaOferta(p) / precioAnterior(p)) * 100);
+      etiquetaOferta = '<span class="ps-card__oferta">-' + pct + "%</span>";
     }
 
+    var precio = sinPrecio(p)
+      ? '<span class="ps-card__precio ps-card__precio--consultar">Precio a consultar</span>'
+      : (enOferta(p) ? '<span class="ps-card__antes">' + esc(formatear(precioAnterior(p))) + "</span>" : "") +
+        '<span class="ps-card__precio">' + (hayVariasTarifas && !enOferta(p) ? '<small>Desde</small> ' : "") + esc(formatear(precioDesde(p))) + "</span>";
+
     return (
-      '<article class="producto-card">' +
-      '<div class="producto-card__img-wrap">' +
-      (porcentajeDescuento(p)
-        ? '<span class="cinta-oferta cinta-oferta--dcto">⚡ -' +
-          porcentajeDescuento(p) +
-          "% de descuento</span>"
-        : enOferta(p)
-        ? '<span class="cinta-oferta">🔥 Oferta S/ ' +
-          (precioBase(p) / 100).toFixed(0) +
-          "</span>"
-        : "") +
-      '<img src="' +
-      esc(p.imagen) +
-      '" alt="' +
-      esc(p.titulo) +
-      '" loading="lazy" decoding="async" width="900" height="1125" />' +
+      '<article class="producto-card ps-card">' +
+      '<button type="button" class="ps-card__link" data-accion="abrir-opciones" data-id="' + esc(p.id) + '" aria-label="Ver ' + esc(p.titulo) + '"></button>' +
+      etiquetaOferta +
+      '<div class="ps-card__media">' +
+      '<img src="' + esc(p.imagen) + '" alt="' + esc(p.titulo) + '" loading="lazy" decoding="async" onerror="this.closest(\'.ps-card__media\').classList.add(\'imagen-error\')" />' +
       "</div>" +
-      '<div class="producto-card__body">' +
-      '<span class="producto-card__cat">' +
-      esc(p.categoriaTexto) +
-      "</span>" +
-      '<h3 class="producto-card__titulo">' +
-      esc(p.titulo) +
-      "</h3>" +
-      // Descripcion del producto. Usa el campo "resumen" del Bloque 3; si el
-      // producto no lo tiene pero si trae ficha tecnica, usa ficha.descripcion.
-      (descripcionCorta(p)
-        ? '<p class="producto-card__desc">' + esc(descripcionCorta(p)) + "</p>"
-        : "") +
-      presentacion +
-      sellos +
-      '<ul class="producto-card__tipos-resumen">' +
-      resumenVariantes +
-      "</ul>" +
-      btnFicha +
-      '<div class="producto-card__footer">' +
-      '<div class="producto-card__precios">' +
-      (sinPrecio(p)
-        ? '<span class="producto-card__precio-consultar">Precio a consultar</span>'
-        : '<span class="producto-card__precio-etiqueta">Desde</span> ' +
-          '<span class="producto-card__precio">' +
-          esc(formatear(precioDesde(p))) +
-          "</span> " +
-          htmlAntes(p, precioDesde(p))) +
-      "</div>" +
-      '<button type="button" class="btn-elegir-opciones" data-accion="abrir-opciones" data-id="' +
-      esc(p.id) +
-      '">' +
-      (sinPrecio(p) ? "Consultar" : "Elegir opciones") +
-      '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
-      "</button>" +
-      "</div>" +
+      '<div class="ps-card__cuerpo">' +
+      '<p class="ps-card__marca">' + esc(marcaDe(p)) + "</p>" +
+      '<h3 class="ps-card__titulo">' + esc(p.titulo) + "</h3>" +
+      '<div class="ps-card__tags">' + especies + "</div>" +
+      '<div class="ps-card__pie">' + precio + "</div>" +
       "</div>" +
       "</article>"
     );
   }
 
+  /** Selección con la opción más cara de cada grupo (para saber si mostrar "Desde"). */
+  function seleccionMaxima(p) {
+    var sel = {};
+    (p.variantes || []).forEach(function (g) {
+      var max = null, label = null;
+      g.opciones.forEach(function (op) {
+        var r = recargo(p, g.nombre, op);
+        if (max === null || r > max) { max = r; label = op.label; }
+      });
+      sel[g.nombre] = label;
+    });
+    return sel;
+  }
+
+  function limpiarFiltros() {
+    ordenActual = "";
+    terminoBusqueda = "";
+    filtrosActivos = { especie: [], marca: [], categoria: [] };
+    paginaActual = 1;
+    var buscador = document.getElementById("buscador-input");
+    if (buscador) buscador.value = "";
+    renderCatalogo();
+  }
+
+  function subirAlCatalogo() {
+    var destino = document.getElementById("catalogo");
+    if (!destino) return;
+    var y = destino.getBoundingClientRect().top + window.pageYOffset - 90;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+
   function conectarFiltros() {
-    var filtros = document.getElementById("filtros-categoria");
-    if (filtros) {
-      filtros.addEventListener("click", function (e) {
-        var pill = e.target.closest(".filtro-pill");
-        if (!pill) return;
-        Array.prototype.forEach.call(filtros.querySelectorAll(".filtro-pill"), function (b) {
-          var activo = b === pill;
-          b.classList.toggle("activo", activo);
-          b.setAttribute("aria-pressed", activo ? "true" : "false");
-        });
-        filtroActual = pill.dataset.filtro || "todos";
+    var panel = document.getElementById("ps-filtros");
+    var cuerpo = document.getElementById("ps-filtros-cuerpo");
+
+    if (cuerpo) {
+      cuerpo.addEventListener("click", function (e) {
+        var t = e.target.closest(".ps-grupo__titulo");
+        if (!t) return;
+        var g = t.parentElement;
+        var abierto = g.classList.toggle("abierto");
+        t.setAttribute("aria-expanded", abierto ? "true" : "false");
+        gruposAbiertos[g.dataset.psGrupo] = abierto;
+      });
+      cuerpo.addEventListener("change", function (e) {
+        var input = e.target;
+        if (!input.dataset || !input.dataset.grupo) return;
+        var grupo = input.dataset.grupo;
+        if (grupo === "orden") {
+          ordenActual = input.checked ? input.value : "";
+        } else {
+          var lista = filtrosActivos[grupo];
+          var i = lista.indexOf(input.value);
+          if (input.checked && i === -1) lista.push(input.value);
+          if (!input.checked && i !== -1) lista.splice(i, 1);
+        }
+        paginaActual = 1;
         renderCatalogo();
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-ps-limpiar]")) limpiarFiltros();
+      if (e.target.closest("[data-ps-abrir-filtros]") && panel) {
+        panel.classList.add("abierto");
+        document.body.classList.add("ps-filtros-abiertos");
+      }
+      if (e.target.closest("[data-ps-cerrar-filtros]") && panel) {
+        panel.classList.remove("abierto");
+        document.body.classList.remove("ps-filtros-abiertos");
+      }
+    });
+
+    var paginacion = document.getElementById("ps-paginacion");
+    if (paginacion) {
+      paginacion.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-pagina]");
+        if (!b || b.disabled) return;
+        paginaActual = Number(b.dataset.pagina) || 1;
+        renderCatalogo();
+        subirAlCatalogo();
       });
     }
 
@@ -1943,10 +2114,13 @@ function esPagina(nombre) {
       buscador.addEventListener("input", function () {
         window.clearTimeout(pendiente);
         pendiente = window.setTimeout(function () {
-          terminoBusqueda = buscador.value.trim().toLowerCase();
+          terminoBusqueda = sinTildes(buscador.value.trim());
+          paginaActual = 1;
           renderCatalogo();
         }, 150);
       });
+      var form = buscador.closest("form");
+      if (form) form.addEventListener("submit", function (e) { e.preventDefault(); subirAlCatalogo(); });
     }
 
     if (rejilla) {

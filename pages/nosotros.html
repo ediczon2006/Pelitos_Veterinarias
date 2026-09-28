@@ -47,11 +47,12 @@
   <!-- Piel neo-futurista. Borre esta linea y vuelve el diseno anterior. -->
   <link rel="stylesheet" href="../css/neofuturismo.css" />
   <link rel="stylesheet" href="../css/correcciones.css" />
+  <link rel="stylesheet" href="../css/nosotros.css" />
 
   <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
   <style>
-    .pagina-hero p.nosotros-eslogan {
+    p.nosotros-eslogan {
       font-family: 'Dancing Script', cursive !important;
       font-size: clamp(1.9rem, 4vw, 2.8rem) !important;
       font-weight: 700 !important;
@@ -103,206 +104,117 @@
   </header>
 
   <main>
-    <section class="pagina-hero">
-      <div class="contenedor">
-        <h1>Nosotros</h1>
-        <p>Somos una clínica veterinaria en Huánuco enfocada en la salud, la prevención y el bienestar de perros y gatos, con un área exclusiva de estética.</p>
-        <p class="nosotros-eslogan">Expertos en cuidar a quien más te ama</p>
+    <!-- ================= ¿QUIÉNES SOMOS? (misión y visión) ================= -->
+    <section class="qs">
+      <div class="contenedor qs__grid">
+        <div class="qs__intro reveal">
+          <h1 class="qs__titulo">¿Quiénes<br />somos?</h1>
+          <p class="nosotros-eslogan">Expertos en cuidar a quien más te ama</p>
+          <figure class="qs__foto">
+            <img src="../images/instalaciones/recepcionveterinaria.jpg" alt="Recepción de Pelitos Veterinaria en Jr. Leoncio Prado N.° 1336, Huánuco" loading="eager" decoding="async" />
+          </figure>
+        </div>
+        <div class="qs__bloque reveal">
+          <h2 class="qs__subtitulo">Misión</h2>
+          <p>En Pelitos Veterinaria cuidamos la salud y el bienestar de perros y gatos con amor, conocimiento y responsabilidad. Ofrecemos consulta médica, medicina preventiva, laboratorio, cirugía, estética canina y petshop en un solo lugar, con un trato cercano y honesto que acompaña a cada familia de Huánuco en todas las etapas de vida de su mascota.</p>
+        </div>
+        <div class="qs__bloque reveal">
+          <h2 class="qs__subtitulo">Visión</h2>
+          <p>Ser la clínica veterinaria de confianza de Huánuco, reconocida por mirar a cada mascota como un ser único, por la calidad de nuestra atención y por un equipo que trabaja con vocación. Queremos seguir creciendo como un espacio donde las mascotas sanan, las familias confían y el equipo encuentra orgullo en lo que hace.</p>
+        </div>
       </div>
     </section>
 
-    <!-- INICIO DE SECCIONES AGREGADAS DEL VIDEO -->
-    
-    <!-- 1. Imagen principal de la recepción -->
-    <div class="imagen-destacada-contenedor reveal">
-      <img class="imagen-destacada" src="../images/instalaciones/recepcionveterinaria.jpg" alt="Recepción Pelitos Veterinaria" loading="lazy" decoding="async" />
-    </div>
+    <!-- ================= CONOCE A NUESTRAS VETERINARIAS ================= -->
+    <section class="vets">
+      <div class="contenedor vets__grid">
+        <h2 class="vets__titulo reveal">Conoce a nuestras veterinarias…</h2>
+        <div class="vets__contenido reveal">
+          <div class="vets__fotos">
+            <figure>
+              <img src="../images/equipo/esther.jpg" alt="Dra. Esther Jannet García Alegre, Gerente General de Pelitos Veterinaria" loading="lazy" width="720" height="962" />
+              <figcaption><strong>Dra. Esther Jannet García Alegre</strong><span>Gerente General · Dirección clínica</span></figcaption>
+            </figure>
+            <figure>
+              <img src="../images/equipo/julia.jpg" alt="Julia Alegre Fernández, Médico Veterinario de Pelitos Veterinaria" loading="lazy" width="720" height="962" />
+              <figcaption><strong>Julia Alegre Fernández</strong><span>Médico Veterinario · Consulta y prevención</span></figcaption>
+            </figure>
+          </div>
+          <h3 class="vets__saludo">¡Somos Esther y Julia!</h3>
+          <p>Lideramos la atención médica de Pelitos. Esther dirige la clínica y el área de estética, supervisa los protocolos de atención y bioseguridad y sigue de cerca los casos clínicos. Julia atiende la consulta general de perros y gatos, los esquemas de vacunación y desparasitación, y acompaña cada tratamiento hasta que tu mascota esté bien.</p>
+          <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20reservar%20una%20consulta." target="_blank" rel="noopener">Reservar una consulta</a>
+        </div>
+      </div>
+    </section>
 
-    <!-- 2. Nueva sección: Por qué elegirnos (Diseño de 3 columnas del video) -->
-    <section class="seccion">
+    <!-- ================= NUESTRO EQUIPO ================= -->
+    <section class="equipo-zz" id="equipo">
+      <div class="contenedor">
+        <div class="equipo-zz__cabecera reveal">
+          <h2 class="equipo-zz__titulo">Nuestro equipo</h2>
+          <div>
+            <h3 class="equipo-zz__lema">Amamos cuidarlos</h3>
+            <p>Somos un equipo pequeño y cercano. Cada persona en Pelitos cumple un rol para que tu mascota reciba una atención completa: desde que llegas a recepción hasta que sale del baño lista para volver a casa.</p>
+          </div>
+        </div>
+
+        <article class="miembro miembro--izq reveal">
+          <div class="miembro__foto">
+            <img src="../images/equipo/antonella.jpg" alt="Antonella Aseijas Fores, Grooming certificada · Pelitos Estética en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
+          </div>
+          <div class="miembro__texto">
+            <h3 class="miembro__nombre">Antonella Aseijas Fores</h3>
+            <p class="miembro__cargo">Grooming certificada · Pelitos Estética</p>
+            <p class="miembro__desc">Responsable del área de estética canina. Cada baño y cada corte se hace con paciencia, productos profesionales y mucho cariño, para que tu perrito salga feliz y sin estrés.</p>
+            <ul class="miembro__tareas"><li>Baño medicado, corte de raza y corte de fantasía.</li><li>Deslanado, limpieza de oídos y corte de uñas.</li><li>Manejo tranquilo y sin estrés para la mascota.</li></ul>
+          </div>
+        </article>
+        <article class="miembro miembro--der reveal">
+          <div class="miembro__foto">
+            <img src="../images/equipo/diego.jpg" alt="Diego Paul Ponce de León Cadillo, Asistente veterinario · Recepción en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
+          </div>
+          <div class="miembro__texto">
+            <h3 class="miembro__nombre">Diego Paul Ponce de León Cadillo</h3>
+            <p class="miembro__cargo">Asistente veterinario · Recepción</p>
+            <p class="miembro__desc">Es la primera sonrisa que recibe a cada tutor. Organiza las citas, resuelve dudas y acompaña al médico veterinario durante la atención.</p>
+            <ul class="miembro__tareas"><li>Recepción, bienvenida y orientación de cada tutor.</li><li>Agenda de citas, recordatorios y seguimiento por WhatsApp.</li><li>Apoyo al médico veterinario durante la atención.</li></ul>
+          </div>
+        </article>
+        <article class="miembro miembro--izq reveal">
+          <div class="miembro__foto">
+            <img src="../images/equipo/alex.jpg" alt="Alex Dionisio Modesto, Diseño gráfico y marketing en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
+          </div>
+          <div class="miembro__texto">
+            <h3 class="miembro__nombre">Alex Dionisio Modesto</h3>
+            <p class="miembro__cargo">Diseño gráfico y marketing</p>
+            <p class="miembro__desc">Cuida la imagen de la marca Pelitos y todo lo que ves en nuestras redes y en esta web, para que las familias de Huánuco nos encuentren y estén siempre informadas.</p>
+            <ul class="miembro__tareas"><li>Piezas para redes, campañas y material impreso.</li><li>Contenido en Facebook, Instagram y TikTok.</li><li>Identidad visual de la marca y apoyo en el sitio web.</li></ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= POR QUÉ ELEGIRNOS ================= -->
+    <section class="seccion seccion--suave">
       <div class="contenedor">
         <div class="titulo-bloque titulo-bloque--centro reveal">
           <span class="eyebrow-video">POR QUÉ ELEGIRNOS</span>
           <h2 class="titulo-morado">Cuidamos a tu mascota como si fuera nuestra</h2>
-          <p class="subtitulo-video">Pelitos Veterinaria combina experiencia profesional, tecnología adecuada y un trato cercano para las familias de Huánuco.</p>
         </div>
         <div class="rejilla rejilla--3 reveal">
           <div class="tarjeta-info">
             <h3>Experiencia y confianza</h3>
-            <p>Contamos con años de trayectoria atendiendo a las mascotas de nuestra comunidad con un equipo altamente capacitado.</p>
+            <p>Años atendiendo a las mascotas de Huánuco con un equipo capacitado en medicina veterinaria y estética canina.</p>
           </div>
           <div class="tarjeta-info">
             <h3>Trato cercano y humano</h3>
             <p>Entendemos el vínculo con tu mascota. Ofrecemos empatía, paciencia y un trato cálido en cada visita.</p>
           </div>
           <div class="tarjeta-info">
-            <h3>Servicios integrales</h3>
-            <p>Todo lo que tu mascota necesita en un solo lugar: clínica especializada, estética profesional y una completa petshop.</p>
+            <h3>Todo en un solo lugar</h3>
+            <p>Clínica, laboratorio, cirugía, farmacia, petshop y un área exclusiva de estética en Jr. Leoncio Prado N.° 1336.</p>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- FIN DE SECCIONES AGREGADAS -->
-
-    <!-- TU CÓDIGO ORIGINAL SE MANTIENE INTACTO ABAJO -->
-
-    <section class="seccion">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <h2>¿Por qué elegir Pelitos Veterinaria?</h2>
-        </div>
-        <div class="rejilla rejilla--3 reveal">
-          <div class="razon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Atención veterinaria profesional.</div>
-          <div class="razon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Medicina preventiva y seguimiento.</div>
-          <div class="razon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Apoyo diagnóstico.</div>
-          <div class="razon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Área exclusiva de estética.</div>
-          <div class="razon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Atención centrada en el bienestar de la mascota.</div>
-          <div class="razon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Ubicación accesible en Huánuco.</div>
-        </div>
-        <p class="frase">Expertos en cuidar a quien más te ama</p>
-      </div>
-    </section>
-
-    <!-- Esta sección de tu código original adoptará automáticamente los colores del video gracias a los estilos CSS agregados arriba -->
-    <!-- ================= NUESTRO EQUIPO ================= -->
-    <section class="seccion seccion--suave" id="equipo">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">Nuestro equipo</span>
-          <h2>Quiénes forman parte de Pelitos</h2>
-          <p>Un equipo pequeño y cercano: dirección clínica, medicina veterinaria, estética canina certificada, atención en recepción y comunicación de marca.</p>
-        </div>
-
-        <div class="equipo-grid">
-          <article class="equipo-card" style="--din-i:0">
-            <div class="equipo-card__foto">
-              <img src="../images/equipo/esther.jpg" alt="Dra. Esther Jannet García Alegre, Gerente General en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
-              <span class="equipo-card__cargo">Gerente General</span>
-            </div>
-            <div class="equipo-card__cuerpo">
-              <h3 class="equipo-card__nombre">Dra. Esther Jannet García Alegre</h3>
-              <p class="equipo-card__area">Dirección clínica</p>
-              <p class="equipo-card__resumen">Lidera Pelitos Veterinaria y supervisa la calidad de la atención médica en cada área.</p>
-              <button type="button" class="equipo-card__toggle" aria-expanded="false">
-                <span>Ver qué hace</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="equipo-card__detalle">
-                <ul>
-                  <li>Dirección general de la clínica y del área de estética.</li>
-                  <li>Supervisión de protocolos de atención y bioseguridad.</li>
-                  <li>Atención de casos clínicos y seguimiento de pacientes.</li>
-                </ul>
-                <a class="btn btn--whatsapp btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20coordinar%20una%20atenci%C3%B3n%20con%20Dra.%20Esther%20Jannet%20Garc%C3%ADa%20Alegre." target="_blank" rel="noopener">Coordinar por WhatsApp</a>
-              </div>
-            </div>
-          </article>
-          <article class="equipo-card" style="--din-i:1">
-            <div class="equipo-card__foto">
-              <img src="../images/equipo/julia.jpg" alt="Julia Alegre Fernández, Médico Veterinario en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
-              <span class="equipo-card__cargo">Médico Veterinario</span>
-            </div>
-            <div class="equipo-card__cuerpo">
-              <h3 class="equipo-card__nombre">Julia Alegre Fernández</h3>
-              <p class="equipo-card__area">Consulta y medicina preventiva</p>
-              <p class="equipo-card__resumen">Atiende consulta general, vacunación, desparasitación y control de pacientes.</p>
-              <button type="button" class="equipo-card__toggle" aria-expanded="false">
-                <span>Ver qué hace</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="equipo-card__detalle">
-                <ul>
-                  <li>Consulta médica para perros y gatos.</li>
-                  <li>Esquemas de vacunación y desparasitación.</li>
-                  <li>Apoyo diagnóstico y seguimiento de tratamientos.</li>
-                </ul>
-                <a class="btn btn--whatsapp btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20coordinar%20una%20atenci%C3%B3n%20con%20Julia%20Alegre%20Fern%C3%A1ndez." target="_blank" rel="noopener">Coordinar por WhatsApp</a>
-              </div>
-            </div>
-          </article>
-          <article class="equipo-card" style="--din-i:2">
-            <div class="equipo-card__foto">
-              <img src="../images/equipo/antonella.jpg" alt="Antonella Aseijas Fores, Grooming Certificada en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
-              <span class="equipo-card__cargo">Grooming Certificada</span>
-            </div>
-            <div class="equipo-card__cuerpo">
-              <h3 class="equipo-card__nombre">Antonella Aseijas Fores</h3>
-              <p class="equipo-card__area">Pelitos Estética</p>
-              <p class="equipo-card__resumen">Responsable del área de estética canina: baño, corte de raza y spa.</p>
-              <button type="button" class="equipo-card__toggle" aria-expanded="false">
-                <span>Ver qué hace</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="equipo-card__detalle">
-                <ul>
-                  <li>Baño medicado, corte de raza y corte de fantasía.</li>
-                  <li>Deslanado, limpieza de oídos y corte de uñas.</li>
-                  <li>Manejo con paciencia y sin estrés para la mascota.</li>
-                </ul>
-                <a class="btn btn--whatsapp btn--pequeno" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20coordinar%20una%20atenci%C3%B3n%20con%20Antonella%20Aseijas%20Fores." target="_blank" rel="noopener">Coordinar por WhatsApp</a>
-              </div>
-            </div>
-          </article>
-          <article class="equipo-card" style="--din-i:3">
-            <div class="equipo-card__foto">
-              <img src="../images/equipo/diego.jpg" alt="Diego Paul Ponce de León Cadillo, Asistente Veterinario en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
-              <span class="equipo-card__cargo">Asistente Veterinario</span>
-            </div>
-            <div class="equipo-card__cuerpo">
-              <h3 class="equipo-card__nombre">Diego Paul Ponce de León Cadillo</h3>
-              <p class="equipo-card__area">Recepción y atención al cliente</p>
-              <p class="equipo-card__resumen">Recibe a cada mascota, organiza las citas y acompaña la atención en consultorio.</p>
-              <button type="button" class="equipo-card__toggle" aria-expanded="false">
-                <span>Ver qué hace</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="equipo-card__detalle">
-                <ul>
-                  <li>Recepción, bienvenida y orientación de cada tutor.</li>
-                  <li>Agenda de citas, recordatorios y seguimiento por WhatsApp.</li>
-                  <li>Apoyo al médico veterinario durante la atención.</li>
-                </ul>
-                <a class="btn btn--whatsapp btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20coordinar%20una%20atenci%C3%B3n%20con%20Diego%20Paul%20Ponce%20de%20Le%C3%B3n%20Cadillo." target="_blank" rel="noopener">Coordinar por WhatsApp</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Integrante: Diseño Gráfico y Marketing -->
-          <article class="equipo-card" style="--din-i:4">
-            <div class="equipo-card__foto">
-              <!-- Esta foto estaba puesta por error en la tarjeta de Diego. Se
-                   devolvió a la de Alex, que es a quien corresponde. -->
-              <img src="../images/equipo/alex.jpg" alt="Alex Dionisio Modesto, Diseño Gráfico y Marketing en Pelitos Veterinaria" loading="lazy" width="720" height="962" />
-              <span class="equipo-card__cargo">Diseño Gráfico y Marketing</span>
-            </div>
-            <div class="equipo-card__cuerpo">
-              <h3 class="equipo-card__nombre">Alex Dionisio Modesto</h3>
-              <p class="equipo-card__area">Diseño gráfico y marketing</p>
-              <p class="equipo-card__resumen">Cuida la imagen de la marca Pelitos y la comunicación en redes sociales y en la web.</p>
-              <button type="button" class="equipo-card__toggle" aria-expanded="false">
-                <span>Ver qué hace</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="equipo-card__detalle">
-                <ul>
-                  <li>Diseño gráfico de piezas para redes, campañas y material impreso.</li>
-                  <li>Gestión de contenido en Facebook, Instagram y TikTok.</li>
-                  <li>Identidad visual de la marca y apoyo en el sitio web.</li>
-                </ul>
-                <a class="btn btn--whatsapp btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20coordinar%20un%20tema%20de%20dise%C3%B1o%20o%20marketing%20con%20Alex%20Dionisio%20Modesto." target="_blank" rel="noopener">Coordinar por WhatsApp</a>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <!-- Aqui estaba el banner morado con las tres del equipo y el logo.
-             Se quito a pedido. Si alguna vez quieren volver a poner una foto
-             de grupo, se copia este bloque y se le cambia el nombre del archivo:
-             <figure class="equipo-foto-grupal reveal">
-               <img src="../images/equipo/NOMBRE-DEL-ARCHIVO.jpg" alt="Equipo de Pelitos Veterinaria" loading="lazy" />
-               <figcaption>Todo el equipo de Pelitos Veterinaria</figcaption>
-             </figure>
-        -->
       </div>
     </section>
 
