@@ -418,8 +418,8 @@ function esPagina(nombre) {
       id: "naturalistic-meat-mix-pollo-pato",
       categoria: "snacks",
       categoriaTexto: "Naturalistic · Fine Recipes",
-      titulo: "Meat Mix Pollo con Goji Berry & Pato con Arándano",
-      imagen: "../images/productos/naturalistic-meat-mix-pollo-pato-frente.jpg",
+      titulo: "Naturalistic Meat Mix Pollo y Pato x 100 g",
+      imagen: "../images/productos/tienda/naturalistic-meat-mix-pollo-pato-frente.jpg",
       imagenReverso: "../images/productos/naturalistic-meat-mix-pollo-pato-reverso.jpg",
       precio: 19.0,
       precioAntes: 22.00,   // precio regular antes de la oferta
@@ -480,8 +480,8 @@ function esPagina(nombre) {
       id: "naturalistic-chicken-sushi",
       categoria: "snacks",
       categoriaTexto: "Naturalistic · Classic",
-      titulo: "Chicken Sushi 94% Carne",
-      imagen: "../images/productos/naturalistic-chicken-sushi-frente.jpg",
+      titulo: "Naturalistic Chicken Sushi x 100 g",
+      imagen: "../images/productos/tienda/naturalistic-chicken-sushi-frente.jpg",
       imagenReverso: "../images/productos/naturalistic-chicken-sushi-reverso.jpg",
       precio: 19.0,
       precioAntes: 20.00,   // precio regular antes de la oferta
@@ -548,8 +548,8 @@ function esPagina(nombre) {
       id: "naturalistic-lamb-strips",
       categoria: "snacks",
       categoriaTexto: "Naturalistic · Classic",
-      titulo: "Lamb Strips 74% Carne (tiras de cordero)",
-      imagen: "../images/productos/naturalistic-lamb-strips-frente.jpg",
+      titulo: "Naturalistic Lamb Strips Cordero x 100 g",
+      imagen: "../images/productos/tienda/naturalistic-lamb-strips-frente.jpg",
       imagenReverso: "../images/productos/naturalistic-lamb-strips-reverso.jpg",
       precio: 19.0,
       precioAntes: 21.00,   // precio regular antes de la oferta
@@ -616,8 +616,8 @@ function esPagina(nombre) {
       id: "naturalistic-meatballs-salmon-camote",
       categoria: "snacks",
       categoriaTexto: "Naturalistic · Fine Recipes",
-      titulo: "Meat Balls Salmón & Camote",
-      imagen: "../images/productos/naturalistic-meatballs-salmon-camote-frente.jpg",
+      titulo: "Naturalistic Meat Balls Salmón y Camote x 100 g",
+      imagen: "../images/productos/tienda/naturalistic-meatballs-salmon-camote-frente.jpg",
       imagenReverso:
         "../images/productos/naturalistic-meatballs-salmon-camote-reverso.jpg",
       precio: 19.0,
@@ -681,8 +681,8 @@ function esPagina(nombre) {
       id: "naturalistic-meatballs-pato-manzana",
       categoria: "snacks",
       categoriaTexto: "Naturalistic · Fine Recipes",
-      titulo: "Meat Balls Pato & Manzana",
-      imagen: "../images/productos/naturalistic-meatballs-pato-manzana-frente.jpg",
+      titulo: "Naturalistic Meat Balls Pato y Manzana x 100 g",
+      imagen: "../images/productos/tienda/naturalistic-meatballs-pato-manzana-frente.jpg",
       imagenReverso:
         "../images/productos/naturalistic-meatballs-pato-manzana-reverso.jpg",
       precio: 19.0,
@@ -744,8 +744,8 @@ function esPagina(nombre) {
       id: "naturalistic-grill-beef-burger-bbq",
       categoria: "snacks",
       categoriaTexto: "Naturalistic · Grill",
-      titulo: "Tasty Beef Burger con BBQ (hamburguesas)",
-      imagen: "../images/productos/naturalistic-grill-beef-burger-bbq-frente.jpg",
+      titulo: "Naturalistic Grill Beef Burger BBQ x 120 g",
+      imagen: "../images/productos/tienda/naturalistic-grill-beef-burger-bbq-frente.jpg",
       imagenReverso:
         "../images/productos/naturalistic-grill-beef-burger-bbq-reverso.jpg",
       precio: 19.0,
@@ -820,10 +820,10 @@ function esPagina(nombre) {
       id: "ecaklin-desinfectante",
       categoria: "higiene",
       categoriaTexto: "Higiene del Hogar",
-      titulo: "ECAKLIN Desinfectante de Ambientes",
+      titulo: "Ecaklin Desinfectante de Ambientes x 750 ml",
       resumen:
         "Desinfectante de ambientes y objetos para espacios donde vive la mascota. Neutraliza olores, atóxico y seguro al contacto según la etiqueta del envase.",
-      imagen: "../images/productos/ecaklin-desinfectante-ambientes.jpg",
+      imagen: "../images/productos/tienda/ecaklin-desinfectante-ambientes.jpg",
       precio: 43.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // referencia set/2026: lumpet.pe S/34.90, mascotify.pe S/35.00, misterpet.pe S/45.00
       variantes: [
@@ -842,10 +842,10 @@ function esPagina(nombre) {
       id: "4groomer-mascara-texturizadora",
       categoria: "higiene",
       categoriaTexto: "Estética & Cosmética",
-      titulo: "4 Groomer Máscara Texturizadora",
+      titulo: "4 Groomer Máscara Texturizadora x 230 g",
       resumen:
         "Máscara de almendra y teztuán para un pelaje sano, suave y brillante. Sin parabenos ni siliconas, de uso profesional en estética canina. Envase de 230 g.",
-      imagen: "../images/productos/4groomer-mascara-texturizadora.jpg",
+      imagen: "../images/productos/tienda/4groomer-mascara-texturizadora.jpg",
       precio: 60.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // referencia set/2026: linea importada IBASA 4Groomer 230 g, R$130.99 en Brasil (petcerto.com.br)
       variantes: [
@@ -863,10 +863,10 @@ function esPagina(nombre) {
       id: "4groomer-condicionador",
       categoria: "higiene",
       categoriaTexto: "Estética & Cosmética",
-      titulo: "4 Groomer Condicionador Profesional",
+      titulo: "4 Groomer Condicionador Profesional x 250 ml",
       resumen:
         "Condicionador desenredante de uso profesional, pH balanceado, para todas las razas. Hidrata, suaviza y facilita el peinado. Envase de 250 ml.",
-      imagen: "../images/productos/4groomer-condicionador.jpg",
+      imagen: "../images/productos/tienda/4groomer-condicionador.jpg",
       precio: 40.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // referencia set/2026: acondicionador IBASA 250 ml S/28.40 (convet) y S/42.60 (petmas.pe); 4Groomer es la linea profesional
       variantes: [
@@ -884,10 +884,10 @@ function esPagina(nombre) {
       id: "ibasa-champu-medicado",
       categoria: "salud",
       categoriaTexto: "Salud & Farmacia",
-      titulo: "IBASA Champú Medicado",
+      titulo: "Ibasa Shampoo Medicado x 200 ml",
       resumen:
         "Champús de uso veterinario IBASA Animal Health en envase de 200 ml: versión hipoalergénica para pieles sensibles y versión con cetoconazol para el tratamiento de micosis en perros y gatos.",
-      imagen: "../images/productos/ibasa-champu-medicado.jpg",
+      imagen: "../images/productos/tienda/ibasa-champu-medicado.jpg",
       precio: 60.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // revisado set/2026: cetoconazol 2% IBASA 200 ml S/64.90 (promart.pe) y S/79.90 (ripley.com.pe);
       // 100 ml S/29.20 (convet). Se subio de 59.90 a 64.90 para no quedar debajo del costo de reposicion.
@@ -908,10 +908,10 @@ function esPagina(nombre) {
       id: "ecaderm-solucion-topica",
       categoria: "salud",
       categoriaTexto: "Salud & Farmacia",
-      titulo: "ECA DERM Solución Tópica",
+      titulo: "Eca Derm Solución Tópica Spray",
       resumen:
         "Solución tópica en spray para perros y gatos, aliada contra pulgas y garrapatas. Hidrata y cuida la piel. Uso veterinario, en frasco de 120 ml o de 500 ml.",
-      imagen: "../images/productos/ecaderm-solucion-topica.jpg",
+      imagen: "../images/productos/tienda/ecaderm-solucion-topica.jpg",
       precio: 40.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // revisado set/2026: Lab ECA vende dos tamanos, no uno de 200 ml: 120 ml S/31.00 (misterpet.pe)
       // y 500 ml S/55.00-65.00 (mascotasvetshop.pe S/55.00, misterpet.pe S/60.00, miau.pe S/65.00).
@@ -932,10 +932,10 @@ function esPagina(nombre) {
       id: "ecaderm-crema-regeneradora",
       categoria: "salud",
       categoriaTexto: "Salud & Farmacia",
-      titulo: "ECA DERM Crema Regeneradora",
+      titulo: "Eca Derm Crema Regeneradora",
       resumen:
         "Crema de uso tópico antibiótica, cicatrizante y desinfectante, indicada para todo tipo de piel en perros y gatos. Producto de venta libre, uso veterinario.",
-      imagen: "../images/productos/ecaderm-crema-regeneradora.jpg",
+      imagen: "../images/productos/tienda/ecaderm-crema-regeneradora.jpg",
       precio: 35.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // referencia set/2026: 60 g S/25.00-30.00 (brisapet.pe S/27.00, mascotify.pe S/30.00)
       requiereAsesoria: true,
@@ -954,10 +954,10 @@ function esPagina(nombre) {
       id: "ecaotic-limpiador-auricular",
       categoria: "salud",
       categoriaTexto: "Salud & Farmacia",
-      titulo: "ECAÓTIC Limpiador Auricular",
+      titulo: "Ecaótic Limpiador Auricular x 60 ml",
       resumen:
         "Limpiador de oídos a base de ácido hipocloroso para perros y gatos. Uso veterinario, contenido neto 60 ml. Producto peruano de Lab ECA.",
-      imagen: "../images/productos/ecaotic-limpiador-auricular.jpg",
+      imagen: "../images/productos/tienda/ecaotic-limpiador-auricular.jpg",
       precio: 35.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // referencia set/2026: 60 ml S/18.50 (rappi) y S/19.90 (superpet.pe, allju.pe)
       requiereAsesoria: true,
@@ -976,10 +976,10 @@ function esPagina(nombre) {
       id: "huellas-descalonia",
       categoria: "salud",
       categoriaTexto: "Salud & Farmacia",
-      titulo: "Huellas Pet Care · Serie descalonia",
+      titulo: "Huellas Pet Care Descalonia Spray x 50 ml",
       resumen:
         "Sprays de 50 ml de la línea descalonia de Huellas Pet Care (GLACSA), en sus tres versiones: Go!!, Force y Flection. Consulte con la veterinaria cuál corresponde a su mascota.",
-      imagen: "../images/productos/huellas-descalonia-serie.jpg",
+      imagen: "../images/productos/tienda/huellas-descalonia-serie.jpg",
       precio: 38.00,   // PRECIO DE VENTA — puede cambiarlo cuando quiera.
       // ESTIMADO: no se encontro lista publica de esta linea; se comparo con sprays veterinarios similares (S/42.00-51.90). CONFIRME CON SU PROVEEDOR
       requiereAsesoria: true,
@@ -1019,10 +1019,10 @@ function esPagina(nombre) {
       id: "kit-accesorios-basico",
       categoria: "accesorios",
       categoriaTexto: "Kits de Accesorios",
-      titulo: "Kit de Accesorios Básico",
+      titulo: "Kit de Accesorios Básico para Perro",
       resumen:
         "Comedero antideslizante, bebedero portátil Aqua Dog, manta polar, cortaúñas con lima y pelota dispensadora. Ideal para quienes recién reciben a su mascota.",
-      imagen: "../images/productos/kit-accesorios-basico.jpg",
+      imagen: "../images/productos/tienda/kit-accesorios-basico.jpg",
       precio: 87.00,   // PRECIO NORMAL — puede cambiarlo cuando quiera.
       // Con el 40 % de descuento de abajo, la web cobra S/ 52.20 por las 5 piezas.
       descuento: 40,
@@ -1041,10 +1041,10 @@ function esPagina(nombre) {
       id: "kit-accesorios-completo",
       categoria: "accesorios",
       categoriaTexto: "Kits de Accesorios",
-      titulo: "Kit de Accesorios Completo",
+      titulo: "Kit de Accesorios Completo para Perro",
       resumen:
         "Rastrillo deslanador, peine doble de grooming, comedero lento antiansiedad, limpiapatas Wash Foot Cup, juguete mordedor de hueso y pelota sonora.",
-      imagen: "../images/productos/kit-accesorios-completo.jpg",
+      imagen: "../images/productos/tienda/kit-accesorios-completo.jpg",
       precio: 83.00,   // PRECIO NORMAL — puede cambiarlo cuando quiera.
       // Con el 40 % de descuento de abajo, la web cobra S/ 49.80 por las 6 piezas.
       descuento: 40,
@@ -1063,10 +1063,10 @@ function esPagina(nombre) {
       id: "kit-accesorios-gatos",
       categoria: "accesorios",
       categoriaTexto: "Kits de Accesorios",
-      titulo: "Kit de Accesorios para Gatos",
+      titulo: "Kit de Accesorios para Gato",
       resumen:
         "Torre de juegos Tower of Tracks, caña con plumas, guante deslanador True Touch, cortaúñas con lima y comedero doble. Pensado para gatos en casa.",
-      imagen: "../images/productos/kit-accesorios-gatos.jpg",
+      imagen: "../images/productos/tienda/kit-accesorios-gatos.jpg",
       precio: 82.53,   // PRECIO NORMAL — puede cambiarlo cuando quiera.
       // Con el 40 % de descuento de abajo, la web cobra S/ 49.52 por las 6 piezas.
       descuento: 40,
@@ -1101,7 +1101,7 @@ function esPagina(nombre) {
       id: "ropa-conjunto-polar",
       categoria: "ropa",
       categoriaTexto: "Ropa para Mascotas",
-      titulo: "Conjunto Polar a Cuadros",
+      titulo: "Conjunto Polar a Cuadros con Capucha",
       resumen:
         "Conjunto de dos piezas en polar: casaca a cuadros con capucha y pantalón con bolsillos. Abriga de verdad en las mañanas frías de Huánuco y se pone en segundos por la espalda.",
       imagen: "../images/productos/vitrina-conjunto-polar.jpg",
@@ -1132,7 +1132,7 @@ function esPagina(nombre) {
       id: "ropa-chaleco-sherpa",
       categoria: "ropa",
       categoriaTexto: "Ropa para Mascotas",
-      titulo: "Chaleco con Forro Sherpa",
+      titulo: "Chaleco Impermeable con Forro Sherpa",
       resumen:
         "Chaleco de exterior resistente al agua con forro peluche sherpa por dentro y broches al frente: se pone y se saca en segundos, sin pasarlo por la cabeza. El más pedido de la vitrina.",
       imagen: "../images/productos/vitrina-chaleco-lila.jpg",
@@ -1164,7 +1164,7 @@ function esPagina(nombre) {
       id: "ropa-temporada",
       categoria: "ropa",
       categoriaTexto: "Ropa para Mascotas",
-      titulo: "Vestidos, Casacas y Mantas de Temporada",
+      titulo: "Ropa de Temporada: Poleras, Casacas y Mantas",
       resumen:
         "La percha completa de la tienda: poleras de algodón, casacas jean, vestidos con vuelo y mantas polar, en tallas para razas pequeñas y medianas. Elija la prenda y la talla; le confirmamos el stock y el color por WhatsApp.",
       imagen: "../images/productos/vitrina-conjuntos-ropa.jpg",

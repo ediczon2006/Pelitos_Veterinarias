@@ -169,3 +169,16 @@
 .vets__titulo { position: sticky; top: 110px; }
 .vets__fotos img { aspect-ratio: 4 / 5 !important; height: auto !important; max-height: 460px; }
 @media (max-width: 980px) { .vets__titulo { position: static; } }
+
+/* ---- Versión más fiel al estilo PoloVet: limpio, blanco y minimalista ---- */
+.vets { background: #fff !important; }
+.vets__grid { align-items: center !important; }
+.vets__titulo { position: static !important; }
+.vets__fotos { border-radius: 0 !important; gap: 4px !important; }
+.vets__fotos img { max-height: none !important; aspect-ratio: 3 / 4 !important; }
+.miembro__foto::before { display: none !important; }
+.miembro__foto img { aspect-ratio: 10 / 7 !important; transform: rotate(-3deg); }
+.miembro--der .miembro__foto img { transform: rotate(3deg); }
+.miembro:hover .miembro__foto img { transform: rotate(0deg) scale(1.02); }
+.equipo-zz { padding-bottom: clamp(60px, 8vw, 110px); }
+.miembro__foto img { aspect-ratio: 10 / 8 !important; object-position: center 8% !important; }

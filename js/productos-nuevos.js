@@ -46,7 +46,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   /* ---------- Alimento en bolsa de 1 kg ---------- */
 
   {
-    titulo: "Ricocan Cachorros razas pequeñas 1 kg",
+    titulo: "Ricocan Cachorro Razas Pequeñas x 1 kg",
     precio: 12,
     foto: "ricocan-cachorros-1kg.jpg",
     categoria: "alimentos",
@@ -55,7 +55,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Ricocat Gatitos 1 kg",
+    titulo: "Ricocat Gatitos x 1 kg",
     precio: 12,
     foto: "ricocat-gatitos-1kg.jpg",
     categoria: "alimentos",
@@ -64,7 +64,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Canbo Súper Premium Cachorro Cordero 1 kg",
+    titulo: "Canbo Super Premium Cachorro Cordero x 1 kg",
     precio: 22,
     foto: "canbo-cachorro-cordero-1kg.jpg",
     categoria: "alimentos",
@@ -73,7 +73,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Canbo Súper Premium Gatitos Pollo 1 kg",
+    titulo: "Canbo Super Premium Gatitos Pollo x 1 kg",
     precio: 22,
     foto: "canbo-gatitos-pollo-1kg.jpg",
     categoria: "alimentos",
@@ -82,7 +82,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Comedero doble con dispensador",
+    titulo: "Comedero Doble con Dispensador de Agua",
     precio: 10,
     foto: "comedero-doble-dispensador.jpg",
     categoria: "accesorios",
@@ -92,7 +92,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Comedero doble carita de oso",
+    titulo: "Comedero Doble Carita de Oso",
     precio: 15,
     foto: "comedero-doble-oso.jpg",
     categoria: "accesorios",
@@ -102,7 +102,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Comedero doble ovalado",
+    titulo: "Comedero Doble Ovalado",
     precio: 10,
     foto: "comedero-doble-ovalado.jpg",
     categoria: "accesorios",
@@ -112,7 +112,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Comedero elevado con base",
+    titulo: "Comedero Elevado con Base de Madera",
     precio: 10,
     foto: "comedero-elevado.jpg",
     categoria: "accesorios",
@@ -122,7 +122,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Tazón Woof",
+    titulo: "Tazón Woof Rosado",
     precio: 10,
     foto: "tazon-woof-rosado.jpg",
     categoria: "accesorios",
@@ -132,7 +132,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Tazón huellitas",
+    titulo: "Tazón Huellitas Naranja",
     precio: 10,
     foto: "tazon-huellitas-naranja.jpg",
     categoria: "accesorios",
@@ -142,7 +142,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Botella bebedero portátil",
+    titulo: "Botella Bebedero Portátil Aqua Dog",
     precio: 15,
     foto: "botella-agua.jpg",
     categoria: "accesorios",
@@ -152,7 +152,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Cama redonda con borde de borrego",
+    titulo: "Cama Redonda con Borde de Borrego",
     precio: 35,
     foto: "cama-borrego-azul.jpg",
     categoria: "accesorios",
@@ -163,7 +163,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Cama redonda estampado patitas",
+    titulo: "Cama Redonda Estampado Patitas",
     precio: 35,
     foto: "cama-patitas-morada.jpg",
     categoria: "accesorios",
@@ -174,7 +174,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
 
   {
-    titulo: "Hueso de plástico",
+    titulo: "Hueso Mordedor de Plástico",
     precio: 10,
     foto: "hueso-plastico.jpg",
     categoria: "accesorios",
@@ -199,7 +199,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 (function (global) {
   "use strict";
 
-  var RUTA_FOTOS = "../images/productos/";
+  var RUTA_FOTOS = "../images/productos/tienda/";
 
   var NOMBRES_CATEGORIA = {
     alimentos: "Nutrición & Salud Canina",
