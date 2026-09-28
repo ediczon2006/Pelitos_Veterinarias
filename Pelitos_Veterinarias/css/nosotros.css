@@ -1,0 +1,184 @@
+/* ==========================================================================
+   PÁGINA NOSOTROS · diseño inspirado en "¿Quiénes somos?" de PoloVet
+   1. ¿Quiénes somos? + Misión y Visión
+   2. Conoce a nuestras veterinarias
+   3. Nuestro equipo en zigzag con fotos en forma de pincelada
+   ========================================================================== */
+
+.qs, .vets, .equipo-zz { padding: clamp(56px, 8vw, 110px) 0; background: #fff; }
+
+/* Títulos grandes y pesados, como en la referencia */
+.qs__titulo,
+.vets__titulo,
+.equipo-zz__titulo,
+.miembro__nombre {
+  font-family: var(--tipo-display, "Manrope", sans-serif);
+  font-weight: 800;
+  color: #1c1230;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-transform: none;
+}
+
+/* ---------- 1. ¿Quiénes somos? ---------- */
+.qs__grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr 1fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+.qs__titulo { font-size: clamp(2.6rem, 5.4vw, 4.6rem); }
+.qs .nosotros-eslogan { margin-top: 14px !important; font-size: clamp(1.6rem, 2.6vw, 2.2rem) !important; }
+.qs__foto { margin: 34px 0 0; border-radius: 20px; overflow: hidden; box-shadow: 0 24px 50px -28px rgba(61, 28, 92, .55); }
+.qs__foto img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
+.qs__bloque { padding-top: 10px; }
+.qs__subtitulo {
+  font-family: var(--tipo-display, "Manrope", sans-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--morado, #6c3991);
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qs__subtitulo::before {
+  content: "";
+  width: 28px; height: 4px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--morado, #6c3991), #f28c28);
+}
+.qs__bloque p { color: #463d55; line-height: 1.75; font-size: 1rem; }
+
+/* ---------- 2. Conoce a nuestras veterinarias ---------- */
+.vets { background: linear-gradient(180deg, #fff 0%, #faf6ff 100%); }
+.vets__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: clamp(28px, 5vw, 80px);
+  align-items: center;
+}
+.vets__titulo { font-size: clamp(2.2rem, 4.2vw, 3.6rem); }
+.vets__fotos { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; border-radius: 22px; overflow: hidden; }
+.vets__fotos figure { margin: 0; position: relative; }
+.vets__fotos img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; }
+.vets__fotos figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 36px 14px 12px;
+  background: linear-gradient(180deg, transparent, rgba(28, 12, 48, .82));
+  color: #fff; display: flex; flex-direction: column; gap: 2px;
+}
+.vets__fotos figcaption strong { font-size: .92rem; line-height: 1.25; }
+.vets__fotos figcaption span { font-size: .76rem; opacity: .85; }
+.vets__saludo {
+  margin: 22px 0 10px;
+  font-family: var(--tipo-display, "Manrope", sans-serif);
+  font-weight: 800; font-size: 1.35rem; color: #1c1230;
+}
+.vets__contenido > p { color: #463d55; line-height: 1.75; margin-bottom: 22px; }
+
+/* ---------- 3. Nuestro equipo en zigzag ---------- */
+.equipo-zz__cabecera {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
+  margin-bottom: clamp(30px, 5vw, 70px);
+}
+.equipo-zz__titulo { font-size: clamp(2.2rem, 4.2vw, 3.6rem); }
+.equipo-zz__lema { font-family: var(--tipo-display, "Manrope", sans-serif); font-weight: 800; font-size: 1.2rem; color: var(--morado, #6c3991); margin: 0 0 10px; }
+.equipo-zz__cabecera p { color: #463d55; line-height: 1.75; }
+
+.miembro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
+  padding: clamp(18px, 3vw, 36px) 0;
+}
+.miembro--der .miembro__foto { order: 2; }
+.miembro--der .miembro__texto { text-align: right; }
+.miembro--der .miembro__tareas { margin-left: auto; }
+.miembro--der .miembro__tareas li { flex-direction: row-reverse; }
+
+/* Foto recortada con forma de pincelada */
+.miembro__foto {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  justify-self: center;
+}
+.miembro__foto::before {
+  /* mancha de color detrás, como segunda pincelada */
+  content: "";
+  position: absolute; inset: 6% -4% -4% 6%;
+  background: linear-gradient(135deg, rgba(108, 57, 145, .18), rgba(242, 140, 40, .22));
+  -webkit-mask: url("../images/formas/pincelada.svg") center / 100% 100% no-repeat;
+          mask: url("../images/formas/pincelada.svg") center / 100% 100% no-repeat;
+  transform: rotate(-4deg);
+}
+.miembro__foto img {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 10 / 7;
+  object-fit: cover;
+  object-position: center 18%;
+  -webkit-mask: url("../images/formas/pincelada.svg") center / 100% 100% no-repeat;
+          mask: url("../images/formas/pincelada.svg") center / 100% 100% no-repeat;
+  transition: transform .5s ease;
+}
+.miembro--der .miembro__foto::before { transform: rotate(4deg) scaleX(-1); }
+.miembro--der .miembro__foto img { transform: scaleX(1); }
+.miembro:hover .miembro__foto img { transform: scale(1.03) rotate(-1deg); }
+
+.miembro__nombre { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin: 0; }
+.miembro__cargo { margin: 10px 0 14px; font-weight: 800; font-size: .92rem; color: var(--morado, #6c3991); }
+.miembro__desc { color: #463d55; line-height: 1.75; max-width: 520px; }
+.miembro--der .miembro__desc { margin-left: auto; }
+.miembro__tareas { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 8px; max-width: 520px; }
+.miembro__tareas li { display: flex; gap: 10px; align-items: flex-start; color: #463d55; font-size: .93rem; line-height: 1.5; }
+.miembro__tareas li::before {
+  content: ""; flex: 0 0 8px; height: 8px; margin-top: 7px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--morado, #6c3991), #f28c28);
+}
+
+/* ---------- Tablet y celular ---------- */
+@media (max-width: 980px) {
+  .qs__grid { grid-template-columns: 1fr 1fr; }
+  .qs__intro { grid-column: 1 / -1; }
+  .vets__grid, .equipo-zz__cabecera { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .qs__grid { grid-template-columns: 1fr; }
+  .miembro { grid-template-columns: 1fr; text-align: left; }
+  .miembro--der .miembro__foto { order: 0; }
+  .miembro--der .miembro__texto { text-align: left; }
+  .miembro--der .miembro__desc, .miembro--der .miembro__tareas { margin-left: 0; }
+  .miembro--der .miembro__tareas li { flex-direction: row; }
+  .miembro__foto { max-width: 420px; }
+}
+
+/* Ajustes de proporción de fotos */
+.miembro__foto img {
+  height: auto !important;
+  aspect-ratio: 5 / 4 !important;
+  object-position: center 22% !important;
+}
+.vets__grid { align-items: start; }
+.vets__titulo { position: sticky; top: 110px; }
+.vets__fotos img { aspect-ratio: 4 / 5 !important; height: auto !important; max-height: 460px; }
+@media (max-width: 980px) { .vets__titulo { position: static; } }
+
+/* ---- Versión más fiel al estilo PoloVet: limpio, blanco y minimalista ---- */
+.vets { background: #fff !important; }
+.vets__grid { align-items: center !important; }
+.vets__titulo { position: static !important; }
+.vets__fotos { border-radius: 0 !important; gap: 4px !important; }
+.vets__fotos img { max-height: none !important; aspect-ratio: 3 / 4 !important; }
+.miembro__foto::before { display: none !important; }
+.miembro__foto img { aspect-ratio: 10 / 7 !important; transform: rotate(-3deg); }
+.miembro--der .miembro__foto img { transform: rotate(3deg); }
+.miembro:hover .miembro__foto img { transform: rotate(0deg) scale(1.02); }
+.equipo-zz { padding-bottom: clamp(60px, 8vw, 110px); }
+.miembro__foto img { aspect-ratio: 10 / 8 !important; object-position: center 8% !important; }

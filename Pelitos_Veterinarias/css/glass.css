@@ -1,0 +1,618 @@
+/* ==========================================================================
+   PELITOS VETERINARIA — CAPA DE VIDRIO (css/glass.css)
+   Estilo "glassmorphism": superficies traslúcidas, desenfoque de fondo,
+   bordes de luz y un fondo aurora fijo detrás de todo el sitio.
+
+   CÓMO FUNCIONA
+   Este archivo se carga DESPUÉS de css/styles.css en las 8 páginas, así que
+   solo repinta lo visual (fondos, bordes, sombras, radios). No cambia ni la
+   estructura del HTML ni el JavaScript: si algún día quiere volver al diseño
+   anterior, borre la línea <link ... glass.css"> de las 8 páginas y listo.
+
+   CONTENIDO
+        1. TOKENS DEL VIDRIO
+        2. FONDO AURORA
+        3. CABECERA Y NAVEGACIÓN
+        4. SECCIONES Y HÉROES
+        5. TARJETAS Y SUPERFICIES
+        6. BOTONES, PÍLDORAS Y CHIPS
+        7. PETSHOP: PRODUCTOS, CARRITO Y FICHAS
+        8. FORMULARIOS
+        9. PIE DE PÁGINA Y FLOTANTES
+       10. ACCESIBILIDAD Y RESPALDOS
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1 · TOKENS DEL VIDRIO
+   Aquí se regula la intensidad del efecto. Suba o baje estos valores y
+   todo el sitio cambia a la vez.
+   ========================================================================== */
+:root {
+  /* Cuánto se ve el fondo a través del vidrio (más alto = más opaco) */
+  --vidrio: rgba(255, 255, 255, 0.58);
+  --vidrio-fuerte: rgba(255, 255, 255, 0.76);
+  --vidrio-suave: rgba(255, 255, 255, 0.38);
+  --vidrio-morado: rgba(91, 42, 134, 0.10);
+
+  /* Desenfoque del fondo */
+  --blur: 18px;
+  --blur-fuerte: 30px;
+
+  /* Bordes de luz: el borde superior claro es lo que "vende" el vidrio */
+  --vidrio-borde: rgba(255, 255, 255, 0.72);
+  --vidrio-borde-tenue: rgba(91, 42, 134, 0.12);
+
+  /* Sombras: difusas y con tinte morado, nunca negras */
+  --vidrio-sombra: 0 10px 34px rgba(48, 18, 84, 0.10), inset 0 1px 0 rgba(255,255,255,0.65);
+  --vidrio-sombra-alta: 0 22px 60px rgba(48, 18, 84, 0.18), inset 0 1px 0 rgba(255,255,255,0.7);
+
+  /* Radios más generosos: el vidrio pide esquinas suaves */
+  --radio: 20px;
+  --radio-lg: 30px;
+
+  /* Tintes de la aurora del fondo. Se mantienen suaves a proposito: el texto
+     del sitio va encima, y un fondo fuerte lo vuelve ilegible. */
+  --aurora-1: rgba(139, 92, 246, 0.22);   /* violeta */
+  --aurora-2: rgba(240, 121, 30, 0.18);   /* naranja */
+  --aurora-3: rgba(45, 212, 191, 0.17);   /* aguamarina */
+  --aurora-4: rgba(255, 183, 3, 0.17);    /* amarillo */
+
+  /* Velo blanco sobre la aurora: sube el contraste del texto sin apagar el color */
+  --aurora-velo: rgba(255, 255, 255, 0.50);
+
+  /* El texto secundario se oscurece un poco: sobre color necesita mas fuerza */
+  --texto-suave: #574a66;
+
+  --sombra: var(--vidrio-sombra);
+  --sombra-card: 0 6px 24px rgba(48, 18, 84, 0.07);
+}
+
+/* Atajo reutilizable */
+.vidrio {
+  background: var(--vidrio);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+  backdrop-filter: blur(var(--blur)) saturate(150%);
+  border: 1px solid var(--vidrio-borde);
+  box-shadow: var(--vidrio-sombra);
+  border-radius: var(--radio);
+}
+
+
+/* ==========================================================================
+   2 · FONDO AURORA
+   Manchas de color fijas detrás de todo. Sin ellas el vidrio no se nota,
+   porque no habría nada que desenfocar.
+   ========================================================================== */
+html { background: #f3eefb; }
+
+body {
+  background: transparent;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  /* Las manchas se anclan a las cuatro esquinas de la pantalla y se apagan
+     muy suave hacia el centro, que es donde vive el texto. */
+  background:
+    linear-gradient(0deg, var(--aurora-velo), var(--aurora-velo)),
+    radial-gradient(46vmax 40vmax at -6% -8%,   var(--aurora-1) 0%, transparent 72%),
+    radial-gradient(42vmax 38vmax at 106% -6%,  var(--aurora-2) 0%, transparent 70%),
+    radial-gradient(48vmax 42vmax at 104% 104%, var(--aurora-3) 0%, transparent 72%),
+    radial-gradient(40vmax 36vmax at -6% 106%,  var(--aurora-4) 0%, transparent 70%),
+    linear-gradient(170deg, #fbf8ff 0%, #f5f0fc 46%, #fdf6ef 100%);
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+/* Grano finísimo: quita el aspecto plástico de los degradados */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: radial-gradient(rgba(91, 42, 134, 0.09) 0.5px, transparent 0.5px);
+  background-size: 4px 4px;
+}
+
+
+/* ==========================================================================
+   3 · CABECERA Y NAVEGACIÓN
+   ========================================================================== */
+.header {
+  background: rgba(255, 255, 255, 0.52) !important;
+  -webkit-backdrop-filter: blur(var(--blur-fuerte)) saturate(170%);
+  backdrop-filter: blur(var(--blur-fuerte)) saturate(170%);
+  border-bottom: 1px solid var(--vidrio-borde);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5), 0 8px 30px rgba(48, 18, 84, 0.06);
+}
+
+.header.scrolled {
+  background: rgba(255, 255, 255, 0.68) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 10px 34px rgba(48, 18, 84, 0.12);
+}
+
+.nav a { border-radius: 12px; }
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 1px var(--vidrio-borde);
+  color: var(--morado);
+}
+.nav a.activo {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 1px var(--vidrio-borde);
+}
+
+.nav-movil {
+  background: rgba(255, 255, 255, 0.82) !important;
+  -webkit-backdrop-filter: blur(var(--blur-fuerte)) saturate(160%);
+  backdrop-filter: blur(var(--blur-fuerte)) saturate(160%);
+  border-bottom: 1px solid var(--vidrio-borde);
+}
+
+.menu-btn,
+.cart-trigger,
+.btn-auth-header {
+  background: var(--vidrio) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid var(--vidrio-borde) !important;
+  box-shadow: var(--vidrio-sombra);
+}
+
+.user-dropdown-menu,
+.user-session-chip {
+  background: var(--vidrio-fuerte) !important;
+  -webkit-backdrop-filter: blur(var(--blur-fuerte)) saturate(160%);
+  backdrop-filter: blur(var(--blur-fuerte)) saturate(160%);
+  border: 1px solid var(--vidrio-borde) !important;
+  box-shadow: var(--vidrio-sombra-alta);
+}
+
+
+/* ==========================================================================
+   4 · SECCIONES Y HÉROES
+   Las secciones dejan de tener fondo propio para que se vea la aurora.
+   ========================================================================== */
+.hero,
+.pagina-hero,
+.seccion--suave,
+.seccion--morada,
+.petshop-hero {
+  background: transparent !important;
+}
+
+.seccion--suave {
+  border-top: 1px solid rgba(255,255,255,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+  background: linear-gradient(180deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.12) 100%) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.seccion--morada {
+  border-top: 1px solid var(--vidrio-borde);
+  border-bottom: 1px solid var(--vidrio-borde);
+  background: linear-gradient(165deg, rgba(255,255,255,0.5) 0%, rgba(244,238,251,0.32) 100%) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.pagina-hero {
+  border-bottom: 1px solid rgba(255,255,255,0.55);
+}
+
+/* El título degradado se mantiene, pero con más contraste sobre la aurora */
+.pagina-hero h1,
+.hero h1 { position: relative; }
+
+
+/* ==========================================================================
+   5 · TARJETAS Y SUPERFICIES
+   ========================================================================== */
+.tarjeta,
+.servicio-card,
+.consejo-card,
+.equipo-card,
+.equipo-mini,
+.faq-card,
+.faq-item,
+.testimonio,
+.stat-item,
+.dato,
+.galeria-card,
+.tarjeta-flotante,
+.contacto-atajo,
+.cotizador-estetica,
+.cotizador-resumen,
+.extra-check-card,
+.timeline-step,
+.calc-edad,
+.promo-19__caja,
+.plegable,
+.comparador,
+.vitrina {
+  background: var(--vidrio) !important;
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+  backdrop-filter: blur(var(--blur)) saturate(150%);
+  border: 1px solid var(--vidrio-borde) !important;
+  border-radius: var(--radio);
+  box-shadow: var(--vidrio-sombra);
+}
+
+/* Hover: el vidrio se aclara y levanta, no se oscurece */
+a.tarjeta:hover,
+.tarjeta--hover:hover,
+.servicio-card:hover,
+.consejo-card:hover,
+.equipo-card:hover,
+.galeria-card:hover,
+.contacto-atajo:hover,
+.faq-card:hover {
+  background: var(--vidrio-fuerte) !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: var(--vidrio-sombra-alta);
+}
+
+/* Las fotos dentro del vidrio no deben perder nitidez */
+.galeria-card img,
+.equipo-card__foto img,
+.producto-card__img-wrap img,
+.vitrina img {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.tarjeta__icono,
+.servicio-card__ico,
+.contacto-atajo__ico,
+.timeline-icon,
+.tarjeta__num {
+  background: linear-gradient(145deg, rgba(255,255,255,0.85), rgba(255,255,255,0.35)) !important;
+  border: 1px solid var(--vidrio-borde);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 14px rgba(48,18,84,0.08);
+}
+
+.stats-grid .stat-item__numero,
+.din-stat-num { text-shadow: 0 1px 0 rgba(255,255,255,0.7); }
+
+
+/* ==========================================================================
+   6 · BOTONES, PÍLDORAS Y CHIPS
+   Los botones de color se quedan sólidos (son la llamada a la acción y
+   necesitan contraste). Solo los secundarios pasan a vidrio.
+   ========================================================================== */
+.btn { border-radius: 14px; }
+
+.btn--claro,
+.btn--linea {
+  background: var(--vidrio-fuerte) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid var(--vidrio-borde) !important;
+  color: var(--morado) !important;
+  box-shadow: var(--vidrio-sombra);
+}
+.btn--claro:hover,
+.btn--linea:hover {
+  background: rgba(255,255,255,0.9) !important;
+  box-shadow: var(--vidrio-sombra-alta);
+}
+
+.btn--dorado,
+.btn--amarillo,
+.btn--cta,
+.btn--naranja,
+.btn--morado,
+.btn--whatsapp {
+  box-shadow: 0 8px 26px rgba(48, 18, 84, 0.18), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+
+.filtro-pill,
+.chip,
+.petshop-chip,
+.badge-tag,
+.tipo-mini-tag,
+.selector-pill-btn,
+.variante-btn,
+.galeria-filtro-nav button {
+  background: var(--vidrio-suave) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid var(--vidrio-borde) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.filtro-pill.activo,
+.selector-pill-btn.activo,
+.variante-btn.activo,
+.variante-btn[aria-pressed="true"],
+.galeria-filtro-nav button.activo {
+  background: rgba(91, 42, 134, 0.92) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.35) !important;
+  box-shadow: 0 8px 22px rgba(91, 42, 134, 0.3);
+}
+
+.badge-abierto,
+.badge-descuento,
+.cinta-oferta,
+.producto-card__off,
+.vitrina__chip {
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+  box-shadow: 0 6px 18px rgba(48, 18, 84, 0.18), inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+
+/* ==========================================================================
+   7 · PETSHOP: PRODUCTOS, CARRITO Y FICHAS
+   ========================================================================== */
+.producto-card,
+.producto-destacado,
+.buscador-productos,
+.catalogo-header,
+.catalogo-vacio,
+.alerta-stock,
+.temu-ticker,
+.ticker-servicios {
+  background: var(--vidrio) !important;
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+  backdrop-filter: blur(var(--blur)) saturate(150%);
+  border: 1px solid var(--vidrio-borde) !important;
+  border-radius: var(--radio);
+  box-shadow: var(--vidrio-sombra);
+}
+
+.producto-card:hover {
+  background: var(--vidrio-fuerte) !important;
+  border-color: rgba(255,255,255,0.9) !important;
+  box-shadow: var(--vidrio-sombra-alta);
+}
+
+.producto-card__img-wrap {
+  background: linear-gradient(160deg, rgba(255,255,255,0.7), rgba(244,238,251,0.35)) !important;
+}
+
+/* Fondo detrás de modales y carrito: vidrio esmerilado, no negro plano */
+.modal-overlay,
+.cart-backdrop,
+.auth-modal-overlay,
+.din-lightbox {
+  background: rgba(48, 18, 84, 0.34) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+}
+
+.modal-contenido,
+.cart-drawer,
+.auth-modal-card,
+.modal-aviso {
+  background: rgba(255, 255, 255, 0.80) !important;
+  -webkit-backdrop-filter: blur(var(--blur-fuerte)) saturate(170%);
+  backdrop-filter: blur(var(--blur-fuerte)) saturate(170%);
+  border: 1px solid var(--vidrio-borde) !important;
+  box-shadow: var(--vidrio-sombra-alta);
+}
+
+.modal-contenido,
+.auth-modal-card { border-radius: var(--radio-lg); }
+
+.cart-drawer__header,
+.cart-drawer__footer,
+.modal-header-prod,
+.modal-footer,
+.auth-modal-header {
+  background: rgba(255, 255, 255, 0.42) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-color: var(--vidrio-borde) !important;
+}
+
+.cart-item {
+  background: var(--vidrio-suave) !important;
+  border: 1px solid var(--vidrio-borde) !important;
+  border-radius: 14px;
+}
+
+.cantidad-stepper,
+.cantidad-btn {
+  background: var(--vidrio-fuerte) !important;
+  border: 1px solid var(--vidrio-borde) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.din-toast,
+.toast-notif {
+  background: rgba(30, 16, 48, 0.82) !important;
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.22) !important;
+  color: #fff !important;
+  box-shadow: var(--vidrio-sombra-alta);
+}
+
+
+/* ==========================================================================
+   8 · FORMULARIOS
+   ========================================================================== */
+input, select, textarea,
+.auth-input,
+.campo input,
+.campo select,
+.campo textarea {
+  background: rgba(255, 255, 255, 0.62) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid var(--vidrio-borde) !important;
+  border-radius: 14px !important;
+  box-shadow: inset 0 1px 2px rgba(48, 18, 84, 0.05);
+}
+
+input:focus, select:focus, textarea:focus,
+.auth-input:focus {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(112, 49, 167, 0.55) !important;
+  box-shadow: 0 0 0 4px rgba(112, 49, 167, 0.14);
+  outline: none;
+}
+
+/* El estado de error manda sobre el vidrio: rojo visible */
+.campo--mal input,
+.campo--mal select,
+.campo--mal textarea,
+[aria-invalid="true"] {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12) !important;
+}
+
+.campo--ok input,
+.campo--ok select,
+.campo--ok textarea { border-color: #16a34a !important; }
+
+
+/* ==========================================================================
+   9 · PIE DE PÁGINA Y FLOTANTES
+   ========================================================================== */
+.footer {
+  background: rgba(255, 255, 255, 0.5) !important;
+  -webkit-backdrop-filter: blur(var(--blur-fuerte)) saturate(160%);
+  backdrop-filter: blur(var(--blur-fuerte)) saturate(160%);
+  border-top: 1px solid var(--vidrio-borde) !important;
+}
+
+.footer__top {
+  background: rgba(244, 238, 251, 0.55) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--vidrio-borde) !important;
+}
+
+.footer__legal { border-top: 1px solid var(--vidrio-borde) !important; }
+
+.fab,
+.fab-admin {
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  box-shadow: 0 12px 32px rgba(48, 18, 84, 0.26), inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.din-progreso { background: rgba(255,255,255,0.25); }
+
+
+/* ==========================================================================
+   10 · ACCESIBILIDAD Y RESPALDOS
+   ========================================================================== */
+
+/* Si el navegador no sabe desenfocar (Firefox antiguo, navegadores viejos),
+   las superficies se vuelven casi opacas para que el texto siga legible. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --vidrio: rgba(255, 255, 255, 0.94);
+    --vidrio-fuerte: rgba(255, 255, 255, 0.98);
+    --vidrio-suave: rgba(255, 255, 255, 0.90);
+  }
+  .header,
+  .header.scrolled,
+  .nav-movil,
+  .footer,
+  .modal-contenido,
+  .cart-drawer,
+  .auth-modal-card { background: rgba(255, 255, 255, 0.97) !important; }
+  .modal-overlay,
+  .cart-backdrop,
+  .auth-modal-overlay,
+  .din-lightbox { background: rgba(48, 18, 84, 0.62) !important; }
+}
+
+/* Quien pide menos movimiento también agradece menos ruido visual */
+@media (prefers-reduced-motion: reduce) {
+  body::after { opacity: 0.18; }
+}
+
+/* En móvil el desenfoque cuesta batería: se baja sin perder el efecto */
+@media (max-width: 640px) {
+  :root {
+    --blur: 14px;
+    --blur-fuerte: 20px;
+    --vidrio: rgba(255, 255, 255, 0.70);
+    /* En pantalla chica el texto ocupa casi todo el ancho: mas velo, menos color */
+    --aurora-velo: rgba(255, 255, 255, 0.66);
+  }
+  body::after { opacity: 0.25; }
+}
+
+
+/* ==========================================================================
+   11 · REMIENDOS FINOS DETECTADOS EN LAS PRUEBAS DE NAVEGADOR
+   ========================================================================== */
+
+/* La cinta de mensajes que se desplaza quedaba casi ilegible sobre el vidrio:
+   necesita una superficie mas opaca y texto con mas cuerpo. */
+.temu-ticker,
+.ticker-servicios {
+  background: rgba(255, 255, 255, 0.86) !important;
+}
+.ticker-item,
+.temu-ticker__inner,
+.ticker-track { color: var(--texto); }
+.ticker-item { font-weight: 600; }
+
+/* Las burbujas de luz ambiental del diseño original quedaban demasiado
+   saturadas sobre el fondo aurora: se desenfocan mas y se bajan de intensidad
+   para que aporten profundidad sin comerse el texto. */
+.luz-ambiental {
+  filter: blur(90px) !important;
+  opacity: 0.11 !important;
+}
+.hero__figura::before { opacity: 0.12; filter: blur(40px); }
+
+/* "Consejos Pelitos" partia en dos lineas en PetShop, donde la cabecera lleva
+   carrito y boton. Se comprime el menu antes de que llegue a quebrarse. */
+.nav a { white-space: nowrap; }
+@media (min-width: 981px) and (max-width: 1320px) {
+  .nav { gap: 0; font-size: 0.86rem; }
+  .nav a { padding: 6px 8px; }
+  .header__inner { gap: 10px; }
+}
+
+/* Modo de alto contraste del sistema: fuera transparencias */
+@media (prefers-contrast: more) {
+  :root {
+    --vidrio: rgba(255, 255, 255, 0.97);
+    --vidrio-fuerte: #ffffff;
+    --vidrio-suave: rgba(255, 255, 255, 0.95);
+    --vidrio-borde: rgba(91, 42, 134, 0.45);
+  }
+  body::before { opacity: 0.35; }
+  body::after { display: none; }
+}
+
+/* -------------------------------------------------------------------------
+   12. DESCRIPCION EN LAS TARJETAS DE PRODUCTO
+   El texto que escribe usted en el campo "resumen" (o en la ficha tecnica)
+   de js/main.js. Se recorta a 3 lineas para que todas las tarjetas midan
+   parecido; en celular se permiten 4.
+   ------------------------------------------------------------------------- */
+.producto-card__resumen {
+  margin: 6px 0 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--texto-suave);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .producto-card__resumen { -webkit-line-clamp: 4; }
+}
