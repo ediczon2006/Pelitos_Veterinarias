@@ -77,24 +77,57 @@ document.addEventListener("DOMContentLoaded", () => {
   const navMovil = document.querySelector("[data-nav-movil]");
 
   if (botonMenu && navMovil) {
-    const cerrarMenu = () => {
-      navMovil.classList.remove("abierto");
-      botonMenu.setAttribute("aria-expanded", "false");
-      botonMenu.setAttribute("aria-label", "Abrir menú");
+    const ICONO_MENU = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+    const ICONO_CERRAR = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    const cabecera = botonMenu.closest(".header");
+
+    /* Altura de la cabecera, para que el menú ocupe el resto de la pantalla */
+    const medirCabecera = () => {
+      if (cabecera) document.documentElement.style.setProperty("--alto-header", cabecera.offsetHeight + "px");
     };
 
-    botonMenu.addEventListener("click", () => {
-      const abierto = navMovil.classList.toggle("abierto");
-      botonMenu.setAttribute("aria-expanded", String(abierto));
-      botonMenu.setAttribute("aria-label", abierto ? "Cerrar menú" : "Abrir menú");
+    const abrirMenu = () => {
+      medirCabecera();
+      navMovil.classList.add("abierto");
+      document.body.classList.add("menu-abierto");
+      botonMenu.setAttribute("aria-expanded", "true");
+      botonMenu.setAttribute("aria-label", "Cerrar menú");
+      botonMenu.innerHTML = ICONO_CERRAR;
+    };
+
+    const cerrarMenu = () => {
+      navMovil.classList.remove("abierto");
+      document.body.classList.remove("menu-abierto");
+      botonMenu.setAttribute("aria-expanded", "false");
+      botonMenu.setAttribute("aria-label", "Abrir menú");
+      botonMenu.innerHTML = ICONO_MENU;
+    };
+
+    botonMenu.addEventListener("click", (evento) => {
+      evento.stopPropagation();
+      if (navMovil.classList.contains("abierto")) cerrarMenu();
+      else abrirMenu();
     });
 
     navMovil.querySelectorAll("a").forEach((enlace) => {
       enlace.addEventListener("click", cerrarMenu);
     });
 
+    /* Tocar fuera del menú (en el fondo oscuro) lo cierra */
+    document.addEventListener("click", (evento) => {
+      if (!navMovil.classList.contains("abierto")) return;
+      if (navMovil.contains(evento.target) || botonMenu.contains(evento.target)) return;
+      cerrarMenu();
+    });
+
     document.addEventListener("keydown", (evento) => {
       if (evento.key === "Escape") cerrarMenu();
+    });
+
+    /* Si la pantalla se agranda (girar el celular), se cierra el menú */
+    window.addEventListener("resize", () => {
+      medirCabecera();
+      if (window.innerWidth > 980) cerrarMenu();
     });
   }
 
@@ -3006,7 +3039,8 @@ function esPagina(nombre) {
     };
     const actualizarHoras = () => {
       if (!selectDia || !selectHora) return;
-      const esHoy = selectDia.value === 'Hoy';
+      const hoyISO = (() => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); })();
+      const esHoy = selectDia.value === 'Hoy' || selectDia.value === hoyISO;
       const ahora = new Date();
       const minutos = ahora.getHours() * 60 + ahora.getMinutes();
       let primeraLibre = null;
@@ -3019,10 +3053,21 @@ function esPagina(nombre) {
       }
       /* Si hoy ya no quedan horas, se pasa a "Mañana". */
       if (esHoy && !primeraLibre) {
-        selectDia.value = 'Mañana';
+        if (selectDia.type === 'date') {
+          const m = new Date(); m.setDate(m.getDate() + 1);
+          m.setMinutes(m.getMinutes() - m.getTimezoneOffset());
+          selectDia.value = m.toISOString().slice(0, 10);
+        } else {
+          selectDia.value = 'Mañana';
+        }
         actualizarHoras();
       }
     };
+    /* Calendario: no se permiten fechas pasadas */
+    if (selectDia && selectDia.type === 'date') {
+      const h = new Date(); h.setMinutes(h.getMinutes() - h.getTimezoneOffset());
+      selectDia.min = h.toISOString().slice(0, 10);
+    }
     if (selectDia) selectDia.addEventListener('change', actualizarHoras);
     actualizarHoras();
 
@@ -3034,7 +3079,14 @@ function esPagina(nombre) {
       };
       const servicio = dato('servicio');
       const mascota = dato('mascota');
-      const dia = dato('dia');
+      let dia = dato('dia');
+      /* Fecha del calendario (AAAA-MM-DD) en formato legible: lunes 28/09/2026 */
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dia)) {
+        const [a, mm, d] = dia.split('-').map(Number);
+        const f = new Date(a, mm - 1, d);
+        const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+        dia = dias[f.getDay()] + ' ' + String(d).padStart(2, '0') + '/' + String(mm).padStart(2, '0') + '/' + a;
+      }
       const hora = dato('hora');
       const texto =
         'Hola Pelitos, quiero reservar una cita.\n' +
@@ -3471,20 +3523,13 @@ function esPagina(nombre) {
     const formPageLogin = document.getElementById("form-page-login");
 
     if (btnPageGoogle) {
+      /* Antes este botón "iniciaba sesión" con una cuenta inventada
+         (Dr. Roberto Pelitos). Como aún no hay conexión real con Google,
+         ahora avisa y lleva al cliente al acceso con correo. */
       btnPageGoogle.addEventListener("click", () => {
-        btnPageGoogle.disabled = true;
-        btnPageGoogle.innerHTML = `<span>Conectando con Google...</span>`;
-        setTimeout(() => {
-          PelitosAuth.guardarUsuario({
-            nombre: "Dr. Roberto Pelitos",
-            email: "usuario.pelitos@gmail.com",
-            tipo: "google"
-          });
-          PelitosAuth.mostrarToast("¡Sesión iniciada con Google!", "✨");
-          setTimeout(() => {
-            window.location.href = "../index.html";
-          }, 800);
-        }, 900);
+        PelitosAuth.mostrarToast("El acceso con Google estará disponible pronto. Por ahora ingresa con tu correo.", "ℹ️");
+        const correo = document.querySelector('#form-page-login input[type="email"]');
+        if (correo) correo.focus();
       });
     }
 

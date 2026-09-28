@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="../css/editorial.css" />
   <link rel="stylesheet" href="../css/neofuturismo.css" />
+  <link rel="stylesheet" href="../css/correcciones.css" />
 
   <script>document.documentElement.classList.add("js-din");</script>
 
@@ -56,10 +57,11 @@
       flex: 0 0 auto;
     }
 
+    /* El contenido se muestra/oculta con el botón (ver script al final) */
     .seccion--productos .productos-ocultos {
-      max-height: none;
-      overflow: visible;
-      opacity: 1;
+      margin-top: 0;
+    }
+    .seccion--productos .productos-ocultos.abierto {
       margin-top: 8px;
     }
 
@@ -469,17 +471,17 @@
 
         <button
           id="btn-toggle-productos"
-          class="boton-desplegable-productos reveal abierto"
+          class="boton-desplegable-productos"
           type="button"
-          aria-expanded="true"
+          aria-expanded="false"
           aria-controls="galeria-productos-contenido">
-          Ver productos y herramientas utilizadas
+          <span data-texto-boton>Ver productos y herramientas utilizadas</span>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
 
-        <div id="galeria-productos-contenido" class="productos-ocultos abierto">
+        <div id="galeria-productos-contenido" class="productos-ocultos" aria-hidden="true">
           <div class="grilla-productos-ejemplo">
 
             <!-- 05.png: Piedra pómez -->
@@ -922,7 +924,7 @@
     <!-- ================= PRODUCTOS QUE UTILIZAMOS =================
          Para cambiar una foto, reemplace el archivo en images/estetica/productos/
          con el mismo nombre. Para agregar otro producto, copie un <article>. -->
-    <section class="seccion" id="productos-estetica">
+    <section class="seccion" id="productos-que-utilizamos">
       <div class="contenedor">
         <div class="titulo-bloque titulo-bloque--centro reveal">
           <span class="eyebrow">Productos que utilizamos</span>
@@ -1288,17 +1290,41 @@
 
   <!-- SCRIPT PARA EL BOTÓN DESPLEGABLE DE PRODUCTOS -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const btnToggle = document.getElementById('btn-toggle-productos');
-      const contenidoProductos = document.getElementById('galeria-productos-contenido');
-      
-      if(btnToggle && contenidoProductos) {
-        btnToggle.addEventListener('click', function() {
-          const abierto = this.classList.toggle('abierto');
-          contenidoProductos.classList.toggle('abierto', abierto);
-          this.setAttribute('aria-expanded', String(abierto));
-        });
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.getElementById('btn-toggle-productos');
+      var panel = document.getElementById('galeria-productos-contenido');
+      if (!btn || !panel) return;
+      var texto = btn.querySelector('[data-texto-boton]');
+
+      function abrir() {
+        panel.classList.add('abierto');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        btn.classList.add('abierto');
+        btn.setAttribute('aria-expanded', 'true');
+        panel.setAttribute('aria-hidden', 'false');
+        if (texto) texto.textContent = 'Ocultar productos y herramientas';
+        /* Las tarjetas internas usan animación .reveal: se fuerzan visibles */
+        panel.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible', 'din-visible'); });
       }
+      function cerrar() {
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        void panel.offsetHeight; /* reflow para que la animación funcione */
+        panel.style.maxHeight = '0px';
+        panel.classList.remove('abierto');
+        btn.classList.remove('abierto');
+        btn.setAttribute('aria-expanded', 'false');
+        panel.setAttribute('aria-hidden', 'true');
+        if (texto) texto.textContent = 'Ver productos y herramientas utilizadas';
+      }
+      /* Al terminar de abrir, se quita el límite para que nunca se corte el contenido */
+      panel.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'max-height' && panel.classList.contains('abierto')) {
+          panel.style.maxHeight = 'none';
+        }
+      });
+      btn.addEventListener('click', function () {
+        if (panel.classList.contains('abierto')) { cerrar(); } else { abrir(); }
+      });
     });
   </script>
 

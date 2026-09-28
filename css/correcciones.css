@@ -1,0 +1,199 @@
+/* ==========================================================================
+   CORRECCIONES GENERALES (se carga al final para tener prioridad)
+   ========================================================================== */
+
+/* 1. Iconos de redes sociales del pie: antes eran blancos sobre fondo casi
+      blanco y no se veían. */
+.footer .social-link__icon {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #fff;
+}
+.footer .social-link__icon svg { fill: #fff !important; color: #fff; }
+.footer a:has(.social-link__icon):hover .social-link__icon {
+  background: #fff !important;
+}
+.footer a:has(.social-link__icon):hover .social-link__icon svg {
+  fill: var(--morado, #6c3991) !important;
+  color: var(--morado, #6c3991);
+}
+
+/* 2. Servicios y Consejos: al filtrar y quedar una sola tarjeta, se estiraba
+      a todo el ancho. Ahora conserva su tamaño normal. */
+.servicios-grid,
+.consejos-grid {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+}
+
+/* 3. PetShop: el precio se partía en dos líneas ("S/" arriba y el número
+      abajo) y el botón "Elegir opciones" se salía de la tarjeta. */
+.producto-card { min-width: 0; }
+.producto-card__footer {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.producto-card__precios { min-width: 0; }
+.producto-card__precio {
+  white-space: nowrap;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+}
+.btn-elegir-opciones {
+  white-space: nowrap;
+  flex: 1 1 auto;
+  justify-content: center;
+  max-width: 100%;
+}
+
+/* 4. Contacto: el cuadro "Mensaje" ocupaba solo la mitad del formulario. */
+.campo textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+.campo--ancho { display: block; width: 100%; }
+
+/* 5. Pie: la línea de derechos reservados salía blanca sobre fondo blanco
+      y era invisible. Ahora va sobre el mismo morado del pie. */
+.footer .footer__legal {
+  background: rgba(0, 0, 0, 0.18) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+/* Textos secundarios del pie con buen contraste sobre el morado */
+.footer__grid p[style*="texto-suave"] { color: rgba(255, 255, 255, 0.72) !important; }
+.footer .footer__texto { color: rgba(255, 255, 255, 0.72) !important; }
+
+/* ==========================================================================
+   6. MENÚ EN CELULAR
+   - La cabecera queda fija arriba al bajar (antes desaparecía y había que
+     volver al inicio de la página para abrir el menú).
+   - El botón cambia a una "X" al abrir el menú.
+   - Enlaces más grandes y fáciles de tocar, con la sección actual resaltada.
+   - El carrito de PetShop vuelve a verse en celular.
+   ========================================================================== */
+@media (max-width: 980px) {
+  .header {
+    position: sticky !important;
+    top: 0;
+    z-index: 80;
+  }
+  .header__inner { padding: 12px 18px; }
+  .logo img { height: 42px; }
+
+  .menu-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 14px !important;
+    border: 1.5px solid rgba(108, 57, 145, 0.25) !important;
+    background: #fff;
+    color: var(--morado, #6c3991);
+    box-shadow: 0 6px 18px -8px rgba(61, 28, 92, 0.35);
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+  .menu-btn:active { transform: scale(0.94); }
+  .menu-btn[aria-expanded="true"] {
+    background: var(--morado, #6c3991);
+    color: #fff;
+    border-color: var(--morado, #6c3991) !important;
+  }
+
+  /* El carrito de PetShop no debe ocultarse en celular */
+  .header__acciones > .cart-trigger {
+    display: inline-flex !important;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px !important;
+  }
+
+  /* Panel del menú */
+  .nav-movil {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - var(--alto-header, 70px));
+    max-height: calc(100dvh - var(--alto-header, 70px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #fff !important;
+    border-top: 1px solid rgba(108, 57, 145, 0.12) !important;
+    padding: 14px 18px 26px !important;
+    box-shadow: 0 30px 60px -20px rgba(61, 28, 92, 0.35) !important;
+    border-radius: 0 0 22px 22px;
+    animation: menuBaja .25s ease both;
+  }
+  .nav-movil.abierto { display: flex !important; flex-direction: column; gap: 4px; }
+
+  .nav-movil a:not(.btn) {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px !important;
+    border: 0 !important;
+    border-radius: 14px;
+    font-family: "Open Sans", "DM Sans", sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-size: 1.02rem !important;
+    font-weight: 600 !important;
+    color: var(--texto, #1f1630) !important;
+    transition: background .2s ease, color .2s ease;
+  }
+  .nav-movil a:not(.btn)::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-top: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: .35;
+    flex-shrink: 0;
+  }
+  .nav-movil a:not(.btn):hover,
+  .nav-movil a:not(.btn):active { background: rgba(108, 57, 145, 0.06); }
+  .nav-movil a.activo {
+    background: rgba(108, 57, 145, 0.10);
+    color: var(--morado, #6c3991) !important;
+    font-weight: 800 !important;
+    box-shadow: inset 4px 0 0 var(--morado, #6c3991);
+  }
+  .nav-movil a.activo::after { opacity: .8; }
+
+  .nav-movil .btn {
+    margin-top: 14px !important;
+    width: 100%;
+    justify-content: center;
+    padding: 15px 20px !important;
+    font-size: 1rem !important;
+    border-radius: 999px !important;
+  }
+
+  /* Fondo oscuro detrás del menú y bloqueo del scroll de la página */
+  body.menu-abierto { overflow: hidden; }
+  body.menu-abierto::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(25, 12, 40, 0.45);
+    z-index: 70;
+    animation: menuFondo .25s ease both;
+  }
+}
+
+@keyframes menuBaja { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@keyframes menuFondo { from { opacity: 0; } to { opacity: 1; } }
+
+/* 7. Inicio: las 4 áreas (Clínica, Estética, Farmacia, PetShop) estaban en
+      3 columnas y PetShop quedaba sola abajo. Ahora van 4 en fila en
+      computadora y 2 × 2 en tablet. */
+.areas-portada { grid-template-columns: repeat(4, 1fr) !important; }
+@media (max-width: 1100px) { .areas-portada { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px)  { .areas-portada { grid-template-columns: 1fr !important; } }
+@media (min-width: 1101px) {
+  .areas-portada .area-cover__titulo { font-size: clamp(1.8rem, 2.7vw, 2.6rem) !important; }
+}
