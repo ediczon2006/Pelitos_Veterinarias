@@ -78,6 +78,8 @@
   .header__inner { padding: 12px 18px; }
   .logo img { height: 42px; }
 
+  /* Ocultar el buscador en móvil para no romper el layout */
+  .header__busqueda { display: none !important; }
   .menu-btn {
     display: inline-flex !important;
     align-items: center;

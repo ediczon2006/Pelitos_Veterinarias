@@ -376,8 +376,26 @@
     conectarEstrellas(form);
     contador(form);
 
+    var ultimoEnvio = 0;
+    var COOLDOWN_ENVIO = 4000; // Mínimo 4 segundos entre reseñas para evitar flooding
+
+    function limpiarTexto(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/[\u200B-\u200D\uFEFF\u0000-\u001F]/g, "") // Remueve caracteres invisibles y de control
+        .replace(/\r\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n") // Máximo dos saltos de línea consecutivos
+        .trim();
+    }
+
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
+
+      var ahora = Date.now();
+      if (ahora - ultimoEnvio < COOLDOWN_ENVIO) {
+        avisar("Espera unos segundos antes de publicar otra reseña.");
+        return;
+      }
 
       var nombre = form.querySelector('[name="nombre"]');
       var mascota = form.querySelector('[name="mascota"]');
@@ -386,19 +404,19 @@
 
       var hayError = false;
 
-      var valNombre = nombre.value.trim().slice(0, MAX_NOMBRE);
+      var valNombre = limpiarTexto(nombre.value).slice(0, MAX_NOMBRE);
       if (valNombre.length < 2) {
-        marcarError(nombre, "Escribe tu nombre (mínimo 2 letras).");
+        marcarError(nombre, "Escribe tu nombre (mínimo 2 letras válidas).");
         hayError = true;
       } else {
         marcarError(nombre, "");
       }
 
-      var valTexto = texto.value.trim().slice(0, MAX_TEXTO);
+      var valTexto = limpiarTexto(texto.value).slice(0, MAX_TEXTO);
       if (valTexto.length < MIN_TEXTO) {
         marcarError(
           texto,
-          "Cuéntanos un poco más: al menos " + MIN_TEXTO + " caracteres."
+          "Cuéntanos un poco más: al menos " + MIN_TEXTO + " caracteres válidos."
         );
         hayError = true;
       } else {
@@ -411,10 +429,12 @@
         return;
       }
 
+      ultimoEnvio = ahora;
+
       var nueva = {
         id: "t" + Date.now() + Math.random().toString(36).slice(2, 6),
         nombre: valNombre,
-        mascota: mascota ? mascota.value.trim().slice(0, 30) : "",
+        mascota: mascota ? limpiarTexto(mascota.value).slice(0, 30) : "",
         texto: valTexto,
         estrellas: Math.min(5, Math.max(1, Number(estrellas && estrellas.value) || 5)),
         fecha: new Date().toISOString()

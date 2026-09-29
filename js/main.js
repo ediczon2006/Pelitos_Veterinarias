@@ -2110,6 +2110,17 @@ function esPagina(nombre) {
 
     var buscador = document.getElementById("buscador-input");
     if (buscador) {
+      // Leer parámetro de búsqueda proveniente de la cabecera u otras páginas (?q=...)
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var qParam = urlParams.get("q") || urlParams.get("buscar");
+        if (qParam && qParam.trim()) {
+          buscador.value = qParam.trim();
+          terminoBusqueda = sinTildes(qParam.trim());
+          paginaActual = 1;
+        }
+      } catch (eBuscador) {}
+
       var pendiente = null;
       buscador.addEventListener("input", function () {
         window.clearTimeout(pendiente);
@@ -3153,14 +3164,6 @@ function esPagina(nombre) {
 (function () {
   if (!esPagina("inicio")) return;   // solo se ejecuta en esta página
 
-  // Efecto de vidrio en la cabecera al bajar la pagina
-  const header = document.getElementById('header');
-  if (header) {
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
-  }
-
   // Animación de contadores
   function animarContador(el) {
     const target = +el.dataset.target;
@@ -3237,27 +3240,56 @@ function esPagina(nombre) {
         actualizarHoras();
       }
     };
-    /* Calendario: no se permiten fechas pasadas */
+    /* Calendario: no se permiten fechas pasadas ni superiores a 60 días */
     if (selectDia && selectDia.type === 'date') {
       const h = new Date(); h.setMinutes(h.getMinutes() - h.getTimezoneOffset());
       selectDia.min = h.toISOString().slice(0, 10);
+      const maxFecha = new Date();
+      maxFecha.setDate(maxFecha.getDate() + 60);
+      maxFecha.setMinutes(maxFecha.getMinutes() - maxFecha.getTimezoneOffset());
+      selectDia.max = maxFecha.toISOString().slice(0, 10);
     }
-    if (selectDia) selectDia.addEventListener('change', actualizarHoras);
+
+    const validarDiaLaboral = () => {
+      if (!selectDia || selectDia.type !== 'date' || !selectDia.value) return;
+      const partes = selectDia.value.split('-').map(Number);
+      if (partes.length === 3) {
+        const fechaElegida = new Date(partes[0], partes[1] - 1, partes[2]);
+        if (fechaElegida.getDay() === 0) { // Domingo
+          const sigLunes = new Date(fechaElegida);
+          sigLunes.setDate(sigLunes.getDate() + 1);
+          sigLunes.setMinutes(sigLunes.getMinutes() - sigLunes.getTimezoneOffset());
+          selectDia.value = sigLunes.toISOString().slice(0, 10);
+          if (typeof window.PelitosAviso === 'function') {
+            window.PelitosAviso('Los domingos la clínica permanece cerrada. Hemos seleccionado el lunes para tu atención.');
+          } else {
+            alert('Los domingos la clínica permanece cerrada. Hemos seleccionado el lunes para tu atención.');
+          }
+        }
+      }
+      actualizarHoras();
+    };
+
+    if (selectDia) selectDia.addEventListener('change', validarDiaLaboral);
     actualizarHoras();
 
     barraCita.addEventListener('submit', (e) => {
       e.preventDefault();
       const dato = (nombre) => {
         const campo = barraCita.querySelector('[name="' + nombre + '"]');
-        return campo ? String(campo.value).trim() : '';
+        return campo ? String(campo.value).replace(/[\u200B-\u200D\uFEFF\u0000-\u001F]/g, '').trim() : '';
       };
       const servicio = dato('servicio');
-      const mascota = dato('mascota');
+      const mascota = dato('mascota').slice(0, 40);
       let dia = dato('dia');
       /* Fecha del calendario (AAAA-MM-DD) en formato legible: lunes 28/09/2026 */
       if (/^\d{4}-\d{2}-\d{2}$/.test(dia)) {
         const [a, mm, d] = dia.split('-').map(Number);
         const f = new Date(a, mm - 1, d);
+        if (f.getDay() === 0) {
+          alert('Los domingos estamos cerrados. Por favor selecciona una fecha de lunes a sábado.');
+          return;
+        }
         const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
         dia = dias[f.getDay()] + ' ' + String(d).padStart(2, '0') + '/' + String(mm).padStart(2, '0') + '/' + a;
       }
@@ -3266,12 +3298,12 @@ function esPagina(nombre) {
         'Hola Pelitos, quiero reservar una cita.\n' +
         (servicio ? 'Servicio: ' + servicio + '\n' : '') +
         (mascota ? 'Mascota: ' + mascota + '\n' : '') +
-        (dia ? 'Cuando: ' + dia + '\n' : '') +
+        (dia ? 'Cuándo: ' + dia + '\n' : '') +
         (hora && dia !== 'Solo quiero información' ? 'Hora: ' + hora : '');
       window.open(
         'https://api.whatsapp.com/send?phone=' + TELEFONO_CITA + '&text=' + encodeURIComponent(texto),
         '_blank',
-        'noopener'
+        'noopener,noreferrer'
       );
     });
   }
