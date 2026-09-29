@@ -182,3 +182,12 @@
 .miembro:hover .miembro__foto img { transform: rotate(0deg) scale(1.02); }
 .equipo-zz { padding-bottom: clamp(60px, 8vw, 110px); }
 .miembro__foto img { aspect-ratio: 10 / 8 !important; object-position: center 8% !important; }
+
+/* ---- Más parecido a PoloVet: tipografía oscura, fotos rectas, sin adornos ---- */
+.qs__titulo, .vets__titulo, .equipo-zz__titulo, .miembro__nombre { color: #111a2c !important; }
+.qs__subtitulo, .vets__saludo, .equipo-zz__lema { color: #111a2c !important; }
+.qs__subtitulo::before { display: none !important; }
+.qs__foto, .qs__foto img { border-radius: 0 !important; box-shadow: none !important; }
+.miembro__cargo { color: #111a2c !important; font-weight: 800; font-size: .85rem; }
+.miembro__desc, .qs__bloque p, .vets__contenido p, .equipo-zz__cabecera p { color: #3a4150 !important; }
+p.nosotros-eslogan { font-size: clamp(1.3rem, 2.1vw, 1.75rem) !important; text-wrap: balance; }

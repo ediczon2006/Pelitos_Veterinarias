@@ -1894,7 +1894,7 @@ function esPagina(nombre) {
     );
   }
 
-  var gruposAbiertos = { orden: true, especie: true, marca: false, categoria: true };
+  var gruposAbiertos = { orden: true, especie: false, marca: false, categoria: false };
 
   function renderFiltros() {
     var caja = document.getElementById("ps-filtros-cuerpo");

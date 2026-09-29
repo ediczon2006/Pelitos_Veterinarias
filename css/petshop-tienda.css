@@ -306,3 +306,19 @@
   .ps-card__precio small { display: none; }
 }
 .ps-filtros { margin: 0 !important; } .ps-resultados { margin: 0; }
+
+/* ---- Más parecido a KokoVet: título plano y grupos centrados ---- */
+.ps-cabecera__titulo {
+  background: none !important; -webkit-background-clip: initial; background-clip: initial;
+  color: var(--morado, #5b2a86) !important;
+}
+.ps-cabecera { padding-bottom: 10px; }
+.ps-grupo__titulo { justify-content: center; position: relative; background: #f4f4f6; font-weight: 600; }
+.ps-grupo__titulo svg { position: absolute; right: 14px; }
+.ps-grupo + .ps-grupo { border-top: 1px solid #e3e3e8; }
+.ps-filtros { border-color: #e3e3e8; border-radius: 10px; }
+.ps-card { border-radius: 12px !important; border-color: #ececf0 !important; }
+.ps-card__titulo { font-size: .82rem !important; }
+.ps-card__precio { font-size: 1.1rem; color: #d6336c; }
+.ps-check__caja { border-color: #d6336c; }
+.ps-check input:checked + .ps-check__caja { background: #d6336c; }
