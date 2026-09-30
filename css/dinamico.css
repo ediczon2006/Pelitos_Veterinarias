@@ -1323,6 +1323,126 @@
   }
 }
 
+/* --- Grilla Balanceada 10 Mejores Obras (sin huecos ni espacios vacíos) --- */
+.obras-grid-balanced {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .obras-grid-balanced {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .obras-grid-balanced {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+.galeria-card-zoom--obra {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  border-radius: 16px;
+  background: var(--color-superficie, #fff);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.galeria-card-zoom--obra:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(91, 33, 182, 0.18);
+}
+
+.galeria-card-zoom--obra img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  transition: transform 0.45s ease;
+}
+
+.galeria-card-zoom--obra:hover img {
+  transform: scale(1.06);
+}
+
+/* --- Grilla y Tarjetas de Instalaciones (4 fotos simétricas) --- */
+.instalaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .instalaciones-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+.galeria-card-zoom--instalacion {
+  aspect-ratio: 4 / 3;
+  height: auto;
+  border-radius: 16px;
+  background: var(--color-superficie, #fff);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.galeria-card-zoom--instalacion:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(91, 33, 182, 0.18);
+}
+
+.galeria-card-zoom--instalacion img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.galeria-card-zoom--instalacion:hover img {
+  transform: scale(1.06);
+}
+
+.galeria-card-zoom--instalacion .galeria-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(26, 11, 46, 0.92) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  color: #fff;
+  opacity: 0.94;
+  transition: opacity 0.3s ease;
+}
+
+.galeria-card-zoom--instalacion .galeria-card-overlay h4 {
+  margin: 0 0 2px;
+  font-size: 0.92rem;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.galeria-card-zoom--instalacion .galeria-card-overlay p {
+  margin: 0;
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.25;
+}
+
 /* =========================================================
    23. Contacto: atajos, validación en vivo y FAQ
    ========================================================= */

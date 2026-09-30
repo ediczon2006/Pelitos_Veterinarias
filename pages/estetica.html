@@ -2429,7 +2429,7 @@
     </section>
 
     <!-- ================= COMPARADOR ANTES / DESPUÉS ================= -->
-    <section class="seccion" id="antes-despues">
+    <section class="seccion" id="antes-despues" style="padding-bottom: 32px;">
       <div class="contenedor">
         <div class="titulo-bloque titulo-bloque--centro reveal">
           <span class="eyebrow">Transformación en vivo</span>
@@ -2496,7 +2496,7 @@
     </section>
 
     <!-- ================= GALERÍA DINÁMICA DE TRABAJOS REALES - MEJORES OBRAS ================= -->
-    <section class="seccion seccion--suave" id="mejores-obras">
+    <section class="seccion seccion--suave" id="mejores-obras" style="padding-top: 40px; padding-bottom: 52px;">
       <div class="contenedor">
         <div class="titulo-bloque titulo-bloque--centro reveal">
           <span class="eyebrow">Resultados reales</span>
@@ -2504,7 +2504,7 @@
           <p>Fotografías reales de los consentidos atendidos y transformados con técnica profesional y amor en Pelitos Estética Huánuco.</p>
         </div>
         
-        <div class="rejilla rejilla--3 reveal" id="grid-mejores-obras" style="gap:24px;">
+        <div class="obras-grid-balanced reveal" id="grid-mejores-obras">
           <!-- Obra 01: Schnauzer -->
           <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_01_schnauzer.png', 'Schnauzer · Corte tradicional de raza y moño rosa')">
             <span class="galeria-badge-obra">✂️ Corte de Raza</span>
@@ -2617,7 +2617,62 @@
 
         </div>
 
-        <div class="acciones" style="justify-content:center; margin-top:36px;">
+        <!-- ================= INSTALACIONES Y ENTREGAS FELICES ================= -->
+        <div class="instalaciones-bloque reveal" style="margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(91, 42, 134, 0.12);">
+          <div class="titulo-bloque titulo-bloque--centro" style="margin-bottom: 22px;">
+            <span class="eyebrow">Espacios de atención</span>
+            <h3 style="font-size: clamp(1.35rem, 2.4vw, 1.8rem); margin-top: 6px; color: var(--morado, #5b2a86);">Nuestras Instalaciones & Entregas Felices</h3>
+            <p style="font-size: 0.94rem; margin-top: 6px;">Conoce nuestra sede en Huánuco: ambientes higienizados, tinas temperadas y consentidos felices con sus familias.</p>
+          </div>
+
+          <div class="instalaciones-grid reveal">
+            <!-- Instalación 1: Fachada -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Fachada e ingreso principal a Pelitos Estética en Jr. Leoncio Prado 1336')">
+              <span class="galeria-badge-obra">📍 Sede Huánuco</span>
+              <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Ingreso Principal</h4>
+                <p>Jr. Leoncio Prado 1336, Huánuco.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+
+            <!-- Instalación 2: Recepción -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/recepcion_estetica.jpeg', 'Recepción y sala de espera climatizada con vista a baños')">
+              <span class="galeria-badge-obra">🏢 Recepción & Espera</span>
+              <img src="../images/estetica/recepcion_estetica.jpeg" alt="Recepción de estética" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Sala Climatizada</h4>
+                <p>Espera cómoda con vista a baños.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+
+            <!-- Instalación 3: Tinas -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/estetica.jpeg', 'Área de tinas temperadas e higiene profesional')">
+              <span class="galeria-badge-obra">🚿 Tinas Temperadas</span>
+              <img src="../images/estetica/estetica.jpeg" alt="Área de tinas y secado" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Área de Spa & Baños</h4>
+                <p>Agua tibia y secado silencioso.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+
+            <!-- Instalación 4: Entrega Feliz con la dueña -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/perrito-entregado.jpg', 'Entrega feliz a su familia, radiante y perfumado')">
+              <span class="galeria-badge-obra">✨ Entrega Feliz</span>
+              <img src="../images/estetica/perrito-entregado.jpg" alt="Perrito entregado feliz a su dueña en Pelitos Estética" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Consentido en Familia</h4>
+                <p>Limpio, perfumado y feliz.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acciones" style="justify-content:center; margin-top:32px;">
           <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20ver%20m%C3%A1s%20fotos%20de%20cortes%20y%20mejores%20obras." target="_blank" rel="noopener">
             Ver más fotos y estilos por WhatsApp
           </a>
