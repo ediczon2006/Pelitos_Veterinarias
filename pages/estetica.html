@@ -1315,21 +1315,21 @@
                   <span>¿Cuánto pesa tu consentido?</span>
                 </div>
                 <div class="selector-pills" id="selector-peso">
-                  <button type="button" class="selector-pill-btn activo" data-peso="0-5" data-peso-nombre="Pequeño (0-5 kg)">
+                  <button type="button" class="selector-pill-btn activo" data-peso="0-5" data-peso-nombre="Toy / Mini (0-5 Kg)">
                     <strong>Toy / Mini (0-5 Kg)</strong>
                     <span>Poodle Toy, Chihuahua, Pomerania</span>
                   </button>
-                  <button type="button" class="selector-pill-btn" data-peso="6-10" data-peso-nombre="Pequeño-Medio (6-10 kg)">
+                  <button type="button" class="selector-pill-btn" data-peso="6-10" data-peso-nombre="Chico (6-10 Kg)">
                     <strong>Chico (6-10 Kg)</strong>
                     <span>Pug, Shih Tzu, Schnauzer mini</span>
                   </button>
-                  <button type="button" class="selector-pill-btn" data-peso="11-20" data-peso-nombre="Mediano (11-20 kg)">
+                  <button type="button" class="selector-pill-btn" data-peso="11-20" data-peso-nombre="Mediano (11-20 Kg)">
                     <strong>Mediano (11-20 Kg)</strong>
                     <span>Cocker, Bulldog Francés, Beagle</span>
                   </button>
-                  <button type="button" class="selector-pill-btn" data-peso="20+" data-peso-nombre="Grande (+20 kg)">
+                  <button type="button" class="selector-pill-btn" data-peso="20+" data-peso-nombre="Grande (+20 Kg - Evaluación Especial)">
                     <strong>Grande (+20 Kg)</strong>
-                    <span>Golden, Labrador, Husky, Pastor</span>
+                    <span>Golden, Labrador, Husky, Pastor (Eval. Especial)</span>
                   </button>
                 </div>
               </div>
@@ -1337,24 +1337,32 @@
               <div>
                 <div class="cotizador-grupo-titulo">
                   <span class="badge-num">2</span>
-                  <span>Elige el servicio o experiencia</span>
+                  <span>Elige el servicio o experiencia del Menú Oficial</span>
                 </div>
                 <div class="selector-pills" id="selector-servicio">
                   <button type="button" class="selector-pill-btn activo" data-servicio="clasico" data-nombre="Servicio Clásico (Duchita + Corte)">
-                    <strong>Servicio Clásico</strong>
-                    <span>Duchita tibia + Corte con máquina</span>
+                    <strong>1. Servicio Clásico</strong>
+                    <span>Duchita tibia + Corte a máquina completo</span>
                   </button>
-                  <button type="button" class="selector-pill-btn" data-servicio="express" data-nombre="Amor Express">
-                    <strong>Amor Express</strong>
-                    <span>Baño rápido, cepillado y corte higiénico</span>
+                  <button type="button" class="selector-pill-btn" data-servicio="express" data-nombre="Duchas de Amor Express">
+                    <strong>2. Amor Express</strong>
+                    <span>Higiene profunda, aspirado y Frupii</span>
                   </button>
-                  <button type="button" class="selector-pill-btn" data-servicio="spa" data-nombre="Spa Relajante">
-                    <strong>Spa Relajante ⭐</strong>
-                    <span>Doble baño, acondicionador y masajes</span>
+                  <button type="button" class="selector-pill-btn" data-servicio="spa" data-nombre="Spa Pelitos Relajantes ⭐">
+                    <strong>3. Spa Relajante ⭐</strong>
+                    <span>Doble baño formulado + acondicionador y retoques</span>
                   </button>
-                  <button type="button" class="selector-pill-btn" data-servicio="real" data-nombre="Momento Real VIP">
-                    <strong>Momento Real VIP 👑</strong>
-                    <span>Spa + Mascarilla reparadora + Accesorio</span>
+                  <button type="button" class="selector-pill-btn" data-servicio="real" data-nombre="Momento Real VIP 👑">
+                    <strong>4. Momento Real 👑</strong>
+                    <span>Spa supremo + mascarilla nutritiva + accesorio</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="cachorros" data-nombre="Primer Amor (Cachorros)">
+                    <strong>5. Primer Amor (Cachorros)</strong>
+                    <span>Ducha al seco con espuma hipoalergénica sin agua</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="pielsana" data-nombre="Plan Piel Sana (30 Días)">
+                    <strong>6. Plan Piel Sana (30 Días)</strong>
+                    <span>1 Consulta veterinaria + 2 duchas medicadas</span>
                   </button>
                 </div>
               </div>
@@ -1362,36 +1370,83 @@
               <div>
                 <div class="cotizador-grupo-titulo">
                   <span class="badge-num">3</span>
-                  <span>Servicios adicionales (Opcional)</span>
+                  <span>Estilo de Corte Look Pelitos (Opcional)</span>
+                  <span style="font-size:0.75rem; color:#15803d; background:#dcfce7; padding:2px 8px; border-radius:999px; margin-left:auto; font-weight:700;">10% Dto en combo</span>
+                </div>
+                <div class="selector-pills" id="selector-corte">
+                  <button type="button" class="selector-pill-btn activo" data-corte="ninguno" data-costo="0" data-corte-nombre="Sin corte adicional">
+                    <strong>Sin corte adicional</strong>
+                    <span>Solo baño o corte ya incluido en Clásico</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-corte="maquina" data-costo="25" data-corte-nombre="Look Máquina (+S/ 25.00)">
+                    <strong>Look Máquina (+S/ 25.00)</strong>
+                    <span>Uniforme, higiénico, parejo y fresco</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-corte="mixto" data-costo="30" data-corte-nombre="Look Mixto (+S/ 30.00)">
+                    <strong>Look Mixto (+S/ 30.00)</strong>
+                    <span>Máquina en cuerpo, tijera en carita y patas</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-corte="tijera" data-costo="45" data-corte-nombre="Look Solo Tijera (+S/ 45.00)">
+                    <strong>Look Solo Tijera (+S/ 45.00)</strong>
+                    <span>Escultura artística 100% tijera a mano</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div class="cotizador-grupo-titulo">
+                  <span class="badge-num">4</span>
+                  <span>Agregados Premium del Menú Oficial</span>
                 </div>
                 <div class="extras-grid">
                   <div class="extra-check-card">
                     <label>
-                      <input type="checkbox" class="extra-check" data-extra-nombre="Baño medicado dermatológico" data-costo="10" />
-                      Baño medicado antipulgas o dermatológico
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Ducha antipulgas y garrapatas" data-costo="5" />
+                      Ducha antipulgas y garrapatas (eliminación inmediata)
                     </label>
-                    <span class="extra-monto">+S/ 10</span>
+                    <span class="extra-monto">+S/ 5.00</span>
                   </div>
                   <div class="extra-check-card">
                     <label>
-                      <input type="checkbox" class="extra-check" data-extra-nombre="Deslanado intensivo anti-caída" data-costo="15" />
-                      Deslanado intensivo (retiro de pelo muerto)
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Ducha médica dermatológica" data-costo="5" />
+                      Ducha médica dermatológica (reposo terapéutico 10-15 min)
                     </label>
-                    <span class="extra-monto">+S/ 15</span>
+                    <span class="extra-monto">+S/ 5.00</span>
                   </div>
                   <div class="extra-check-card">
                     <label>
-                      <input type="checkbox" class="extra-check" data-extra-nombre="ManiPaw y despeje profundo" data-costo="8" />
-                      Corte de uñas ManiPaw + Limpieza profunda de oídos
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Paquete Zen Aromaterapia" data-costo="3" />
+                      Paquete Zen Aromaterapia (esencias naturales calmantes)
                     </label>
-                    <span class="extra-monto">+S/ 8</span>
+                    <span class="extra-monto">+S/ 3.00</span>
                   </div>
                   <div class="extra-check-card">
                     <label>
-                      <input type="checkbox" class="extra-check" data-extra-nombre="Servicio de movilidad y recojo" data-costo="10" />
-                      Movilidad: Recojo y entrega a domicilio en Huánuco
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Momento de Fotos WhatsApp en vivo" data-costo="3" />
+                      Momento de fotos WhatsApp (fotos HD en tiempo real durante la sesión)
                     </label>
-                    <span class="extra-monto">+S/ 10</span>
+                    <span class="extra-monto">+S/ 3.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Deslanado técnico (subcapa muerta)" data-costo="15" />
+                      Deslanado técnico profundo con turbina (razas de doble capa: Husky, Pastor, etc.)
+                    </label>
+                    <span class="extra-monto">+S/ 15.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Desenredado de nudos severos" data-costo="15" />
+                      Desenredado técnico de nudos severos o manto apelmazado
+                    </label>
+                    <span class="extra-monto">+S/ 15.00</span>
+                  </div>
+                  <div class="extra-check-card" style="background:#f0fdf4; border-color:#bbf7d0;">
+                    <label style="cursor:default;">
+                      <span style="color:#16a34a; margin-right:8px; font-weight:900;">✓</span>
+                      Recojo y traslado a domicilio en ciudad (zona urbana Huánuco)
+                    </label>
+                    <span class="extra-monto" style="background:#dcfce7; color:#15803d;">¡GRATIS!</span>
                   </div>
                 </div>
               </div>
@@ -1410,12 +1465,22 @@
 
               <div class="resumen-linea">
                 <span>Servicio:</span>
-                <span id="resumen-servicio">Servicio Clásico</span>
+                <span id="resumen-servicio">Servicio Clásico (Duchita + Corte)</span>
+              </div>
+
+              <div class="resumen-linea" id="fila-resumen-corte" style="display:none;">
+                <span>Corte adicional:</span>
+                <span id="resumen-corte">Ninguno</span>
               </div>
 
               <div class="resumen-linea">
                 <span>Precio base:</span>
                 <span id="resumen-precio-base">S/ 40.00</span>
+              </div>
+
+              <div class="resumen-linea" id="fila-resumen-descuento" style="display:none; color:#15803d; font-weight:700;">
+                <span>Descuento Combo (10%):</span>
+                <span id="resumen-descuento">-S/ 0.00</span>
               </div>
 
               <div class="resumen-linea">
@@ -1426,6 +1491,10 @@
               <div class="resumen-total-wrap">
                 <span class="resumen-total-label">Total estimado:</span>
                 <span class="resumen-total-precio" id="resumen-total">S/ 40.00</span>
+              </div>
+
+              <div id="aviso-evaluacion-especial" style="display:none; font-size:0.78rem; color:#b45309; background:#fef3c7; border:1px solid #fde68a; padding:8px 10px; border-radius:8px; margin-top:10px; line-height:1.4;">
+                ⚠️ <strong>Evaluación especial:</strong> Para más de 20 Kg (o razas de doble capa / gigantes), la tarifa se confirma tras la evaluación previa de volumen y manto.
               </div>
 
               <a class="btn-agendar-estetica" id="btn-whatsapp-cotizador" href="#" target="_blank" rel="noopener">
@@ -2130,6 +2199,7 @@
               <div style="display:flex; justify-content:space-between;"><span>0 - 5 Kg:</span> <strong>S/ 25.00</strong></div>
               <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>6 - 10 Kg:</span> <strong>S/ 30.00</strong></div>
               <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 20 Kg:</span> <strong>S/ 35.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>20+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
             </div>
 
             <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20servicio%20Amor%20Express." target="_blank" rel="noopener">
@@ -2156,6 +2226,7 @@
               <div style="display:flex; justify-content:space-between;"><span>0 - 5 Kg:</span> <strong>S/ 30.00</strong></div>
               <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>6 - 10 Kg:</span> <strong>S/ 35.00</strong></div>
               <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 20 Kg:</span> <strong>S/ 40.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>20+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
             </div>
 
             <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20Spa%20Relajante." target="_blank" rel="noopener">
@@ -2182,6 +2253,7 @@
               <div style="display:flex; justify-content:space-between;"><span>0 - 5 Kg:</span> <strong>S/ 35.00</strong></div>
               <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>6 - 10 Kg:</span> <strong>S/ 40.00</strong></div>
               <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 20 Kg:</span> <strong>S/ 45.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>20+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
             </div>
 
             <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20Momento%20Real%20VIP." target="_blank" rel="noopener">

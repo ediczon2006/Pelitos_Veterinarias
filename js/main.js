@@ -3511,35 +3511,55 @@ function esPagina(nombre) {
 (function () {
   if (!esPagina("estetica")) return;   // solo se ejecuta en esta página
 
-  // Matriz de precios por Servicio y Rango de Peso
+  // Matriz de precios del Menú Oficial de Pelitos Estética (por Servicio y Rango de Peso)
   const TARIFAS = {
     clasico: {
       "0-5": 40,
       "6-10": 40,
       "11-20": 45,
-      "20+": 55,
+      "20+": 45,
+      esEspecial20: true,
       tiempo: "~60 a 75 min"
     },
     express: {
       "0-5": 25,
       "6-10": 30,
       "11-20": 35,
-      "20+": 45,
+      "20+": 35,
+      esEspecial20: true,
       tiempo: "~40 a 50 min"
     },
     spa: {
       "0-5": 30,
       "6-10": 35,
       "11-20": 40,
-      "20+": 50,
+      "20+": 40,
+      esEspecial20: true,
       tiempo: "~70 a 90 min"
     },
     real: {
       "0-5": 35,
       "6-10": 40,
       "11-20": 45,
-      "20+": 60,
+      "20+": 45,
+      esEspecial20: true,
       tiempo: "~80 a 100 min"
+    },
+    cachorros: {
+      "0-5": 25,
+      "6-10": 25,
+      "11-20": 25,
+      "20+": 25,
+      esEspecial20: false,
+      tiempo: "~35 a 45 min"
+    },
+    pielsana: {
+      "0-5": 35,
+      "6-10": 40,
+      "11-20": 45,
+      "20+": 45,
+      esEspecial20: true,
+      tiempo: "~60 min / sesión"
     }
   };
 
@@ -3548,39 +3568,102 @@ function esPagina(nombre) {
     pesoNombre: "Toy / Mini (0-5 Kg)",
     servicioId: "clasico",
     servicioNombre: "Servicio Clásico (Duchita + Corte)",
+    corteId: "ninguno",
+    corteNombre: "Sin corte adicional",
+    corteCosto: 0,
     extras: []
   };
 
   function recalcularCotizador() {
     const tarifaObj = TARIFAS[estadoCotizador.servicioId] || TARIFAS.clasico;
     const precioBase = tarifaObj[estadoCotizador.pesoId] || 40;
-  
+    const esEspecial = estadoCotizador.pesoId === "20+" && tarifaObj.esEspecial20;
+
+    const costoCorte = estadoCotizador.corteCosto || 0;
+
+    // Descuento oficial por Combo Baño + Corte (10% de descuento lun-vie del menú)
+    const aplicaDescuentoCombo = ["express", "spa", "real"].includes(estadoCotizador.servicioId) && costoCorte > 0;
+    const montoDescuento = aplicaDescuentoCombo ? ((precioBase + costoCorte) * 0.10) : 0;
+
     let extrasMonto = 0;
     estadoCotizador.extras.forEach(e => { extrasMonto += e.costo; });
 
-    const totalFinal = precioBase + extrasMonto;
+    const totalFinal = precioBase + costoCorte - montoDescuento + extrasMonto;
 
     // Actualizar UI
-    document.getElementById('resumen-peso').textContent = estadoCotizador.pesoNombre;
-    document.getElementById('resumen-servicio').textContent = estadoCotizador.servicioNombre;
-    document.getElementById('resumen-precio-base').textContent = `S/ ${precioBase.toFixed(2)}`;
-    document.getElementById('resumen-extras-monto').textContent = `+S/ ${extrasMonto.toFixed(2)}`;
-    document.getElementById('resumen-total').textContent = `S/ ${totalFinal.toFixed(2)}`;
-    document.getElementById('resumen-tiempo').textContent = tarifaObj.tiempo;
+    const elPeso = document.getElementById('resumen-peso');
+    if (elPeso) elPeso.textContent = estadoCotizador.pesoNombre;
 
-    // Actualizar enlace de WhatsApp con los datos completos
+    const elServicio = document.getElementById('resumen-servicio');
+    if (elServicio) elServicio.textContent = estadoCotizador.servicioNombre;
+
+    const elFilaCorte = document.getElementById('fila-resumen-corte');
+    const elCorte = document.getElementById('resumen-corte');
+    if (elFilaCorte && elCorte) {
+      if (costoCorte > 0) {
+        elFilaCorte.style.display = "flex";
+        elCorte.textContent = estadoCotizador.corteNombre;
+      } else {
+        elFilaCorte.style.display = "none";
+      }
+    }
+
+    const elPrecioBase = document.getElementById('resumen-precio-base');
+    if (elPrecioBase) {
+      elPrecioBase.textContent = esEspecial 
+        ? `S/ ${precioBase.toFixed(2)} (Eval. especial)` 
+        : `S/ ${precioBase.toFixed(2)}`;
+    }
+
+    const elFilaDescuento = document.getElementById('fila-resumen-descuento');
+    const elDescuento = document.getElementById('resumen-descuento');
+    if (elFilaDescuento && elDescuento) {
+      if (montoDescuento > 0) {
+        elFilaDescuento.style.display = "flex";
+        elDescuento.textContent = `-S/ ${montoDescuento.toFixed(2)}`;
+      } else {
+        elFilaDescuento.style.display = "none";
+      }
+    }
+
+    const elExtras = document.getElementById('resumen-extras-monto');
+    if (elExtras) elExtras.textContent = `+S/ ${extrasMonto.toFixed(2)}`;
+
+    const elTotal = document.getElementById('resumen-total');
+    if (elTotal) {
+      elTotal.textContent = esEspecial 
+        ? `S/ ${totalFinal.toFixed(2)}*` 
+        : `S/ ${totalFinal.toFixed(2)}`;
+    }
+
+    const elTiempo = document.getElementById('resumen-tiempo');
+    if (elTiempo) elTiempo.textContent = tarifaObj.tiempo;
+
+    const elAvisoEspecial = document.getElementById('aviso-evaluacion-especial');
+    if (elAvisoEspecial) {
+      elAvisoEspecial.style.display = esEspecial ? "block" : "none";
+    }
+
+    // Actualizar enlace de WhatsApp con los datos completos del menú oficial
+    const corteTexto = costoCorte > 0 ? `\n*Estilo de Corte:* ${estadoCotizador.corteNombre}` : "";
+    const descuentoTexto = montoDescuento > 0 ? `\n*Descuento Combo 10%:* -S/ ${montoDescuento.toFixed(2)}` : "";
     const extrasLista = estadoCotizador.extras.length > 0 
-      ? "\n*Adicionales:* " + estadoCotizador.extras.map(e => e.nombre).join(', ')
+      ? "\n*Adicionales:* " + estadoCotizador.extras.map(e => `${e.nombre} (+S/ ${e.costo.toFixed(2)})`).join(', ')
       : "";
+    const notaEspecial = esEspecial ? "\n_(Nota: Por ser raza grande / doble capa, se confirma en evaluación previa de manto)_" : "";
 
     const msg = `¡Hola Pelitos Estética! Deseo reservar cita:
-  *Servicio:* ${estadoCotizador.servicioNombre}
-  *Tamaño de mi mascota:* ${estadoCotizador.pesoNombre}${extrasLista}
-  *Total estimado:* S/ ${totalFinal.toFixed(2)}
+*Servicio:* ${estadoCotizador.servicioNombre}
+*Tamaño:* ${estadoCotizador.pesoNombre}${corteTexto}${extrasLista}${descuentoTexto}
+*Total estimado:* S/ ${totalFinal.toFixed(2)}${notaEspecial}
+⏱️ *Tiempo estimado:* ${tarifaObj.tiempo}
 
-  ¿Tienen turnos disponibles para esta semana en su sede de Jr. Leoncio Prado?`;
+¿Tienen turnos disponibles para esta semana en Jr. Leoncio Prado 1336?`;
 
-    document.getElementById('btn-whatsapp-cotizador').href = `https://api.whatsapp.com/send?phone=51948426656&text=${encodeURIComponent(msg)}`;
+    const btnWs = document.getElementById('btn-whatsapp-cotizador');
+    if (btnWs) {
+      btnWs.href = `https://api.whatsapp.com/send?phone=51948426656&text=${encodeURIComponent(msg)}`;
+    }
   }
 
   // Eventos selector de peso
@@ -3601,6 +3684,18 @@ function esPagina(nombre) {
       btn.classList.add('activo');
       estadoCotizador.servicioId = btn.dataset.servicio;
       estadoCotizador.servicioNombre = btn.dataset.nombre;
+      recalcularCotizador();
+    });
+  });
+
+  // Eventos selector de corte
+  document.querySelectorAll('#selector-corte .selector-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#selector-corte .selector-pill-btn').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      estadoCotizador.corteId = btn.dataset.corte;
+      estadoCotizador.corteNombre = btn.dataset.corteNombre || btn.querySelector('strong').textContent;
+      estadoCotizador.corteCosto = parseFloat(btn.dataset.costo) || 0;
       recalcularCotizador();
     });
   });
