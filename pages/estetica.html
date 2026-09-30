@@ -2503,14 +2503,6 @@
           <h2>Nuestras Mejores Obras</h2>
           <p>Fotografías reales de los consentidos atendidos y transformados con técnica profesional y amor en Pelitos Estética Huánuco.</p>
         </div>
-
-        <!-- Filtros interactivos por especialidad -->
-        <div class="consejos-filtros reveal" id="filtros-obras" role="group" aria-label="Filtrar mejores obras" style="justify-content:center;margin-bottom:28px;">
-          <button type="button" class="filtro-pill activo" data-filtro-obra="todas" aria-pressed="true">⭐ Todas las Obras (10)</button>
-          <button type="button" class="filtro-pill" data-filtro-obra="cortes" aria-pressed="false">✂️ Cortes y Estilismo</button>
-          <button type="button" class="filtro-pill" data-filtro-obra="spa" aria-pressed="false">🛁 Baños & Spa</button>
-          <button type="button" class="filtro-pill" data-filtro-obra="instalaciones" aria-pressed="false">🏢 Instalaciones</button>
-        </div>
         
         <div class="rejilla rejilla--3 reveal" id="grid-mejores-obras" style="gap:24px;">
           <!-- Obra 01: Schnauzer -->
@@ -2623,38 +2615,6 @@
             </div>
           </div>
 
-          <!-- Instalaciones 1: Fachada -->
-          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="instalaciones" style="display:none;" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Fachada e ingreso a Pelitos Estética en Jr. Leoncio Prado 1336')">
-            <span class="galeria-badge-obra">📍 Sede Huánuco</span>
-            <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" />
-            <div class="galeria-card-overlay">
-              <h4>Ingreso Principal</h4>
-              <p>Jr. Leoncio Prado 1336, Huánuco. Atención con cita previa.</p>
-              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
-            </div>
-          </div>
-
-          <!-- Instalaciones 2: Recepción -->
-          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="instalaciones" style="display:none;" onclick="abrirFotoGrande('../images/estetica/recepcion_estetica.jpeg', 'Recepción y sala de espera climatizada con vista a baños')">
-            <span class="galeria-badge-obra">🏢 Recepción & Espera</span>
-            <img src="../images/estetica/recepcion_estetica.jpeg" alt="Recepción de estética" loading="lazy" decoding="async" />
-            <div class="galeria-card-overlay">
-              <h4>Recepción Climatizada</h4>
-              <p>Ambiente cómodo para acompañar a tu consentido.</p>
-              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
-            </div>
-          </div>
-
-          <!-- Instalaciones 3: Tinas -->
-          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="instalaciones" style="display:none;" onclick="abrirFotoGrande('../images/estetica/estetica.jpeg', 'Área de tinas temperadas e higiene profesional')">
-            <span class="galeria-badge-obra">🚿 Tinas Temperadas</span>
-            <img src="../images/estetica/estetica.jpeg" alt="Área de tinas y secado" loading="lazy" decoding="async" />
-            <div class="galeria-card-overlay">
-              <h4>Área de Baños y Spa</h4>
-              <p>Agua temperada constante y secadores silenciosos.</p>
-              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
-            </div>
-          </div>
         </div>
 
         <div class="acciones" style="justify-content:center; margin-top:36px;">
@@ -2887,36 +2847,6 @@
             var img = this.querySelector('img');
             if (img) img.click();
           }
-        });
-      });
-
-      /* Filtro interactivo para Galería de Mejores Obras */
-      var filtrosObra = document.querySelectorAll('#filtros-obras [data-filtro-obra]');
-      var cardsObra = document.querySelectorAll('#grid-mejores-obras .galeria-card-zoom--obra');
-
-      filtrosObra.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var val = this.getAttribute('data-filtro-obra');
-          filtrosObra.forEach(function (b) {
-            b.classList.remove('activo');
-            b.setAttribute('aria-pressed', 'false');
-          });
-          this.classList.add('activo');
-          this.setAttribute('aria-pressed', 'true');
-
-          cardsObra.forEach(function (card) {
-            var cat = card.getAttribute('data-categoria-obra');
-            if (val === 'todas') {
-              // Muestra las 10 mejores obras de mascotas
-              card.style.display = (cat === 'cortes' || cat === 'spa') ? '' : 'none';
-            } else if (val === 'todos-completo') {
-              card.style.display = '';
-            } else if (val === cat) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
         });
       });
     });
