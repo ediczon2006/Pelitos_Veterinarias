@@ -2458,62 +2458,171 @@
       </div>
     </section>
 
-    <!-- ================= GALERÍA DINÁMICA DE TRABAJOS REALES ================= -->
-    <section class="seccion seccion--suave">
+    <!-- ================= GALERÍA DINÁMICA DE TRABAJOS REALES - MEJORES OBRAS ================= -->
+    <section class="seccion seccion--suave" id="mejores-obras">
       <div class="contenedor">
         <div class="titulo-bloque titulo-bloque--centro reveal">
           <span class="eyebrow">Resultados reales</span>
-          <h2>Nuestros Consentidos Felices</h2>
-          <p>Fotografías reales de los trabajos realizados en nuestra sede de Huánuco.</p>
+          <h2>Nuestras Mejores Obras</h2>
+          <p>Fotografías reales de los consentidos atendidos y transformados con técnica profesional y amor en Pelitos Estética Huánuco.</p>
+        </div>
+
+        <!-- Filtros interactivos por especialidad -->
+        <div class="consejos-filtros reveal" id="filtros-obras" role="group" aria-label="Filtrar mejores obras" style="justify-content:center;margin-bottom:28px;">
+          <button type="button" class="filtro-pill activo" data-filtro-obra="todas" aria-pressed="true">⭐ Todas las Obras (10)</button>
+          <button type="button" class="filtro-pill" data-filtro-obra="cortes" aria-pressed="false">✂️ Cortes y Estilismo</button>
+          <button type="button" class="filtro-pill" data-filtro-obra="spa" aria-pressed="false">🛁 Baños & Spa</button>
+          <button type="button" class="filtro-pill" data-filtro-obra="instalaciones" aria-pressed="false">🏢 Instalaciones</button>
         </div>
         
-        <div class="rejilla rejilla--3 reveal">
-          <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/perrito_.jpg', 'Grooming y deslanado canino')">
-            <img src="../images/estetica/perrito_.jpg" alt="Perrito en proceso de estética" loading="lazy" decoding="async" />
+        <div class="rejilla rejilla--3 reveal" id="grid-mejores-obras" style="gap:24px;">
+          <!-- Obra 01: Schnauzer -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_01_schnauzer.png', 'Schnauzer · Corte tradicional de raza y moño rosa')">
+            <span class="galeria-badge-obra">✂️ Corte de Raza</span>
+            <img src="../images/estetica/mejores_obras/obra_01_schnauzer.png" alt="Schnauzer con corte clásico en Pelitos Estética" loading="lazy" decoding="async" />
             <div class="galeria-card-overlay">
-              <span>✂️ Grooming y cuidado de manto</span>
+              <h4>Schnauzer Clásico</h4>
+              <p>Perfilado de cejas, barba y moño rosa en mesa de estética.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
             </div>
           </div>
 
-          <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/perrito_cortado.jpg', 'Corte higiénico y de raza')">
-            <img src="../images/estetica/perrito_cortado.jpg" alt="Perrito con corte terminado" loading="lazy" decoding="async" />
+          <!-- Obra 02: Poodle Caramelo -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_02_poodle_caramelo.png', 'Poodle Toy Caramelo · Corte a tijera esponjoso y corbatín azul')">
+            <span class="galeria-badge-obra">🐩 Estilo Peluche</span>
+            <img src="../images/estetica/mejores_obras/obra_02_poodle_caramelo.png" alt="Poodle Toy Caramelo en Pelitos Estética" loading="lazy" decoding="async" />
             <div class="galeria-card-overlay">
-              <span>🐩 Corte estilizado terminado</span>
+              <h4>Poodle Caramelo</h4>
+              <p>Corte a tijera con acabado redondeado y corbatín azul.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
             </div>
           </div>
 
-          <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/perrito-entregado.jpg', 'Entrega feliz a su dueño')">
-            <img src="../images/estetica/perrito-entregado.jpg" alt="Perrito entregado feliz" loading="lazy" decoding="async" />
+          <!-- Obra 03: Maltipoo Blanco -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_03_maltipoo_blanco.png', 'Maltipoo Blanco Sonriente · Baño spa hidratante y lazo azul')">
+            <span class="galeria-badge-obra">🛁 Spa & Brillo</span>
+            <img src="../images/estetica/mejores_obras/obra_03_maltipoo_blanco.png" alt="Maltipoo sonriente en Pelitos Estética" loading="lazy" decoding="async" />
             <div class="galeria-card-overlay">
-              <span>✨ Entrega radiante y perfumado</span>
+              <h4>Maltipoo Sonriente</h4>
+              <p>Baño spa, blanqueador óptico natural y lazo azul.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
             </div>
           </div>
 
-          <div class="galeria-card-zoom" style="width: 100%; height: 320px; border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Ingreso a Pelitos Estética')">
-            <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          <!-- Obra 04: Shih Tzu -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_04_shih_tzu.png', 'Shih Tzu Bicolor · Corte cachorro ángel y lazo morado')">
+            <span class="galeria-badge-obra">✂️ Corte Ángel</span>
+            <img src="../images/estetica/mejores_obras/obra_04_shih_tzu.png" alt="Shih Tzu bicolor con lazo morado" loading="lazy" decoding="async" />
             <div class="galeria-card-overlay">
-              <span>📍 Jr. Leoncio Prado 1336</span>
+              <h4>Shih Tzu Bicolor</h4>
+              <p>Manto desenredado con sedosidad y lazo púrpura.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
             </div>
           </div>
 
-          <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/recepcion_estetica.jpeg', 'Recepción de Pelitos Estética')">
+          <!-- Obra 05: Lhasa Apso -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_05_lhasa_apso.png', 'Lhasa Apso Rubio · Cepillado profundo y moño verde menta')">
+            <span class="galeria-badge-obra">🌿 Manto Suave</span>
+            <img src="../images/estetica/mejores_obras/obra_05_lhasa_apso.png" alt="Lhasa Apso con moño verde menta" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Lhasa Apso Dorado</h4>
+              <p>Cepillado y deslanado delicado con moño verde menta.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 06: French Poodle Crema -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_06_poodle_crema.png', 'French Poodle Crema · Arreglo a tijera y moño fucsia')">
+            <span class="galeria-badge-obra">🐩 Corte a Tijera</span>
+            <img src="../images/estetica/mejores_obras/obra_06_poodle_crema.png" alt="French Poodle Crema con moño fucsia" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>French Poodle Crema</h4>
+              <p>Corte estilizado de cuerpo y patitas con moño fucsia.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 07: Mestizo Esponjoso -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_07_pequines_mix.png', 'Mestizo Esponjoso · Arreglo higiénico, limpieza ótica y lazo rosa')">
+            <span class="galeria-badge-obra">🌸 Look Esponjoso</span>
+            <img src="../images/estetica/mejores_obras/obra_07_pequines_mix.png" alt="Perrito esponjoso con lazo rosa" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Mestizo Esponjoso</h4>
+              <p>Baño desodorizante, recorte higiénico y lazo rosa.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 08: Consentido Alegre -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_08_chihuahua_mix.png', 'Perrito Alegre · Baño hipoalergénico y moño fucsia')">
+            <span class="galeria-badge-obra">🐾 Consentido Alegre</span>
+            <img src="../images/estetica/mejores_obras/obra_08_chihuahua_mix.png" alt="Perrito de orejitas erguidas con moño fucsia" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Consentido Alegre</h4>
+              <p>Baño relajante para piel sensible y lazo fucsia brillante.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 09: Bichón Frisé -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_09_bichon_frise.png', 'Bichón Frisé · Look copo de nieve y secado voluminoso')">
+            <span class="galeria-badge-obra">☁️ Copo de Nieve</span>
+            <img src="../images/estetica/mejores_obras/obra_09_bichon_frise.png" alt="Bichón Frisé blanco tipo copo de algodón" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Bichón Frisé Copito</h4>
+              <p>Manto blanco esponjado a secador térmico y moño fucsia.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 10: Husky Siberiano -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_10_husky_siberiano.png', 'Husky Siberiano · Deslanado profundo de doble manto y lazo púrpura')">
+            <span class="galeria-badge-obra">❄️ Deslanado Pro</span>
+            <img src="../images/estetica/mejores_obras/obra_10_husky_siberiano.png" alt="Husky Siberiano con ojos celestes en Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Husky Siberiano</h4>
+              <p>Extracción de pelo muerto con turbina y baño revitalizante.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Instalaciones 1: Fachada -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="instalaciones" style="display:none;" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Fachada e ingreso a Pelitos Estética en Jr. Leoncio Prado 1336')">
+            <span class="galeria-badge-obra">📍 Sede Huánuco</span>
+            <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Ingreso Principal</h4>
+              <p>Jr. Leoncio Prado 1336, Huánuco. Atención con cita previa.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Instalaciones 2: Recepción -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="instalaciones" style="display:none;" onclick="abrirFotoGrande('../images/estetica/recepcion_estetica.jpeg', 'Recepción y sala de espera climatizada con vista a baños')">
+            <span class="galeria-badge-obra">🏢 Recepción & Espera</span>
             <img src="../images/estetica/recepcion_estetica.jpeg" alt="Recepción de estética" loading="lazy" decoding="async" />
             <div class="galeria-card-overlay">
-              <span>🏢 Recepción de Pelitos Estética</span>
+              <h4>Recepción Climatizada</h4>
+              <p>Ambiente cómodo para acompañar a tu consentido.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
             </div>
           </div>
 
-          <div class="galeria-card-zoom" onclick="abrirFotoGrande('../images/estetica/estetica.jpeg', 'Instalaciones de peluquería canina')">
+          <!-- Instalaciones 3: Tinas -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="instalaciones" style="display:none;" onclick="abrirFotoGrande('../images/estetica/estetica.jpeg', 'Área de tinas temperadas e higiene profesional')">
+            <span class="galeria-badge-obra">🚿 Tinas Temperadas</span>
             <img src="../images/estetica/estetica.jpeg" alt="Área de tinas y secado" loading="lazy" decoding="async" />
             <div class="galeria-card-overlay">
-              <span>🚿 Área de tinas temperadas</span>
+              <h4>Área de Baños y Spa</h4>
+              <p>Agua temperada constante y secadores silenciosos.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
             </div>
           </div>
         </div>
 
         <div class="acciones" style="justify-content:center; margin-top:36px;">
-          <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20ver%20m%C3%A1s%20fotos%20de%20cortes%20de%20raza." target="_blank" rel="noopener">
-            Ver más fotos por WhatsApp
+          <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20ver%20m%C3%A1s%20fotos%20de%20cortes%20y%20mejores%20obras." target="_blank" rel="noopener">
+            Ver más fotos y estilos por WhatsApp
           </a>
         </div>
       </div>
@@ -2741,6 +2850,36 @@
             var img = this.querySelector('img');
             if (img) img.click();
           }
+        });
+      });
+
+      /* Filtro interactivo para Galería de Mejores Obras */
+      var filtrosObra = document.querySelectorAll('#filtros-obras [data-filtro-obra]');
+      var cardsObra = document.querySelectorAll('#grid-mejores-obras .galeria-card-zoom--obra');
+
+      filtrosObra.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var val = this.getAttribute('data-filtro-obra');
+          filtrosObra.forEach(function (b) {
+            b.classList.remove('activo');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          this.classList.add('activo');
+          this.setAttribute('aria-pressed', 'true');
+
+          cardsObra.forEach(function (card) {
+            var cat = card.getAttribute('data-categoria-obra');
+            if (val === 'todas') {
+              // Muestra las 10 mejores obras de mascotas
+              card.style.display = (cat === 'cortes' || cat === 'spa') ? '' : 'none';
+            } else if (val === 'todos-completo') {
+              card.style.display = '';
+            } else if (val === cat) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
         });
       });
     });
