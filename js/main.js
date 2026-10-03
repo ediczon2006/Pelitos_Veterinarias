@@ -3393,7 +3393,9 @@ function esPagina(nombre) {
       var card = btn.closest(".consejo-card");
       var abierto = card.classList.toggle("abierto");
       btn.setAttribute("aria-expanded", abierto ? "true" : "false");
-      btn.querySelector("span").textContent = abierto ? "Ocultar recomendaciones" : "Ver recomendaciones";
+      var spanEl = btn.querySelector("span");
+      if (!btn.dataset.labelCerrado) btn.dataset.labelCerrado = spanEl.textContent.trim();
+      spanEl.textContent = abierto ? "Ocultar" : btn.dataset.labelCerrado;
     });
 
     pintarContador(tarjetas.length);
