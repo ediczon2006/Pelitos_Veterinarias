@@ -5,23 +5,2765 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pelitos Estética | Peluquería Canina Profesional y Spa en Huánuco</title>
   <meta name="description" content="Peluquería canina con cuidado y bienestar en Huánuco: baños, grooming, cortes de raza, baños medicados y spa con agua temperada en Jr. Leoncio Prado 1336." />
-  <!-- ================= PIE ================= -->
+
+    <!-- ============================================================
+         VISTA PREVIA AL COMPARTIR EN WHATSAPP Y REDES SOCIALES
+         ============================================================ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pelitos Veterinaria" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:title" content="Pelitos Estética | Peluquería Canina Profesional y Spa en Huánuco" />
+    <meta property="og:description" content="Peluquería canina con cuidado y bienestar en Huánuco: baños, grooming, cortes de raza, baños medicados y spa con agua temperada en Jr. Leoncio Prado 1336." />
+    <meta property="og:image" content="../images/logo/compartir.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pelitos Estética | Peluquería Canina Profesional y Spa en Huánuco" />
+    <meta name="twitter:description" content="Peluquería canina con cuidado y bienestar en Huánuco: baños, grooming, cortes de raza, baños medicados y spa con agua temperada en Jr. Leoncio Prado 1336." />
+    <meta name="twitter:image" content="../images/logo/compartir.jpg" />
+  <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=panchang@400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/editorial.css" />
+  <link rel="stylesheet" href="../css/neofuturismo.css" />
+  <link rel="stylesheet" href="../css/correcciones.css" />
+
+  <script>document.documentElement.classList.add("js-din");</script>
+
+  <style id="pelitos-productos-fix">
+    /* ===== Corrección y mejora visual de la galería de productos ===== */
+    .seccion--productos {
+      padding-top: 34px;
+      padding-bottom: 54px;
+    }
+
+    .seccion--productos .boton-desplegable-productos {
+      width: min(100%, 520px);
+      margin: 10px auto 14px;
+      padding: 14px 18px;
+      border: 1px solid rgba(108, 57, 145, .16);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+      color: var(--morado, #6d28d9);
+      justify-content: space-between;
+    }
+
+    .seccion--productos .boton-desplegable-productos svg {
+      flex: 0 0 auto;
+    }
+
+    /* El contenido se muestra/oculta con el botón (ver script al final) */
+    .seccion--productos .productos-ocultos {
+      margin-top: 0;
+    }
+    .seccion--productos .productos-ocultos.abierto {
+      margin-top: 8px;
+    }
+
+    .seccion--productos .grilla-productos-ejemplo {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+      padding: 8px 0 4px;
+    }
+
+    .seccion--productos .producto-card {
+      min-width: 0;
+      border: 1px solid rgba(15, 23, 42, .09);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, .07);
+    }
+
+    .seccion--productos .producto-card__media {
+      min-height: 0;
+      height: 255px;
+      padding: 12px;
+      background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+      display: grid;
+      place-items: center;
+    }
+
+    .seccion--productos .producto-card__media .producto-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #fff;
+      border: 0;
+      border-radius: 10px;
+      box-shadow: none;
+      transition: transform .25s ease;
+    }
+
+    .seccion--productos .producto-card:hover .producto-card__media .producto-img {
+      transform: scale(1.025);
+    }
+
+    .seccion--productos .producto-card__body {
+      padding: 14px 15px 16px;
+      gap: 7px;
+    }
+
+    .seccion--productos .producto-card h3 {
+      font-size: 1rem;
+      line-height: 1.28;
+    }
+
+    .seccion--productos .producto-card p {
+      font-size: .84rem;
+      line-height: 1.48;
+    }
+
+    .seccion--productos .producto-card__uso {
+      margin-top: 4px !important;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: rgba(124, 58, 237, .055);
+      font-size: .79rem !important;
+    }
+
+    .seccion--productos .producto-card__tipo {
+      font-size: .66rem;
+      padding: 4px 8px;
+    }
+
+    .seccion--productos .productos-investigacion {
+      margin: 14px auto 0;
+      max-width: 900px;
+      font-size: .76rem;
+    }
+
+    .seccion--productos .imagen-error {
+      position: relative;
+    }
+
+    .seccion--productos .imagen-error::after {
+      content: "Imagen no disponible";
+      position: absolute;
+      inset: 12px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(108,57,145,.28);
+      border-radius: 10px;
+      color: var(--morado, #6d28d9);
+      background: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1100px) {
+      .seccion--productos .grilla-productos-ejemplo {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .seccion--productos .grilla-productos-ejemplo {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .seccion--productos .producto-card__media {
+        height: 280px;
+      }
+    }
+  </style>
+
+  <!-- ESTILOS PARA LA NUEVA SECCIÓN DESPLEGABLE -->
+  <style>
+    .boton-desplegable-productos {
+      background: none;
+      border: none;
+      color: var(--texto);
+      font-family: inherit;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      transition: color 0.3s ease;
+    }
+    
+    .boton-desplegable-productos:hover {
+      color: var(--morado);
+    }
+    
+    .boton-desplegable-productos svg {
+      transition: transform 0.3s ease;
+    }
+    
+    .boton-desplegable-productos.abierto svg {
+      transform: rotate(180deg);
+    }
+
+    .productos-ocultos {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-top 0.3s;
+    }
+
+    .productos-ocultos.abierto {
+      max-height: 8000px; 
+      opacity: 1;
+      margin-top: 20px;
+    }
+
+    .grilla-productos-ejemplo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .producto-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--superficie, #fff);
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .producto-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.13);
+      border-color: rgba(124, 58, 237, 0.22);
+    }
+
+    .producto-card__media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      padding: 14px;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .producto-card__media .producto-img {
+      width: 100%;
+      height: 280px;
+      aspect-ratio: auto;
+      object-fit: contain;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .producto-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding: 18px 18px 20px;
+      height: 100%;
+    }
+
+    .producto-card__tipo {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--naranja-claro, #fff7ed);
+      color: var(--naranja-oscuro, #9a3412);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .producto-card h3 {
+      margin: 0;
+      color: var(--morado, #6d28d9);
+      font-size: 1.12rem;
+      line-height: 1.3;
+    }
+
+    .producto-card p {
+      margin: 0;
+      color: var(--texto-suave, #64748b);
+      line-height: 1.55;
+      font-size: .9rem;
+    }
+
+    .producto-card__uso {
+      margin-top: 2px !important;
+      padding: 10px 12px;
+      border-radius: 11px;
+      background: rgba(124, 58, 237, 0.055);
+      color: var(--texto, #0f172a) !important;
+      font-size: .84rem !important;
+    }
+
+    .producto-card__uso strong {
+      color: var(--morado, #6d28d9);
+    }
+
+    .productos-investigacion {
+      margin: 8px 0 0;
+      text-align: center;
+      color: var(--texto-suave, #64748b);
+      font-size: .8rem;
+      line-height: 1.5;
+    }
+
+    .hero-mensaje-instalaciones {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto 18px;
+      width: min(100%, 720px);
+      padding: 18px 22px 20px;
+      border: 1px solid rgba(108, 57, 145, 0.18);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(250,245,255,.96));
+      box-shadow: 0 18px 40px rgba(74, 33, 101, 0.13);
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-mensaje-instalaciones::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, #7c3aa8, #e7a13a);
+    }
+    .hero-mensaje-instalaciones__kicker {
+      display: block;
+      margin-bottom: 6px;
+      font-family: "Manrope", sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #a15d1a;
+    }
+    .hero-mensaje-instalaciones strong {
+      display: block;
+      font-family: "Panchang", "Manrope", sans-serif;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      line-height: 1.25;
+      letter-spacing: .01em;
+      color: #5f2b7e;
+      text-wrap: balance;
+    }
+    .hero-mensaje-instalaciones > span:last-child {
+      display: block;
+      margin-top: 8px;
+      font-family: "Satoshi", "Open Sans", sans-serif;
+      font-size: clamp(.86rem, 1.4vw, 1rem);
+      line-height: 1.5;
+      color: var(--texto-suave);
+    }
+  </style>
+
+  <style id="pelitos-menu-oficial-styles">
+    /* ============================================================
+       MENÚ OFICIAL DE ESTÉTICA DESPLEGABLE (DOCX + LÁMINAS 8 PÁGINAS)
+       ============================================================ */
+    .contenedor-menu-oficial-trigger {
+      display: flex;
+      justify-content: center;
+      margin: 22px auto 14px;
+      width: min(100%, 780px);
+    }
+
+    .boton-desplegable-menu-oficial {
+      width: 100%;
+      background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+      border: 1.5px solid rgba(108, 57, 145, 0.24);
+      border-radius: 20px;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(108, 57, 145, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .boton-desplegable-menu-oficial:hover {
+      transform: translateY(-2px);
+      border-color: var(--morado, #6c3991);
+      box-shadow: 0 16px 36px rgba(108, 57, 145, 0.16);
+      background: linear-gradient(135deg, #ffffff 0%, #f5e8ff 100%);
+    }
+
+    .boton-desplegable-menu-oficial.abierto {
+      background: linear-gradient(135deg, #6c3991 0%, #58247d 100%);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 16px 38px rgba(108, 57, 145, 0.28);
+    }
+
+    .boton-desplegable-menu-oficial__izq {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .boton-desplegable-menu-oficial__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--morado, #6c3991);
+      background: rgba(108, 57, 145, 0.10);
+      padding: 3px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      transition: all 0.3s ease;
+    }
+
+    .boton-desplegable-menu-oficial.abierto .boton-desplegable-menu-oficial__badge {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .boton-desplegable-menu-oficial__titulo {
+      font-family: "Panchang", "Manrope", sans-serif;
+      font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+      font-weight: 700;
+      color: #3b1654;
+      line-height: 1.3;
+      transition: color 0.3s ease;
+    }
+
+    .boton-desplegable-menu-oficial.abierto .boton-desplegable-menu-oficial__titulo {
+      color: #ffffff;
+    }
+
+    .boton-desplegable-menu-oficial__sub {
+      font-size: 0.85rem;
+      color: var(--texto-suave, #64748b);
+      line-height: 1.4;
+      transition: color 0.3s ease;
+    }
+
+    .boton-desplegable-menu-oficial.abierto .boton-desplegable-menu-oficial__sub {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .boton-desplegable-menu-oficial__der {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .boton-desplegable-menu-oficial__estado-accion {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--morado, #6c3991);
+      display: none;
+    }
+
+    @media (min-width: 640px) {
+      .boton-desplegable-menu-oficial__estado-accion {
+        display: block;
+      }
+    }
+
+    .boton-desplegable-menu-oficial.abierto .boton-desplegable-menu-oficial__estado-accion {
+      color: #ffe4b5;
+    }
+
+    .boton-desplegable-menu-oficial__flecha {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f1e4fb;
+      color: var(--morado, #6c3991);
+      display: grid;
+      place-items: center;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+    }
+
+    .boton-desplegable-menu-oficial:hover .boton-desplegable-menu-oficial__flecha {
+      background: var(--morado, #6c3991);
+      color: #fff;
+    }
+
+    .boton-desplegable-menu-oficial.abierto .boton-desplegable-menu-oficial__flecha {
+      transform: rotate(180deg);
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+
+    /* Panel contenedor desplegable */
+    .menu-oficial-oculto {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.55s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease-out;
+      margin-bottom: 30px;
+    }
+
+    .menu-oficial-oculto.abierto {
+      max-height: 25000px;
+      opacity: 1;
+      overflow: visible;
+      transition: max-height 0.6s ease-in, opacity 0.4s ease-in;
+    }
+
+    .menu-oficial-panel {
+      background: #ffffff;
+      border: 1px solid rgba(108, 57, 145, 0.16);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      padding: clamp(18px, 3vw, 32px);
+      margin-top: 14px;
+    }
+
+    .menu-oficial-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .menu-oficial-header__info {
+      flex: 1 1 320px;
+    }
+
+    .menu-oficial-header__tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--naranja, #e7a13a);
+      margin-bottom: 4px;
+    }
+
+    .menu-oficial-header__titulo {
+      font-family: "Panchang", "Manrope", sans-serif;
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+      color: #4c1d95;
+      margin: 0 0 6px;
+      line-height: 1.25;
+    }
+
+    .menu-oficial-header__desc {
+      font-size: 0.92rem;
+      color: var(--texto-suave, #64748b);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .menu-oficial-header__acciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-descarga-doc, .btn-reservar-doc {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-descarga-doc {
+      background: #f8fafc;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-descarga-doc:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-reservar-doc {
+      background: #16a34a;
+      color: #ffffff;
+      border: 1px solid #15803d;
+    }
+
+    .btn-reservar-doc:hover {
+      background: #15803d;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Pestañas de Navegación */
+    .menu-oficial-nav-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #f1f5f9;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .tab-btn {
+      white-space: nowrap;
+      background: none;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--texto-suave, #64748b);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-btn:hover {
+      color: var(--morado, #6c3991);
+      background: #f3e8ff;
+    }
+
+    .tab-btn.activo {
+      background: var(--morado, #6c3991);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(108, 57, 145, 0.22);
+    }
+
+    .menu-oficial-tab-panel {
+      display: none;
+      animation: fadeInTab 0.35s ease forwards;
+    }
+
+    .menu-oficial-tab-panel.activo {
+      display: block;
+    }
+
+    @keyframes fadeInTab {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grillas y tarjetas dentro de las pestañas */
+    .grilla-duchas-oficiales {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .tarjeta-servicio-oficial {
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .tarjeta-servicio-oficial:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    .tarjeta-servicio-oficial.destacada {
+      border: 2px solid var(--morado, #6c3991);
+      background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+    }
+
+    .tarjeta-servicio-oficial__badge-top {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .tarjeta-servicio-oficial__icono {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .tarjeta-servicio-oficial__titulo {
+      font-family: "Panchang", "Manrope", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #3b1654;
+      margin: 0 0 4px;
+    }
+
+    .tarjeta-servicio-oficial__lema {
+      font-size: 0.85rem;
+      color: var(--naranja, #ea580c);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .tarjeta-servicio-oficial__precios {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      border: 1px solid #f1f5f9;
+    }
+
+    .tarjeta-servicio-oficial__fila-precio {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .tarjeta-servicio-oficial__fila-precio:last-child {
+      border-bottom: none;
+    }
+
+    .tarjeta-servicio-oficial__inclusiones {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      font-size: 0.84rem;
+      color: var(--texto-suave, #475569);
+      line-height: 1.6;
+    }
+
+    .tarjeta-servicio-oficial__inclusiones li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .tarjeta-servicio-oficial__inclusiones li::before {
+      content: "✓";
+      color: #16a34a;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .tarjeta-servicio-oficial__btn {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--morado, #6c3991);
+      color: #fff;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .tarjeta-servicio-oficial__btn:hover {
+      background: #532371;
+    }
+
+    /* Tab 2: Cortes y agregados */
+    .caja-combo-destacado {
+      background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+      border: 1px solid #fde68a;
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .caja-combo-destacado strong {
+      color: #92400e;
+      font-size: 0.95rem;
+    }
+
+    .grilla-cortes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .tarjeta-corte {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .tarjeta-corte__precio {
+      font-family: "Panchang", sans-serif;
+      font-size: 1.35rem;
+      color: var(--morado, #6c3991);
+      font-weight: 700;
+      margin: 6px 0;
+    }
+
+    .grilla-agregados {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .item-agregado {
+      background: #faf5ff;
+      border: 1px solid #eedcff;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .item-agregado__precio {
+      font-weight: 700;
+      color: var(--morado, #6c3991);
+      white-space: nowrap;
+    }
+
+    /* Tab 3: Planes y fidelización */
+    .grilla-planes-fidelizacion {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .tarjeta-plan-bienestar {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+      border: 1px solid #bbf7d0;
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .tarjeta-club-embajadores {
+      background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);
+      border: 1px solid #ddd6fe;
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    /* Tab 4: Anexos y razas especiales */
+    .caja-anexo-razas {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .caja-anexo-razas h4 {
+      margin: 0 0 8px;
+      color: #1e293b;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .caja-anexo-razas p {
+      font-size: 0.86rem;
+      color: #475569;
+      margin: 0 0 8px;
+      line-height: 1.5;
+    }
+
+    .caja-anexo-razas .lista-razas-tag {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge-raza {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* Tab 5: Láminas Escaneadas 8 Páginas */
+    .grilla-laminas-oficiales {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .tarjeta-lamina {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .tarjeta-lamina:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+    }
+
+    .tarjeta-lamina__img-wrap {
+      width: 100%;
+      height: 280px;
+      background: #f1f5f9;
+      overflow: hidden;
+      position: relative;
+      cursor: zoom-in;
+    }
+
+    .tarjeta-lamina__img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.3s ease;
+    }
+
+    .tarjeta-lamina:hover .tarjeta-lamina__img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .tarjeta-lamina__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(76, 29, 149, 0.4);
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.86rem;
+      pointer-events: none;
+    }
+
+    .tarjeta-lamina:hover .tarjeta-lamina__overlay {
+      opacity: 1;
+    }
+
+    .tarjeta-lamina__body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tarjeta-lamina__num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--naranja, #ea580c);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .tarjeta-lamina__titulo {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+    }
+  </style>
+</head>
+<body data-pagina="estetica">
+
+  <!-- ================= CABECERA INSTITUCIONAL ================= -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a class="logo" href="../index.html" aria-label="Pelitos Veterinaria — Inicio">
+        <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" decoding="async" />
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="../index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a class="activo" href="estetica.html">Estética</a>
+        <a href="productos.html">PetShop</a>
+        <a href="laboratorio.html">Laboratorio</a>
+        <a href="pelitos-movil.html">Pelitos Móvil</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="consejos.html">Consejos Pelitos</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+
+      <div class="header__acciones">
+        <a class="btn btn--dorado btn--sm" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20reservar%20una%20cita%20de%20peluquer%C3%ADa." target="_blank" rel="noopener">Reservar cita</a>
+        <button class="menu-btn" type="button" data-menu-btn aria-label="Abrir menú" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="nav-movil" data-nav-movil aria-label="Navegación móvil">
+      <a href="../index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a class="activo" href="estetica.html">Estética</a>
+      <a href="productos.html">PetShop</a>
+        <a href="laboratorio.html">Laboratorio</a>
+        <a href="pelitos-movil.html">Pelitos Móvil</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="consejos.html">Consejos Pelitos</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20reservar%20una%20cita%20de%20peluquer%C3%ADa." target="_blank" rel="noopener">Reservar cita</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= HERO DINÁMICO DE ESTÉTICA ================= -->
+    <section class="hero" style="padding: 60px 0 75px;">
+      <div class="contenedor hero__grid">
+        <div>
+          <div class="badge-abierto" style="background:var(--naranja-claro); border-color:var(--naranja-borde); color:var(--naranja-oscuro);">
+            <span class="punto" style="background:var(--naranja);"></span>
+            Área Exclusiva de Grooming & Spa Canino
+          </div>
+          <h1 style="font-size:clamp(2.2rem, 5vw, 3.4rem); color:var(--morado); -webkit-text-fill-color: initial;">Estética Canina Profesional</h1>
+          <p style="margin-top:16px; font-size:1.15rem; color:var(--texto-suave); line-height:1.6;">
+            Peluquería canina profesional con cuidado, paciencia y agua temperada. Brindamos una experiencia relajante y libre de estrés para quien más te ama.
+          </p>
+
+          <div class="chips" style="margin-top:20px; grid-template-columns: repeat(3, 1fr);">
+            <span class="chip">🛁 Agua temperada</span>
+            <span class="chip">✂️ Cortes de raza</span>
+            <span class="chip">🧴 Cosmética hipoalergénica</span>
+            <span class="chip">🐾 ManiPaw & Oídos</span>
+            <span class="chip">🛡️ Desinfección UV</span>
+            <span class="chip">🚗 Recojo a domicilio</span>
+          </div>
+
+          <div class="acciones" style="margin-top:28px;">
+            <a class="btn btn--dorado" href="#cotizador">
+              Cotizar servicio ahora
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20hacer%20una%20consulta%20para%20mi%20mascota." target="_blank" rel="noopener">
+              WhatsApp Estética
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__figura">
+          <div class="hero-mensaje-instalaciones" role="note" aria-label="Mensaje destacado de Pelitos Estética">
+            <span class="hero-mensaje-instalaciones__kicker">🐾 Pelitos Estética</span>
+            <strong>Somos la única estética canina profesional en Huánuco</strong>
+            <span>Contamos con instalaciones exclusivas para el cuidado y bienestar de tu engreído.</span>
+          </div>
+          <img src="../images/estetica/entrada_estetica.jpeg" alt="Instalaciones de Pelitos Estética en Huánuco" loading="lazy" decoding="async" />
+          <div class="tarjeta-flotante">
+            <b>Groomers certificados</b>
+            <span>Ambiente climatizado en Jr. Leoncio Prado 1336</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRODUCTOS Y HERRAMIENTAS UTILIZADAS EN ESTÉTICA ================= -->
+    <section class="seccion seccion--productos" id="productos-estetica">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Cosmética e Instrumentos de Alta Gama</span>
+          <h2>Productos y Herramientas en Pelitos Estética</h2>
+          <p>Fotografías reales de los productos y herramientas profesionales utilizados en grooming y spa.</p>
+        </div>
+
+        <button
+          id="btn-toggle-productos"
+          class="boton-desplegable-productos"
+          type="button"
+          aria-expanded="false"
+          aria-controls="galeria-productos-contenido">
+          <span data-texto-boton>Ver productos y herramientas utilizadas</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div id="galeria-productos-contenido" class="productos-ocultos" aria-hidden="true">
+          <div class="grilla-productos-ejemplo">
+
+            <!-- 05.png: Piedra pómez -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/05.png" class="producto-img" alt="Piedra pómez para estética" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Exfoliación</span>
+                <h3>Piedra Pómez Estética</h3>
+                <p>Piedra porosa natural para el cuidado dermatológico y exfoliación de almohadillas.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Cuidado de patas y callosidades.</p>
+              </div>
+            </article>
+
+            <!-- 06.png: Carda / Slicker Brush -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/06.png" class="producto-img" alt="Carda profesional" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Grooming</span>
+                <h3>Carda Profesional (Slicker)</h3>
+                <p>Cepillo con púas finas de acero inoxidable montadas sobre base flexible.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Desenredar nudos y remover pelo muerto.</p>
+              </div>
+            </article>
+
+            <!-- 07.png: Rastrillo deslanador -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/07.png" class="producto-img" alt="Rastrillo deslanador" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Deslanado</span>
+                <h3>Rastrillo Deslanador</h3>
+                <p>Herramienta especializada con dientes redondeados de alta eficiencia.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Retiro profundo de subpelo en época de muda.</p>
+              </div>
+            </article>
+
+            <!-- 08.png: Tijera recta -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/08.png" class="producto-img" alt="Tijeras rectas" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Corte</span>
+                <h3>Tijeras Rectas de Precisión</h3>
+                <p>Tijeras de acero inoxidable para acabados rectos y estilizados.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Dar contorno y corte general al manto.</p>
+              </div>
+            </article>
+
+            <!-- 09.png: Tijeras de entresacar -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/09.png" class="producto-img" alt="Tijeras de entresacar" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Esculpido</span>
+                <h3>Tijeras Dentadas de Entresacar</h3>
+                <p>Diseño con una hoja de dientes para texturizar.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Reducir volumen sin alterar el largo.</p>
+              </div>
+            </article>
+
+            <!-- 10.png: Tijeras esculpido doble -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/10.png" class="producto-img" alt="Tijeras de esculpido" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Estilizado</span>
+                <h3>Tijeras Escultoras Avanzadas</h3>
+                <p>Herramienta profesional para transiciones suaves de corte.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Difuminar líneas y desbastar densidad.</p>
+              </div>
+            </article>
+
+            <!-- 11.png: Tijeras profesionales de acabado -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/11.png" class="producto-img" alt="Tijeras de acabado" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Acabado</span>
+                <h3>Tijeras de Acabado Fino</h3>
+                <p>Ergonómicas y perfectamente calibradas para detalles finales.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Pulido y detalles en orejas y patas.</p>
+              </div>
+            </article>
+
+            <!-- 12.png: Esteticista / Groomer -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/12.png" class="producto-img" alt="Groomer profesional" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Nuestro Equipo</span>
+                <h3>Groomer Certificado Pelitos</h3>
+                <p>Profesional especializado en manejo sin estrés y técnicas de spa.</p>
+                <p class="producto-card__uso"><strong>Sede:</strong> Jr. Leoncio Prado 1336, Huánuco.</p>
+              </div>
+            </article>
+
+            <!-- 14.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/14.png" class="producto-img" alt="Accesorio de estética 14" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Equipamiento</span>
+                <h3>Accesorio Profesional de Grooming</h3>
+                <p>Instrumento utilizado durante los procesos de mantenimiento estético.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Apoyo técnico en sesión de belleza.</p>
+              </div>
+            </article>
+
+            <!-- 15.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/15.png" class="producto-img" alt="Accesorio de estética 15" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Equipamiento</span>
+                <h3>Implemento de Estética Canina</h3>
+                <p>Herramienta auxiliar empleada en el salón de belleza.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Asistencia en procedimientos de spa.</p>
+              </div>
+            </article>
+
+            <!-- 16.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/16.png" class="producto-img" alt="Accesorio de estética 16" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Instrumento</span>
+                <h3>Herramienta Especializada de Salón</h3>
+                <p>Equipo auxiliar para el confort y cuidado de la mascota.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Aplicación en sesiones de grooming.</p>
+              </div>
+            </article>
+
+            <!-- 17.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/17.png" class="producto-img" alt="Accesorio de estética 17" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Instrumento</span>
+                <h3>Instrumento de Soporte Estético</h3>
+                <p>Elemento complementario en el área de trabajo de peluquería.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Labores de estética general.</p>
+              </div>
+            </article>
+
+            <!-- 18.png -->
+            <article class="producto-card">
+              <div class="producto-card__media">
+                <img src="../images/productos/productos_estetica/18.png" class="producto-img" alt="Accesorio de estética 18" loading="lazy" decoding="async" />
+              </div>
+              <div class="producto-card__body">
+                <span class="producto-card__tipo">Instrumento</span>
+                <h3>Herramienta de Acabado Pelitos</h3>
+                <p>Implemento utilizado para detalles finales de presentación.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Protocolo de entrega final.</p>
+              </div>
+            </article>
+
+          </div>
+          <p class="productos-investigacion">Las fotografías corresponden a las herramientas y productos reales utilizados en nuestra sede de Huánuco.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= COTIZADOR INTERACTIVO EN TIEMPO REAL ================= -->
+    <section class="seccion" id="cotizador">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Calculadora en vivo</span>
+          <h2>Cotiza el paquete ideal para tu mascota</h2>
+          <p>Selecciona el peso de tu perrito y el tipo de servicio. Obtén el precio exacto al instante y agenda con 1 clic.</p>
+        </div>
+
+        <div class="cotizador-estetica reveal">
+          <div class="cotizador-grid">
+            <div class="cotizador-opciones">
+              <div>
+                <div class="cotizador-grupo-titulo">
+                  <span class="badge-num">1</span>
+                  <span>¿Cuánto pesa tu consentido?</span>
+                </div>
+                <div class="selector-pills" id="selector-peso">
+                  <button type="button" class="selector-pill-btn activo" data-peso="0-5" data-peso-nombre="Toy / Mini (0-5 Kg)">
+                    <strong>Toy / Mini (0-5 Kg)</strong>
+                    <span>Poodle Toy, Chihuahua, Pomerania</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-peso="6-10" data-peso-nombre="Chico (6-10 Kg)">
+                    <strong>Chico (6-10 Kg)</strong>
+                    <span>Pug, Shih Tzu, Schnauzer mini</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-peso="11-20" data-peso-nombre="Mediano (11-20 Kg)">
+                    <strong>Mediano (11-20 Kg)</strong>
+                    <span>Cocker, Bulldog Francés, Beagle</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-peso="20+" data-peso-nombre="Grande (+20 Kg - Evaluación Especial)">
+                    <strong>Grande (+20 Kg)</strong>
+                    <span>Golden, Labrador, Husky, Pastor (Eval. Especial)</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div class="cotizador-grupo-titulo">
+                  <span class="badge-num">2</span>
+                  <span>Elige el servicio o experiencia del Menú Oficial</span>
+                </div>
+                <div class="selector-pills" id="selector-servicio">
+                  <button type="button" class="selector-pill-btn activo" data-servicio="clasico" data-nombre="Servicio Clásico (Duchita + Corte)">
+                    <strong>1. Servicio Clásico</strong>
+                    <span>Duchita tibia + Corte a máquina completo</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="express" data-nombre="Duchas de Amor Express">
+                    <strong>2. Amor Express</strong>
+                    <span>Higiene profunda, aspirado y Frupii</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="spa" data-nombre="Spa Pelitos Relajantes ⭐">
+                    <strong>3. Spa Relajante ⭐</strong>
+                    <span>Doble baño formulado + acondicionador y retoques</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="real" data-nombre="Momento Real VIP 👑">
+                    <strong>4. Momento Real 👑</strong>
+                    <span>Spa supremo + mascarilla nutritiva + accesorio</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="cachorros" data-nombre="Primer Amor (Cachorros)">
+                    <strong>5. Primer Amor (Cachorros)</strong>
+                    <span>Ducha al seco con espuma hipoalergénica sin agua</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-servicio="pielsana" data-nombre="Plan Piel Sana (30 Días)">
+                    <strong>6. Plan Piel Sana (30 Días)</strong>
+                    <span>1 Consulta veterinaria + 2 duchas medicadas</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div class="cotizador-grupo-titulo">
+                  <span class="badge-num">3</span>
+                  <span>Estilo de Corte Look Pelitos (Opcional)</span>
+                  <span style="font-size:0.75rem; color:#15803d; background:#dcfce7; padding:2px 8px; border-radius:999px; margin-left:auto; font-weight:700;">10% Dto en combo</span>
+                </div>
+                <div class="selector-pills" id="selector-corte">
+                  <button type="button" class="selector-pill-btn activo" data-corte="ninguno" data-costo="0" data-corte-nombre="Sin corte adicional">
+                    <strong>Sin corte adicional</strong>
+                    <span>Solo baño o corte ya incluido en Clásico</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-corte="maquina" data-costo="25" data-corte-nombre="Look Máquina (+S/ 25.00)">
+                    <strong>Look Máquina (+S/ 25.00)</strong>
+                    <span>Uniforme, higiénico, parejo y fresco</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-corte="mixto" data-costo="30" data-corte-nombre="Look Mixto (+S/ 30.00)">
+                    <strong>Look Mixto (+S/ 30.00)</strong>
+                    <span>Máquina en cuerpo, tijera en carita y patas</span>
+                  </button>
+                  <button type="button" class="selector-pill-btn" data-corte="tijera" data-costo="45" data-corte-nombre="Look Solo Tijera (+S/ 45.00)">
+                    <strong>Look Solo Tijera (+S/ 45.00)</strong>
+                    <span>Escultura artística 100% tijera a mano</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div class="cotizador-grupo-titulo">
+                  <span class="badge-num">4</span>
+                  <span>Agregados Premium del Menú Oficial</span>
+                </div>
+                <div class="extras-grid">
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Ducha antipulgas y garrapatas" data-costo="5" />
+                      Ducha antipulgas y garrapatas (eliminación inmediata)
+                    </label>
+                    <span class="extra-monto">+S/ 5.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Ducha médica dermatológica" data-costo="5" />
+                      Ducha médica dermatológica (reposo terapéutico 10-15 min)
+                    </label>
+                    <span class="extra-monto">+S/ 5.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Paquete Zen Aromaterapia" data-costo="3" />
+                      Paquete Zen Aromaterapia (esencias naturales calmantes)
+                    </label>
+                    <span class="extra-monto">+S/ 3.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Momento de Fotos WhatsApp en vivo" data-costo="3" />
+                      Momento de fotos WhatsApp (fotos HD en tiempo real durante la sesión)
+                    </label>
+                    <span class="extra-monto">+S/ 3.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Deslanado técnico (subcapa muerta)" data-costo="15" />
+                      Deslanado técnico profundo con turbina (razas de doble capa: Husky, Pastor, etc.)
+                    </label>
+                    <span class="extra-monto">+S/ 15.00</span>
+                  </div>
+                  <div class="extra-check-card">
+                    <label>
+                      <input type="checkbox" class="extra-check" data-extra-nombre="Desenredado de nudos severos" data-costo="15" />
+                      Desenredado técnico de nudos severos o manto apelmazado
+                    </label>
+                    <span class="extra-monto">+S/ 15.00</span>
+                  </div>
+                  <div class="extra-check-card" style="background:#f0fdf4; border-color:#bbf7d0;">
+                    <label style="cursor:default;">
+                      <span style="color:#16a34a; margin-right:8px; font-weight:900;">✓</span>
+                      Recojo y traslado a domicilio en ciudad (zona urbana Huánuco)
+                    </label>
+                    <span class="extra-monto" style="background:#dcfce7; color:#15803d;">¡GRATIS!</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="cotizador-resumen">
+              <h3>
+                <span>📋</span> Resumen de tu Reserva
+              </h3>
+
+              <div class="resumen-linea">
+                <span>Tamaño:</span>
+                <span id="resumen-peso">Toy / Mini (0-5 Kg)</span>
+              </div>
+
+              <div class="resumen-linea">
+                <span>Servicio:</span>
+                <span id="resumen-servicio">Servicio Clásico (Duchita + Corte)</span>
+              </div>
+
+              <div class="resumen-linea" id="fila-resumen-corte" style="display:none;">
+                <span>Corte adicional:</span>
+                <span id="resumen-corte">Ninguno</span>
+              </div>
+
+              <div class="resumen-linea">
+                <span>Precio base:</span>
+                <span id="resumen-precio-base">S/ 40.00</span>
+              </div>
+
+              <div class="resumen-linea" id="fila-resumen-descuento" style="display:none; color:#15803d; font-weight:700;">
+                <span>Descuento Combo (10%):</span>
+                <span id="resumen-descuento">-S/ 0.00</span>
+              </div>
+
+              <div class="resumen-linea">
+                <span>Adicionales:</span>
+                <span id="resumen-extras-monto">S/ 0.00</span>
+              </div>
+
+              <div class="resumen-total-wrap">
+                <span class="resumen-total-label">Total estimado:</span>
+                <span class="resumen-total-precio" id="resumen-total">S/ 40.00</span>
+              </div>
+
+              <div id="aviso-evaluacion-especial" style="display:none; font-size:0.78rem; color:#b45309; background:#fef3c7; border:1px solid #fde68a; padding:8px 10px; border-radius:8px; margin-top:10px; line-height:1.4;">
+                ⚠️ <strong>Evaluación especial:</strong> Para más de 20 Kg (o razas de doble capa / gigantes), la tarifa se confirma tras la evaluación previa de volumen y manto.
+              </div>
+
+              <a class="btn-agendar-estetica" id="btn-whatsapp-cotizador" href="#" target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+                Agendar cita en Estética
+              </a>
+
+              <p class="resumen-tiempo-estimado">
+                ⏱️ Tiempo estimado: <strong id="resumen-tiempo">~60 a 75 minutos</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TARJETAS DE SERVICIOS COMPLETAS ================= -->
+    <section class="seccion seccion--suave">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Catálogo detallado</span>
+          <h2>Duchas de Amor y Estilos de Corte</h2>
+          <p>Planes diseñados según las necesidades de higiene y belleza de cada perrito.</p>
+
+          <!-- BOTÓN INTERACTIVO CON FLECHA PARA DESPLEGAR EL MENÚ COMPLETO DEL DOCUMENTO -->
+          <div class="contenedor-menu-oficial-trigger">
+            <button
+              id="btn-toggle-menu-oficial"
+              class="boton-desplegable-menu-oficial"
+              type="button"
+              aria-expanded="false"
+              aria-controls="panel-menu-oficial-completo">
+              <div class="boton-desplegable-menu-oficial__izq">
+                <span class="boton-desplegable-menu-oficial__badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  Documento Oficial de Estética
+                </span>
+                <span class="boton-desplegable-menu-oficial__titulo" data-texto-boton-menu>Ver Catálogo y Menú Oficial Completo</span>
+                <span class="boton-desplegable-menu-oficial__sub">8 páginas completas con tarifas, cortes, razas especiales, agregados y club de embajadores</span>
+              </div>
+              <div class="boton-desplegable-menu-oficial__der">
+                <span class="boton-desplegable-menu-oficial__estado-accion" data-texto-accion-menu>Desplegar contenido</span>
+                <span class="boton-desplegable-menu-oficial__flecha" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- PANEL DESPLEGABLE CON TODO EL CONTENIDO DEL DOCUMENTO DOCX -->
+        <div id="panel-menu-oficial-completo" class="menu-oficial-oculto" aria-hidden="true">
+          <div class="menu-oficial-panel">
+            
+            <!-- ENCABEZADO Y ACCIONES -->
+            <div class="menu-oficial-header">
+              <div class="menu-oficial-header__info">
+                <span class="menu-oficial-header__tag">Documento Oficial · Pelitos Estética</span>
+                <h3 class="menu-oficial-header__titulo">Menú de Servicios Caninos y Tarifario Institucional</h3>
+                <p class="menu-oficial-header__desc">Guía completa extraída del documento oficial de Pelitos Veterinaria &amp; Spa. Cuidado profesional con agua temperada, groomer certificada y productos de alta gama.</p>
+              </div>
+              <div class="menu-oficial-header__acciones">
+                <a class="btn-descarga-doc" href="../docs/MENU DE SERVICIOS PELITOS ESTETICA.docx" download="MENU DE SERVICIOS PELITOS ESTETICA.docx" title="Descargar archivo original Word">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Descargar .docx original
+                </a>
+                <a class="btn-reservar-doc" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20estoy%20revisando%20el%20men%C3%BA%20oficial%20y%20quiero%20reservar%20una%20cita." target="_blank" rel="noopener">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+                  Agendar por WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <!-- NAVEGACIÓN POR PESTAÑAS -->
+            <div class="menu-oficial-nav-tabs" role="tablist" aria-label="Secciones del menú oficial">
+              <button type="button" class="tab-btn activo" data-tab-target="tab-menu-duchas" role="tab" aria-selected="true">
+                🛁 1. Las 4 Duchas de Amor
+              </button>
+              <button type="button" class="tab-btn" data-tab-target="tab-menu-cortes" role="tab" aria-selected="false">
+                ✂️ 2. Look Pelitos &amp; Agregados
+              </button>
+              <button type="button" class="tab-btn" data-tab-target="tab-menu-planes" role="tab" aria-selected="false">
+                👑 3. Planes &amp; Fidelización
+              </button>
+              <button type="button" class="tab-btn" data-tab-target="tab-menu-anexos" role="tab" aria-selected="false">
+                📋 4. Evaluación de Razas
+              </button>
+              <button type="button" class="tab-btn" data-tab-target="tab-menu-laminas" role="tab" aria-selected="false">
+                🖼️ 5. Láminas Oficiales (8 Pág)
+              </button>
+            </div>
+
+            <!-- PANEL PESTAÑA 1: LAS 4 DUCHAS DE AMOR -->
+            <div id="tab-menu-duchas" class="menu-oficial-tab-panel activo">
+              <div class="grilla-duchas-oficiales">
+                
+                <!-- 1. SERVICIO CLÁSICO FUNCIONAL -->
+                <article class="tarjeta-servicio-oficial">
+                  <span class="tarjeta-servicio-oficial__badge-top">Pág. 02 del Menú</span>
+                  <div class="tarjeta-servicio-oficial__icono">✂️</div>
+                  <h4 class="tarjeta-servicio-oficial__titulo">1. Servicio Clásico Funcional</h4>
+                  <div class="tarjeta-servicio-oficial__lema">Duchita + Corte a máquina</div>
+                  <p style="font-size:0.84rem; color:var(--texto-suave); margin-bottom:12px;">Limpieza con amor, simple y efectiva para mantener el pelaje limpio, cómodo y ordenado.</p>
+                  
+                  <div class="tarjeta-servicio-oficial__precios">
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>0 a 10 Kg:</span> <strong>S/ 40.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>11 a 15 Kg:</span> <strong>S/ 45.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>Más de 15 Kg:</span> <strong style="color:var(--morado);">Evaluación especial</strong>
+                    </div>
+                  </div>
+
+                  <strong style="font-size:0.82rem; color:#1e293b; margin-bottom:6px; display:block;">Incluye oficialmente:</strong>
+                  <ul class="tarjeta-servicio-oficial__inclusiones">
+                    <li>Cepillado y desenredo básico</li>
+                    <li>Agüita temperada relajante</li>
+                    <li>Shampoo comercial de alta calidad</li>
+                    <li>Corte completo a máquina profesional</li>
+                    <li>Corte de uñas ManiPaw Express</li>
+                    <li>Limpieza de oídos</li>
+                    <li>Aromatización estándar</li>
+                    <li>Recojo en puerta (coordinación previa)</li>
+                  </ul>
+
+                  <a class="tarjeta-servicio-oficial__btn" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20reservar%20el%20Servicio%20Cl%C3%A1sico%20Funcional%20(Duchita%20%2B%20Corte)." target="_blank" rel="noopener">
+                    Reservar Servicio Clásico
+                  </a>
+                </article>
+
+                <!-- 2. DUCHAS DE AMOR EXPRESS -->
+                <article class="tarjeta-servicio-oficial">
+                  <span class="tarjeta-servicio-oficial__badge-top">Pág. 03 del Menú</span>
+                  <div class="tarjeta-servicio-oficial__icono">⚡</div>
+                  <h4 class="tarjeta-servicio-oficial__titulo">2. Duchas de Amor Express</h4>
+                  <div class="tarjeta-servicio-oficial__lema">Higiene profunda y bienestar rápido</div>
+                  <p style="font-size:0.84rem; color:var(--texto-suave); margin-bottom:12px;">Para quienes buscan bienestar rápido con dedicación profesional. Ideal perritos activos o nerviosos.</p>
+                  
+                  <div class="tarjeta-servicio-oficial__precios">
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>0 a 5 Kg:</span> <strong>S/ 25.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>6 a 10 Kg:</span> <strong>S/ 30.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>11 a 20 Kg:</span> <strong>S/ 35.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>Más de 20 Kg:</span> <strong style="color:var(--morado);">Evaluación especial</strong>
+                    </div>
+                  </div>
+
+                  <strong style="font-size:0.82rem; color:#1e293b; margin-bottom:6px; display:block;">Incluye oficialmente:</strong>
+                  <ul class="tarjeta-servicio-oficial__inclusiones">
+                    <li>Evaluación dermatológica veterinaria previa</li>
+                    <li>Cepillado deslanador suave</li>
+                    <li>Aspirado anti-pelusa</li>
+                    <li>Agüita temperada con control térmico</li>
+                    <li>Shampoo neutro hipoalergénico</li>
+                    <li>ManiPaw Express (corte y limado de uñas)</li>
+                    <li>Limpieza y desinfección de oídos</li>
+                    <li>Despeje higiénico (zona íntima y almohadillas)</li>
+                    <li>Aromatización frutal Frupii</li>
+                    <li>Recojo gratuito en ciudad</li>
+                  </ul>
+
+                  <a class="tarjeta-servicio-oficial__btn" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20reservar%20la%20Ducha%20de%20Amor%20Express." target="_blank" rel="noopener">
+                    Reservar Ducha Express
+                  </a>
+                </article>
+
+                <!-- 3. SPA PELITOS RELAJANTES -->
+                <article class="tarjeta-servicio-oficial destacada">
+                  <span class="tarjeta-servicio-oficial__badge-top" style="background:#f3e8ff; color:var(--morado);">⭐ Más Solicitado</span>
+                  <div class="tarjeta-servicio-oficial__icono">🧴</div>
+                  <h4 class="tarjeta-servicio-oficial__titulo">3. Spa Pelitos Relajantes</h4>
+                  <div class="tarjeta-servicio-oficial__lema" style="color:var(--morado);">La experiencia completa de mimo y calma</div>
+                  <p style="font-size:0.84rem; color:var(--texto-suave); margin-bottom:12px;">Para mimar su piel y pelaje con calma y suavidad superior. Doble baño formulado según manto.</p>
+                  
+                  <div class="tarjeta-servicio-oficial__precios">
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>0 a 5 Kg:</span> <strong>S/ 30.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>6 a 10 Kg:</span> <strong>S/ 35.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>11 a 20 Kg:</span> <strong>S/ 40.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>Más de 20 Kg:</span> <strong style="color:var(--morado);">Evaluación especial</strong>
+                    </div>
+                  </div>
+
+                  <strong style="font-size:0.82rem; color:#1e293b; margin-bottom:6px; display:block;">Incluye oficialmente:</strong>
+                  <ul class="tarjeta-servicio-oficial__inclusiones">
+                    <li>1er baño con shampoo neutro</li>
+                    <li>2do baño especializado según pelaje y color</li>
+                    <li>Acondicionador hidratante profundo</li>
+                    <li>ManiPaw Express (corte y limado)</li>
+                    <li>Limpieza y desinfección de oídos</li>
+                    <li>Corte higiénico y despeje de patitas</li>
+                    <li>Retoques de tijera según raza (carita y patitas)</li>
+                    <li>Aromatización especial de larga duración</li>
+                    <li>Recojo gratuito en ciudad</li>
+                  </ul>
+
+                  <a class="tarjeta-servicio-oficial__btn" style="background:#5b21b6;" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20reservar%20el%20Spa%20Pelitos%20Relajantes." target="_blank" rel="noopener">
+                    Reservar Spa Relajante
+                  </a>
+                </article>
+
+                <!-- 4. MOMENTO REAL - PELUDITO DE REALEZA -->
+                <article class="tarjeta-servicio-oficial">
+                  <span class="tarjeta-servicio-oficial__badge-top">Pág. 05 del Menú</span>
+                  <div class="tarjeta-servicio-oficial__icono">👑</div>
+                  <h4 class="tarjeta-servicio-oficial__titulo">4. Momento Real</h4>
+                  <div class="tarjeta-servicio-oficial__lema">Tratamiento supremo de realeza</div>
+                  <p style="font-size:0.84rem; color:var(--texto-suave); margin-bottom:12px;">El tratamiento de lujo supremo para dejar a tu consentido radiante, perfumado y protegido.</p>
+                  
+                  <div class="tarjeta-servicio-oficial__precios">
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>0 a 5 Kg:</span> <strong>S/ 35.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>6 a 10 Kg:</span> <strong>S/ 40.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>11 a 20 Kg:</span> <strong>S/ 45.00</strong>
+                    </div>
+                    <div class="tarjeta-servicio-oficial__fila-precio">
+                      <span>Más de 20 Kg:</span> <strong style="color:var(--morado);">Evaluación especial</strong>
+                    </div>
+                  </div>
+
+                  <strong style="font-size:0.82rem; color:#1e293b; margin-bottom:6px; display:block;">Incluye oficialmente:</strong>
+                  <ul class="tarjeta-servicio-oficial__inclusiones">
+                    <li>Doble baño con línea premium dermoprotectora</li>
+                    <li>Mascarilla reparadora y nutritiva</li>
+                    <li>Acondicionador de brillo sedoso</li>
+                    <li>ManiPaw Express completo</li>
+                    <li>Limpieza, desinfección y depilado higiénico de oídos</li>
+                    <li>Aromaterapia relajante durante el secado</li>
+                    <li>Encintado o accesorio personalizado de gala</li>
+                    <li>Recojo gratuito en ciudad</li>
+                  </ul>
+
+                  <a class="tarjeta-servicio-oficial__btn" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20reservar%20el%20Momento%20Real%20de%20Realeza." target="_blank" rel="noopener">
+                    Reservar Momento Real
+                  </a>
+                </article>
+
+              </div>
+            </div>
+
+            <!-- PANEL PESTAÑA 2: LOOK PELITOS (CORTES), AGREGADOS Y CACHORROS -->
+            <div id="tab-menu-cortes" class="menu-oficial-tab-panel">
+              
+              <!-- BANNER COMBO DESCUENTO -->
+              <div class="caja-combo-destacado">
+                <div>
+                  <strong>🏷️ Promoción Oficial de Combos:</strong>
+                  <p style="margin:2px 0 0; font-size:0.88rem; color:#78350f;">¡Baño + Corte tienen <strong>10% de descuento</strong> exclusivo de lunes a viernes en cualquiera de nuestras combinaciones!</p>
+                </div>
+                <a class="btn-reservar-doc" style="background:#b45309; border-color:#92400e; font-size:0.82rem; padding:8px 14px;" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20aprovechar%20el%2010%25%20de%20descuento%20en%20Ba%C3%B1o%20%2B%20Corte." target="_blank" rel="noopener">
+                  Aprovechar 10% Dto
+                </a>
+              </div>
+
+              <h4 style="font-family:'Panchang', sans-serif; color:#4c1d95; font-size:1.1rem; margin:0 0 14px;">Look Pelitos · Estilos de Corte Profesional</h4>
+              <div class="grilla-cortes">
+                <article class="tarjeta-corte">
+                  <span style="font-size:1.6rem;">⚡</span>
+                  <h5 style="margin:6px 0 2px; font-size:1rem; color:#1e293b;">Look Máquina</h5>
+                  <div class="tarjeta-corte__precio">S/ 25.00</div>
+                  <p style="font-size:0.85rem; color:var(--texto-suave); margin:0;">Corte uniforme, higiénico, práctico y fresco para el mantenimiento diario del perrito.</p>
+                </article>
+
+                <article class="tarjeta-corte" style="border-color:#c084fc;">
+                  <span style="font-size:1.6rem;">✂️</span>
+                  <h5 style="margin:6px 0 2px; font-size:1rem; color:#1e293b;">Look Mixto (Máquina + Tijera)</h5>
+                  <div class="tarjeta-corte__precio">S/ 30.00</div>
+                  <p style="font-size:0.85rem; color:var(--texto-suave); margin:0;">Cuerpo rebajado a máquina y carita, patitas y contornos perfilados a tijera para mayor gracia.</p>
+                </article>
+
+                <article class="tarjeta-corte" style="border-color:#e7a13a;">
+                  <span style="font-size:1.6rem;">🎨</span>
+                  <h5 style="margin:6px 0 2px; font-size:1rem; color:#1e293b;">Look Solo Tijera (Estilo Artístico)</h5>
+                  <div class="tarjeta-corte__precio">S/ 45.00</div>
+                  <p style="font-size:0.85rem; color:var(--texto-suave); margin:0;">Escultura artística 100% a mano alzada para razas exigentes (Caniche, Bichón, Schnauzer, Pomerania).</p>
+                </article>
+
+                <article class="tarjeta-corte" style="background:#fff7ed; border-color:#fed7aa;">
+                  <span style="font-size:1.6rem;">🐾</span>
+                  <h5 style="margin:6px 0 2px; font-size:1rem; color:#9a3412;">Primer Amor · Cachorros</h5>
+                  <div class="tarjeta-corte__precio" style="color:#c2410c;">S/ 25.00</div>
+                  <p style="font-size:0.85rem; color:#9a3412; margin:0;"><strong>Ducha de amor al seco:</strong> Sin agua, con espuma hipoalergénica y secado tibio para perritos en vacunación.</p>
+                </article>
+              </div>
+
+              <h4 style="font-family:'Panchang', sans-serif; color:#4c1d95; font-size:1.1rem; margin:22px 0 14px;">Agregados Premium (Personaliza su Experiencia)</h4>
+              <div class="grilla-agregados">
+                <div class="item-agregado">
+                  <div>
+                    <strong style="display:block; font-size:0.88rem; color:#1e293b;">Ducha Antipulgas y Garrapatas</strong>
+                    <span style="font-size:0.8rem; color:var(--texto-suave);">Eliminación y protección inmediata</span>
+                  </div>
+                  <span class="item-agregado__precio">+S/ 5.00</span>
+                </div>
+
+                <div class="item-agregado">
+                  <div>
+                    <strong style="display:block; font-size:0.88rem; color:#1e293b;">Ducha Médica Dermatológica</strong>
+                    <span style="font-size:0.8rem; color:var(--texto-suave);">Reposo terapéutico de 10-15 minutos</span>
+                  </div>
+                  <span class="item-agregado__precio">+S/ 5.00</span>
+                </div>
+
+                <div class="item-agregado">
+                  <div>
+                    <strong style="display:block; font-size:0.88rem; color:#1e293b;">Paquete Zen Aromaterapia</strong>
+                    <span style="font-size:0.8rem; color:var(--texto-suave);">Esencias naturales antiestrés</span>
+                  </div>
+                  <span class="item-agregado__precio">+S/ 3.00</span>
+                </div>
+
+                <div class="item-agregado">
+                  <div>
+                    <strong style="display:block; font-size:0.88rem; color:#1e293b;">Momento de Fotos WhatsApp</strong>
+                    <span style="font-size:0.8rem; color:var(--texto-suave);">Fotos HD en vivo durante su sesión</span>
+                  </div>
+                  <span class="item-agregado__precio">+S/ 3.00</span>
+                </div>
+
+                <div class="item-agregado" style="grid-column: 1 / -1;">
+                  <div>
+                    <strong style="display:block; font-size:0.88rem; color:#1e293b;">Desintoxicación Natural de Glándulas Anales</strong>
+                    <span style="font-size:0.8rem; color:var(--texto-suave);">Drenaje higiénico especializado para prevenir inflamaciones y molestias</span>
+                  </div>
+                  <span class="item-agregado__precio" style="color:#16a34a;">Incluido según evaluación</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- PANEL PESTAÑA 3: PLANES DE BIENESTAR Y FIDELIZACIÓN -->
+            <div id="tab-menu-planes" class="menu-oficial-tab-panel">
+              <div class="grilla-planes-fidelizacion">
+                
+                <!-- PLAN PIEL SANA PELITOS -->
+                <article class="tarjeta-plan-bienestar">
+                  <span style="display:inline-block; font-size:0.75rem; font-weight:700; color:#15803d; background:#dcfce7; padding:3px 10px; border-radius:999px; text-transform:uppercase; margin-bottom:8px;">Tratamiento Integral 30 Días</span>
+                  <h4 style="font-family:'Panchang', sans-serif; font-size:1.15rem; color:#14532d; margin:0 0 6px;">Plan Piel Sana Pelitos</h4>
+                  <p style="font-size:0.86rem; color:#166534; line-height:1.5;">El programa clínico más completo para recuperar perritos con dermatitis, alergias, descamación o picazón intensa.</p>
+
+                  <div style="background:#fff; border:1px solid #bbf7d0; border-radius:12px; padding:12px 14px; margin:14px 0;">
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed #e2e8f0; font-size:0.85rem;">
+                      <span>0 a 5 Kg:</span> <strong>S/ 35.00</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed #e2e8f0; font-size:0.85rem;">
+                      <span>6 a 10 Kg:</span> <strong>S/ 40.00</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed #e2e8f0; font-size:0.85rem;">
+                      <span>11 a 20 Kg:</span> <strong>S/ 45.00</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; font-size:0.85rem;">
+                      <span>Más de 20 Kg:</span> <strong style="color:var(--morado);">Evaluación especial</strong>
+                    </div>
+                  </div>
+
+                  <strong style="font-size:0.84rem; color:#14532d; display:block; margin-bottom:6px;">¿Qué incluye el Plan?:</strong>
+                  <ul class="tarjeta-servicio-oficial__inclusiones" style="margin-bottom:16px;">
+                    <li><strong>1 Consulta veterinaria:</strong> Evaluación clínica y dermatológica especializada previa</li>
+                    <li><strong>2 Duchas medicadas:</strong> Con champú dermatológico prescrito y reposo terapéutico</li>
+                    <li><strong>Pautas y recomendaciones:</strong> Guía escrita para el manejo y cuidado diario en casa</li>
+                    <li><strong>Ficha de seguimiento:</strong> Control de evolución de la salud cutánea</li>
+                  </ul>
+
+                  <a class="tarjeta-servicio-oficial__btn" style="background:#16a34a;" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20informaci%C3%B3n%20para%20iniciar%20el%20Plan%20Piel%20Sana." target="_blank" rel="noopener">
+                    Iniciar Plan Piel Sana
+                  </a>
+                </article>
+
+                <!-- CLUB DE EMBAJADORES PELITOS -->
+                <article class="tarjeta-club-embajadores">
+                  <span style="display:inline-block; font-size:0.75rem; font-weight:700; color:#6d28d9; background:#ede9fe; padding:3px 10px; border-radius:999px; text-transform:uppercase; margin-bottom:8px;">Programa Exclusivo Gratuito</span>
+                  <h4 style="font-family:'Panchang', sans-serif; font-size:1.15rem; color:#4c1d95; margin:0 0 6px;">Club de Embajadores Pelitos</h4>
+                  <p style="font-size:0.86rem; color:#5b21b6; line-height:1.5;">Reconocemos el amor y la constancia de las familias peliteras con beneficios automáticos.</p>
+
+                  <div style="display:flex; flex-direction:column; gap:10px; margin:16px 0;">
+                    <div style="background:#fff; border:1px solid #ddd6fe; border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px;">
+                      <span style="font-size:1.6rem;">🎁</span>
+                      <div>
+                        <strong style="color:#4c1d95; font-size:0.9rem;">7ma Sesión de Baño GRATIS</strong>
+                        <div style="font-size:0.8rem; color:var(--texto-suave);">Por cada 6 baños en Pelitos Estética, el séptimo corre por nuestra cuenta.</div>
+                      </div>
+                    </div>
+
+                    <div style="background:#fff; border:1px solid #ddd6fe; border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px;">
+                      <span style="font-size:1.6rem;">💅</span>
+                      <div>
+                        <strong style="color:#4c1d95; font-size:0.9rem;">1 ManiPaw Express Mensual de Cortesía</strong>
+                        <div style="font-size:0.8rem; color:var(--texto-suave);">Corte y limado de uñas sin costo para mantener sus patitas saludables.</div>
+                      </div>
+                    </div>
+
+                    <div style="background:#fff; border:1px solid #ddd6fe; border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px;">
+                      <span style="font-size:1.6rem;">⚡</span>
+                      <div>
+                        <strong style="color:#4c1d95; font-size:0.9rem;">Acceso Prioritario de Agenda</strong>
+                        <div style="font-size:0.8rem; color:var(--texto-suave);">Preferencia de turnos en días de alta demanda y fines de semana.</div>
+                      </div>
+                    </div>
+
+                    <div style="background:#fff; border:1px solid #ddd6fe; border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px;">
+                      <span style="font-size:1.6rem;">🏷️</span>
+                      <div>
+                        <strong style="color:#4c1d95; font-size:0.9rem;">10% Descuento Permanente</strong>
+                        <div style="font-size:0.8rem; color:var(--texto-suave);">En todos los cortes Look Pelitos y en cualquier Agregado Premium.</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a class="tarjeta-servicio-oficial__btn" style="background:#7c3aed;" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20deseo%20afiliarme%20al%20Club%20de%20Embajadores%20Pelitos." target="_blank" rel="noopener">
+                    Afiliarme al Club por WhatsApp
+                  </a>
+                </article>
+
+              </div>
+
+              <!-- EXPERIENCIA DEL CLIENTE -->
+              <div style="margin-top:24px; background:#faf5ff; border:1px solid #f3e8ff; border-radius:16px; padding:20px;">
+                <h4 style="color:#4c1d95; margin:0 0 10px; font-size:1rem; display:flex; align-items:center; gap:8px;">
+                  <span>🌟</span> Primera Caricia Pelitos &amp; Cierre de Experiencia (Pág. 08 del Menú)
+                </h4>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; font-size:0.85rem; color:#4c1d95;">
+                  <div style="background:#fff; padding:12px 14px; border-radius:10px; border:1px solid #eedcff;">
+                    <strong>Primera Caricia (Nuevos Consentidos):</strong>
+                    <p style="margin:4px 0 0; color:var(--texto-suave);">Bienvenida cariñosa, mini obsequio sorpresa, sesión de foto de recuerdo "Viví mi Hora de Brillar" y entrega de su tarjeta de fidelización.</p>
+                  </div>
+                  <div style="background:#fff; padding:12px 14px; border-radius:10px; border:1px solid #eedcff;">
+                    <strong>Cierre de Experiencia:</strong>
+                    <p style="margin:4px 0 0; color:var(--texto-suave);">Informe de bienestar veterinario emitido por nuestra estilista, consejos de hidratación y cepillado en casa y registro en el Círculo de Confianza Pelitos.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL PESTAÑA 4: ANEXOS Y EVALUACIÓN DE RAZAS -->
+            <div id="tab-menu-anexos" class="menu-oficial-tab-panel">
+              <div style="margin-bottom:16px;">
+                <h4 style="font-family:'Panchang', sans-serif; color:#4c1d95; margin:0 0 6px; font-size:1.1rem;">Anexo Normativo: Razas con "Evaluación Especial"</h4>
+                <p style="font-size:0.88rem; color:var(--texto-suave); margin:0;">Ciertas características anatómicas, de manto o volumen demandan protocolos técnicos específicos, mayor tiempo de secado y cosmética profesional adaptada:</p>
+              </div>
+
+              <div class="caja-anexo-razas">
+                <h4><span>🐕</span> 1. Razas de Doble Capa y Muda Intensa (Deslanado Requerido)</h4>
+                <p><strong>Razón del costo extra:</strong> Exigen técnica de deslanado previo, secado de alta potencia con turbina y cepillado profundo para remover la subcapa muerta sin dañar el pelaje protector.</p>
+                <div class="lista-razas-tag">
+                  <span class="badge-raza">Husky Siberiano</span>
+                  <span class="badge-raza">Alaskan Malamute</span>
+                  <span class="badge-raza">Samoyedo</span>
+                  <span class="badge-raza">Pastor Alemán</span>
+                  <span class="badge-raza">Akita Inu / Americano</span>
+                  <span class="badge-raza">Chow Chow</span>
+                </div>
+              </div>
+
+              <div class="caja-anexo-razas">
+                <h4><span>🦁</span> 2. Razas Gigantes o de Gran Volumen de Pelaje</h4>
+                <p><strong>Razón del costo extra:</strong> Requieren mayor cantidad de champú y acondicionador profesional, uso intensivo de instalaciones, secado prolongado y por lo general manejo coordinado de 2 estilistas.</p>
+                <div class="lista-razas-tag">
+                  <span class="badge-raza">San Bernardo</span>
+                  <span class="badge-raza">Terranova</span>
+                  <span class="badge-raza">Boyero de Berna</span>
+                  <span class="badge-raza">Gran Danés</span>
+                  <span class="badge-raza">Mastín</span>
+                  <span class="badge-raza">Viejo Pastor Inglés (Bobtail)</span>
+                </div>
+              </div>
+
+              <div class="caja-anexo-razas">
+                <h4><span>🐩</span> 3. Razas con Manto Continuo o Propenso a Nudos Intensos</h4>
+                <p><strong>Razón del costo extra:</strong> Trabajo minucioso de tijera y máquina, desenredado técnico para evitar rasurar al ras y acondicionamiento profundo de alta penetración.</p>
+                <div class="lista-razas-tag">
+                  <span class="badge-raza">Poodle Gigante (Standard)</span>
+                  <span class="badge-raza">Afghan Hound</span>
+                  <span class="badge-raza">Bichón Maltés / Frisé (manto largo)</span>
+                  <span class="badge-raza">Schnauzer Gigante</span>
+                </div>
+              </div>
+
+              <div class="caja-anexo-razas">
+                <h4><span>🐾</span> 4. Razas Braquicefálicas (Cuidado Médico / Sensibilidad)</h4>
+                <p><strong>Razón del costo extra:</strong> Requieren secado con aire tibio/frío, supervisión constante por riesgo de sofocación o estrés, e higiene dedicada en pliegues faciales y cola.</p>
+                <div class="lista-razas-tag">
+                  <span class="badge-raza">Bulldog Inglés</span>
+                  <span class="badge-raza">Bulldog Francés</span>
+                  <span class="badge-raza">Pug</span>
+                  <span class="badge-raza">Pekinés</span>
+                  <span class="badge-raza">Shih Tzu (tamaño grande)</span>
+                </div>
+              </div>
+
+              <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:16px; padding:18px; margin-top:20px;">
+                <h5 style="color:#92400e; margin:0 0 8px; font-size:0.95rem;">Factores Adicionales que Incrementan la Tarifa Base:</h5>
+                <ul style="margin:0; padding-left:18px; font-size:0.85rem; color:#78350f; line-height:1.7;">
+                  <li><strong>Nudos severos / Manto apelmazado:</strong> Recargo adicional por tiempo de desenredado técnico (ej. S/ 15 - S/ 30 según tiempo extra dedicado).</li>
+                  <li><strong>Temperamento / Reactividad:</strong> Perros nerviosos o agresivos que exigen doble personal para su manejo seguro y sin accidentes.</li>
+                  <li><strong>Tratamientos Médicos o Baños Medicados:</strong> Aplicación de champú dermatológico prescrito con tiempo de reposo de 10 a 15 minutos.</li>
+                  <li><strong>Cortes de Raza Específicos a Tijera:</strong> Arreglos de exposición o cortes técnicos complejos a tijera.</li>
+                </ul>
+              </div>
+
+              <!-- DIFERENCIADORES -->
+              <div style="margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; text-align:center;">
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
+                  <span style="font-size:1.5rem; display:block; margin-bottom:4px;">💧</span>
+                  <strong style="font-size:0.85rem; color:#1e293b;">Agua Temperada Continua</strong>
+                </div>
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
+                  <span style="font-size:1.5rem; display:block; margin-bottom:4px;">🎓</span>
+                  <strong style="font-size:0.85rem; color:#1e293b;">Groomer Certificada</strong>
+                </div>
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
+                  <span style="font-size:1.5rem; display:block; margin-bottom:4px;">📹</span>
+                  <strong style="font-size:0.85rem; color:#1e293b;">Cámaras de Seguridad</strong>
+                </div>
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
+                  <span style="font-size:1.5rem; display:block; margin-bottom:4px;">✨</span>
+                  <strong style="font-size:0.85rem; color:#1e293b;">Cosmética de Alta Gama</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL PESTAÑA 5: LÁMINAS OFICIALES EN ALTA RESOLUCIÓN (8 PÁGINAS) -->
+            <div id="tab-menu-laminas" class="menu-oficial-tab-panel">
+              <div style="margin-bottom:18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <div>
+                  <h4 style="font-family:'Panchang', sans-serif; color:#4c1d95; margin:0 0 4px; font-size:1.1rem;">Láminas del Folleto Oficial (8 Páginas)</h4>
+                  <p style="font-size:0.86rem; color:var(--texto-suave); margin:0;">Haga clic en cualquier lámina para abrirla en pantalla completa con zoom de alta fidelidad.</p>
+                </div>
+                <a class="btn-descarga-doc" href="../docs/MENU DE SERVICIOS PELITOS ESTETICA.docx" download="MENU DE SERVICIOS PELITOS ESTETICA.docx">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Descargar Folleto (.docx)
+                </a>
+              </div>
+
+              <div class="grilla-laminas-oficiales">
+                
+                <!-- PÁGINA 1 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_1.png" alt="Menú Pelitos Estética - Página 1: Portada Oficial" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 01</span>
+                    <h5 class="tarjeta-lamina__titulo">Portada Oficial Pelitos Estética</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 2 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_2.png" alt="Menú Pelitos Estética - Página 2: Servicio Clásico Funcional Pelitos" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 02</span>
+                    <h5 class="tarjeta-lamina__titulo">1. Servicio Clásico Funcional</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 3 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_3.png" alt="Menú Pelitos Estética - Página 3: Duchas de Amor Express" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 03</span>
+                    <h5 class="tarjeta-lamina__titulo">2. Duchas de Amor Express</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 4 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_4.png" alt="Menú Pelitos Estética - Página 4: Spa Pelitos Relajantes" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 04</span>
+                    <h5 class="tarjeta-lamina__titulo">3. Spa Pelitos Relajantes</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 5 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_5.png" alt="Menú Pelitos Estética - Página 5: Momento Real - Peludito de Realeza" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 05</span>
+                    <h5 class="tarjeta-lamina__titulo">4. Momento Real - Realeza</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 6 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_6.png" alt="Menú Pelitos Estética - Página 6: Look Pelitos, Cortes, Cachorros y Agregados" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 06</span>
+                    <h5 class="tarjeta-lamina__titulo">Look Pelitos, Cortes &amp; Agregados</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 7 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_7.png" alt="Menú Pelitos Estética - Página 7: Planes de Bienestar y Fidelización" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 07</span>
+                    <h5 class="tarjeta-lamina__titulo">Planes de Bienestar &amp; Club</h5>
+                  </div>
+                </article>
+
+                <!-- PÁGINA 8 -->
+                <article class="tarjeta-lamina">
+                  <div class="tarjeta-lamina__img-wrap">
+                    <img src="../images/estetica/menu/pagina_8.png" alt="Menú Pelitos Estética - Página 8: Primera Caricia y Cierre de Experiencia" loading="lazy" decoding="async" />
+                    <div class="tarjeta-lamina__overlay">🔍 Ampliar Lámina</div>
+                  </div>
+                  <div class="tarjeta-lamina__body">
+                    <span class="tarjeta-lamina__num">Página 08</span>
+                    <h5 class="tarjeta-lamina__titulo">Primera Caricia &amp; Cierre</h5>
+                  </div>
+                </article>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="rejilla rejilla--4 reveal">
+          <article class="tarjeta">
+            <span class="tarjeta__num">01</span>
+            <div class="tarjeta__icono" style="background:#fef3c7; color:#b45309;">✂️</div>
+            <h3>Servicio Clásico</h3>
+            <p style="font-weight:700; color:var(--naranja); margin-top:2px;">Duchita + Corte a máquina</p>
+            <p style="font-size:0.86rem;">Limpieza con amor, simple y efectiva para mantener el pelaje limpio y ordenado.</p>
+            
+            <ul style="margin:14px 0; padding-left:16px; font-size:0.84rem; color:var(--texto-suave); line-height:1.7;">
+              <li>Cepillado y desenredo básico</li>
+              <li>Agua temperada relajante</li>
+              <li>Corte con máquina profesional</li>
+              <li>Corte de uñas ManiPaw</li>
+              <li>Limpieza de oídos y perfume</li>
+            </ul>
+
+            <div style="background:var(--superficie); padding:10px 14px; border-radius:10px; font-size:0.85rem; margin-top:auto;">
+              <div style="display:flex; justify-content:space-between;"><span>0 - 10 Kg:</span> <strong>S/ 40.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 15 Kg:</span> <strong>S/ 45.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>15+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
+            </div>
+
+            <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20Servicio%20Cl%C3%A1sico%20de%20Est%C3%A9tica." target="_blank" rel="noopener">
+              Reservar este <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+
+          <article class="tarjeta">
+            <span class="tarjeta__num">02</span>
+            <div class="tarjeta__icono" style="background:#fee2e2; color:#b91c1c;">⚡</div>
+            <h3>Amor Express</h3>
+            <p style="font-weight:700; color:var(--naranja); margin-top:2px;">Cálida, ágil y protectora</p>
+            <p style="font-size:0.86rem;">Ideal para perritos nerviosos o con poco tiempo. Mantiene la frescura diaria.</p>
+            
+            <ul style="margin:14px 0; padding-left:16px; font-size:0.84rem; color:var(--texto-suave); line-height:1.7;">
+              <li>Evaluación dermatológica rápida</li>
+              <li>Cepillado y aspirado de pelo</li>
+              <li>Agua temperada y secado rápido</li>
+              <li>Despeje higiénico perianal</li>
+              <li>Aromatización de larga duración</li>
+            </ul>
+
+            <div style="background:var(--superficie); padding:10px 14px; border-radius:10px; font-size:0.85rem; margin-top:auto;">
+              <div style="display:flex; justify-content:space-between;"><span>0 - 5 Kg:</span> <strong>S/ 25.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>6 - 10 Kg:</span> <strong>S/ 30.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 20 Kg:</span> <strong>S/ 35.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>20+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
+            </div>
+
+            <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20servicio%20Amor%20Express." target="_blank" rel="noopener">
+              Reservar este <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+
+          <article class="tarjeta">
+            <span class="tarjeta__num">03</span>
+            <div class="tarjeta__icono" style="background:#e0e7ff; color:#4338ca;">🧴</div>
+            <h3>Spa Relajante</h3>
+            <p style="font-weight:700; color:var(--morado); margin-top:2px;">El más solicitado ⭐</p>
+            <p style="font-size:0.86rem;">Cuidado integral profundo con doble baño y caricias técnicas relajantes.</p>
+            
+            <ul style="margin:14px 0; padding-left:16px; font-size:0.84rem; color:var(--texto-suave); line-height:1.7;">
+              <li>Doble baño con shampoo hipoalergénico</li>
+              <li>Acondicionador suavizante y brillo</li>
+              <li>ManiPaw y pausa zen en oídos</li>
+              <li>Corte higiénico con tijera</li>
+              <li>Masajes capilares relajantes</li>
+            </ul>
+
+            <div style="background:var(--superficie); padding:10px 14px; border-radius:10px; font-size:0.85rem; margin-top:auto;">
+              <div style="display:flex; justify-content:space-between;"><span>0 - 5 Kg:</span> <strong>S/ 30.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>6 - 10 Kg:</span> <strong>S/ 35.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 20 Kg:</span> <strong>S/ 40.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>20+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
+            </div>
+
+            <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20Spa%20Relajante." target="_blank" rel="noopener">
+              Reservar este <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+
+          <article class="tarjeta">
+            <span class="tarjeta__num">04</span>
+            <div class="tarjeta__icono" style="background:#fdf2f8; color:#be185d;">👑</div>
+            <h3>Momento Real VIP</h3>
+            <p style="font-weight:700; color:var(--morado); margin-top:2px;">Tratamiento de lujo</p>
+            <p style="font-size:0.86rem;">Jornada spa exclusiva con mascarilla reparadora de keratina y aromaterapia.</p>
+            
+            <ul style="margin:14px 0; padding-left:16px; font-size:0.84rem; color:var(--texto-suave); line-height:1.7;">
+              <li>Todo lo del Spa Relajante incluido</li>
+              <li>Mascarilla nutritiva profunda</li>
+              <li>Depilado y desinfección de orejas</li>
+              <li>Aromaterapia desintoxicante</li>
+              <li>Accesorio de gala (moño o pañuelo)</li>
+            </ul>
+
+            <div style="background:var(--superficie); padding:10px 14px; border-radius:10px; font-size:0.85rem; margin-top:auto;">
+              <div style="display:flex; justify-content:space-between;"><span>0 - 5 Kg:</span> <strong>S/ 35.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>6 - 10 Kg:</span> <strong>S/ 40.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>11 - 20 Kg:</span> <strong>S/ 45.00</strong></div>
+              <div style="display:flex; justify-content:space-between; margin-top:3px;"><span>20+ Kg:</span> <strong style="color:var(--morado);">Eval. especial</strong></div>
+            </div>
+
+            <a class="enlace-flecha" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20el%20Momento%20Real%20VIP." target="_blank" rel="noopener">
+              Reservar este <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRODUCTOS QUE UTILIZAMOS =================
+         Para cambiar una foto, reemplace el archivo en images/estetica/productos/
+         con el mismo nombre. Para agregar otro producto, copie un <article>. -->
+    <section class="seccion" id="productos-que-utilizamos">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Productos que utilizamos</span>
+          <h2>Lo mejor para su pelaje</h2>
+          <p>Trabajamos con productos de uso profesional y herramientas especializadas para que cada ba&ntilde;o y cada corte sean seguros y c&oacute;modos.</p>
+        </div>
+
+        <div class="linea-destacada reveal">
+          <div class="linea-destacada__foto">
+            <img src="../images/estetica/productos/linea-4groomer.jpg" alt="Línea 4Groomer: Shampoo Blanqueador, Shampoo 1X6, Shampoo Pelagem Escura y Condicionador" loading="lazy" width="1000" height="750" />
+          </div>
+          <div class="linea-destacada__texto">
+            <span class="producto-estetica__tipo">L&iacute;nea profesional</span>
+            <h3>4Groomer</h3>
+            <p>Elegimos el producto seg&uacute;n el pelaje de cada mascota:</p>
+            <ul>
+              <li><strong>Shampoo Blanqueador:</strong> realza el brillo en pelajes blancos y claros.</li>
+              <li><strong>Shampoo 1X6:</strong> limpieza profunda con perfume de larga duraci&oacute;n.</li>
+              <li><strong>Shampoo Pelagem Escura:</strong> intensifica el color de los pelajes oscuros.</li>
+              <li><strong>Condicionador:</strong> suaviza, desenreda y deja el pelo brillante.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="rejilla-productos-estetica reveal">
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/shampoo-4groomer-1x6.jpg" alt="Shampoo 4Groomer 1X6" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Baño</span>
+              <h3>Shampoo 4Groomer 1X6</h3>
+              <p>Limpieza profunda con perfume fino y larga duración. Uso veterinario para perros y gatos.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/cortaunas-led.jpg" alt="Cortaúñas con luz LED" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Uñas</span>
+              <h3>Cortaúñas con luz LED</h3>
+              <p>La luz nos deja ver la zona sensible de la uña para cortar con precisión y sin lastimar.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/carda-pequena.jpg" alt="Carda de cerdas finas" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Cepillado</span>
+              <h3>Carda de cerdas finas</h3>
+              <p>Desenreda y retira el pelo suelto en razas pequeñas y zonas delicadas.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/carda-grande.jpg" alt="Carda de púas largas" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Cepillado</span>
+              <h3>Carda de púas largas</h3>
+              <p>Llega hasta la base del pelaje en perritos de pelo largo o abundante.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/rastrillo-deslanador.jpg" alt="Rastrillo deslanador" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Cepillado</span>
+              <h3>Rastrillo deslanador</h3>
+              <p>Retira el subpelo muerto y reduce la caída de pelo en casa.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/piedra-stripping.jpg" alt="Piedra de stripping" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Acabado</span>
+              <h3>Piedra de stripping</h3>
+              <p>Quita el pelo muerto en razas de pelo duro y deja el manto parejo.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/tijera-curva.jpg" alt="Tijera curva" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Corte</span>
+              <h3>Tijera curva</h3>
+              <p>Para redondear patitas, cabeza y contornos con un acabado suave.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/tijera-entresacar.jpg" alt="Tijera de entresacar" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Corte</span>
+              <h3>Tijera de entresacar</h3>
+              <p>Aligera el volumen y disimula marcas para un acabado natural.</p>
+            </div>
+          </article>
+          <article class="producto-estetica">
+            <div class="producto-estetica__foto">
+              <img src="../images/estetica/productos/tijera-texturizadora.jpg" alt="Tijera texturizadora" loading="lazy" width="750" height="1000" />
+            </div>
+            <div class="producto-estetica__cuerpo">
+              <span class="producto-estetica__tipo">Corte</span>
+              <h3>Tijera texturizadora</h3>
+              <p>Da forma y textura al pelaje sin que se vean cortes rectos.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EL RECORRIDO DEL CONSENTIDO ================= -->
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Paso a paso</span>
+          <h2>El Recorrido del Consentido en Pelitos</h2>
+          <p>Cero estrés, máximo cariño. Así es la experiencia de cada sesión.</p>
+        </div>
+
+        <div class="timeline-estetica reveal">
+          <div class="timeline-step">
+            <span class="timeline-num">01</span>
+            <div class="timeline-icon">🩺</div>
+            <h4>Check dermatológico</h4>
+            <p>Revisamos piel, oídos y pelaje para elegir el shampoo y tratamiento ideal.</p>
+          </div>
+
+          <div class="timeline-step">
+            <span class="timeline-num">02</span>
+            <div class="timeline-icon">🛁</div>
+            <h4>Baño temperado & Masaje</h4>
+            <p>Agua tibia y productos de alta gama con masajes que calman su ansiedad.</p>
+          </div>
+
+          <div class="timeline-step">
+            <span class="timeline-num">03</span>
+            <div class="timeline-icon">💨</div>
+            <h4>Secado silencioso</h4>
+            <p>Turbinas de bajo ruido para no asustar sus oídos y cepillado que retira pelo muerto.</p>
+          </div>
+
+          <div class="timeline-step">
+            <span class="timeline-num">04</span>
+            <div class="timeline-icon">✂️</div>
+            <h4>Corte & Entrega feliz</h4>
+            <p>Estilo de raza a tijera o máquina, corte de uñas seguro y entrega con moñito.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= COMPARADOR ANTES / DESPUÉS ================= -->
+    <section class="seccion" id="antes-despues" style="padding-bottom: 32px;">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Transformación en vivo</span>
+          <h2>Mueve el control y descubre el cambio</h2>
+          <p>Desliza la barra interactiva para comparar el antes y el después de una sesión completa de spa, corte higiénico y perfilado de raza.</p>
+        </div>
+
+        <div class="comparador-wrapper reveal">
+          <div class="comparador-header-info">
+            <span class="comparador-header-badge">🐶 Caso Real · Transformación Completa</span>
+            <span class="comparador-header-subtitle">✨ Pelitos Estética Huánuco</span>
+          </div>
+
+          <div class="comparador" id="comparador" data-antes="Antes" data-despues="Después">
+            <img class="comparador__img" src="../images/estetica/perrito_cortado.jpg" alt="Perrito después del baño y corte en Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="comparador__antes" id="comparador-despues">
+              <img class="comparador__img" src="../images/estetica/perrito_.jpg" alt="El mismo perrito antes del servicio de estética" loading="lazy" decoding="async" />
+            </div>
+            <span class="comparador__etiqueta comparador__etiqueta--izq">⏳ Antes</span>
+            <span class="comparador__etiqueta comparador__etiqueta--der">✨ Después</span>
+            <div class="comparador__linea" id="comparador-linea">
+              <span class="comparador__tirador" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>
+              </span>
+            </div>
+            <input class="comparador__rango" id="comparador-rango" type="range" min="0" max="100" value="50" step="0.5" aria-label="Comparar antes y después" />
+          </div>
+
+          <div class="comparador-hint-bar">
+            <span>↔️ Arrastra la barra o desliza con el dedo para comparar</span>
+          </div>
+
+          <div class="comparador-detalles-grid">
+            <div class="comparador-detalle-item">
+              <span class="comparador-detalle-icon">🚿</span>
+              <div>
+                <strong>Baño Relajante</strong>
+                <small>Shampoo medicado</small>
+              </div>
+            </div>
+            <div class="comparador-detalle-item">
+              <span class="comparador-detalle-icon">✂️</span>
+              <div>
+                <strong>Corte a Tijera</strong>
+                <small>Estilismo y vaciado</small>
+              </div>
+            </div>
+            <div class="comparador-detalle-item">
+              <span class="comparador-detalle-icon">🎀</span>
+              <div>
+                <strong>Entrega Feliz</strong>
+                <small>Perfumado y con moño</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acciones" style="justify-content:center;margin-top:28px">
+          <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20reservar%20un%20ba%C3%B1o%20y%20corte." target="_blank" rel="noopener">
+            Reservar baño y corte por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GALERÍA DINÁMICA DE TRABAJOS REALES - MEJORES OBRAS ================= -->
+    <section class="seccion seccion--suave" id="mejores-obras" style="padding-top: 40px; padding-bottom: 52px;">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Resultados reales</span>
+          <h2>Nuestras Mejores Obras</h2>
+          <p>Fotografías reales de los consentidos atendidos y transformados con técnica profesional y amor en Pelitos Estética Huánuco.</p>
+        </div>
+        
+        <div class="obras-grid-balanced reveal" id="grid-mejores-obras">
+          <!-- Obra 01: Schnauzer -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_01_schnauzer.png', 'Schnauzer · Corte tradicional de raza y moño rosa')">
+            <span class="galeria-badge-obra">✂️ Corte de Raza</span>
+            <img src="../images/estetica/mejores_obras/obra_01_schnauzer.png" alt="Schnauzer con corte clásico en Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Schnauzer Clásico</h4>
+              <p>Perfilado de cejas, barba y moño rosa en mesa de estética.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 02: Poodle Caramelo -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_02_poodle_caramelo.png', 'Poodle Toy Caramelo · Corte a tijera esponjoso y corbatín azul')">
+            <span class="galeria-badge-obra">🐩 Estilo Peluche</span>
+            <img src="../images/estetica/mejores_obras/obra_02_poodle_caramelo.png" alt="Poodle Toy Caramelo en Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Poodle Caramelo</h4>
+              <p>Corte a tijera con acabado redondeado y corbatín azul.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 03: Maltipoo Blanco -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_03_maltipoo_blanco.png', 'Maltipoo Blanco Sonriente · Baño spa hidratante y lazo azul')">
+            <span class="galeria-badge-obra">🛁 Spa & Brillo</span>
+            <img src="../images/estetica/mejores_obras/obra_03_maltipoo_blanco.png" alt="Maltipoo sonriente en Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Maltipoo Sonriente</h4>
+              <p>Baño spa, blanqueador óptico natural y lazo azul.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 04: Shih Tzu -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_04_shih_tzu.png', 'Shih Tzu Bicolor · Corte cachorro ángel y lazo morado')">
+            <span class="galeria-badge-obra">✂️ Corte Ángel</span>
+            <img src="../images/estetica/mejores_obras/obra_04_shih_tzu.png" alt="Shih Tzu bicolor con lazo morado" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Shih Tzu Bicolor</h4>
+              <p>Manto desenredado con sedosidad y lazo púrpura.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 05: Lhasa Apso -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_05_lhasa_apso.png', 'Lhasa Apso Rubio · Cepillado profundo y moño verde menta')">
+            <span class="galeria-badge-obra">🌿 Manto Suave</span>
+            <img src="../images/estetica/mejores_obras/obra_05_lhasa_apso.png" alt="Lhasa Apso con moño verde menta" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Lhasa Apso Dorado</h4>
+              <p>Cepillado y deslanado delicado con moño verde menta.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 06: French Poodle Crema -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_06_poodle_crema.png', 'French Poodle Crema · Arreglo a tijera y moño fucsia')">
+            <span class="galeria-badge-obra">🐩 Corte a Tijera</span>
+            <img src="../images/estetica/mejores_obras/obra_06_poodle_crema.png" alt="French Poodle Crema con moño fucsia" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>French Poodle Crema</h4>
+              <p>Corte estilizado de cuerpo y patitas con moño fucsia.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 07: Mestizo Esponjoso -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_07_pequines_mix.png', 'Mestizo Esponjoso · Arreglo higiénico, limpieza ótica y lazo rosa')">
+            <span class="galeria-badge-obra">🌸 Look Esponjoso</span>
+            <img src="../images/estetica/mejores_obras/obra_07_pequines_mix.png" alt="Perrito esponjoso con lazo rosa" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Mestizo Esponjoso</h4>
+              <p>Baño desodorizante, recorte higiénico y lazo rosa.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 08: Consentido Alegre -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_08_chihuahua_mix.png', 'Perrito Alegre · Baño hipoalergénico y moño fucsia')">
+            <span class="galeria-badge-obra">🐾 Consentido Alegre</span>
+            <img src="../images/estetica/mejores_obras/obra_08_chihuahua_mix.png" alt="Perrito de orejitas erguidas con moño fucsia" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Consentido Alegre</h4>
+              <p>Baño relajante para piel sensible y lazo fucsia brillante.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 09: Bichón Frisé -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="cortes" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_09_bichon_frise.png', 'Bichón Frisé · Look copo de nieve y secado voluminoso')">
+            <span class="galeria-badge-obra">☁️ Copo de Nieve</span>
+            <img src="../images/estetica/mejores_obras/obra_09_bichon_frise.png" alt="Bichón Frisé blanco tipo copo de algodón" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Bichón Frisé Copito</h4>
+              <p>Manto blanco esponjado a secador térmico y moño fucsia.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+          <!-- Obra 10: Husky Siberiano -->
+          <div class="galeria-card-zoom galeria-card-zoom--obra" data-categoria-obra="spa" onclick="abrirFotoGrande('../images/estetica/mejores_obras/obra_10_husky_siberiano.png', 'Husky Siberiano · Deslanado profundo de doble manto y lazo púrpura')">
+            <span class="galeria-badge-obra">❄️ Deslanado Pro</span>
+            <img src="../images/estetica/mejores_obras/obra_10_husky_siberiano.png" alt="Husky Siberiano con ojos celestes en Pelitos Estética" loading="lazy" decoding="async" />
+            <div class="galeria-card-overlay">
+              <h4>Husky Siberiano</h4>
+              <p>Extracción de pelo muerto con turbina y baño revitalizante.</p>
+              <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= INSTALACIONES Y ENTREGAS FELICES ================= -->
+        <div class="instalaciones-bloque reveal" style="margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(91, 42, 134, 0.12);">
+          <div class="titulo-bloque titulo-bloque--centro" style="margin-bottom: 22px;">
+            <span class="eyebrow">Espacios de atención</span>
+            <h3 style="font-size: clamp(1.35rem, 2.4vw, 1.8rem); margin-top: 6px; color: var(--morado, #5b2a86);">Nuestras Instalaciones & Entregas Felices</h3>
+            <p style="font-size: 0.94rem; margin-top: 6px;">Conoce nuestra sede en Huánuco: ambientes higienizados, tinas temperadas y consentidos felices con sus familias.</p>
+          </div>
+
+          <div class="instalaciones-grid reveal">
+            <!-- Instalación 1: Fachada -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/trabajo_estetica.jpeg', 'Fachada e ingreso principal a Pelitos Estética en Jr. Leoncio Prado 1336')">
+              <span class="galeria-badge-obra">📍 Sede Huánuco</span>
+              <img src="../images/estetica/trabajo_estetica.jpeg" alt="Entrada de Pelitos Estética" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Ingreso Principal</h4>
+                <p>Jr. Leoncio Prado 1336, Huánuco.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+
+            <!-- Instalación 2: Recepción -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/recepcion_estetica.jpeg', 'Recepción y sala de espera climatizada con vista a baños')">
+              <span class="galeria-badge-obra">🏢 Recepción & Espera</span>
+              <img src="../images/estetica/recepcion_estetica.jpeg" alt="Recepción de estética" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Sala Climatizada</h4>
+                <p>Espera cómoda con vista a baños.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+
+            <!-- Instalación 3: Tinas -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/estetica.jpeg', 'Área de tinas temperadas e higiene profesional')">
+              <span class="galeria-badge-obra">🚿 Tinas Temperadas</span>
+              <img src="../images/estetica/estetica.jpeg" alt="Área de tinas y secado" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Área de Spa & Baños</h4>
+                <p>Agua tibia y secado silencioso.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+
+            <!-- Instalación 4: Entrega Feliz con la dueña -->
+            <div class="galeria-card-zoom galeria-card-zoom--instalacion" onclick="abrirFotoGrande('../images/estetica/perrito-entregado.jpg', 'Entrega feliz a su familia, radiante y perfumado')">
+              <span class="galeria-badge-obra">✨ Entrega Feliz</span>
+              <img src="../images/estetica/perrito-entregado.jpg" alt="Perrito entregado feliz a su dueña en Pelitos Estética" loading="lazy" decoding="async" />
+              <div class="galeria-card-overlay">
+                <h4>Consentido en Familia</h4>
+                <p>Limpio, perfumado y feliz.</p>
+                <span class="galeria-zoom-hint">🔍 Toca para ampliar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acciones" style="justify-content:center; margin-top:32px;">
+          <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20ver%20m%C3%A1s%20fotos%20de%20cortes%20y%20mejores%20obras." target="_blank" rel="noopener">
+            Ver más fotos y estilos por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PREGUNTAS FRECUENTES INTERACTIVAS ================= -->
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Dudas comunes</span>
+          <h2>Preguntas frecuentes sobre Pelitos Estética</h2>
+          <p>Toca cada pregunta para desplegar la respuesta con total transparencia.</p>
+        </div>
+
+        <div class="faq-lista reveal">
+          <div class="faq-card activo">
+            <button type="button" class="faq-pregunta">
+              <span>¿Cuánto demora una sesión de baño o corte?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-respuesta" style="max-height: 200px; padding-bottom: 18px;">
+              El tiempo promedio es de <strong>60 a 90 minutos</strong> dependiendo del tamaño, tipo de manto y comportamiento de tu mascota. No apuramos el proceso para garantizar que esté cómodo y relajado.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button type="button" class="faq-pregunta">
+              <span>¿Puedo quedarme a esperar a mi mascota?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-respuesta">
+              ¡Por supuesto! Contamos con sala de espera climatizada y circuito cerrado de cámaras para que veas cómo bañan y atienden a tu consentido en todo momento.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button type="button" class="faq-pregunta">
+              <span>¿Cuentan con servicio de recojo y entrega a domicilio?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-respuesta">
+              Sí, tenemos movilidad acondicionada con transportadoras higienizadas para recoger a tu engreído en tu domicilio en Huánuco y regresarlo impecable y perfumado.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button type="button" class="faq-pregunta">
+              <span>¿Qué pasa si mi perrito tiene pulgas o problemas de piel?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-respuesta">
+              Al estar dentro de la clínica veterinaria, un médico veterinario puede evaluar su piel y prescribir un shampoo medicado dermatológico o antiparasitario seguro para su tratamiento inmediato.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= MODAL LIGHTBOX PARA VER FOTOS EN GRANDE ================= -->
+  <div class="modal-overlay" id="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-contenido" style="max-width:700px; padding:20px; text-align:center;">
+      <button type="button" class="modal-cerrar" id="lightbox-cerrar" aria-label="Cerrar">&times;</button>
+      <img id="lightbox-img" alt="Foto ampliada" style="width:100%; max-height:75vh; object-fit:contain; border-radius:14px;" loading="lazy" decoding="async" />
+      <p id="lightbox-caption" style="margin-top:12px; font-weight:700; color:var(--texto);"></p>
+    </div>
+  </div>
+
+  <!-- ================= PIE INSTITUCIONAL ================= -->
   <footer class="footer">
     <div class="footer__top">
-      <p>📍 Jr. Leoncio Prado N.° 1336, Huánuco &nbsp;&middot;&nbsp; Lunes a sábado 8:30&ndash;20:00 &nbsp;&middot;&nbsp; <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
+      <p>📍 Jr. Leoncio Prado N.° 1336, Huánuco &nbsp;&middot;&nbsp; Pelitos Estética Lunes a sábado 8:30&ndash;20:00 &nbsp;&middot;&nbsp; <a href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20reservar%20una%20cita." target="_blank" rel="noopener">WhatsApp de Estética: 948 426 656</a></p>
     </div>
     <div class="footer__grid">
       <div>
         <img src="../images/logo/pelitos_logo.png" alt="Pelitos Veterinaria" decoding="async" />
         <p class="footer__slogan">Expertos en cuidar a quien más te ama</p>
-        <p style="margin-top:12px;font-size:0.82rem;color:var(--texto-suave)">Clínica veterinaria y estética canina en Huánuco, Perú.</p>
+        <p style="margin-top:12px;font-size:0.82rem;color:var(--texto-suave)">Área exclusiva de peluquería, baño y spa canino en Huánuco.</p>
       </div>
       <div>
-        <h3>Contacto</h3>
+        <h3>Estética Canina</h3>
         <p>Jr. Leoncio Prado N.° 1336</p>
         <p>Huánuco, Perú</p>
-        <p>+51 939 356 376</p>
-        <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">WhatsApp</a>
+        <p>+51 948 426 656</p>
+        <a href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%2C%20quiero%20reservar%20en%20Pelitos%20Est%C3%A9tica." target="_blank" rel="noopener">WhatsApp de Estética</a>
         <p>Lun&ndash;Sáb &middot; 8:30 a.m. &ndash; 8:00 p.m.</p>
       </div>
       <div>
@@ -38,11 +2780,11 @@
       </div>
       <div>
         <h3>Síguenos</h3>
-        <a href="https://www.facebook.com/share/1BjPfe6Rkg/" target="_blank" rel="noopener noreferrer"><span>Facebook</span></a>
-        <a href="https://www.instagram.com/pelitosveterinaria?stkn=NWhtazczZndzdTl0" target="_blank" rel="noopener noreferrer"><span>Instagram</span></a>
-        <a href="https://www.tiktok.com/@pelitosveterinaria?r=1&t=ZS-99cTBcWPhyf" target="_blank" rel="noopener noreferrer"><span>TikTok</span></a>
-        <a href="https://youtube.com/@pelitosveterinaria?si=zCkNrEdqcXtIqrQP" target="_blank" rel="noopener noreferrer"><span>YouTube</span></a>
-        <a href="https://www.google.com/maps/search/?api=1&query=Jr.+Leoncio+Prado+1336+Hu%C3%A1nuco" target="_blank" rel="noopener noreferrer">Ubicación en el mapa</a>
+        <a href="https://www.facebook.com/share/1BjPfe6Rkg/" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.8l.4-3h-3.2V9.1c0-.9.3-1.6 1.6-1.6h1.7V4.8c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9V11H8v3h2.7v8h2.8z"/></svg></span><span>Facebook</span></a>
+        <a href="https://www.instagram.com/pelitosveterinaria?stkn=NWhtazczZndzdTl0" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.7" r="1.2"/></svg></span><span>Instagram</span></a>
+        <a href="https://www.tiktok.com/@pelitosveterinaria?r=1&t=ZS-99cTBcWPhyf" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3h3c.2 1.7 1.2 3.1 2.8 4v3.1c-1.4-.1-2.8-.6-4-1.4v7.2c0 3.2-2.2 5.1-5.2 5.1-3.1 0-5.1-2-5.1-4.8 0-3 2.5-5.1 5.8-5.1.3 0 .6 0 .9.1v3c-.3-.1-.6-.2-.9-.2-1.1 0-2.3.7-2.3 2.1 0 1.2.9 2 2 2 1.3 0 2.1-.8 2.1-2.4V3z"/></svg></span><span>TikTok</span></a>
+        <a href="https://youtube.com/@pelitosveterinaria?si=zCkNrEdqcXtIqrQP" target="_blank" rel="noopener"><span class="social-link__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.7 12 4.7 12 4.7s-5.9 0-7.6.5a2.8 2.8 0 0 0-2 2C2 8.9 2 12 2 12s0 3.1.4 4.8a2.8 2.8 0 0 0 2 2c1.7.5 7.6.5 7.6.5s5.9 0 7.6-.5a2.8 2.8 0 0 0 2-2c.4-1.7.4-4.8.4-4.8s0-3.1-.4-4.8z"/><path fill="white" d="M10 9l5 3-5 3V9z"/></svg></span><span>YouTube</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Jr.+Leoncio+Prado+1336+Hu%C3%A1nuco" target="_blank" rel="noopener">Ubicación en el mapa</a>
       </div>
     </div>
     <div class="footer__legal">
