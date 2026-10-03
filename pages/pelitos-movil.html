@@ -334,7 +334,7 @@
           </p>
 
           <div class="chips" style="margin-top:20px; grid-template-columns: repeat(3, 1fr);">
-            <span class="chip">🚐 Servicio a domicilio</span>
+            <span class="chip">📍 Ingresa tu ubicación</span>
             <span class="chip">💉 Vacunación en casa</span>
             <span class="chip">✂️ Estética móvil</span>
             <span class="chip">🩺 Consulta veterinaria</span>
@@ -550,6 +550,47 @@
       </div>
     </section>
 
+    <!-- ================= INGRESA TU UBICACIÓN ================= -->
+    <section class="seccion" style="padding-top:44px; padding-bottom:48px; background:linear-gradient(180deg,#faf5ff 0%,#fff 100%);">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">📍 Dinos dónde estás</span>
+          <h2>Ingresa tu <span class="titulo-tornasol">ubicación</span></h2>
+          <p>Escribe tu dirección y te escribimos por WhatsApp confirmando el servicio a domicilio.</p>
+        </div>
+
+        <div class="reveal" style="margin-top:32px; max-width:600px; margin-left:auto; margin-right:auto;">
+          <div style="background:#fff; border:1px solid rgba(124,58,237,.18); border-radius:24px; padding:32px 28px; box-shadow:0 12px 36px rgba(124,58,237,.1);">
+            <label for="movil-direccion" style="display:block; font-family:'Manrope',sans-serif; font-size:.85rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#7c3aed; margin-bottom:10px;">
+              📍 Tu dirección en Huánuco
+            </label>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <input
+                id="movil-direccion"
+                type="text"
+                placeholder="Ej: Jr. Los Pinos 345, Las Moras, Huánuco"
+                style="flex:1; min-width:220px; padding:14px 18px; border:1.5px solid rgba(124,58,237,.22); border-radius:14px; font-family:inherit; font-size:.95rem; color:#0f172a; background:#faf5ff; outline:none; transition:border-color .2s ease;"
+                onfocus="this.style.borderColor='#7c3aed'"
+                onblur="this.style.borderColor='rgba(124,58,237,.22)'"
+              />
+              <button
+                type="button"
+                onclick="enviarUbicacion()"
+                style="padding:14px 22px; background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; border-radius:14px; font-family:'Manrope',sans-serif; font-weight:800; font-size:.92rem; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:8px; transition:transform .2s ease, box-shadow .2s ease;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 28px rgba(124,58,237,.28)'"
+                onmouseout="this.style.transform=''; this.style.boxShadow=''">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+                Enviar por WhatsApp
+              </button>
+            </div>
+            <p style="margin-top:12px; font-size:.8rem; color:#94a3b8; text-align:center;">
+              🔒 Tu dirección solo se enviará a nuestro WhatsApp para coordinar tu cita
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ================= ZONA DE COBERTURA ================= -->
     <section class="seccion" style="padding-top:40px; padding-bottom:56px;">
       <div class="contenedor">
@@ -656,5 +697,38 @@
   </a>
 
   <script src="../js/main.js" defer></script>
+
+  <script>
+    function enviarUbicacion() {
+      var input = document.getElementById('movil-direccion');
+      var direccion = input ? input.value.trim() : '';
+      if (!direccion) {
+        input.focus();
+        input.style.borderColor = '#e11d48';
+        input.placeholder = 'Por favor escribe tu dirección primero';
+        setTimeout(function() {
+          input.style.borderColor = 'rgba(124,58,237,.22)';
+          input.placeholder = 'Ej: Jr. Los Pinos 345, Las Moras, Huánuco';
+        }, 2500);
+        return;
+      }
+      var mensaje = encodeURIComponent(
+        'Hola Pelitos Móvil 🚐, quiero solicitar el servicio a domicilio.\n\n' +
+        '📍 Mi dirección es: ' + direccion + '\n\n' +
+        'Por favor confírmenme disponibilidad. ¡Gracias!'
+      );
+      window.open('https://api.whatsapp.com/send?phone=51939356376&text=' + mensaje, '_blank', 'noopener');
+    }
+
+    /* También al presionar Enter en el campo */
+    document.addEventListener('DOMContentLoaded', function () {
+      var campo = document.getElementById('movil-direccion');
+      if (campo) {
+        campo.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') enviarUbicacion();
+        });
+      }
+    });
+  </script>
 </body>
 </html>
