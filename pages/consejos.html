@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -524,5 +524,21 @@
     <span>WhatsApp</span>
   </a>
 
-  <script src="../js/main.js" defer></script></body>
+  <script src="../js/main.js" defer></script>
+  <script>
+    /* Fix: habilita toggle para TODAS las tarjetas, incluyendo curiosidades */
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.consejo-card__toggle').forEach(function (btn) {
+        btn.dataset.labelCerrado = btn.querySelector('span') ? btn.querySelector('span').textContent.trim() : 'Ver más';
+        btn.addEventListener('click', function () {
+          var card = btn.closest('.consejo-card');
+          if (!card) return;
+          var abierto = card.classList.toggle('abierto');
+          btn.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+          var sp = btn.querySelector('span');
+          if (sp) sp.textContent = abierto ? 'Ocultar' : btn.dataset.labelCerrado;
+        });
+      });
+    });
+  </script></body>
 </html>

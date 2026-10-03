@@ -193,12 +193,14 @@ strong, b { font-weight: 700; }
    ========================================================================== */
 
 .header {
-  background: rgba(255, 255, 255, 0.76) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
   -webkit-backdrop-filter: blur(18px) saturate(150%);
   backdrop-filter: blur(18px) saturate(150%);
   border-bottom: 0 !important;
   box-shadow: 0 1px 0 rgba(91, 42, 134, 0.08), 0 18px 40px -34px rgba(61, 28, 92, 0.4);
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 /* El hilo de color de la cabecera. */
