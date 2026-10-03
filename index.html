@@ -158,7 +158,63 @@
       </form>
     </section>
 
+    <!-- ================= ¿QUÉ ESTÁS BUSCANDO? ================= -->
+    <section class="seccion seccion--buscador" style="padding:28px 0 32px;">
+      <div class="contenedor">
+        <div class="buscador-prompt reveal" style="background:var(--superficie,#fff);border:1.5px solid var(--borde,#e8e0f0);border-radius:20px;padding:28px 32px;box-shadow:0 4px 32px rgba(91,42,134,0.08);">
+          <p style="font-size:1.05rem;font-weight:700;color:var(--morado,#5b2a86);margin:0 0 18px;letter-spacing:-0.01em;">🔍 ¿Qué estás buscando hoy?</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <a href="pages/servicios.html" class="buscador-chip">
+              <span>🩺</span> Consulta médica
+            </a>
+            <a href="pages/estetica.html" class="buscador-chip">
+              <span>✂️</span> Baño &amp; Estética
+            </a>
+            <a href="pages/laboratorio.html" class="buscador-chip">
+              <span>🔬</span> Laboratorio
+            </a>
+            <a href="pages/productos.html" class="buscador-chip">
+              <span>🛍️</span> PetShop
+            </a>
+            <a href="pages/pelitos-movil.html" class="buscador-chip">
+              <span>🚐</span> Pelitos Móvil
+            </a>
+            <a href="pages/consejos.html" class="buscador-chip">
+              <span>📖</span> Consejos &amp; Tips
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20necesito%20ayuda%20para%20encontrar%20un%20servicio." target="_blank" rel="noopener" class="buscador-chip buscador-chip--ws">
+              <span>💬</span> No encuentro lo que busco
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <style>
+      .buscador-chip {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: var(--morado-claro, #f4eefb);
+        color: var(--morado, #5b2a86);
+        border: 1.5px solid rgba(91,42,134,0.15);
+        border-radius: 50px; padding: 9px 18px;
+        font-size: 0.92rem; font-weight: 600;
+        text-decoration: none; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        white-space: nowrap;
+      }
+      .buscador-chip:hover {
+        background: var(--morado, #5b2a86); color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(91,42,134,0.22);
+      }
+      .buscador-chip--ws { background: #e7fce8; color: #1a6e21; border-color: rgba(26,110,33,0.2); }
+      .buscador-chip--ws:hover { background: #25d366; color: #fff; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
+      @media (max-width: 600px) {
+        .buscador-prompt { padding: 20px 18px; }
+        .buscador-chip { font-size: 0.85rem; padding: 8px 14px; }
+      }
+    </style>
+
     <!-- ================= TRES AREAS (portadas chicas) ================= -->
+
     <section class="seccion">
   <div class="contenedor">
     <div class="titulo-bloque reveal">
