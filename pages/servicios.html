@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -64,7 +64,6 @@
         <a href="estetica.html">Estética</a>
         <a href="productos.html">PetShop</a>
         <a href="laboratorio.html">Laboratorio</a>
-        <a href="pelitos-movil.html">Pelitos Móvil</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="consejos.html">Consejos Pelitos</a>
         <a href="contacto.html">Contacto</a>
@@ -84,7 +83,6 @@
       <a href="estetica.html">Estética</a>
       <a href="productos.html">PetShop</a>
       <a href="laboratorio.html">Laboratorio</a>
-      <a href="pelitos-movil.html">Pelitos Móvil</a>
       <a href="nosotros.html">Nosotros</a>
       <a href="consejos.html">Consejos Pelitos</a>
       <a href="contacto.html">Contacto</a>
@@ -110,6 +108,7 @@
           <button type="button" class="filtro-pill" data-filtro="diagnostico" aria-pressed="false">Diagnóstico</button>
           <button type="button" class="filtro-pill" data-filtro="cirugia" aria-pressed="false">Cirugía</button>
           <button type="button" class="filtro-pill" data-filtro="farmacia" aria-pressed="false">Farmacia</button>
+          <button type="button" class="filtro-pill" data-filtro="movil" aria-pressed="false">🚐 Pelitos Móvil</button>
         </div>
         <p class="consejos-contador" id="contador-servicios" role="status" aria-live="polite"></p>
 
@@ -314,6 +313,237 @@
               <a class="btn btn--dorado btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20una%20cita%20de%20Farmacia%20veterinaria." target="_blank" rel="noopener">Solicitar cita</a>
             </div>
           </article>
+          <article class="servicio-card plegable" data-tema="movil">
+            <span class="servicio-card__ico" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </span>
+            <span class="servicio-card__tema">Pelitos Móvil</span>
+            <h2 class="servicio-card__titulo">Clínica veterinaria a domicilio</h2>
+            <p class="servicio-card__desc">Evaluación médica, vacunas, desparasitación y toma de muestras en la puerta de tu hogar.</p>
+            <p class="servicio-card__dato">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              Previa cita y coordinación
+            </p>
+            <button type="button" class="plegable__toggle servicio-card__toggle" aria-expanded="false">
+              <span data-abrir data-cerrar="Ocultar detalle">Ver qué incluye</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="plegable__cuerpo servicio-card__detalle">
+              <ul>
+                <li>Examen clínico general y diagnóstico en casa sin estrés de viaje.</li>
+                <li>Vacunación con carné y desparasitación según peso exacto.</li>
+                <li>Toma de muestras biológicas para laboratorio clínico.</li>
+                <li>Medicamentos veterinarios y asesoría personalizada.</li>
+              </ul>
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+                <a class="btn btn--dorado btn--pequeno" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20m%C3%A9dico%20a%20domicilio%20de%20Pelitos%20M%C3%B3vil." target="_blank" rel="noopener">Pedir a domicilio</a>
+                <a class="btn btn--linea btn--pequeno" href="#pelitos-movil">Ver la Van</a>
+              </div>
+            </div>
+          </article>
+          <article class="servicio-card plegable" data-tema="movil">
+            <span class="servicio-card__ico" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+            </span>
+            <span class="servicio-card__tema">Pelitos Móvil</span>
+            <h2 class="servicio-card__titulo">Grooming &amp; Spa a domicilio</h2>
+            <p class="servicio-card__desc">Baño profesional, corte de raza, secado y cuidado integral en tu puerta con todo el equipo necesario.</p>
+            <p class="servicio-card__dato">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              Previa cita y coordinación
+            </p>
+            <button type="button" class="plegable__toggle servicio-card__toggle" aria-expanded="false">
+              <span data-abrir data-cerrar="Ocultar detalle">Ver qué incluye</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="plegable__cuerpo servicio-card__detalle">
+              <ul>
+                <li>Baño con agua templada y cosmética hipoalergénica de alta calidad.</li>
+                <li>Corte de raza o corte higiénico según tu preferencia.</li>
+                <li>Limpieza de oídos, corte de uñas, cepillado y perfumado.</li>
+                <li>Atención 1 a 1 sin contacto con otras mascotas.</li>
+              </ul>
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+                <a class="btn btn--dorado btn--pequeno" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20solicitar%20Grooming%20a%20domicilio%20con%20Pelitos%20M%C3%B3vil." target="_blank" rel="noopener">Pedir grooming</a>
+                <a class="btn btn--linea btn--pequeno" href="#pelitos-movil">Ver la Van</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PELITOS MÓVIL: SECCIÓN DEDICADA ================= -->
+    <section class="seccion seccion--movil" id="pelitos-movil" style="background:linear-gradient(180deg,#faf5ff 0%,#fff 100%); padding-top:54px; padding-bottom:60px;">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <div class="movil-hero-badge">
+            <span class="punto"></span>
+            Veterinaria &amp; Estética a Domicilio en Huánuco
+          </div>
+          <h2>Pelitos Móvil: <span class="titulo-tornasol">La van que llega a tu puerta</span></h2>
+          <p>Llevamos la clínica veterinaria y el servicio de estética canina profesional hasta tu casa. Consultas, vacunas, baños y cortes sin estrés ni desplazamientos para tu mascota.</p>
+        </div>
+
+        <div class="reveal" style="margin-top:34px; display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;">
+          <!-- Foto van -->
+          <div style="border-radius:24px; overflow:hidden; box-shadow:0 20px 50px rgba(124,58,237,.16); position:relative; min-height:360px;">
+            <img src="../images/pelitos_movil/van_pelitos.jpg"
+                 alt="Van de Pelitos Móvil lista para servicio a domicilio en Huánuco"
+                 loading="lazy" decoding="async"
+                 style="width:100%; height:100%; object-fit:cover; display:block;" />
+            <div style="position:absolute; bottom:16px; left:16px; right:16px; background:rgba(255,255,255,.94); backdrop-filter:blur(8px); padding:12px 18px; border-radius:14px; border:1px solid rgba(124,58,237,.2); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <div>
+                <b style="color:#5b21b6; font-size:.92rem; display:block;">🚐 Pelitos Móvil · Van Equipada</b>
+                <span style="font-size:.8rem; color:#64748b;">Huánuco · +51 939 356 376</span>
+              </div>
+              <span style="background:#7c3aed; color:#fff; font-size:.75rem; font-weight:700; padding:4px 10px; border-radius:999px;">A domicilio</span>
+            </div>
+          </div>
+
+          <!-- Equipamiento de la van -->
+          <div style="background:#fff; border:1px solid rgba(124,58,237,.14); border-radius:24px; padding:32px 28px; box-shadow:0 10px 30px rgba(124,58,237,.08); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span style="font-size:2.2rem; line-height:1; display:inline-block; margin-bottom:12px;">🩺</span>
+              <h3 style="font-family:'Manrope',sans-serif; font-size:1.25rem; font-weight:800; color:#0f172a; margin:0 0 10px;">
+                "Llegamos a donde tu mascota nos necesita"
+              </h3>
+              <p style="font-size:.92rem; color:var(--texto-suave); line-height:1.6; margin:0 0 18px;">
+                Nuestra unidad móvil está completamente adaptada para brindar atención integral en tu propia puerta con la misma calidad médica que en nuestro consultorio central.
+              </p>
+              <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+                <li style="font-size:.88rem; color:#334155; display:flex; align-items:center; gap:8px;">
+                  <span style="color:#7c3aed; font-weight:800;">🐾</span> PetShop móvil con alimentos y accesorios
+                </li>
+                <li style="font-size:.88rem; color:#334155; display:flex; align-items:center; gap:8px;">
+                  <span style="color:#7c3aed; font-weight:800;">💊</span> Farmacia veterinaria completa a bordo
+                </li>
+                <li style="font-size:.88rem; color:#334155; display:flex; align-items:center; gap:8px;">
+                  <span style="color:#7c3aed; font-weight:800;">✂️</span> Herramientas y cosmética de grooming profesional
+                </li>
+                <li style="font-size:.88rem; color:#334155; display:flex; align-items:center; gap:8px;">
+                  <span style="color:#7c3aed; font-weight:800;">💉</span> Vacunas, jeringas estériles y cadena de frío garantizada
+                </li>
+              </ul>
+            </div>
+
+            <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+              <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio%20de%20Pelitos%20M%C3%B3vil." target="_blank" rel="noopener">
+                Pedir la van por WhatsApp
+              </a>
+              <a class="btn btn--linea" href="contacto.html#pelitos-movil">
+                Consultar cobertura y cita
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Servicios que van a tu puerta -->
+        <div class="movil-servicios-grid reveal">
+          <div class="movil-servicio-card">
+            <div class="movil-servicio-card__icono">🩺</div>
+            <h3 class="movil-servicio-card__titulo">Consulta Veterinaria</h3>
+            <p class="movil-servicio-card__desc">Evaluación clínica completa de tu mascota en la comodidad de tu hogar. Diagnóstico, prescripción y seguimiento.</p>
+            <span class="movil-servicio-card__badge">📅 Previa cita</span>
+          </div>
+          <div class="movil-servicio-card">
+            <div class="movil-servicio-card__icono">💉</div>
+            <h3 class="movil-servicio-card__titulo">Vacunación en Casa</h3>
+            <p class="movil-servicio-card__desc">Aplicación de vacunas según el calendario de tu mascota sin necesidad de salir. Incluye carné oficial.</p>
+            <span class="movil-servicio-card__badge">🐕 Perros y gatos</span>
+          </div>
+          <div class="movil-servicio-card">
+            <div class="movil-servicio-card__icono">✂️</div>
+            <h3 class="movil-servicio-card__titulo">Grooming &amp; Corte</h3>
+            <p class="movil-servicio-card__desc">Corte de raza, baño, secado y acabado profesional sin estrés. Nuestros estilistas llevan todo el equipo.</p>
+            <span class="movil-servicio-card__badge">✨ Resultado profesional</span>
+          </div>
+          <div class="movil-servicio-card">
+            <div class="movil-servicio-card__icono">🛁</div>
+            <h3 class="movil-servicio-card__titulo">Baño y Spa Móvil</h3>
+            <p class="movil-servicio-card__desc">Baño con cosmética hipoalergénica, secado, perfumado, limpieza de oídos y corte de uñas.</p>
+            <span class="movil-servicio-card__badge">🧴 Cosmética premium</span>
+          </div>
+          <div class="movil-servicio-card">
+            <div class="movil-servicio-card__icono">💊</div>
+            <h3 class="movil-servicio-card__titulo">Desparasitación</h3>
+            <p class="movil-servicio-card__desc">Antiparasitarios internos y externos aplicados en casa. Ideal para mascotas con dificultad para viajar.</p>
+            <span class="movil-servicio-card__badge">🛡️ Protección total</span>
+          </div>
+          <div class="movil-servicio-card">
+            <div class="movil-servicio-card__icono">🔬</div>
+            <h3 class="movil-servicio-card__titulo">Toma de Muestras</h3>
+            <p class="movil-servicio-card__desc">Toma de muestras de sangre, orina o heces a domicilio para análisis en nuestro laboratorio clínico.</p>
+            <span class="movil-servicio-card__badge">⏱ Resultados el mismo día</span>
+          </div>
+        </div>
+
+        <!-- Ventajas -->
+        <div style="margin-top:46px;">
+          <div class="titulo-bloque titulo-bloque--centro reveal">
+            <span class="eyebrow">Ventajas del servicio a domicilio</span>
+            <h3>¿Por qué elegir Pelitos Móvil?</h3>
+          </div>
+          <div class="beneficios-grid reveal">
+            <div class="beneficio-item">
+              <div class="beneficio-item__icono">😌</div>
+              <h4 class="beneficio-item__titulo">Cero estrés</h4>
+              <p class="beneficio-item__desc">Tu mascota se atiende en su entorno seguro, reduciendo la ansiedad provocada por jaulas o viajes.</p>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-item__icono">⏰</div>
+              <h4 class="beneficio-item__titulo">Ahorra tu tiempo</h4>
+              <p class="beneficio-item__desc">Sin tráfico ni salas de espera. Nosotros llegamos a tu casa en el horario acordado.</p>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-item__icono">🐶</div>
+              <h4 class="beneficio-item__titulo">Ideal para seniors y cachorros</h4>
+              <p class="beneficio-item__desc">Perfecto para mascotas mayores, de gran tamaño o cachorros que aún no completan sus vacunas.</p>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-item__icono">🔒</div>
+              <h4 class="beneficio-item__titulo">Atención 1 a 1</h4>
+              <p class="beneficio-item__desc">Toda la dedicación de nuestro personal enfocada exclusivamente en tu engreído.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cómo funciona -->
+        <div style="margin-top:46px;">
+          <div class="titulo-bloque titulo-bloque--centro reveal">
+            <span class="eyebrow">Paso a paso</span>
+            <h3>¿Cómo pedir Pelitos Móvil?</h3>
+          </div>
+          <div class="pasos-lista reveal">
+            <div class="paso-item">
+              <div class="paso-item__num">1</div>
+              <div class="paso-item__cuerpo">
+                <h3>Escríbenos por WhatsApp</h3>
+                <p>Indícanos qué servicio necesita tu mascota (consulta, vacunas, baño, corte de raza, etc.).</p>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-item__num">2</div>
+              <div class="paso-item__cuerpo">
+                <h3>Confirma día, hora y dirección</h3>
+                <p>Acordamos tu cita y te confirmamos disponibilidad y cotización transparente.</p>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-item__num">3</div>
+              <div class="paso-item__cuerpo">
+                <h3>Nuestra van llega a tu puerta</h3>
+                <p>El equipo veterinario o estilista acude puntualmente con todo el equipo preparado.</p>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-item__num">4</div>
+              <div class="paso-item__cuerpo">
+                <h3>Atención y recomendaciones</h3>
+                <p>Cuidado profesional en tu hogar y pautas de seguimiento personalizadas.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -374,7 +604,7 @@
         <a href="estetica.html">Pelitos Estética</a>
         <a href="productos.html">PetShop</a>
         <a href="laboratorio.html">Laboratorio</a>
-        <a href="pelitos-movil.html">Pelitos Móvil</a>
+        <a href="servicios.html#pelitos-movil">Pelitos Móvil (A Domicilio)</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="consejos.html">Consejos Pelitos</a>
         <a href="contacto.html">Contacto</a>

@@ -4,283 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pelitos Móvil | Veterinaria y Estética a Domicilio en Huánuco</title>
-  <meta name="description" content="Pelitos Móvil: nuestra van veterinaria llega a tu puerta en Huánuco. Consultas, vacunas, baños y cortes sin que tu mascota salga de casa." />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Pelitos Veterinaria" />
-  <meta property="og:locale" content="es_PE" />
-  <meta property="og:title" content="Pelitos Móvil | Veterinaria y Estética a Domicilio en Huánuco" />
-  <meta property="og:description" content="Pelitos Móvil: veterinaria y estética canina a domicilio en Huánuco." />
-  <meta property="og:image" content="../images/logo/compartir.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Pelitos Móvil | Veterinaria y Estética a Domicilio en Huánuco" />
-  <meta name="twitter:description" content="Pelitos Móvil: veterinaria y estética canina a domicilio en Huánuco." />
-  <meta name="twitter:image" content="../images/logo/compartir.jpg" />
+  <meta name="description" content="Pelitos Móvil se ha integrado en nuestras secciones de Servicios y Contacto. Atención veterinaria y estética a domicilio en Huánuco." />
+  <meta http-equiv="refresh" content="0; url=servicios.html#pelitos-movil" />
+  <link rel="canonical" href="servicios.html#pelitos-movil" />
 
   <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Open+Sans:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" />
-  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=panchang@400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" />
   <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/editorial.css" />
+  <link rel="stylesheet" href="../css/neofuturismo.css" />
+  <link rel="stylesheet" href="../css/correcciones.css" />
 
-  <script>document.documentElement.classList.add("js-din");</script>
-
-  <style>
-    /* ===== ESTILOS EXCLUSIVOS DE PELITOS MÓVIL ===== */
-    .movil-accent { color: #7c3aed; }
-
-    .movil-hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(124, 58, 237, .1);
-      border: 1px solid rgba(124, 58, 237, .28);
-      border-radius: 999px;
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: #5b21b6;
-      margin-bottom: 20px;
-    }
-    .movil-hero-badge .punto {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #7c3aed;
-      animation: pulso 1.8s ease-in-out infinite;
-    }
-    @keyframes pulso {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: .5; transform: scale(1.35); }
-    }
-
-    /* Tarjetas de servicios a domicilio */
-    .movil-servicios-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 22px;
-      margin-top: 36px;
-    }
-    .movil-servicio-card {
-      background: #fff;
-      border: 1px solid rgba(124, 58, 237, .12);
-      border-radius: 22px;
-      padding: 28px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 8px 28px rgba(124, 58, 237, .07);
-      transition: transform .25s ease, box-shadow .25s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .movil-servicio-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #7c3aed, #a855f7);
-    }
-    .movil-servicio-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(124, 58, 237, .16);
-    }
-    .movil-servicio-card__icono { font-size: 2.2rem; line-height: 1; }
-    .movil-servicio-card__titulo {
-      font-family: "Manrope", sans-serif;
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #0f172a;
-      margin: 0;
-    }
-    .movil-servicio-card__desc {
-      font-size: .88rem;
-      color: #64748b;
-      line-height: 1.55;
-      margin: 0;
-    }
-    .movil-servicio-card__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      background: rgba(124, 58, 237, .1);
-      border-radius: 999px;
-      font-size: .75rem;
-      font-weight: 700;
-      color: #5b21b6;
-      align-self: flex-start;
-      margin-top: auto;
-    }
-
-    /* Beneficios / Por qué elegirnos */
-    .beneficios-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 36px;
-    }
-    .beneficio-item {
-      text-align: center;
-      padding: 28px 18px;
-      background: linear-gradient(135deg, #faf5ff 0%, #fff 100%);
-      border: 1px solid rgba(124, 58, 237, .14);
-      border-radius: 20px;
-    }
-    .beneficio-item__icono {
-      font-size: 2.4rem;
-      margin-bottom: 12px;
-    }
-    .beneficio-item__titulo {
-      font-family: "Manrope", sans-serif;
-      font-weight: 800;
-      font-size: .98rem;
-      color: #0f172a;
-      margin: 0 0 8px;
-    }
-    .beneficio-item__desc {
-      font-size: .85rem;
-      color: #64748b;
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    /* Cómo funciona / pasos */
-    .pasos-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 32px;
-      max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .paso-item {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      background: #fff;
-      border: 1px solid rgba(124, 58, 237, .12);
-      border-radius: 18px;
-      padding: 22px 20px;
-      box-shadow: 0 6px 20px rgba(124, 58, 237, .06);
-    }
-    .paso-item__num {
-      flex: 0 0 40px;
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      color: #fff;
-      font-weight: 800;
-      font-size: 1rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .paso-item__cuerpo h3 {
-      font-family: "Manrope", sans-serif;
-      font-size: .98rem;
-      font-weight: 800;
-      color: #0f172a;
-      margin: 0 0 5px;
-    }
-    .paso-item__cuerpo p {
-      font-size: .86rem;
-      color: #64748b;
-      line-height: 1.55;
-      margin: 0;
-    }
-
-    /* Zona de cobertura */
-    .zona-cobertura {
-      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-      border-radius: 24px;
-      padding: 44px 36px;
-      color: #fff;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .zona-cobertura::before {
-      content: "🚐";
-      position: absolute;
-      font-size: 9rem;
-      opacity: .08;
-      left: 3%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .zona-cobertura h2 { color: #fff; margin: 0 0 12px; font-size: clamp(1.4rem, 3vw, 2rem); }
-    .zona-cobertura p  { color: rgba(255,255,255,.85); margin: 0 0 20px; }
-    .zonas-lista {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-    .zona-chip {
-      padding: 6px 16px;
-      background: rgba(255,255,255,.2);
-      border: 1px solid rgba(255,255,255,.35);
-      border-radius: 999px;
-      font-size: .85rem;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    /* CTA */
-    .btn--movil {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
-      background: #fff;
-      color: #7c3aed;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: .95rem;
-      text-decoration: none;
-      transition: transform .2s ease, box-shadow .2s ease;
-      margin: 6px;
-    }
-    .btn--movil:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.18); }
-    .btn--movil-wa { background: #25d366; color: #fff; }
-
-    /* CTA banner principal */
-    .movil-cta-banner {
-      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-      border-radius: 24px;
-      padding: 44px 36px;
-      text-align: center;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-    }
-    .movil-cta-banner::before {
-      content: "🐾";
-      position: absolute;
-      font-size: 9rem;
-      opacity: .08;
-      right: 5%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .movil-cta-banner h2 { color: #fff; margin: 0 0 10px; font-size: clamp(1.5rem, 3vw, 2.2rem); }
-    .movil-cta-banner p  { color: rgba(255,255,255,.85); margin: 0 0 28px; font-size: 1.05rem; }
-  </style>
+  <script>
+    window.location.replace("servicios.html#pelitos-movil");
+  </script>
 </head>
 <body data-pagina="pelitos-movil">
 
-  <!-- ================= CABECERA INSTITUCIONAL ================= -->
   <header class="header" id="header">
     <div class="header__inner">
       <a class="logo" href="../index.html" aria-label="Pelitos Veterinaria — Inicio">
@@ -289,370 +31,53 @@
 
       <nav class="nav" aria-label="Navegación principal">
         <a href="../index.html">Inicio</a>
-        <a href="servicios.html">Servicios</a>
+        <a class="activo" href="servicios.html#pelitos-movil">Servicios</a>
         <a href="estetica.html">Estética</a>
         <a href="productos.html">PetShop</a>
         <a href="laboratorio.html">Laboratorio</a>
-        <a class="activo" href="pelitos-movil.html">Pelitos Móvil</a>
+        <a href="nosotros.html">Nosotros</a>
         <a href="consejos.html">Consejos Pelitos</a>
+        <a href="contacto.html">Contacto</a>
       </nav>
 
       <div class="header__acciones">
-        <a class="btn btn--dorado btn--sm" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio." target="_blank" rel="noopener">Pedir servicio</a>
-        <button class="menu-btn" type="button" data-menu-btn aria-label="Abrir menú" aria-expanded="false">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+        <a class="btn btn--dorado btn--sm" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio." target="_blank" rel="noopener">Pedir servicio</a>
       </div>
     </div>
-
-    <nav class="nav-movil" data-nav-movil aria-label="Navegación móvil">
-      <a href="../index.html">Inicio</a>
-      <a href="servicios.html">Servicios</a>
-      <a href="estetica.html">Estética</a>
-      <a href="productos.html">PetShop</a>
-      <a href="laboratorio.html">Laboratorio</a>
-      <a class="activo" href="pelitos-movil.html">Pelitos Móvil</a>
-      <a href="consejos.html">Consejos Pelitos</a>
-      <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio." target="_blank" rel="noopener">Pedir servicio</a>
-    </nav>
   </header>
 
-  <main>
-    <!-- ================= HERO ================= -->
-    <section class="hero" style="padding: 60px 0 75px;">
-      <div class="contenedor hero__grid">
-        <div>
-          <div class="movil-hero-badge">
-            <span class="punto"></span>
-            Veterinaria &amp; Estética a Domicilio
-          </div>
-          <h1 style="font-size:clamp(2.2rem,5vw,3.4rem); color:#7c3aed; -webkit-text-fill-color:initial;">
-            Pelitos Móvil
-          </h1>
-          <p style="margin-top:16px; font-size:1.15rem; color:var(--texto-suave); line-height:1.6;">
-            Llevamos la clínica y la estética canina profesional hasta la puerta de tu casa. Consultas veterinarias, vacunas, baños y cortes sin estrés ni desplazamientos.
-          </p>
-
-          <div class="chips" style="margin-top:20px; grid-template-columns: repeat(3, 1fr);">
-            <span class="chip">📍 Ingresa tu ubicación</span>
-            <span class="chip">💉 Vacunación en casa</span>
-            <span class="chip">✂️ Estética móvil</span>
-            <span class="chip">🩺 Consulta veterinaria</span>
-            <span class="chip">🛁 Baño y secado</span>
-            <span class="chip">📅 Horario flexible</span>
-          </div>
-
-          <div class="acciones" style="margin-top:28px;">
-            <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio%20de%20Pelitos%20M%C3%B3vil." target="_blank" rel="noopener">
-              Pedir servicio ahora
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quisiera%20informaci%C3%B3n%20sobre%20Pelitos%20M%C3%B3vil." target="_blank" rel="noopener">
-              WhatsApp Pelitos
-            </a>
-          </div>
-        </div>
-
-        <div class="hero__figura">
-          <div class="hero-mensaje-instalaciones" role="note" style="border-color:rgba(124,58,237,.22); background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(250,245,255,.96));">
-            <span class="hero-mensaje-instalaciones__kicker" style="color:#7c3aed;">🚐 Pelitos Móvil</span>
-            <strong style="color:#5b21b6;">"Llegamos a donde tu mascota nos necesita"</strong>
-            <span>Nuestra van completamente equipada recorre Huánuco para llevarte atención profesional a domicilio.</span>
-          </div>
-          <img src="../images/pelitos_movil/van_pelitos.jpg" alt="Van de Pelitos Veterinaria lista para servicio a domicilio en Huánuco" loading="lazy" decoding="async" style="border-radius: 22px; box-shadow: 0 24px 60px rgba(124,58,237,.22);" />
-          <div class="tarjeta-flotante">
-            <b>🚐 Van equipada · Huánuco</b>
-            <span>Jr. Leoncio Prado 135E · 939 356 376</span>
-          </div>
-        </div>
+  <main style="padding: 80px 0; min-height: 60vh; display: flex; align-items: center;">
+    <div class="contenedor" style="max-width: 680px; text-align: center;">
+      <div class="movil-hero-badge">
+        <span class="punto"></span>
+        Actualización de navegación
       </div>
-    </section>
+      <h1 style="font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin: 12px 0 16px; color: #5b21b6;">
+        Pelitos Móvil ahora forma parte de Servicios y Contacto
+      </h1>
+      <p style="color: var(--texto-suave); font-size: 1.05rem; line-height: 1.6; margin-bottom: 28px;">
+        Hemos fusionado nuestra unidad móvil a domicilio dentro de nuestra carta de <strong>Servicios</strong> y en nuestra página de <strong>Contacto</strong> para que coordines tu cita y consultes zonas de cobertura más fácilmente.
+      </p>
 
-    <!-- ================= NUESTRA VAN ================= -->
-    <section class="seccion" style="background:linear-gradient(180deg,#faf5ff 0%,#fff 100%); padding-top:48px; padding-bottom:56px;">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">Conoce nuestra unidad</span>
-          <h2>La Van de <span class="titulo-tornasol">Pelitos Móvil</span></h2>
-          <p>Totalmente identificada, equipada y lista para llegar hasta tu puerta con todo lo necesario para atender a tu mascota.</p>
-        </div>
-
-        <div class="reveal" style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start;">
-          <!-- Foto grande de la van -->
-          <div style="grid-column:1/-1; border-radius:24px; overflow:hidden; box-shadow:0 24px 60px rgba(124,58,237,.18); cursor:pointer;"
-               onclick="window.abrirFotoGrande && abrirFotoGrande('../images/pelitos_movil/van_pelitos.jpg','Van de Pelitos Móvil — Llegamos a donde tu mascota nos necesita')">
-            <img src="../images/pelitos_movil/van_pelitos.jpg"
-                 alt="Van de Pelitos Veterinaria con logo y datos de contacto frente al local en Huánuco"
-                 loading="lazy" decoding="async"
-                 style="width:100%; height:420px; object-fit:cover; object-position:center 65%; display:block;" />
-          </div>
-
-          <!-- Datos de la van -->
-          <div style="background:#fff; border:1px solid rgba(124,58,237,.14); border-radius:22px; padding:28px 24px; box-shadow:0 8px 28px rgba(124,58,237,.08);">
-            <div style="font-size:2rem; margin-bottom:12px;">🚐</div>
-            <h3 style="font-family:'Manrope',sans-serif; font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 10px;">"Llegamos a donde tu mascota nos necesita"</h3>
-            <p style="font-size:.88rem; color:#64748b; line-height:1.6; margin:0 0 16px;">Nuestra van identificada recorre Huánuco con todo el equipo necesario para brindarte atención veterinaria y estética profesional a domicilio.</p>
-            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
-              <li style="font-size:.85rem; color:#334155;"><span style="color:#7c3aed; font-weight:700;">🐾</span> PetShop con productos seleccionados</li>
-              <li style="font-size:.85rem; color:#334155;"><span style="color:#7c3aed; font-weight:700;">💊</span> Farmacia veterinaria a bordo</li>
-              <li style="font-size:.85rem; color:#334155;"><span style="color:#7c3aed; font-weight:700;">✂️</span> Equipo de grooming profesional</li>
-              <li style="font-size:.85rem; color:#334155;"><span style="color:#7c3aed; font-weight:700;">💉</span> Vacunas e insumos clínicos</li>
-            </ul>
-          </div>
-
-          <div style="background:linear-gradient(135deg,#7c3aed,#a855f7); border-radius:22px; padding:28px 24px; color:#fff;">
-            <div style="font-size:2rem; margin-bottom:12px;">📍</div>
-            <h3 style="font-family:'Manrope',sans-serif; font-size:1.05rem; font-weight:800; color:#fff; margin:0 0 10px;">Datos de contacto</h3>
-            <p style="font-size:.88rem; color:rgba(255,255,255,.88); margin:0 0 8px;">📌 Jr. Leoncio Prado 135E, Huánuco</p>
-            <p style="font-size:.88rem; color:rgba(255,255,255,.88); margin:0 0 8px;">📞 939 356 376</p>
-            <p style="font-size:.88rem; color:rgba(255,255,255,.88); margin:0 0 20px;">⏰ Lun a Sáb 8:30 a.m. – 8:00 p.m.</p>
-            <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio%20de%20la%20van." target="_blank" rel="noopener"
-               style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#25d366; color:#fff; border-radius:12px; font-weight:800; font-size:.88rem; text-decoration:none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-              Solicitar la van
-            </a>
-          </div>
-        </div>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a class="btn btn--dorado" href="servicios.html#pelitos-movil">
+          Ver Pelitos Móvil en Servicios
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn--linea" href="contacto.html#pelitos-movil">
+          Consultar cobertura y agendar en Contacto
+        </a>
       </div>
-    </section>
 
-    <!-- ================= SERVICIOS A DOMICILIO ================= -->
-    <section class="seccion">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">Lo que llevamos a tu puerta</span>
-          <h2>Servicios de <span class="titulo-tornasol">Pelitos Móvil</span></h2>
-          <p>Todo lo que tu mascota necesita, ahora disponible en tu hogar.</p>
-        </div>
-
-        <div class="movil-servicios-grid reveal">
-          <div class="movil-servicio-card">
-            <div class="movil-servicio-card__icono">🩺</div>
-            <h3 class="movil-servicio-card__titulo">Consulta Veterinaria</h3>
-            <p class="movil-servicio-card__desc">Evaluación clínica completa de tu mascota en la comodidad de tu hogar. Diagnóstico, prescripción y seguimiento.</p>
-            <span class="movil-servicio-card__badge">📅 Previa cita</span>
-          </div>
-          <div class="movil-servicio-card">
-            <div class="movil-servicio-card__icono">💉</div>
-            <h3 class="movil-servicio-card__titulo">Vacunación a Domicilio</h3>
-            <p class="movil-servicio-card__desc">Aplicación de vacunas según el calendario de tu mascota sin necesidad de visitar la clínica. Incluye carné de vacunas.</p>
-            <span class="movil-servicio-card__badge">🐕 Perros y gatos</span>
-          </div>
-          <div class="movil-servicio-card">
-            <div class="movil-servicio-card__icono">✂️</div>
-            <h3 class="movil-servicio-card__titulo">Grooming Móvil</h3>
-            <p class="movil-servicio-card__desc">Corte de raza, baño, secado y acabado profesional. Nuestros groomers llevan todo el equipo necesario.</p>
-            <span class="movil-servicio-card__badge">✨ Resultado profesional</span>
-          </div>
-          <div class="movil-servicio-card">
-            <div class="movil-servicio-card__icono">🛁</div>
-            <h3 class="movil-servicio-card__titulo">Baño y Spa</h3>
-            <p class="movil-servicio-card__desc">Baño completo con productos hipoalergénicos, secado, perfumado, limpieza de oídos y manicura.</p>
-            <span class="movil-servicio-card__badge">🧴 Cosmética premium</span>
-          </div>
-          <div class="movil-servicio-card">
-            <div class="movil-servicio-card__icono">💊</div>
-            <h3 class="movil-servicio-card__titulo">Desparasitación</h3>
-            <p class="movil-servicio-card__desc">Aplicación de antiparasitarios internos y externos en casa. Recomendado para mascotas con dificultad para viajar.</p>
-            <span class="movil-servicio-card__badge">🛡️ Protección completa</span>
-          </div>
-          <div class="movil-servicio-card">
-            <div class="movil-servicio-card__icono">🔬</div>
-            <h3 class="movil-servicio-card__titulo">Toma de Muestras</h3>
-            <p class="movil-servicio-card__desc">Recojo de muestras de sangre, orina o heces en tu domicilio para análisis en nuestro laboratorio.</p>
-            <span class="movil-servicio-card__badge">⏱ Resultados rápidos</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= POR QUÉ ELEGIRNOS ================= -->
-    <section class="seccion" style="background: linear-gradient(180deg, #faf5ff 0%, #fff 100%); padding-top:50px; padding-bottom:60px;">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">Ventajas de Pelitos Móvil</span>
-          <h2>¿Por qué elegir <span class="titulo-tornasol">servicio a domicilio</span>?</h2>
-        </div>
-
-        <div class="beneficios-grid reveal">
-          <div class="beneficio-item">
-            <div class="beneficio-item__icono">😌</div>
-            <h3 class="beneficio-item__titulo">Menos estrés para tu mascota</h3>
-            <p class="beneficio-item__desc">Tu mascota permanece en su entorno familiar, lo que reduce la ansiedad y el estrés durante la atención.</p>
-          </div>
-          <div class="beneficio-item">
-            <div class="beneficio-item__icono">⏰</div>
-            <h3 class="beneficio-item__titulo">Ahorra tiempo</h3>
-            <p class="beneficio-item__desc">Sin esperas en sala de espera ni desplazamientos. Agenda en el horario que mejor te convenga.</p>
-          </div>
-          <div class="beneficio-item">
-            <div class="beneficio-item__icono">🏡</div>
-            <h3 class="beneficio-item__titulo">Comodidad total</h3>
-            <p class="beneficio-item__desc">Tú decides dónde y cuándo. Nosotros nos adaptamos a tus horarios y tu ubicación en Huánuco.</p>
-          </div>
-          <div class="beneficio-item">
-            <div class="beneficio-item__icono">👨‍⚕️</div>
-            <h3 class="beneficio-item__titulo">Profesionales certificados</h3>
-            <p class="beneficio-item__desc">El mismo equipo de veterinarios y groomers de Pelitos, ahora en tu puerta con todo el equipo necesario.</p>
-          </div>
-          <div class="beneficio-item">
-            <div class="beneficio-item__icono">🐶</div>
-            <h3 class="beneficio-item__titulo">Ideal para mascotas difíciles</h3>
-            <p class="beneficio-item__desc">Perfecta opción para mascotas mayores, con movilidad reducida o que se estresen en entornos nuevos.</p>
-          </div>
-          <div class="beneficio-item">
-            <div class="beneficio-item__icono">🔒</div>
-            <h3 class="beneficio-item__titulo">Atención 100% personalizada</h3>
-            <p class="beneficio-item__desc">Toda la atención va dedicada exclusivamente a tu mascota, sin interrupciones ni otras mascotas alrededor.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= CÓMO FUNCIONA ================= -->
-    <section class="seccion">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">Simple y rápido</span>
-          <h2>¿Cómo pedir <span class="titulo-tornasol">Pelitos Móvil</span>?</h2>
-        </div>
-
-        <div class="pasos-lista reveal">
-          <div class="paso-item">
-            <div class="paso-item__num">1</div>
-            <div class="paso-item__cuerpo">
-              <h3>Escríbenos por WhatsApp</h3>
-              <p>Contáctanos al +51 948 426 656 e indica el servicio que necesitas para tu mascota (consulta, vacuna, baño, corte, etc.).</p>
-            </div>
-          </div>
-          <div class="paso-item">
-            <div class="paso-item__num">2</div>
-            <div class="paso-item__cuerpo">
-              <h3>Confirma la cita y dirección</h3>
-              <p>Acordamos el día, la hora y tu dirección exacta. Te enviamos confirmación y el presupuesto del servicio solicitado.</p>
-            </div>
-          </div>
-          <div class="paso-item">
-            <div class="paso-item__num">3</div>
-            <div class="paso-item__cuerpo">
-              <h3>Nuestro equipo llega a tu puerta</h3>
-              <p>El profesional de Pelitos se presenta puntualmente con todo el equipo necesario listo para atender a tu mascota.</p>
-            </div>
-          </div>
-          <div class="paso-item">
-            <div class="paso-item__num">4</div>
-            <div class="paso-item__cuerpo">
-              <h3>Atención y seguimiento</h3>
-              <p>Recibe el servicio en la comodidad de tu hogar. Al finalizar te explicamos los cuidados posteriores y próximas citas.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= INGRESA TU UBICACIÓN ================= -->
-    <section class="seccion" style="padding-top:44px; padding-bottom:48px; background:linear-gradient(180deg,#faf5ff 0%,#fff 100%);">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">📍 Dinos dónde estás</span>
-          <h2>Ingresa tu <span class="titulo-tornasol">ubicación</span></h2>
-          <p>Escribe tu dirección y te escribimos por WhatsApp confirmando el servicio a domicilio.</p>
-        </div>
-
-        <div class="reveal" style="margin-top:32px; max-width:600px; margin-left:auto; margin-right:auto;">
-          <div style="background:#fff; border:1px solid rgba(124,58,237,.18); border-radius:24px; padding:32px 28px; box-shadow:0 12px 36px rgba(124,58,237,.1);">
-            <label for="movil-direccion" style="display:block; font-family:'Manrope',sans-serif; font-size:.85rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#7c3aed; margin-bottom:10px;">
-              📍 Tu dirección en Huánuco
-            </label>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <input
-                id="movil-direccion"
-                type="text"
-                placeholder="Ej: Jr. Los Pinos 345, Las Moras, Huánuco"
-                style="flex:1; min-width:220px; padding:14px 18px; border:1.5px solid rgba(124,58,237,.22); border-radius:14px; font-family:inherit; font-size:.95rem; color:#0f172a; background:#faf5ff; outline:none; transition:border-color .2s ease;"
-                onfocus="this.style.borderColor='#7c3aed'"
-                onblur="this.style.borderColor='rgba(124,58,237,.22)'"
-              />
-              <button
-                type="button"
-                onclick="enviarUbicacion()"
-                style="padding:14px 22px; background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; border-radius:14px; font-family:'Manrope',sans-serif; font-weight:800; font-size:.92rem; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:8px; transition:transform .2s ease, box-shadow .2s ease;"
-                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 28px rgba(124,58,237,.28)'"
-                onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-                Enviar por WhatsApp
-              </button>
-            </div>
-            <p style="margin-top:12px; font-size:.8rem; color:#94a3b8; text-align:center;">
-              🔒 Tu dirección solo se enviará a nuestro WhatsApp para coordinar tu cita
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= ZONA DE COBERTURA ================= -->
-    <section class="seccion" style="padding-top:40px; padding-bottom:56px;">
-      <div class="contenedor">
-        <div class="zona-cobertura reveal">
-          <h2>🗺️ Cobertura en Huánuco</h2>
-          <p>Atendemos en las principales zonas de la ciudad. Si tu zona no aparece, consúltanos — podemos coordinarlo.</p>
-          <div class="zonas-lista">
-            <span class="zona-chip">Centro de Huánuco</span>
-            <span class="zona-chip">Leoncio Prado</span>
-            <span class="zona-chip">Las Moras</span>
-            <span class="zona-chip">Amarilis</span>
-            <span class="zona-chip">Pillco Marca</span>
-            <span class="zona-chip">Cayhuayna</span>
-            <span class="zona-chip">Paucarbamba</span>
-            <span class="zona-chip">Santa María del Valle</span>
-          </div>
-          <div>
-            <a class="btn--movil btn--movil-wa" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20saber%20si%20tienen%20cobertura%20en%20mi%20zona." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-              Consultar cobertura
-            </a>
-            <a class="btn--movil" href="../index.html">
-              Volver al inicio
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= CTA ================= -->
-    <section class="seccion" style="padding-top:20px; padding-bottom:60px;">
-      <div class="contenedor">
-        <div class="movil-cta-banner reveal">
-          <h2>¿Listo para pedir Pelitos Móvil?</h2>
-          <p>Escríbenos ahora y te agendamos para el día y hora que mejor te quede.</p>
-          <div>
-            <a class="btn--movil btn--movil-wa" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20a%20domicilio%20de%20Pelitos%20M%C3%B3vil." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-              Solicitar servicio
-            </a>
-            <a class="btn--movil" href="estetica.html">
-              Ver Pelitos Estética
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+      <p style="font-size: 0.84rem; color: #94a3b8; margin-top: 24px;">
+        Si tu navegador no te redirige automáticamente, haz clic en cualquiera de los botones de arriba.
+      </p>
+    </div>
   </main>
 
-  <!-- ================= MODAL LIGHTBOX ================= -->
-  <div class="modal-overlay" id="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-contenido" style="max-width:700px; padding:20px; text-align:center;">
-      <button type="button" class="modal-cerrar" id="lightbox-cerrar" aria-label="Cerrar">&times;</button>
-      <img id="lightbox-img" alt="Foto ampliada" style="width:100%; max-height:75vh; object-fit:contain; border-radius:14px;" loading="lazy" decoding="async" />
-      <p id="lightbox-caption" style="margin-top:12px; font-weight:700; color:var(--texto);"></p>
-    </div>
-  </div>
-
-  <!-- ================= PIE INSTITUCIONAL ================= -->
   <footer class="footer">
     <div class="footer__top">
-      <p>📍 Jr. Leoncio Prado 135E, Huánuco &nbsp;&middot;&nbsp; Lunes a sábado 8:30&ndash;20:00 &nbsp;&middot;&nbsp; <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20m%C3%B3vil." target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
+      <p>📍 Jr. Leoncio Prado N.° 1336, Huánuco &nbsp;&middot;&nbsp; Lunes a sábado 8:30&ndash;20:00 &nbsp;&middot;&nbsp; <a href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20m%C3%B3vil." target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
     </div>
     <div class="footer__grid">
       <div>
@@ -675,7 +100,7 @@
         <a href="estetica.html">Pelitos Estética</a>
         <a href="productos.html">PetShop</a>
         <a href="laboratorio.html">Laboratorio</a>
-        <a href="pelitos-movil.html">Pelitos Móvil</a>
+        <a href="servicios.html#pelitos-movil">Pelitos Móvil (A Domicilio)</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="consejos.html">Consejos Pelitos</a>
         <a href="contacto.html">Contacto</a>
@@ -694,44 +119,6 @@
     </div>
   </footer>
 
-  <a class="fab" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20solicitar%20el%20servicio%20m%C3%B3vil." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp a Pelitos">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
-    <span>WhatsApp Pelitos</span>
-  </a>
-
   <script src="../js/main.js" defer></script>
-
-  <script>
-    function enviarUbicacion() {
-      var input = document.getElementById('movil-direccion');
-      var direccion = input ? input.value.trim() : '';
-      if (!direccion) {
-        input.focus();
-        input.style.borderColor = '#e11d48';
-        input.placeholder = 'Por favor escribe tu dirección primero';
-        setTimeout(function() {
-          input.style.borderColor = 'rgba(124,58,237,.22)';
-          input.placeholder = 'Ej: Jr. Los Pinos 345, Las Moras, Huánuco';
-        }, 2500);
-        return;
-      }
-      var mensaje = encodeURIComponent(
-        'Hola Pelitos Móvil 🚐, quiero solicitar el servicio a domicilio.\n\n' +
-        '📍 Mi dirección es: ' + direccion + '\n\n' +
-        'Por favor confírmenme disponibilidad. ¡Gracias!'
-      );
-      window.open('https://api.whatsapp.com/send?phone=51939356376&text=' + mensaje, '_blank', 'noopener');
-    }
-
-    /* También al presionar Enter en el campo */
-    document.addEventListener('DOMContentLoaded', function () {
-      var campo = document.getElementById('movil-direccion');
-      if (campo) {
-        campo.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') enviarUbicacion();
-        });
-      }
-    });
-  </script>
 </body>
 </html>

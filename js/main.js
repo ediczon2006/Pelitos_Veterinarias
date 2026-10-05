@@ -165,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Laboratorio",
       "Cirugía",
       "Estética",
+      "Pelitos Móvil",
       "Otro",
     ];
 
@@ -4439,6 +4440,31 @@ function esPagina(nombre) {
   }
 
   /* --------------------------------------------------------- */
+  /* ---------------------------------------------------------
+     PELITOS MÓVIL: Envío de ubicación por WhatsApp
+     --------------------------------------------------------- */
+  window.enviarUbicacion = function () {
+    var input = document.getElementById("movil-direccion");
+    var direccion = input ? input.value.trim() : "";
+    if (!direccion) {
+      if (input) {
+        input.focus();
+        input.style.borderColor = "#e11d48";
+        input.placeholder = "Por favor escribe tu dirección primero";
+        setTimeout(function () {
+          input.style.borderColor = "rgba(124,58,237,.25)";
+          input.placeholder = "Ej: Jr. Los Pinos 345, Las Moras, Huánuco";
+        }, 2500);
+      }
+      return;
+    }
+    var mensaje =
+      "Hola Pelitos Móvil 🚐, quiero solicitar el servicio a domicilio.\n\n" +
+      "📍 Mi dirección es: " + direccion + "\n\n" +
+      "Por favor confírmenme disponibilidad. ¡Gracias!";
+    abrirExterno(enlaceWhatsapp(mensaje, SITE.whatsapp.consultorio));
+  };
+
   listo(function () {
     try { barraProgreso(); } catch (e) {}
     try { revelados(); } catch (e) {}
@@ -4453,5 +4479,15 @@ function esPagina(nombre) {
     try { ticker(); } catch (e) {}
     try { filtrosGenericos(); } catch (e) {}
     try { plegables(); } catch (e) {}
+
+    var campo = document.getElementById("movil-direccion");
+    if (campo) {
+      campo.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          window.enviarUbicacion();
+        }
+      });
+    }
   });
 })();
