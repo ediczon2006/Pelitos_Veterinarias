@@ -35,175 +35,54 @@
   <script>document.documentElement.classList.add("js-din");</script>
 
   <style id="pelitos-productos-fix">
-    /* ===== Corrección y mejora visual de la galería de productos ===== */
+    /* ============================================================
+       GALERÍA DE PRODUCTOS Y HERRAMIENTAS PROFESIONALES
+       Diseño Editorial Neo-Futurista Premium
+       ============================================================ */
     .seccion--productos {
-      padding-top: 34px;
-      padding-bottom: 54px;
+      padding-top: 36px;
+      padding-bottom: 50px;
     }
 
-    .seccion--productos .boton-desplegable-productos {
-      width: min(100%, 520px);
-      margin: 10px auto 14px;
-      padding: 14px 18px;
-      border: 1px solid rgba(108, 57, 145, .16);
-      border-radius: 14px;
-      background: #fff;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
-      color: var(--morado, #6d28d9);
-      justify-content: space-between;
-    }
-
-    .seccion--productos .boton-desplegable-productos svg {
-      flex: 0 0 auto;
-    }
-
-    /* El contenido se muestra/oculta con el botón (ver script al final) */
-    .seccion--productos .productos-ocultos {
-      margin-top: 0;
-    }
-    .seccion--productos .productos-ocultos.abierto {
-      margin-top: 8px;
-    }
-
-    .seccion--productos .grilla-productos-ejemplo {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-      align-items: stretch;
-      padding: 8px 0 4px;
-    }
-
-    .seccion--productos .producto-card {
-      min-width: 0;
-      border: 1px solid rgba(15, 23, 42, .09);
-      border-radius: 16px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: 0 10px 28px rgba(15, 23, 42, .07);
-    }
-
-    .seccion--productos .producto-card__media {
-      min-height: 0;
-      height: 255px;
-      padding: 12px;
-      background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
-      display: grid;
-      place-items: center;
-    }
-
-    .seccion--productos .producto-card__media .producto-img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-      background: #fff;
-      border: 0;
-      border-radius: 10px;
-      box-shadow: none;
-      transition: transform .25s ease;
-    }
-
-    .seccion--productos .producto-card:hover .producto-card__media .producto-img {
-      transform: scale(1.025);
-    }
-
-    .seccion--productos .producto-card__body {
-      padding: 14px 15px 16px;
-      gap: 7px;
-    }
-
-    .seccion--productos .producto-card h3 {
-      font-size: 1rem;
-      line-height: 1.28;
-    }
-
-    .seccion--productos .producto-card p {
-      font-size: .84rem;
-      line-height: 1.48;
-    }
-
-    .seccion--productos .producto-card__uso {
-      margin-top: 4px !important;
-      padding: 9px 10px;
-      border-radius: 10px;
-      background: rgba(124, 58, 237, .055);
-      font-size: .79rem !important;
-    }
-
-    .seccion--productos .producto-card__tipo {
-      font-size: .66rem;
-      padding: 4px 8px;
-    }
-
-    .seccion--productos .productos-investigacion {
-      margin: 14px auto 0;
-      max-width: 900px;
-      font-size: .76rem;
-    }
-
-    .seccion--productos .imagen-error {
-      position: relative;
-    }
-
-    .seccion--productos .imagen-error::after {
-      content: "Imagen no disponible";
-      position: absolute;
-      inset: 12px;
-      display: grid;
-      place-items: center;
-      border: 1px dashed rgba(108,57,145,.28);
-      border-radius: 10px;
-      color: var(--morado, #6d28d9);
-      background: #fff;
-      font-size: .78rem;
-      font-weight: 700;
-    }
-
-    @media (max-width: 1100px) {
-      .seccion--productos .grilla-productos-ejemplo {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 640px) {
-      .seccion--productos .grilla-productos-ejemplo {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      .seccion--productos .producto-card__media {
-        height: 280px;
-      }
-    }
-  </style>
-
-  <!-- ESTILOS PARA LA NUEVA SECCIÓN DESPLEGABLE -->
-  <style>
     .boton-desplegable-productos {
-      background: none;
-      border: none;
-      color: var(--texto);
-      font-family: inherit;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
+      width: min(100%, 540px);
+      margin: 12px auto 20px;
+      padding: 14px 22px;
+      border: 1.5px solid rgba(108, 57, 145, 0.22);
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 10px 28px rgba(108, 57, 145, 0.08);
+      color: var(--morado, #6c3991);
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 0 auto;
-      padding: 15px 20px;
-      transition: color 0.3s ease;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
-    
+
     .boton-desplegable-productos:hover {
-      color: var(--morado);
+      background: linear-gradient(135deg, #ffffff 0%, #f6effc 100%);
+      border-color: var(--morado, #6c3991);
+      box-shadow: 0 14px 34px rgba(108, 57, 145, 0.16);
+      transform: translateY(-2px);
     }
-    
+
     .boton-desplegable-productos svg {
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease;
+      flex-shrink: 0;
     }
-    
+
+    .boton-desplegable-productos.abierto {
+      background: linear-gradient(135deg, #6c3991 0%, #58247d 100%);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 14px 36px rgba(108, 57, 145, 0.25);
+    }
+
     .boton-desplegable-productos.abierto svg {
       transform: rotate(180deg);
     }
@@ -212,114 +91,150 @@
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-top 0.3s;
+      transition: max-height 0.5s ease-out, opacity 0.4s ease-out, margin-top 0.3s;
     }
 
     .productos-ocultos.abierto {
-      max-height: 8000px; 
+      max-height: 12000px;
       opacity: 1;
-      margin-top: 20px;
+      margin-top: 18px;
     }
 
     .grilla-productos-ejemplo {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 22px;
       align-items: stretch;
+      padding: 6px 0;
+    }
+
+    @media (max-width: 1200px) {
+      .grilla-productos-ejemplo {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .grilla-productos-ejemplo {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .grilla-productos-ejemplo {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
     }
 
     .producto-card {
       display: flex;
       flex-direction: column;
       min-width: 0;
-      background: var(--superficie, #fff);
-      border: 1px solid rgba(15, 23, 42, 0.10);
-      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid rgba(108, 57, 145, 0.12);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .producto-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.13);
-      border-color: rgba(124, 58, 237, 0.22);
+      box-shadow: 0 20px 45px rgba(108, 57, 145, 0.14);
+      border-color: rgba(108, 57, 145, 0.28);
     }
 
     .producto-card__media {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 280px;
-      padding: 14px;
-      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      height: 240px;
+      padding: 16px;
+      background: linear-gradient(180deg, #fbf9fd 0%, #ffffff 100%);
+      position: relative;
     }
 
     .producto-card__media .producto-img {
       width: 100%;
-      height: 280px;
-      aspect-ratio: auto;
+      height: 100%;
       object-fit: contain;
+      object-position: center;
+      background: transparent;
       border: 0;
       border-radius: 12px;
-      background: transparent;
-      box-shadow: none;
-      transform: none;
+      transition: transform 0.35s ease;
+    }
+
+    .producto-card:hover .producto-card__media .producto-img {
+      transform: scale(1.04);
     }
 
     .producto-card__body {
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      flex: 1;
       padding: 18px 18px 20px;
-      height: 100%;
+      background: #ffffff;
     }
 
     .producto-card__tipo {
-      display: inline-flex;
+      display: inline-block;
       align-self: flex-start;
-      padding: 5px 9px;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: var(--naranja-claro, #fff7ed);
-      color: var(--naranja-oscuro, #9a3412);
-      font-size: .72rem;
+      background: #fff7ed;
+      color: #c2410c;
+      font-family: var(--tipo-texto, "Satoshi", sans-serif);
+      font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: .04em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
     .producto-card h3 {
-      margin: 0;
-      color: var(--morado, #6d28d9);
-      font-size: 1.12rem;
-      line-height: 1.3;
+      font-family: "Manrope", "Satoshi", sans-serif !important;
+      font-size: 1.05rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.01em !important;
+      line-height: 1.32 !important;
+      color: #1e112d !important;
+      margin: 0 0 8px !important;
+      text-transform: none !important;
     }
 
     .producto-card p {
-      margin: 0;
-      color: var(--texto-suave, #64748b);
-      line-height: 1.55;
-      font-size: .9rem;
+      font-family: var(--tipo-texto, "Satoshi", sans-serif);
+      font-size: 0.88rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0 0 14px;
     }
 
     .producto-card__uso {
-      margin-top: 2px !important;
+      margin-top: auto !important;
+      margin-bottom: 0 !important;
       padding: 10px 12px;
-      border-radius: 11px;
-      background: rgba(124, 58, 237, 0.055);
-      color: var(--texto, #0f172a) !important;
-      font-size: .84rem !important;
+      border-radius: 12px;
+      background: rgba(108, 57, 145, 0.05);
+      border: 1px solid rgba(108, 57, 145, 0.09);
+      color: #334155 !important;
+      font-size: 0.82rem !important;
+      line-height: 1.45 !important;
     }
 
     .producto-card__uso strong {
-      color: var(--morado, #6d28d9);
+      color: var(--morado, #6c3991);
+      font-weight: 700;
     }
 
     .productos-investigacion {
-      margin: 8px 0 0;
+      margin: 20px auto 0;
       text-align: center;
-      color: var(--texto-suave, #64748b);
-      font-size: .8rem;
+      color: #64748b;
+      font-size: 0.82rem;
       line-height: 1.5;
     }
 
@@ -1092,10 +1007,10 @@
             <span>Contamos con instalaciones exclusivas para el cuidado y bienestar de tu engreído.</span>
           </div>
           <img src="../images/estetica/entrada_estetica.jpeg" alt="Instalaciones de Pelitos Estética en Huánuco" loading="lazy" decoding="async" />
-          <div class="tarjeta-flotante">
-            <b>Groomers certificados</b>
-            <span>Ambiente climatizado en Jr. Leoncio Prado 1336</span>
-          </div>
+          <a href="#groomer-certificada" class="tarjeta-flotante" style="text-decoration:none; color:inherit;">
+            <b>Groomer certificada</b>
+            <span>Conoce a Antonella &middot; Trato con amor & sin estrés &rarr;</span>
+          </a>
         </div>
       </div>
     </section>
@@ -1218,78 +1133,78 @@
             <!-- 12.png: Esteticista / Groomer -->
             <article class="producto-card">
               <div class="producto-card__media">
-                <img src="../images/productos/productos_estetica/12.png" class="producto-img" alt="Groomer profesional" loading="lazy" decoding="async" />
+                <img src="../images/productos/productos_estetica/12.png" class="producto-img" alt="Groomer profesional certificado" loading="lazy" decoding="async" />
               </div>
               <div class="producto-card__body">
                 <span class="producto-card__tipo">Nuestro Equipo</span>
                 <h3>Groomer Certificado Pelitos</h3>
-                <p>Profesional especializado en manejo sin estrés y técnicas de spa.</p>
-                <p class="producto-card__uso"><strong>Sede:</strong> Jr. Leoncio Prado 1336, Huánuco.</p>
+                <p>Especialista en estilismo canino de alta competencia y manejo gentil sin estrés.</p>
+                <p class="producto-card__uso"><strong>Garantía:</strong> Amor, paciencia y técnica profesional.</p>
               </div>
             </article>
 
-            <!-- 14.png -->
+            <!-- 14.png: Carda ergonómica de precisión -->
             <article class="producto-card">
               <div class="producto-card__media">
-                <img src="../images/productos/productos_estetica/14.png" class="producto-img" alt="Accesorio de estética 14" loading="lazy" decoding="async" />
+                <img src="../images/productos/productos_estetica/14.png" class="producto-img" alt="Carda ergonómica de precisión" loading="lazy" decoding="async" />
               </div>
               <div class="producto-card__body">
-                <span class="producto-card__tipo">Equipamiento</span>
-                <h3>Accesorio Profesional de Grooming</h3>
-                <p>Instrumento utilizado durante los procesos de mantenimiento estético.</p>
-                <p class="producto-card__uso"><strong>Uso:</strong> Apoyo técnico en sesión de belleza.</p>
+                <span class="producto-card__tipo">Cepillado</span>
+                <h3>Carda Ergonómica Soft</h3>
+                <p>Base almohadillada con cerdas protegidas para piel sensible y mantos delicados.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Apertura de pelo en pecho, patitas y carita.</p>
               </div>
             </article>
 
-            <!-- 15.png -->
+            <!-- 15.png: Rastrillo deslanador de púas rotatorias -->
             <article class="producto-card">
               <div class="producto-card__media">
-                <img src="../images/productos/productos_estetica/15.png" class="producto-img" alt="Accesorio de estética 15" loading="lazy" decoding="async" />
+                <img src="../images/productos/productos_estetica/15.png" class="producto-img" alt="Rastrillo de púas rotatorias" loading="lazy" decoding="async" />
               </div>
               <div class="producto-card__body">
-                <span class="producto-card__tipo">Equipamiento</span>
-                <h3>Implemento de Estética Canina</h3>
-                <p>Herramienta auxiliar empleada en el salón de belleza.</p>
-                <p class="producto-card__uso"><strong>Uso:</strong> Asistencia en procedimientos de spa.</p>
+                <span class="producto-card__tipo">Deslanado</span>
+                <h3>Rastrillo Submanto Rotatorio</h3>
+                <p>Púas redondeadas de acero para deslizar sin tirones en mantos densos o dobles.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Deslanado seguro en Golden, Husky y pastores.</p>
               </div>
             </article>
 
-            <!-- 16.png -->
+            <!-- 16.png: Tijeras microdentadas de esculpir -->
             <article class="producto-card">
               <div class="producto-card__media">
-                <img src="../images/productos/productos_estetica/16.png" class="producto-img" alt="Accesorio de estética 16" loading="lazy" decoding="async" />
+                <img src="../images/productos/productos_estetica/16.png" class="producto-img" alt="Tijeras microdentadas profesionales" loading="lazy" decoding="async" />
               </div>
               <div class="producto-card__body">
-                <span class="producto-card__tipo">Instrumento</span>
-                <h3>Herramienta Especializada de Salón</h3>
-                <p>Equipo auxiliar para el confort y cuidado de la mascota.</p>
-                <p class="producto-card__uso"><strong>Uso:</strong> Aplicación en sesiones de grooming.</p>
+                <span class="producto-card__tipo">Corte</span>
+                <h3>Tijeras Microdentadas Stylist</h3>
+                <p>Hojas templadas japonesas para cortes limpios sin doblar el pelo rizado o fino.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Modelado asiático y definición de líneas.</p>
               </div>
             </article>
 
-            <!-- 17.png -->
+            <!-- 17.png: Tijeras de pulido y contorno -->
             <article class="producto-card">
               <div class="producto-card__media">
-                <img src="../images/productos/productos_estetica/17.png" class="producto-img" alt="Accesorio de estética 17" loading="lazy" decoding="async" />
+                <img src="../images/productos/productos_estetica/17.png" class="producto-img" alt="Tijeras de pulido curvo" loading="lazy" decoding="async" />
               </div>
               <div class="producto-card__body">
-                <span class="producto-card__tipo">Instrumento</span>
-                <h3>Instrumento de Soporte Estético</h3>
-                <p>Elemento complementario en el área de trabajo de peluquería.</p>
-                <p class="producto-card__uso"><strong>Uso:</strong> Labores de estética general.</p>
+                <span class="producto-card__tipo">Esculpido</span>
+                <h3>Tijeras Curvas de Precisión</h3>
+                <p>Curvatura de 30° para redondear caritas pomposas, orejitas y patitas estilo osito.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Caras redondas en Poodle, Bichón y Shih Tzu.</p>
               </div>
             </article>
 
-            <!-- 18.png -->
+            <!-- 18.png: Tijeras chunkers texturizadoras -->
             <article class="producto-card">
               <div class="producto-card__media">
-                <img src="../images/productos/productos_estetica/18.png" class="producto-img" alt="Accesorio de estética 18" loading="lazy" decoding="async" />
+                <img src="../images/productos/productos_estetica/18.png" class="producto-img" alt="Tijeras chunkers texturizadoras" loading="lazy" decoding="async" />
               </div>
               <div class="producto-card__body">
-                <span class="producto-card__tipo">Instrumento</span>
-                <h3>Herramienta de Acabado Pelitos</h3>
-                <p>Implemento utilizado para detalles finales de presentación.</p>
-                <p class="producto-card__uso"><strong>Uso:</strong> Protocolo de entrega final.</p>
+                <span class="producto-card__tipo">Acabado</span>
+                <h3>Tijeras Chunkers Texturizadoras</h3>
+                <p>Dientes anchos que difuminan marcas de máquina y logran una textura aterciopelada.</p>
+                <p class="producto-card__uso"><strong>Uso:</strong> Acabado natural y esponjoso de alta gama.</p>
               </div>
             </article>
 
@@ -2266,129 +2181,6 @@
       </div>
     </section>
 
-    <!-- ================= PRODUCTOS QUE UTILIZAMOS =================
-         Para cambiar una foto, reemplace el archivo en images/estetica/productos/
-         con el mismo nombre. Para agregar otro producto, copie un <article>. -->
-    <section class="seccion" id="productos-que-utilizamos">
-      <div class="contenedor">
-        <div class="titulo-bloque titulo-bloque--centro reveal">
-          <span class="eyebrow">Productos que utilizamos</span>
-          <h2>Lo mejor para su pelaje</h2>
-          <p>Trabajamos con productos de uso profesional y herramientas especializadas para que cada ba&ntilde;o y cada corte sean seguros y c&oacute;modos.</p>
-        </div>
-
-        <div class="linea-destacada reveal">
-          <div class="linea-destacada__foto">
-            <img src="../images/estetica/productos/linea-4groomer.jpg" alt="Línea 4Groomer: Shampoo Blanqueador, Shampoo 1X6, Shampoo Pelagem Escura y Condicionador" loading="lazy" width="1000" height="750" />
-          </div>
-          <div class="linea-destacada__texto">
-            <span class="producto-estetica__tipo">L&iacute;nea profesional</span>
-            <h3>4Groomer</h3>
-            <p>Elegimos el producto seg&uacute;n el pelaje de cada mascota:</p>
-            <ul>
-              <li><strong>Shampoo Blanqueador:</strong> realza el brillo en pelajes blancos y claros.</li>
-              <li><strong>Shampoo 1X6:</strong> limpieza profunda con perfume de larga duraci&oacute;n.</li>
-              <li><strong>Shampoo Pelagem Escura:</strong> intensifica el color de los pelajes oscuros.</li>
-              <li><strong>Condicionador:</strong> suaviza, desenreda y deja el pelo brillante.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="rejilla-productos-estetica reveal">
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/shampoo-4groomer-1x6.jpg" alt="Shampoo 4Groomer 1X6" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Baño</span>
-              <h3>Shampoo 4Groomer 1X6</h3>
-              <p>Limpieza profunda con perfume fino y larga duración. Uso veterinario para perros y gatos.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/cortaunas-led.jpg" alt="Cortaúñas con luz LED" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Uñas</span>
-              <h3>Cortaúñas con luz LED</h3>
-              <p>La luz nos deja ver la zona sensible de la uña para cortar con precisión y sin lastimar.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/carda-pequena.jpg" alt="Carda de cerdas finas" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Cepillado</span>
-              <h3>Carda de cerdas finas</h3>
-              <p>Desenreda y retira el pelo suelto en razas pequeñas y zonas delicadas.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/carda-grande.jpg" alt="Carda de púas largas" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Cepillado</span>
-              <h3>Carda de púas largas</h3>
-              <p>Llega hasta la base del pelaje en perritos de pelo largo o abundante.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/rastrillo-deslanador.jpg" alt="Rastrillo deslanador" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Cepillado</span>
-              <h3>Rastrillo deslanador</h3>
-              <p>Retira el subpelo muerto y reduce la caída de pelo en casa.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/piedra-stripping.jpg" alt="Piedra de stripping" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Acabado</span>
-              <h3>Piedra de stripping</h3>
-              <p>Quita el pelo muerto en razas de pelo duro y deja el manto parejo.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/tijera-curva.jpg" alt="Tijera curva" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Corte</span>
-              <h3>Tijera curva</h3>
-              <p>Para redondear patitas, cabeza y contornos con un acabado suave.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/tijera-entresacar.jpg" alt="Tijera de entresacar" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Corte</span>
-              <h3>Tijera de entresacar</h3>
-              <p>Aligera el volumen y disimula marcas para un acabado natural.</p>
-            </div>
-          </article>
-          <article class="producto-estetica">
-            <div class="producto-estetica__foto">
-              <img src="../images/estetica/productos/tijera-texturizadora.jpg" alt="Tijera texturizadora" loading="lazy" width="750" height="1000" />
-            </div>
-            <div class="producto-estetica__cuerpo">
-              <span class="producto-estetica__tipo">Corte</span>
-              <h3>Tijera texturizadora</h3>
-              <p>Da forma y textura al pelaje sin que se vean cortes rectos.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- ================= EL RECORRIDO DEL CONSENTIDO ================= -->
     <section class="seccion">
       <div class="contenedor">
@@ -2493,6 +2285,116 @@
           <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%20Est%C3%A9tica%2C%20quiero%20reservar%20un%20ba%C3%B1o%20y%20corte." target="_blank" rel="noopener">
             Reservar baño y corte por WhatsApp
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NUESTRA GROOMER CERTIFICADA ================= -->
+    <section class="seccion seccion--groomer" id="groomer-certificada">
+      <div class="contenedor">
+        <div class="titulo-bloque titulo-bloque--centro reveal">
+          <span class="eyebrow">Vocación, técnica y amor</span>
+          <h2>Nuestra Groomer Certificada</h2>
+          <p>Conoce a la especialista detrás de cada corte impecable y de una experiencia de baño amorosa, paciente y sin estrés en Huánuco.</p>
+        </div>
+
+        <!-- Tarjeta Principal con foto destacada y perfil -->
+        <div class="groomer-hero-card reveal">
+          <div class="groomer-layout">
+            <!-- Foto Principal con Siberian Husky -->
+            <div class="groomer-feature-media" onclick="abrirFotoGrande('../images/estetica/Gemini_Generated_Image_vey283vey283vey2.jpg', 'Antonella Aseijas Fores · Grooming y cepillado profesional con paciencia y técnica')">
+              <span class="groomer-feature-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Grooming Certificada
+              </span>
+              <img src="../images/estetica/Gemini_Generated_Image_vey283vey283vey2.jpg" alt="Antonella atendiendo con paciencia a un Husky en mesa de peluquería en Pelitos Estética" loading="lazy" decoding="async" />
+              <div class="groomer-feature-caption">
+                <h4>Trato cariñoso y técnica de cepillado</h4>
+                <p>Toca para ver la foto en grande &middot; Manejo gentil libre de bozal innecesario</p>
+              </div>
+            </div>
+
+            <!-- Información y Credenciales -->
+            <div class="groomer-info-bloque">
+              <div class="groomer-perfil-header">
+                <span class="groomer-cargo-tag">✨ Especialista en Peluquería Canina</span>
+                <h3 class="groomer-nombre">Antonella Aseijas Fores</h3>
+                <p class="groomer-subtitulo-profesional">Grooming Certificada &middot; Pelitos Estética Huánuco</p>
+              </div>
+
+              <p class="groomer-descripcion">
+                Responsable principal del área de estética canina en Pelitos Veterinaria. Especializada en cortes tradicionales y modernos según el estándar de cada raza, deslanado profundo, higiene dermatológica y estilismo de tijera. Su prioridad es que cada consentido viva una sesión agradable, relajante y con agua a temperatura perfecta.
+              </p>
+
+              <!-- Pilares / Beneficios -->
+              <div class="groomer-pilares-grid">
+                <div class="groomer-pilar-item">
+                  <div class="groomer-pilar-icon">✂️</div>
+                  <div class="groomer-pilar-text">
+                    <strong>Cortes por Raza</strong>
+                    <small>Schnauzer, Poodle, Shih Tzu, Golden y mestizos.</small>
+                  </div>
+                </div>
+                <div class="groomer-pilar-item">
+                  <div class="groomer-pilar-icon">🤍</div>
+                  <div class="groomer-pilar-text">
+                    <strong>Cero Estrés</strong>
+                    <small>Tiempos respetados, caricias y refuerzo positivo.</small>
+                  </div>
+                </div>
+                <div class="groomer-pilar-item">
+                  <div class="groomer-pilar-icon">🧴</div>
+                  <div class="groomer-pilar-text">
+                    <strong>Dermo-Cosmética</strong>
+                    <small>Shampoos hipoalergénicos y acondicionadores premium.</small>
+                  </div>
+                </div>
+                <div class="groomer-pilar-item">
+                  <div class="groomer-pilar-icon">🛡️</div>
+                  <div class="groomer-pilar-text">
+                    <strong>Higiene y Salud</strong>
+                    <small>Limpieza de oídos, corte de uñas y vaciado preventivo.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 10px;">
+                <a class="btn btn--whatsapp" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Antonella%2C%20quiero%20reservar%20una%20sesi%C3%B3n%20de%20grooming%20para%20mi%20mascota." target="_blank" rel="noopener">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+                  Consultar cita con nuestra Groomer
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Galería de Fotos Secundarias de Nuestra Groomer -->
+        <div class="groomer-fotos-secundarias reveal">
+          <!-- Foto 2: En la Recepción bajo el logo dorado -->
+          <div class="groomer-card-secundaria" onclick="abrirFotoGrande('../images/estetica/Gemini_Generated_Image_tfjcf5tfjcf5tfjc.jpg', 'Antonella en recepción de Pelitos Estética · Bienvenida cálida a cada tutor')">
+            <div class="groomer-card-secundaria-img">
+              <span class="groomer-card-secundaria-tag">🛋️ Recepción & Bienvenida</span>
+              <img src="../images/estetica/Gemini_Generated_Image_tfjcf5tfjcf5tfjc.jpg" alt="Antonella en la recepción de Pelitos Estética esperando a los pacientes" loading="lazy" decoding="async" />
+            </div>
+            <div class="groomer-card-secundaria-cuerpo">
+              <h4>Atención personalizada desde el primer saludo</h4>
+              <p>Evaluamos el tipo de manto, piel y temperamento de tu mascota en un ambiente climatizado y limpio antes de ingresar al baño.</p>
+              <span class="ver-zoom">🔍 Toca para ampliar fotografía</span>
+            </div>
+          </div>
+
+          <!-- Foto 3: Mostrando el escaparate de cosmética profesional -->
+          <div class="groomer-card-secundaria" onclick="abrirFotoGrande('../images/estetica/Gemini_Generated_Image_9xrr0k9xrr0k9xrr.jpg', 'Antonella junto al catálogo de cosmética y dermo-cuidado en Pelitos Estética')">
+            <div class="groomer-card-secundaria-img">
+              <span class="groomer-card-secundaria-tag">🧴 Cosmética y Dermo-Cuidado</span>
+              <img src="../images/estetica/Gemini_Generated_Image_9xrr0k9xrr0k9xrr.jpg" alt="Antonella mostrando las líneas cosméticas profesionales y antiparasitarias en Pelitos Estética" loading="lazy" decoding="async" />
+            </div>
+            <div class="groomer-card-secundaria-cuerpo">
+              <h4>Líneas profesionales y formulaciones seguras</h4>
+              <p>Seleccionamos mascarillas hidratantes, desenredantes y bálsamos dermatológicos certificados para un pelaje suave, brillante y sedoso.</p>
+              <span class="ver-zoom">🔍 Toca para ampliar fotografía</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

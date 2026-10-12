@@ -371,3 +371,262 @@
   color: #fff;
 }
 
+/* ==========================================================================
+   9. SECCIÓN: NUESTRA GROOMER CERTIFICADA (PÁGINA ESTÉTICA)
+   ========================================================================== */
+.seccion--groomer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #faf7fc 0%, #ffffff 50%, #f7f3fb 100%);
+  padding-top: 54px;
+  padding-bottom: 60px;
+}
+.groomer-hero-card {
+  background: #ffffff;
+  border: 1px solid rgba(108, 57, 145, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 18px 45px rgba(66, 27, 98, 0.08);
+  padding: 34px;
+  margin-top: 26px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.groomer-hero-card:hover {
+  box-shadow: 0 22px 55px rgba(66, 27, 98, 0.13);
+}
+.groomer-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: center;
+}
+@media (max-width: 960px) {
+  .groomer-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.groomer-feature-media {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(66, 27, 98, 0.14);
+  cursor: pointer;
+  background: #200f33;
+}
+.groomer-feature-media img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.groomer-feature-media:hover img {
+  transform: scale(1.03);
+}
+.groomer-feature-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+.groomer-feature-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 6, 25, 0.88) 100%);
+  padding: 24px 20px 16px;
+  color: #fff;
+  z-index: 2;
+}
+.groomer-feature-caption h4 {
+  font-size: 1.12rem;
+  margin: 0 0 4px;
+  font-weight: 800;
+  color: #fff;
+}
+.groomer-feature-caption p {
+  font-size: 0.84rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+.groomer-info-bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.groomer-perfil-header {
+  border-bottom: 1px solid rgba(108, 57, 145, 0.1);
+  padding-bottom: 16px;
+}
+.groomer-cargo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--morado, #6c3991);
+  background: rgba(108, 57, 145, 0.08);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.groomer-nombre {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  color: #1e112d;
+  margin: 0 0 6px;
+  font-family: "Manrope", sans-serif;
+  line-height: 1.2;
+}
+.groomer-subtitulo-profesional {
+  font-size: 0.95rem;
+  color: #7b43a2;
+  font-weight: 700;
+  margin: 0;
+}
+.groomer-descripcion {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
+}
+.groomer-pilares-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 6px;
+}
+@media (max-width: 520px) {
+  .groomer-pilares-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.groomer-pilar-item {
+  background: #fbf9fd;
+  border: 1px solid rgba(108, 57, 145, 0.09);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.groomer-pilar-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.groomer-pilar-text strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #1e112d;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.groomer-pilar-text small {
+  display: block;
+  font-size: 0.77rem;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+/* Galería secundaria de Antonella */
+.groomer-fotos-secundarias {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 28px;
+}
+@media (max-width: 680px) {
+  .groomer-fotos-secundarias {
+    grid-template-columns: 1fr;
+  }
+}
+.groomer-card-secundaria {
+  background: #ffffff;
+  border: 1px solid rgba(108, 57, 145, 0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(66, 27, 98, 0.06);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.groomer-card-secundaria:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(66, 27, 98, 0.12);
+}
+.groomer-card-secundaria-img {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  background: #200f33;
+}
+.groomer-card-secundaria-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.groomer-card-secundaria:hover .groomer-card-secundaria-img img {
+  transform: scale(1.05);
+}
+.groomer-card-secundaria-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 6, 25, 0.75);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.groomer-card-secundaria-cuerpo {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.groomer-card-secundaria-cuerpo h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1e112d;
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+}
+.groomer-card-secundaria-cuerpo p {
+  font-size: 0.84rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+.groomer-card-secundaria-cuerpo .ver-zoom {
+  font-size: 0.78rem;
+  color: var(--morado, #6c3991);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+
