@@ -250,7 +250,35 @@ function esPagina(nombre) {
      La "sesión" vive en esta variable y se pierde al cambiar de página, por lo
      que en el resto del sitio nadie sabe quién entró. Para que el acceso sea
      real hace falta un servicio de cuentas (Firebase, Supabase, etc.). */
-  var sesion = null; // memoria de la sesión actual
+  var CLAVE_STORAGE_SESION = "pelitos_usuario_sesion";
+  var CLAVE_STORAGE_CUENTAS = "pelitos_cuentas_registradas";
+
+  /* Recuperar sesión guardada de forma persistente */
+  function obtenerSesionStorage() {
+    try {
+      var guardado = localStorage.getItem(CLAVE_STORAGE_SESION);
+      return guardado ? JSON.parse(guardado) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function obtenerCuentasStorage() {
+    try {
+      var cuentas = localStorage.getItem(CLAVE_STORAGE_CUENTAS);
+      return cuentas ? JSON.parse(cuentas) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function guardarCuentasStorage(cuentas) {
+    try {
+      localStorage.setItem(CLAVE_STORAGE_CUENTAS, JSON.stringify(cuentas));
+    } catch (e) {}
+  }
+
+  var sesion = obtenerSesionStorage();
 
   function mostrarToast(mensaje, icono) {
     var t = document.createElement("div");
@@ -265,16 +293,60 @@ function esPagina(nombre) {
       window.setTimeout(function () {
         if (t.parentNode) t.parentNode.removeChild(t);
       }, 400);
-    }, 2600);
+    }, 2800);
   }
 
-  function guardarUsuario(datos) {
+  function guardarUsuario(datos, persistir) {
     sesion = datos || null;
+    try {
+      if (sesion && persistir !== false) {
+        localStorage.setItem(CLAVE_STORAGE_SESION, JSON.stringify(sesion));
+      } else if (!sesion) {
+        localStorage.removeItem(CLAVE_STORAGE_SESION);
+      }
+    } catch (e) {}
+    actualizarVistaDashboard();
     return sesion;
   }
 
   function usuarioActual() {
-    return sesion;
+    return sesion || obtenerSesionStorage();
+  }
+
+  function cerrarSesion() {
+    guardarUsuario(null);
+    mostrarToast("Sesión cerrada correctamente", "👋");
+    mostrarVista("acceso");
+  }
+
+  /* Actualiza la interfaz del portal de clientes según el estado de la sesión */
+  function actualizarVistaDashboard() {
+    var user = usuarioActual();
+    var panelConectado = document.getElementById("auth-panel-conectado");
+    var vistaAcceso = document.querySelector('[data-auth-vista="acceso"]');
+    var vistaRegistro = document.querySelector('[data-auth-vista="registro"]');
+    var tabsWrap = document.querySelector(".auth-tabs");
+
+    if (user && panelConectado) {
+      panelConectado.hidden = false;
+      if (vistaAcceso) vistaAcceso.hidden = true;
+      if (vistaRegistro) vistaRegistro.hidden = true;
+      if (tabsWrap) tabsWrap.style.display = "none";
+
+      var elNombre = document.getElementById("dash-user-name");
+      var elEmail = document.getElementById("dash-user-email");
+      var elMascota = document.getElementById("dash-mascota-nombre");
+      var elAvatar = document.getElementById("dash-user-avatar");
+
+      if (elNombre) elNombre.textContent = user.nombre || "Cliente Pelitos";
+      if (elEmail) elEmail.textContent = user.email || "";
+      if (elMascota) elMascota.textContent = user.mascota || "Tu engreído consentido";
+      if (elAvatar && user.nombre) elAvatar.textContent = user.nombre.charAt(0).toUpperCase();
+    } else if (panelConectado) {
+      panelConectado.hidden = true;
+      if (tabsWrap) tabsWrap.style.display = "";
+      mostrarVista("acceso");
+    }
   }
 
   /* Cambia entre las pestañas "acceso" y "registro" */
@@ -376,12 +448,125 @@ function esPagina(nombre) {
         validar(input);
       });
     });
+
+    /* Manejo del Login de Google Demo / Simulación rápida */
+    var btnGoogle = document.getElementById("btn-page-google");
+    if (btnGoogle) {
+      btnGoogle.addEventListener("click", function () {
+        var dummyUser = {
+          nombre: "Tutor Google",
+          email: "usuario.google@gmail.com",
+          telefono: "939356376",
+          mascota: "Consentido Pelitos",
+          fechaIngreso: new Date().toISOString()
+        };
+        guardarUsuario(dummyUser, true);
+        mostrarToast("¡Bienvenido con tu cuenta de Google!", "🎉");
+      });
+    }
+
+    /* Manejo del Submit de Login */
+    var formLogin = document.getElementById("form-page-login");
+    if (formLogin) {
+      formLogin.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var emailInput = document.getElementById("page-email");
+        var passInput = document.getElementById("page-pass");
+        var rememberCheck = document.getElementById("page-remember");
+
+        if (!emailInput || !passInput) return;
+        var email = emailInput.value.trim();
+        var pass = passInput.value.trim();
+
+        if (!validar(emailInput) || !validar(passInput)) {
+          mostrarToast("Por favor revisa tus credenciales", "⚠️");
+          return;
+        }
+
+        // Buscar si existe en las cuentas registradas
+        var cuentas = obtenerCuentasStorage();
+        var encontrada = cuentas.find(function (c) {
+          return c.email.toLowerCase() === email.toLowerCase();
+        });
+
+        var userSesion = {
+          nombre: encontrada ? encontrada.nombre : email.split("@")[0],
+          email: email,
+          mascota: encontrada ? encontrada.mascota : "Mi consentido",
+          telefono: encontrada ? encontrada.telefono : "",
+          fechaIngreso: new Date().toISOString()
+        };
+
+        guardarUsuario(userSesion, rememberCheck ? rememberCheck.checked : true);
+        mostrarToast("¡Inicio de sesión exitoso! Bienvenido.", "👋");
+        formLogin.reset();
+      });
+    }
+
+    /* Manejo del Submit de Registro */
+    var formRegistro = document.getElementById("form-page-registro");
+    if (formRegistro) {
+      formRegistro.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nomInput = document.getElementById("reg-nombre");
+        var emailInput = document.getElementById("reg-email");
+        var telInput = document.getElementById("reg-tel");
+        var petInput = document.getElementById("reg-mascota");
+        var passInput = document.getElementById("reg-pass");
+        var terminos = document.getElementById("reg-terminos");
+
+        if (!nomInput || !emailInput || !passInput) return;
+        if (!validar(nomInput) || !validar(emailInput) || !validar(passInput)) {
+          mostrarToast("Completa los campos obligatorios correctamente", "⚠️");
+          return;
+        }
+        if (terminos && !terminos.checked) {
+          mostrarToast("Debes aceptar el consentimiento de contacto", "⚠️");
+          return;
+        }
+
+        var cuentas = obtenerCuentasStorage();
+        var nuevoUsuario = {
+          nombre: nomInput.value.trim(),
+          email: emailInput.value.trim(),
+          telefono: telInput ? telInput.value.trim() : "",
+          mascota: (petInput && petInput.value.trim()) ? petInput.value.trim() : "Mascota Pelitos",
+          fechaRegistro: new Date().toISOString()
+        };
+
+        // Guardar en la base de datos local
+        var indexExistente = cuentas.findIndex(function (c) {
+          return c.email.toLowerCase() === nuevoUsuario.email.toLowerCase();
+        });
+        if (indexExistente >= 0) {
+          cuentas[indexExistente] = nuevoUsuario;
+        } else {
+          cuentas.push(nuevoUsuario);
+        }
+        guardarCuentasStorage(cuentas);
+
+        // Iniciar sesión inmediatamente
+        guardarUsuario(nuevoUsuario, true);
+        mostrarToast("¡Cuenta creada con éxito! Bienvenido a Pelitos.", "🐾");
+        formRegistro.reset();
+      });
+    }
+
+    /* Botón de Cerrar Sesión en Dashboard */
+    var btnCerrar = document.getElementById("btn-cerrar-sesion");
+    if (btnCerrar) {
+      btnCerrar.addEventListener("click", cerrarSesion);
+    }
+
+    // Inicializar estado visual al cargar
+    actualizarVistaDashboard();
   }
 
   window.PelitosAuth = {
     mostrarToast: mostrarToast,
     guardarUsuario: guardarUsuario,
     usuarioActual: usuarioActual,
+    cerrarSesion: cerrarSesion,
     abrirModal: abrirModal,
     mostrarVista: mostrarVista,
     validarCampo: validar

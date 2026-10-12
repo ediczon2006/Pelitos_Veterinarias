@@ -64,6 +64,7 @@
         <a href="nosotros.html">Nosotros</a>
         <a href="consejos.html">Consejos Pelitos</a>
         <a href="contacto.html">Contacto</a>
+        <a class="activo" href="login.html" style="color:var(--morado, #6c3991); font-weight:800;">👤 Mi Cuenta</a>
       </nav>
 
       <div class="header__acciones">
@@ -82,6 +83,7 @@
       <a href="nosotros.html">Nosotros</a>
       <a href="consejos.html">Consejos Pelitos</a>
       <a href="contacto.html">Contacto</a>
+      <a class="activo" href="login.html" style="font-weight:800;">👤 Mi Cuenta (Iniciar Sesión)</a>
       <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener">Reservar cita</a>
     </nav>
   </header>
@@ -274,6 +276,42 @@
                   <button type="button" class="auth-enlace" data-auth-tab="acceso">Inicia sesión</button>
                 </p>
               </form>
+            </div>
+
+            <!-- ===== Vista: Dashboard de Cliente Conectado ===== -->
+            <div id="auth-panel-conectado" class="auth-panel-conectado" hidden>
+              <div class="user-profile-card">
+                <div class="user-avatar-circle" id="dash-user-avatar">🐾</div>
+                <div class="user-profile-details">
+                  <span class="user-status-badge">🟢 Sesión Activa</span>
+                  <h3 id="dash-user-name" style="margin:4px 0 2px; font-size:1.25rem; color:#1e112d;">Cliente Pelitos</h3>
+                  <p id="dash-user-email" style="margin:0; font-size:0.86rem; color:#64748b;">correo@ejemplo.com</p>
+                </div>
+              </div>
+
+              <div class="dash-mascota-box" id="dash-mascota-box" style="margin-top:16px; background:#fbf9fd; border:1px solid rgba(108,57,145,0.12); border-radius:14px; padding:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:0.82rem; font-weight:700; color:var(--morado, #6c3991); text-transform:uppercase;">🐶 Mascota Registrada</span>
+                  <span style="font-size:0.75rem; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:999px; font-weight:700;">Historia Clínica Abierta</span>
+                </div>
+                <h4 id="dash-mascota-nombre" style="font-size:1.1rem; margin:6px 0 2px; color:#1e112d;">Pelusa</h4>
+                <p style="margin:0; font-size:0.82rem; color:#64748b;">Beneficio activo: 10% de descuento en su próximo baño o consulta</p>
+              </div>
+
+              <div class="dash-acciones-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px;">
+                <a href="servicios.html" class="btn btn--dorado" style="padding:12px 14px; font-size:0.88rem; justify-content:center;">
+                  📅 Agendar Cita
+                </a>
+                <a href="estetica.html#cotizador" class="btn btn--whatsapp" style="padding:12px 14px; font-size:0.88rem; justify-content:center;">
+                  ✂️ Cotizar Baño
+                </a>
+              </div>
+
+              <div style="margin-top:20px; text-align:center;">
+                <button type="button" id="btn-cerrar-sesion" class="btn" style="background:#f1f5f9; color:#475569; width:100%; border:1px solid #cbd5e1; justify-content:center;">
+                  Cerrar Sesión
+                </button>
+              </div>
             </div>
 
             <div class="auth-security-notice">
