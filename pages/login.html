@@ -140,8 +140,8 @@
           <!-- Columna Derecha: Tarjeta de Autenticación -->
           <div class="login-split-form-wrap">
             <div style="text-align:center; margin-bottom:18px;">
-              <h2 style="font-size:1.5rem; color:var(--morado);">Portal de clientes</h2>
-              <p style="font-size:0.86rem; color:var(--texto-suave); margin-top:4px;">Ingresa con Google, con tu correo o crea tu cuenta en 1 minuto</p>
+              <h2 id="auth-box-title" style="font-size:1.5rem; color:var(--morado);">Portal de clientes</h2>
+              <p id="auth-box-subtitle" style="font-size:0.86rem; color:var(--texto-suave); margin-top:4px;">Ingresa con Google, con tu correo o crea tu cuenta en 1 minuto</p>
             </div>
 
             <div class="auth-tabs" role="tablist" aria-label="Acceso o registro">
@@ -280,37 +280,148 @@
 
             <!-- ===== Vista: Dashboard de Cliente Conectado ===== -->
             <div id="auth-panel-conectado" class="auth-panel-conectado" hidden>
+              <!-- Tarjeta de Perfil del Tutor -->
               <div class="user-profile-card">
                 <div class="user-avatar-circle" id="dash-user-avatar">🐾</div>
                 <div class="user-profile-details">
-                  <span class="user-status-badge">🟢 Sesión Activa</span>
-                  <h3 id="dash-user-name" style="margin:4px 0 2px; font-size:1.25rem; color:#1e112d;">Cliente Pelitos</h3>
-                  <p id="dash-user-email" style="margin:0; font-size:0.86rem; color:#64748b;">correo@ejemplo.com</p>
+                  <span class="user-status-badge">🟢 Tutor Verificado</span>
+                  <h3 id="dash-user-name">Cliente Pelitos</h3>
+                  <p id="dash-user-email">correo@ejemplo.com</p>
+                  <span id="dash-user-tel" style="font-size:0.8rem; color:#6c3991; font-weight:700; margin-top:2px;"></span>
                 </div>
               </div>
 
-              <div class="dash-mascota-box" id="dash-mascota-box" style="margin-top:16px; background:#fbf9fd; border:1px solid rgba(108,57,145,0.12); border-radius:14px; padding:14px;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-size:0.82rem; font-weight:700; color:var(--morado, #6c3991); text-transform:uppercase;">🐶 Mascota Registrada</span>
-                  <span style="font-size:0.75rem; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:999px; font-weight:700;">Historia Clínica Abierta</span>
+              <!-- Ficha de Mascota e Historia Clínica -->
+              <div class="dash-mascota-box" id="dash-mascota-box">
+                <div class="dash-mascota-box__head">
+                  <span class="dash-mascota-box__titulo">🐶 Ficha Médica de Mascota</span>
+                  <span class="dash-mascota-box__badge" id="dash-mascota-chart-id">#PEL-1048</span>
                 </div>
-                <h4 id="dash-mascota-nombre" style="font-size:1.1rem; margin:6px 0 2px; color:#1e112d;">Pelusa</h4>
-                <p style="margin:0; font-size:0.82rem; color:#64748b;">Beneficio activo: 10% de descuento en su próximo baño o consulta</p>
+                
+                <h4 id="dash-mascota-nombre" style="font-size:1.35rem; margin:0 0 4px; color:#1e112d; font-weight:800;">Luna</h4>
+                
+                <div class="dash-mascota-grid">
+                  <div class="dash-mascota-dato">
+                    <span class="dash-mascota-dato__lbl">Especie &amp; Raza</span>
+                    <span class="dash-mascota-dato__val" id="dash-mascota-raza">Canino &bull; Shih Tzu</span>
+                  </div>
+                  <div class="dash-mascota-dato">
+                    <span class="dash-mascota-dato__lbl">Edad estimada</span>
+                    <span class="dash-mascota-dato__val" id="dash-mascota-edad">2 años</span>
+                  </div>
+                  <div class="dash-mascota-dato">
+                    <span class="dash-mascota-dato__lbl">Esquema Vacunal</span>
+                    <span class="dash-mascota-dato__val" style="color:#059669">Al día 💉</span>
+                  </div>
+                  <div class="dash-mascota-dato">
+                    <span class="dash-mascota-dato__lbl">Control Antipulgas</span>
+                    <span class="dash-mascota-dato__val" style="color:#059669">Vigente 🛡️</span>
+                  </div>
+                </div>
+
+                <button type="button" class="dash-btn-secundario" id="btn-abrir-editar-perfil" style="width:100%; margin-top:14px;">
+                  ✏️ Modificar datos de tutor y mascota
+                </button>
               </div>
 
-              <div class="dash-acciones-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px;">
+              <!-- Cupón de Bienvenida Exclusivo -->
+              <div class="dash-beneficio-card">
+                <span class="dash-beneficio-card__icon">🎁</span>
+                <div class="dash-beneficio-card__txt">
+                  <h4>Cupón VIP: 10% de Descuento Activo</h4>
+                  <p>Muestra tu código <strong>PELITOS-VIP</strong> al pagar en recepción en Jr. Leoncio Prado 1336.</p>
+                </div>
+              </div>
+
+              <!-- Acciones Rápidas -->
+              <div class="dash-acciones-grid">
                 <a href="servicios.html" class="btn btn--dorado" style="padding:12px 14px; font-size:0.88rem; justify-content:center;">
                   📅 Agendar Cita
                 </a>
                 <a href="estetica.html#cotizador" class="btn btn--whatsapp" style="padding:12px 14px; font-size:0.88rem; justify-content:center;">
-                  ✂️ Cotizar Baño
+                  ✂️ Cotizar Estética
                 </a>
               </div>
 
-              <div style="margin-top:20px; text-align:center;">
+              <div style="margin-top:10px; text-align:center;">
                 <button type="button" id="btn-cerrar-sesion" class="btn" style="background:#f1f5f9; color:#475569; width:100%; border:1px solid #cbd5e1; justify-content:center;">
                   Cerrar Sesión
                 </button>
+              </div>
+            </div>
+
+            <!-- Modal: Conectar con Google (Real) -->
+            <div id="modal-google-auth" class="modal-editar-perfil" role="dialog" aria-modal="true" aria-labelledby="modal-google-titulo">
+              <div class="modal-editar-caja">
+                <button type="button" class="modal-editar-cerrar" id="btn-cerrar-modal-google" aria-label="Cerrar">&times;</button>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                  <svg width="28" height="28" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.27 21.36 7.34 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.99 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.27 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                  </svg>
+                  <h3 id="modal-google-titulo" style="font-size:1.28rem; margin:0; color:#1e112d;">Acceder con Google</h3>
+                </div>
+                <p style="font-size:0.86rem; color:#64748b; margin:0 0 16px;">Sincroniza tu cuenta real de Google con Pelitos Veterinaria para gestionar a tu engreído.</p>
+                <form id="form-google-real" novalidate>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="google-nombre">Tu nombre y apellido</label>
+                    <input class="auth-input" type="text" id="google-nombre" placeholder="Ej. Juan Pérez" required maxlength="80" autocomplete="name" />
+                  </div>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="google-email">Tu correo de Google (Gmail)</label>
+                    <input class="auth-input" type="email" id="google-email" placeholder="ejemplo@gmail.com" required autocomplete="email" />
+                  </div>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="google-mascota">Nombre de tu mascota</label>
+                    <input class="auth-input" type="text" id="google-mascota" placeholder="Ej. Luna" required maxlength="60" />
+                  </div>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="google-tel">Celular / WhatsApp (opcional)</label>
+                    <input class="auth-input" type="tel" id="google-tel" placeholder="939356376" maxlength="20" inputmode="tel" />
+                  </div>
+                  <button type="submit" class="btn-auth-submit" style="margin-top:14px; width:100%;">
+                    <span>Continuar con mi cuenta</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Modal: Editar Perfil y Datos de Mascota -->
+            <div id="modal-editar-perfil" class="modal-editar-perfil" role="dialog" aria-modal="true" aria-labelledby="modal-edit-titulo">
+              <div class="modal-editar-caja">
+                <button type="button" class="modal-editar-cerrar" id="btn-cerrar-modal-edit" aria-label="Cerrar">&times;</button>
+                <h3 id="modal-edit-titulo" style="font-size:1.3rem; margin:0 0 6px; color:#1e112d;">Ficha de Tutor y Mascota</h3>
+                <p style="font-size:0.86rem; color:#64748b; margin:0 0 16px;">Actualiza los datos reales que se guardan en tu cuenta.</p>
+                <form id="form-editar-perfil" novalidate>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="edit-nombre">Nombre del tutor</label>
+                    <input class="auth-input" type="text" id="edit-nombre" required maxlength="80" />
+                  </div>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="edit-tel">Teléfono / WhatsApp</label>
+                    <input class="auth-input" type="tel" id="edit-tel" maxlength="20" inputmode="tel" />
+                  </div>
+                  <div class="auth-form-group">
+                    <label class="auth-label" for="edit-mascota">Nombre de la mascota</label>
+                    <input class="auth-input" type="text" id="edit-mascota" required maxlength="60" />
+                  </div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="auth-form-group">
+                      <label class="auth-label" for="edit-raza">Especie y Raza</label>
+                      <input class="auth-input" type="text" id="edit-raza" placeholder="Ej. Perro Shih Tzu" maxlength="60" />
+                    </div>
+                    <div class="auth-form-group">
+                      <label class="auth-label" for="edit-edad">Edad aproximada</label>
+                      <input class="auth-input" type="text" id="edit-edad" placeholder="Ej. 2 años" maxlength="30" />
+                    </div>
+                  </div>
+                  <button type="submit" class="btn-auth-submit" style="margin-top:16px; width:100%;">
+                    <span>Guardar Cambios</span>
+                  </button>
+                </form>
               </div>
             </div>
 

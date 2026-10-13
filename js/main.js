@@ -214,10 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function animarContador(el) {
+  if (el.dataset.animado === "true") return;
   const target = Number(el.dataset.target);
   if (!Number.isFinite(target) || target <= 0) return;
+  el.dataset.animado = "true";
 
-  const sufijo = el.dataset.sufijo || "+";
+  const sufijo = target === 5 ? " años" : (el.dataset.sufijo || "+");
   const duracion = 1400;
   const inicio = performance.now();
 
@@ -319,8 +321,48 @@ function esPagina(nombre) {
     mostrarVista("acceso");
   }
 
+  /* Sincroniza la cabecera (en inicio y demás páginas) con la sesión del usuario */
+  function actualizarCabeceraSesion() {
+    var user = usuarioActual();
+    var btnHeader = document.getElementById("header-btn-auth");
+    var btnMovil = document.getElementById("nav-movil-auth");
+    var navCuenta = document.querySelectorAll("[data-nav-cuenta]");
+
+    if (user && user.nombre) {
+      var primerNombre = sanitizarTexto(user.nombre.split(" ")[0] || "Cliente", 20);
+      var inicial = primerNombre.charAt(0).toUpperCase();
+
+      if (btnHeader) {
+        btnHeader.className = "header__btn-auth conectado";
+        btnHeader.innerHTML = '<span class="avatar-mini">' + inicial + '</span> <span class="auth-label-text">Hola, ' + primerNombre + '</span>';
+        btnHeader.title = "Sesión activa: " + user.nombre + " — Ir a Mi Cuenta";
+      }
+      if (btnMovil) {
+        btnMovil.innerHTML = '👤 Mi Cuenta (Hola, ' + primerNombre + ')';
+        btnMovil.classList.add("conectado");
+      }
+      navCuenta.forEach(function (el) {
+        el.textContent = "Mi Cuenta (" + primerNombre + ")";
+      });
+    } else {
+      if (btnHeader) {
+        btnHeader.className = "header__btn-auth";
+        btnHeader.innerHTML = '<span class="auth-icon-badge">👤</span> <span class="auth-label-text">Iniciar sesión</span>';
+        btnHeader.title = "Iniciar sesión o registrarte";
+      }
+      if (btnMovil) {
+        btnMovil.innerHTML = '👤 Iniciar Sesión / Mi Cuenta';
+        btnMovil.classList.remove("conectado");
+      }
+      navCuenta.forEach(function (el) {
+        el.textContent = "Mi Cuenta";
+      });
+    }
+  }
+
   /* Actualiza la interfaz del portal de clientes según el estado de la sesión */
   function actualizarVistaDashboard() {
+    actualizarCabeceraSesion();
     var user = usuarioActual();
     var panelConectado = document.getElementById("auth-panel-conectado");
     var vistaAcceso = document.querySelector('[data-auth-vista="acceso"]');
@@ -560,6 +602,12 @@ function esPagina(nombre) {
 
     // Inicializar estado visual al cargar
     actualizarVistaDashboard();
+    window.addEventListener("storage", function (e) {
+      if (e.key === CLAVE_STORAGE_SESION) {
+        sesion = obtenerSesionStorage();
+        actualizarVistaDashboard();
+      }
+    });
   }
 
   window.PelitosAuth = {
@@ -569,13 +617,18 @@ function esPagina(nombre) {
     cerrarSesion: cerrarSesion,
     abrirModal: abrirModal,
     mostrarVista: mostrarVista,
-    validarCampo: validar
+    validarCampo: validar,
+    actualizarCabecera: actualizarCabeceraSesion
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", iniciar);
+    document.addEventListener("DOMContentLoaded", function () {
+      iniciar();
+      actualizarCabeceraSesion();
+    });
   } else {
     iniciar();
+    actualizarCabeceraSesion();
   }
 })();
 
@@ -3348,154 +3401,179 @@ function esPagina(nombre) {
    ========================================================================== */
 
 (function () {
-  if (!esPagina("inicio")) return;   // solo se ejecuta en esta página
+  if (!esPagina("inicio")) return;   // solo se ejecuta en la página de inicio
 
-  // Animación de contadores
-  function animarContador(el) {
-    const target = +el.dataset.target;
-    // Si el numero del HTML esta mal escrito, se pinta tal cual y se sale.
-    // (Antes el contador se quedaba girando para siempre en segundo plano.)
-    if (!Number.isFinite(target) || target <= 0) {
-      el.textContent = el.dataset.target || '';
-      return;
-    }
-    // El "5" es el unico contador que lleva la palabra años; el resto lleva "+".
-    const sufijo = target === 5 ? ' años' : '+';
-    const duracion = 1800;
-    const paso = Math.max(1, Math.ceil(target / (duracion / 16)));
-    let actual = 0;
-    const timer = setInterval(() => {
-      actual = Math.min(actual + paso, target);
-      el.textContent = actual + sufijo;
-      if (actual >= target) clearInterval(timer);
-    }, 16);
+  /* --------------------------------------------------------------------------
+     1. Chips interactivos de Pelitos Estética en Inicio
+     Permite seleccionar un servicio (Baños, Grooming, Cortes, Baños medicados...)
+     y actualiza inmediatamente el botón de WhatsApp con el servicio elegido.
+     -------------------------------------------------------------------------- */
+  const contenedorChips = document.getElementById("estetica-chips");
+  const btnReservaEstetica = document.getElementById("btn-estetica-reserva");
+  if (contenedorChips && btnReservaEstetica) {
+    const chips = contenedorChips.querySelectorAll(".chip");
+    const numEstetica = (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.estetica) || "51948426656";
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const servicio = chip.dataset.servicio || chip.textContent.replace(/^[^\w\s]+/, "").trim();
+        const estabaActivo = chip.classList.contains("activo");
+
+        chips.forEach((c) => {
+          c.classList.remove("activo");
+          c.setAttribute("aria-pressed", "false");
+        });
+
+        if (!estabaActivo) {
+          chip.classList.add("activo");
+          chip.setAttribute("aria-pressed", "true");
+          btnReservaEstetica.textContent = `Reservar ${servicio} en Estética`;
+          const msg = `Hola Pelitos, quiero reservar en Pelitos Estética para el servicio de: ${servicio}.`;
+          btnReservaEstetica.href = `https://api.whatsapp.com/send?phone=${numEstetica}&text=${encodeURIComponent(msg)}`;
+        } else {
+          btnReservaEstetica.textContent = "Reservar en Pelitos Estética";
+          const msgDef = "Hola Pelitos, quiero reservar en Pelitos Estética.";
+          btnReservaEstetica.href = `https://api.whatsapp.com/send?phone=${numEstetica}&text=${encodeURIComponent(msgDef)}`;
+        }
+      });
+    });
   }
 
-  // Intersection Observer para reveal y contadores
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        entry.target.querySelectorAll('[data-target]').forEach(animarContador);
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  /* Barra de cita de la portada: arma el mensaje y lo abre en WhatsApp.
-     No guarda nada ni manda correos: solo redacta el texto por el cliente.
-     Para cambiar el numero de WhatsApp, edite TELEFONO_CITA de abajo. */
-  const TELEFONO_CITA = '51939356376';
-  const barraCita = document.querySelector('[data-barra-cita]');
+  /* --------------------------------------------------------------------------
+     2. Barra de Citas de Portada (Servicio, Mascota, Cuándo y Hora)
+     Inicializa fechas laborales válidas y previene bloqueos silenciosos.
+     -------------------------------------------------------------------------- */
+  const TELEFONO_CITA = (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.consultorio) || "51939356376";
+  const barraCita = document.querySelector("[data-barra-cita]");
   if (barraCita) {
-    /* Si elige "Hoy", se desactivan las horas que ya pasaron. */
     const selectDia = barraCita.querySelector('[name="dia"]');
     const selectHora = barraCita.querySelector('[name="hora"]');
+
     const aHora24 = (texto) => {
       const m = /^(\d{1,2}):(\d{2})\s*([ap])/i.exec(texto);
       if (!m) return 0;
       let h = parseInt(m[1], 10) % 12;
-      if (m[3].toLowerCase() === 'p') h += 12;
+      if (m[3].toLowerCase() === "p") h += 12;
       return h * 60 + parseInt(m[2], 10);
     };
+
+    /* Obtiene la fecha local en formato AAAA-MM-DD */
+    const formatearISO = (d) => {
+      const copia = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+      return copia.toISOString().slice(0, 10);
+    };
+
+    /* Inicialización inteligente de fecha: evita domingos y horas vencidas */
+    if (selectDia && selectDia.type === "date") {
+      const hoy = new Date();
+      // Si es domingo (0) o pasadas las 19:30, sugerir siguiente día hábil
+      if (hoy.getDay() === 0 || (hoy.getHours() >= 19 && hoy.getMinutes() >= 30)) {
+        hoy.setDate(hoy.getDate() + (hoy.getDay() === 0 ? 1 : (hoy.getDay() === 6 ? 2 : 1)));
+      }
+      const fechaDefecto = formatearISO(hoy);
+      selectDia.min = formatearISO(new Date());
+
+      const maxF = new Date();
+      maxF.setDate(maxF.getDate() + 60);
+      selectDia.max = formatearISO(maxF);
+
+      if (!selectDia.value) {
+        selectDia.value = fechaDefecto;
+      }
+    }
+
     const actualizarHoras = () => {
       if (!selectDia || !selectHora) return;
-      const hoyISO = (() => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); })();
-      const esHoy = selectDia.value === 'Hoy' || selectDia.value === hoyISO;
+      const hoyISO = formatearISO(new Date());
+      const esHoy = selectDia.value === "Hoy" || selectDia.value === hoyISO;
       const ahora = new Date();
       const minutos = ahora.getHours() * 60 + ahora.getMinutes();
       let primeraLibre = null;
+
       Array.from(selectHora.options).forEach((op) => {
         op.disabled = esHoy && aHora24(op.value) <= minutos;
         if (!op.disabled && !primeraLibre) primeraLibre = op;
       });
+
       if (selectHora.selectedOptions[0] && selectHora.selectedOptions[0].disabled && primeraLibre) {
         primeraLibre.selected = true;
       }
-      /* Si hoy ya no quedan horas, se pasa a "Mañana". */
+
+      /* Si para hoy ya no quedan horas libres, avanzar al siguiente día laboral */
       if (esHoy && !primeraLibre) {
-        if (selectDia.type === 'date') {
-          const m = new Date(); m.setDate(m.getDate() + 1);
-          m.setMinutes(m.getMinutes() - m.getTimezoneOffset());
-          selectDia.value = m.toISOString().slice(0, 10);
+        if (selectDia.type === "date") {
+          const sig = new Date();
+          sig.setDate(sig.getDate() + 1);
+          if (sig.getDay() === 0) sig.setDate(sig.getDate() + 1);
+          selectDia.value = formatearISO(sig);
         } else {
-          selectDia.value = 'Mañana';
+          selectDia.value = "Mañana";
         }
         actualizarHoras();
       }
     };
-    /* Calendario: no se permiten fechas pasadas ni superiores a 60 días */
-    if (selectDia && selectDia.type === 'date') {
-      const h = new Date(); h.setMinutes(h.getMinutes() - h.getTimezoneOffset());
-      selectDia.min = h.toISOString().slice(0, 10);
-      const maxFecha = new Date();
-      maxFecha.setDate(maxFecha.getDate() + 60);
-      maxFecha.setMinutes(maxFecha.getMinutes() - maxFecha.getTimezoneOffset());
-      selectDia.max = maxFecha.toISOString().slice(0, 10);
-    }
 
     const validarDiaLaboral = () => {
-      if (!selectDia || selectDia.type !== 'date' || !selectDia.value) return;
-      const partes = selectDia.value.split('-').map(Number);
+      if (!selectDia || selectDia.type !== "date" || !selectDia.value) return;
+      const partes = selectDia.value.split("-").map(Number);
       if (partes.length === 3) {
         const fechaElegida = new Date(partes[0], partes[1] - 1, partes[2]);
         if (fechaElegida.getDay() === 0) { // Domingo
           const sigLunes = new Date(fechaElegida);
           sigLunes.setDate(sigLunes.getDate() + 1);
-          sigLunes.setMinutes(sigLunes.getMinutes() - sigLunes.getTimezoneOffset());
-          selectDia.value = sigLunes.toISOString().slice(0, 10);
-          if (typeof window.PelitosAviso === 'function') {
-            window.PelitosAviso('Los domingos la clínica permanece cerrada. Hemos seleccionado el lunes para tu atención.');
-          } else {
-            alert('Los domingos la clínica permanece cerrada. Hemos seleccionado el lunes para tu atención.');
+          selectDia.value = formatearISO(sigLunes);
+          const avisoMsg = "Los domingos la clínica permanece cerrada. Hemos seleccionado el lunes para tu atención.";
+          if (typeof window.PelitosAviso === "function") {
+            window.PelitosAviso(avisoMsg);
+          } else if (window.PelitosAuth && typeof window.PelitosAuth.mostrarToast === "function") {
+            window.PelitosAuth.mostrarToast(avisoMsg, "ℹ️");
           }
         }
       }
       actualizarHoras();
     };
 
-    if (selectDia) selectDia.addEventListener('change', validarDiaLaboral);
+    if (selectDia) selectDia.addEventListener("change", validarDiaLaboral);
     actualizarHoras();
 
-    barraCita.addEventListener('submit', (e) => {
+    barraCita.addEventListener("submit", (e) => {
       e.preventDefault();
       const dato = (nombre) => {
         const campo = barraCita.querySelector('[name="' + nombre + '"]');
-        return campo ? String(campo.value).replace(/[\u200B-\u200D\uFEFF\u0000-\u001F]/g, '').trim() : '';
+        return campo ? sanitizarTexto(campo.value, 80) : "";
       };
-      const servicio = dato('servicio');
-      const mascota = dato('mascota').slice(0, 40);
-      let dia = dato('dia');
-      /* Fecha del calendario (AAAA-MM-DD) en formato legible: lunes 28/09/2026 */
+      const servicio = dato("servicio");
+      const mascota = dato("mascota").slice(0, 40);
+      let dia = dato("dia");
+
       if (/^\d{4}-\d{2}-\d{2}$/.test(dia)) {
-        const [a, mm, d] = dia.split('-').map(Number);
+        const [a, mm, d] = dia.split("-").map(Number);
         const f = new Date(a, mm - 1, d);
         if (f.getDay() === 0) {
-          alert('Los domingos estamos cerrados. Por favor selecciona una fecha de lunes a sábado.');
-          return;
+          f.setDate(f.getDate() + 1);
+          dia = formatearISO(f);
         }
-        const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-        dia = dias[f.getDay()] + ' ' + String(d).padStart(2, '0') + '/' + String(mm).padStart(2, '0') + '/' + a;
+        const dias = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+        dia = dias[f.getDay()] + " " + String(d).padStart(2, "0") + "/" + String(mm).padStart(2, "0") + "/" + a;
       }
-      const hora = dato('hora');
+
+      const hora = dato("hora");
       const texto =
-        'Hola Pelitos, quiero reservar una cita.\n' +
-        (servicio ? 'Servicio: ' + servicio + '\n' : '') +
-        (mascota ? 'Mascota: ' + mascota + '\n' : '') +
-        (dia ? 'Cuándo: ' + dia + '\n' : '') +
-        (hora && dia !== 'Solo quiero información' ? 'Hora: ' + hora : '');
-      window.open(
-        'https://api.whatsapp.com/send?phone=' + TELEFONO_CITA + '&text=' + encodeURIComponent(texto),
-        '_blank',
-        'noopener,noreferrer'
-      );
+        "Hola Pelitos, quiero reservar una cita.\n" +
+        (servicio ? "Servicio: " + servicio + "\n" : "") +
+        (mascota ? "Mascota: " + mascota + "\n" : "") +
+        (dia ? "Cuándo: " + dia + "\n" : "") +
+        (hora && dia !== "Solo quiero información" ? "Hora: " + hora : "");
+
+      const urlWhatsApp = enlaceWhatsapp(texto, TELEFONO_CITA);
+      abrirExterno(urlWhatsApp);
     });
   }
 
   // Año dinámico
-  document.querySelectorAll('[data-anio]').forEach(el => el.textContent = new Date().getFullYear());
+  document.querySelectorAll("[data-anio]").forEach((el) => {
+    el.textContent = String(new Date().getFullYear());
+  });
 })();
 
 

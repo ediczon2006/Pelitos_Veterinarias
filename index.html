@@ -62,10 +62,14 @@
         <a href="pages/nosotros.html">Nosotros</a>
         <a href="pages/consejos.html">Consejos Pelitos</a>
         <a href="pages/contacto.html">Contacto</a>
-        <a href="pages/login.html">Mi Cuenta</a>
+        <a href="pages/login.html" data-nav-cuenta>Mi Cuenta</a>
       </nav>
 
       <div class="header__acciones">
+        <a class="header__btn-auth" id="header-btn-auth" href="pages/login.html" title="Iniciar sesión o ver mi cuenta">
+          <span class="auth-icon-badge">👤</span>
+          <span class="auth-label-text">Iniciar sesión</span>
+        </a>
         <a class="btn btn--dorado btn--sm" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener noreferrer">Reservar cita</a>
         <button class="menu-btn" type="button" data-menu-btn aria-label="Abrir menú" aria-expanded="false">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -82,7 +86,7 @@
       <a href="pages/nosotros.html">Nosotros</a>
       <a href="pages/consejos.html">Consejos Pelitos</a>
       <a href="pages/contacto.html">Contacto</a>
-      <a href="pages/login.html">👤 Mi Cuenta (Iniciar Sesión)</a>
+      <a href="pages/login.html" class="nav-movil__auth" id="nav-movil-auth">👤 Iniciar Sesión / Mi Cuenta</a>
       <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51939356376&text=Hola%2C%20quiero%20reservar%20una%20cita%20en%20Pelitos%20Veterinaria." target="_blank" rel="noopener noreferrer">Reservar cita</a>
     </nav>
   </header>
@@ -189,29 +193,6 @@
         </div>
       </div>
     </section>
-    <style>
-      .buscador-chip {
-        display: inline-flex; align-items: center; gap: 7px;
-        background: var(--morado-claro, #f4eefb);
-        color: var(--morado, #5b2a86);
-        border: 1.5px solid rgba(91,42,134,0.15);
-        border-radius: 50px; padding: 9px 18px;
-        font-size: 0.92rem; font-weight: 600;
-        text-decoration: none; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-        white-space: nowrap;
-      }
-      .buscador-chip:hover {
-        background: var(--morado, #5b2a86); color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(91,42,134,0.22);
-      }
-      .buscador-chip--ws { background: #e7fce8; color: #1a6e21; border-color: rgba(26,110,33,0.2); }
-      .buscador-chip--ws:hover { background: #25d366; color: #fff; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
-      @media (max-width: 600px) {
-        .buscador-prompt { padding: 20px 18px; }
-        .buscador-chip { font-size: 0.85rem; padding: 8px 14px; }
-      }
-    </style>
 
     <!-- ================= TRES AREAS (portadas chicas) ================= -->
 
@@ -398,16 +379,17 @@
           <span class="eyebrow">Peluquería canina profesional</span>
           <h2 style="margin-top:12px;font-size:clamp(1.8rem,4vw,2.6rem)">Estética Canina Profesional</h2>
           <p style="margin-top:12px;opacity:.9">Peluquería canina profesional con cuidado, higiene y bienestar.</p>
-          <div class="chips">
-            <span class="chip">Baños</span>
-            <span class="chip">Grooming</span>
-            <span class="chip">Cortes</span>
-            <span class="chip">Baños medicados</span>
-            <span class="chip">Corte de uñas</span>
-            <span class="chip">Higiene complementaria</span>
+          <div class="chips" id="estetica-chips" role="group" aria-label="Especialidades de Pelitos Estética">
+            <button type="button" class="chip" data-servicio="Baños" aria-pressed="false">🛁 Baños</button>
+            <button type="button" class="chip" data-servicio="Grooming" aria-pressed="false">✂️ Grooming</button>
+            <button type="button" class="chip" data-servicio="Cortes" aria-pressed="false">🐩 Cortes</button>
+            <button type="button" class="chip" data-servicio="Baños medicados" aria-pressed="false">🧴 Baños medicados</button>
+            <button type="button" class="chip" data-servicio="Corte de uñas" aria-pressed="false">🐾 Corte de uñas</button>
+            <button type="button" class="chip" data-servicio="Higiene complementaria" aria-pressed="false">✨ Higiene complementaria</button>
           </div>
-          <div class="acciones">
-            <a class="btn btn--dorado" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20en%20Pelitos%20Est%C3%A9tica." target="_blank" rel="noopener">Reservar en Pelitos Estética</a>
+          <p class="chips-pista">💡 Toca cualquier servicio para personalizar tu reserva directa.</p>
+          <div class="acciones" style="position:relative; z-index:2;">
+            <a class="btn btn--dorado" id="btn-estetica-reserva" href="https://api.whatsapp.com/send?phone=51948426656&text=Hola%20Pelitos%2C%20quiero%20reservar%20en%20Pelitos%20Est%C3%A9tica." target="_blank" rel="noopener noreferrer">Reservar en Pelitos Estética</a>
             <a class="btn btn--claro" href="pages/estetica.html">Ver Pelitos Estética</a>
           </div>
         </div>

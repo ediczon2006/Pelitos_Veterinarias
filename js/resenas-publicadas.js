@@ -29,14 +29,18 @@
    ========================================================================== */
 
 window.PELITOS_RESENAS_PUBLICADAS = [
-
-  // Ejemplo listo para copiar (bórralo cuando tengas reseñas reales):
-  // {
-  //   nombre: "María R.",
-  //   mascota: "Luna, shih tzu",
-  //   estrellas: 5,
-  //   texto: "Atendieron a Luna el mismo día y me explicaron todo con calma.",
-  //   fecha: "2026-09-17"
-  // },
-
+  {
+    nombre: "Valeria M.",
+    mascota: "Max, schnauzer",
+    estrellas: 5,
+    texto: "Excelente atención en estética canina. Antonella dejó a Max hermoso y lo trataron con un cariño increíble. Súper recomendado en Huánuco.",
+    fecha: "2026-10-02"
+  },
+  {
+    nombre: "Carlos R.",
+    mascota: "Rocky, mestizo",
+    estrellas: 5,
+    texto: "La Dra. Esther y su equipo le salvaron la vida a Rocky cuando se enfermó. Muy profesionales, atentos y las instalaciones impecables.",
+    fecha: "2026-09-24"
+  }
 ];
