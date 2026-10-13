@@ -360,6 +360,16 @@ function esPagina(nombre) {
     }
   }
 
+  /* Genera un ID de historia clínica único y determinista a partir del email */
+  function generarChartId(email) {
+    if (!email) return "#PEL-0001";
+    var hash = 0;
+    for (var i = 0; i < email.length; i++) {
+      hash = (hash * 31 + email.charCodeAt(i)) & 0xFFFF;
+    }
+    return "#PEL-" + (1000 + (hash % 8999));
+  }
+
   /* Actualiza la interfaz del portal de clientes según el estado de la sesión */
   function actualizarVistaDashboard() {
     actualizarCabeceraSesion();
@@ -368,25 +378,54 @@ function esPagina(nombre) {
     var vistaAcceso = document.querySelector('[data-auth-vista="acceso"]');
     var vistaRegistro = document.querySelector('[data-auth-vista="registro"]');
     var tabsWrap = document.querySelector(".auth-tabs");
+    var elBoxTitle    = document.getElementById("auth-box-title");
+    var elBoxSubtitle = document.getElementById("auth-box-subtitle");
 
     if (user && panelConectado) {
       panelConectado.hidden = false;
-      if (vistaAcceso) vistaAcceso.hidden = true;
+      if (vistaAcceso)   vistaAcceso.hidden   = true;
       if (vistaRegistro) vistaRegistro.hidden = true;
       if (tabsWrap) tabsWrap.style.display = "none";
 
-      var elNombre = document.getElementById("dash-user-name");
-      var elEmail = document.getElementById("dash-user-email");
-      var elMascota = document.getElementById("dash-mascota-nombre");
-      var elAvatar = document.getElementById("dash-user-avatar");
+      // Título dinámico: modo portal activo
+      if (elBoxTitle)    elBoxTitle.textContent    = "Mi Portal Pelitos";
+      if (elBoxSubtitle) elBoxSubtitle.textContent = "Ficha de atención veterinaria y seguimiento clínico";
 
-      if (elNombre) elNombre.textContent = user.nombre || "Cliente Pelitos";
-      if (elEmail) elEmail.textContent = user.email || "";
-      if (elMascota) elMascota.textContent = user.mascota || "Tu engreído consentido";
-      if (elAvatar && user.nombre) elAvatar.textContent = user.nombre.charAt(0).toUpperCase();
+      // ── Perfil del tutor ──────────────────────────────────────────────────
+      var nombreLimpio = sanitizarTexto(user.nombre || "Cliente Pelitos", 60);
+      var elNombre  = document.getElementById("dash-user-name");
+      var elEmail   = document.getElementById("dash-user-email");
+      var elTel     = document.getElementById("dash-user-tel");
+      var elAvatar  = document.getElementById("dash-user-avatar");
+
+      if (elNombre) elNombre.textContent = nombreLimpio;
+      if (elEmail)  elEmail.textContent  = sanitizarTexto(user.email || "", 80);
+      if (elTel)    elTel.textContent    = user.telefono ? "📱 " + sanitizarTexto(user.telefono, 20) : "";
+      if (elAvatar) {
+        if (user.foto) {
+          elAvatar.innerHTML = '<img src="' + user.foto
+            + '" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+        } else {
+          elAvatar.textContent = nombreLimpio.charAt(0).toUpperCase();
+        }
+      }
+
+      // ── Ficha de mascota ──────────────────────────────────────────────────
+      var elMascota = document.getElementById("dash-mascota-nombre");
+      var elRaza    = document.getElementById("dash-mascota-raza");
+      var elEdad    = document.getElementById("dash-mascota-edad");
+      var elChart   = document.getElementById("dash-mascota-chart-id");
+
+      if (elMascota) elMascota.textContent = sanitizarTexto(user.mascota || "Ingresa el nombre de tu mascota", 60);
+      if (elRaza)    elRaza.textContent    = sanitizarTexto(user.raza    || "Por completar ✏️", 60);
+      if (elEdad)    elEdad.textContent    = sanitizarTexto(user.edad    || "Por completar ✏️", 30);
+      if (elChart)   elChart.textContent   = generarChartId(user.email);
+
     } else if (panelConectado) {
       panelConectado.hidden = true;
       if (tabsWrap) tabsWrap.style.display = "";
+      if (elBoxTitle)    elBoxTitle.textContent    = "Portal de clientes";
+      if (elBoxSubtitle) elBoxSubtitle.textContent = "Ingresa con Google, con tu correo o crea tu cuenta en 1 minuto";
       mostrarVista("acceso");
     }
   }
@@ -491,71 +530,127 @@ function esPagina(nombre) {
       });
     });
 
-    /* Manejo del Login de Google Demo / Simulación rápida */
+    /* ── Botón "Continuar con Google" → abre modal de datos reales ──────── */
     var btnGoogle = document.getElementById("btn-page-google");
-    if (btnGoogle) {
-      btnGoogle.addEventListener("click", function () {
-        var dummyUser = {
-          nombre: "Tutor Google",
-          email: "usuario.google@gmail.com",
-          telefono: "939356376",
-          mascota: "Consentido Pelitos",
-          fechaIngreso: new Date().toISOString()
-        };
-        guardarUsuario(dummyUser, true);
-        mostrarToast("¡Bienvenido con tu cuenta de Google!", "🎉");
+    var modalGoogle = document.getElementById("modal-google-auth");
+    var btnCerrarGoogle = document.getElementById("btn-cerrar-modal-google");
+
+    function abrirModalGoogle() {
+      if (modalGoogle) modalGoogle.classList.add("abierto");
+    }
+    function cerrarModalGoogle() {
+      if (modalGoogle) modalGoogle.classList.remove("abierto");
+    }
+
+    if (btnGoogle)       btnGoogle.addEventListener("click", abrirModalGoogle);
+    if (btnCerrarGoogle) btnCerrarGoogle.addEventListener("click", cerrarModalGoogle);
+    if (modalGoogle) {
+      modalGoogle.addEventListener("click", function (e) {
+        if (e.target === modalGoogle) cerrarModalGoogle();
       });
     }
 
-    /* Manejo del Submit de Login */
+    /* ── Formulario Google Real: guardar datos y login ───────────────────── */
+    var formGoogleReal = document.getElementById("form-google-real");
+    if (formGoogleReal) {
+      formGoogleReal.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nombreInp  = document.getElementById("google-nombre");
+        var emailInp   = document.getElementById("google-email");
+        var mascotaInp = document.getElementById("google-mascota");
+        var telInp     = document.getElementById("google-tel");
+
+        var nombre  = nombreInp  ? nombreInp.value.trim()  : "";
+        var email   = emailInp   ? emailInp.value.trim()   : "";
+        var mascota = mascotaInp ? mascotaInp.value.trim() : "";
+        var tel     = telInp     ? telInp.value.trim()     : "";
+
+        if (!nombre || nombre.length < 2) {
+          mostrarToast("Escribe tu nombre completo", "⚠️"); return;
+        }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+          mostrarToast("Ingresa un correo Gmail válido", "⚠️"); return;
+        }
+        if (!mascota) {
+          mostrarToast("Escribe el nombre de tu mascota", "⚠️"); return;
+        }
+
+        var nuevoUsuario = {
+          nombre:       sanitizarTexto(nombre,  60),
+          email:        sanitizarTexto(email,   80),
+          telefono:     sanitizarTexto(tel,     20),
+          mascota:      sanitizarTexto(mascota, 60),
+          raza:         "",
+          edad:         "",
+          metodo:       "google",
+          fechaIngreso: new Date().toISOString()
+        };
+
+        // Persiste también en la "BD local" de cuentas
+        var cuentas = obtenerCuentasStorage();
+        var idx = cuentas.findIndex(function (c) {
+          return c.email.toLowerCase() === nuevoUsuario.email.toLowerCase();
+        });
+        if (idx >= 0) { cuentas[idx] = nuevoUsuario; } else { cuentas.push(nuevoUsuario); }
+        guardarCuentasStorage(cuentas);
+
+        guardarUsuario(nuevoUsuario, true);
+        cerrarModalGoogle();
+        formGoogleReal.reset();
+        mostrarToast("¡Bienvenido a Pelitos, " + nuevoUsuario.nombre.split(" ")[0] + "!", "🐾");
+      });
+    }
+
+    /* ── Manejo del Submit de Login por correo ───────────────────────────── */
     var formLogin = document.getElementById("form-page-login");
     if (formLogin) {
       formLogin.addEventListener("submit", function (e) {
         e.preventDefault();
-        var emailInput = document.getElementById("page-email");
-        var passInput = document.getElementById("page-pass");
+        var emailInput   = document.getElementById("page-email");
+        var passInput    = document.getElementById("page-pass");
         var rememberCheck = document.getElementById("page-remember");
 
         if (!emailInput || !passInput) return;
         var email = emailInput.value.trim();
-        var pass = passInput.value.trim();
 
         if (!validar(emailInput) || !validar(passInput)) {
           mostrarToast("Por favor revisa tus credenciales", "⚠️");
           return;
         }
 
-        // Buscar si existe en las cuentas registradas
-        var cuentas = obtenerCuentasStorage();
+        var cuentas   = obtenerCuentasStorage();
         var encontrada = cuentas.find(function (c) {
           return c.email.toLowerCase() === email.toLowerCase();
         });
 
         var userSesion = {
-          nombre: encontrada ? encontrada.nombre : email.split("@")[0],
-          email: email,
-          mascota: encontrada ? encontrada.mascota : "Mi consentido",
-          telefono: encontrada ? encontrada.telefono : "",
+          nombre:       encontrada ? encontrada.nombre   : email.split("@")[0],
+          email:        email,
+          mascota:      encontrada ? encontrada.mascota  : "",
+          telefono:     encontrada ? encontrada.telefono : "",
+          raza:         encontrada ? (encontrada.raza || "")  : "",
+          edad:         encontrada ? (encontrada.edad || "")  : "",
+          metodo:       "email",
           fechaIngreso: new Date().toISOString()
         };
 
         guardarUsuario(userSesion, rememberCheck ? rememberCheck.checked : true);
-        mostrarToast("¡Inicio de sesión exitoso! Bienvenido.", "👋");
+        mostrarToast("¡Bienvenido, " + userSesion.nombre.split(" ")[0] + "! 👋", "✅");
         formLogin.reset();
       });
     }
 
-    /* Manejo del Submit de Registro */
+    /* ── Manejo del Submit de Registro ───────────────────────────────────── */
     var formRegistro = document.getElementById("form-page-registro");
     if (formRegistro) {
       formRegistro.addEventListener("submit", function (e) {
         e.preventDefault();
-        var nomInput = document.getElementById("reg-nombre");
+        var nomInput   = document.getElementById("reg-nombre");
         var emailInput = document.getElementById("reg-email");
-        var telInput = document.getElementById("reg-tel");
-        var petInput = document.getElementById("reg-mascota");
-        var passInput = document.getElementById("reg-pass");
-        var terminos = document.getElementById("reg-terminos");
+        var telInput   = document.getElementById("reg-tel");
+        var petInput   = document.getElementById("reg-mascota");
+        var passInput  = document.getElementById("reg-pass");
+        var terminos   = document.getElementById("reg-terminos");
 
         if (!nomInput || !emailInput || !passInput) return;
         if (!validar(nomInput) || !validar(emailInput) || !validar(passInput)) {
@@ -567,37 +662,111 @@ function esPagina(nombre) {
           return;
         }
 
-        var cuentas = obtenerCuentasStorage();
+        var cuentas      = obtenerCuentasStorage();
         var nuevoUsuario = {
-          nombre: nomInput.value.trim(),
-          email: emailInput.value.trim(),
-          telefono: telInput ? telInput.value.trim() : "",
-          mascota: (petInput && petInput.value.trim()) ? petInput.value.trim() : "Mascota Pelitos",
-          fechaRegistro: new Date().toISOString()
+          nombre:          sanitizarTexto(nomInput.value.trim(), 60),
+          email:           sanitizarTexto(emailInput.value.trim(), 80),
+          telefono:        telInput ? sanitizarTexto(telInput.value.trim(), 20) : "",
+          mascota:         (petInput && petInput.value.trim()) ? sanitizarTexto(petInput.value.trim(), 60) : "",
+          raza:            "",
+          edad:            "",
+          metodo:          "email",
+          fechaRegistro:   new Date().toISOString()
         };
 
-        // Guardar en la base de datos local
-        var indexExistente = cuentas.findIndex(function (c) {
+        var idxEx = cuentas.findIndex(function (c) {
           return c.email.toLowerCase() === nuevoUsuario.email.toLowerCase();
         });
-        if (indexExistente >= 0) {
-          cuentas[indexExistente] = nuevoUsuario;
-        } else {
-          cuentas.push(nuevoUsuario);
-        }
+        if (idxEx >= 0) { cuentas[idxEx] = nuevoUsuario; } else { cuentas.push(nuevoUsuario); }
         guardarCuentasStorage(cuentas);
 
-        // Iniciar sesión inmediatamente
         guardarUsuario(nuevoUsuario, true);
-        mostrarToast("¡Cuenta creada con éxito! Bienvenido a Pelitos.", "🐾");
+        mostrarToast("¡Cuenta creada! Bienvenido/a a Pelitos 🐾", "✅");
         formRegistro.reset();
       });
     }
 
-    /* Botón de Cerrar Sesión en Dashboard */
-    var btnCerrar = document.getElementById("btn-cerrar-sesion");
-    if (btnCerrar) {
-      btnCerrar.addEventListener("click", cerrarSesion);
+    /* ── Modal Editar Perfil y Mascota ───────────────────────────────────── */
+    var modalEditar       = document.getElementById("modal-editar-perfil");
+    var btnAbrirEditar    = document.getElementById("btn-abrir-editar-perfil");
+    var btnCerrarEditar   = document.getElementById("btn-cerrar-modal-edit");
+    var formEditarPerfil  = document.getElementById("form-editar-perfil");
+
+    function abrirModalEditar() {
+      if (!modalEditar) return;
+      var user = usuarioActual();
+      if (user) {
+        var fn = document.getElementById("edit-nombre");
+        var ft = document.getElementById("edit-tel");
+        var fm = document.getElementById("edit-mascota");
+        var fr = document.getElementById("edit-raza");
+        var fe = document.getElementById("edit-edad");
+        if (fn) fn.value = user.nombre  || "";
+        if (ft) ft.value = user.telefono || "";
+        if (fm) fm.value = user.mascota  || "";
+        if (fr) fr.value = user.raza     || "";
+        if (fe) fe.value = user.edad     || "";
+      }
+      modalEditar.classList.add("abierto");
+    }
+    function cerrarModalEditar() {
+      if (modalEditar) modalEditar.classList.remove("abierto");
+    }
+
+    if (btnAbrirEditar)  btnAbrirEditar.addEventListener("click",  abrirModalEditar);
+    if (btnCerrarEditar) btnCerrarEditar.addEventListener("click", cerrarModalEditar);
+    if (modalEditar) {
+      modalEditar.addEventListener("click", function (e) {
+        if (e.target === modalEditar) cerrarModalEditar();
+      });
+    }
+
+    if (formEditarPerfil) {
+      formEditarPerfil.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var user = usuarioActual();
+        if (!user) return;
+
+        var fn = document.getElementById("edit-nombre");
+        var ft = document.getElementById("edit-tel");
+        var fm = document.getElementById("edit-mascota");
+        var fr = document.getElementById("edit-raza");
+        var fe = document.getElementById("edit-edad");
+
+        var nombreNuevo = fn ? sanitizarTexto(fn.value.trim(), 60) : user.nombre;
+        if (!nombreNuevo || nombreNuevo.length < 2) {
+          mostrarToast("El nombre del tutor es obligatorio", "⚠️"); return;
+        }
+        var mascotaNueva = fm ? sanitizarTexto(fm.value.trim(), 60) : user.mascota;
+        if (!mascotaNueva) {
+          mostrarToast("Escribe el nombre de la mascota", "⚠️"); return;
+        }
+
+        user.nombre   = nombreNuevo;
+        user.telefono = ft ? sanitizarTexto(ft.value.trim(), 20) : (user.telefono || "");
+        user.mascota  = mascotaNueva;
+        user.raza     = fr ? sanitizarTexto(fr.value.trim(), 60)  : (user.raza || "");
+        user.edad     = fe ? sanitizarTexto(fe.value.trim(), 30)  : (user.edad || "");
+
+        // Actualizar también en la lista de cuentas
+        var cuentas = obtenerCuentasStorage();
+        var idxU = cuentas.findIndex(function (c) {
+          return c.email.toLowerCase() === user.email.toLowerCase();
+        });
+        if (idxU >= 0) { cuentas[idxU] = Object.assign({}, cuentas[idxU], user); }
+        else            { cuentas.push(user); }
+        guardarCuentasStorage(cuentas);
+
+        guardarUsuario(user, true);
+        cerrarModalEditar();
+        mostrarToast("¡Ficha actualizada correctamente! 🐾", "✅");
+      });
+    }
+
+    /* ── Botón de Cerrar Sesión en Dashboard ─────────────────────────────── */
+    var btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
+    if (btnCerrarSesion) {
+      btnCerrarSesion.addEventListener("click", cerrarSesion);
     }
 
     // Inicializar estado visual al cargar

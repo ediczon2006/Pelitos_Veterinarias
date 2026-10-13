@@ -478,5 +478,24 @@
     </div>
   </footer>
 
+  <!-- Limpieza automática de sesión demo antigua -->
+  <script>
+    (function () {
+      var CLAVE = "pelitos_usuario_sesion";
+      try {
+        var raw = localStorage.getItem(CLAVE);
+        if (raw) {
+          var u = JSON.parse(raw);
+          // Si el nombre o el email coincide con los datos dummy anteriores, limpiar
+          var esDemo = (
+            (u.nombre  && u.nombre.toLowerCase()  === "tutor google") ||
+            (u.email   && u.email.toLowerCase()   === "usuario.google@gmail.com") ||
+            (u.mascota && u.mascota.toLowerCase() === "consentido pelitos")
+          );
+          if (esDemo) localStorage.removeItem(CLAVE);
+        }
+      } catch (e) {}
+    })();
+  </script>
   <script src="../js/main.js" defer></script></body>
 </html>
