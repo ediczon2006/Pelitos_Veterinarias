@@ -46,6 +46,31 @@
 
   <!-- Marca que el JavaScript esta activo, para que las animaciones no parpadeen. -->
   <script>document.documentElement.classList.add("js-din");</script>
+  <!-- LIMPIEZA INMEDIATA Y RIGUROSA de sesiones falsas/demo sin verificación -->
+  <script>
+    (function () {
+      var K = "pelitos_usuario_sesion";
+      try {
+        var raw = localStorage.getItem(K);
+        if (raw) {
+          var u = JSON.parse(raw);
+          var n = (u && u.nombre  || "").toLowerCase();
+          var e = (u && u.email   || "").toLowerCase();
+          var m = (u && u.mascota || "").toLowerCase();
+          // Cualquier sesión previa sin verificación OTP o con nombres genéricos se elimina de inmediato
+          if (
+            !u || !u.verificado ||
+            n.indexOf("google") !== -1 || n.indexOf("demo") !== -1 || n.indexOf("cliente pelitos") !== -1 ||
+            e.indexOf("google@gmail.com") !== -1 || e.indexOf("ejemplo.com") !== -1 ||
+            m.indexOf("consentido") !== -1 || m.indexOf("mascota pelitos") !== -1
+          ) {
+            localStorage.removeItem(K);
+            localStorage.removeItem("pelitos_cuentas_registradas");
+          }
+        }
+      } catch (_) {}
+    })();
+  </script>
 </head>
 <body data-pagina="acceso">
 
@@ -141,7 +166,7 @@
           <div class="login-split-form-wrap">
             <div style="text-align:center; margin-bottom:18px;">
               <h2 id="auth-box-title" style="font-size:1.5rem; color:var(--morado);">Portal de clientes</h2>
-              <p id="auth-box-subtitle" style="font-size:0.86rem; color:var(--texto-suave); margin-top:4px;">Ingresa con Google, con tu correo o crea tu cuenta en 1 minuto</p>
+              <p id="auth-box-subtitle" style="font-size:0.86rem; color:var(--texto-suave); margin-top:4px;">Accede con tu correo real o crea tu cuenta — verificación por WhatsApp</p>
             </div>
 
             <div class="auth-tabs" role="tablist" aria-label="Acceso o registro">
@@ -151,20 +176,14 @@
 
             <!-- ===== Vista: iniciar sesión ===== -->
             <div data-auth-vista="acceso">
-            <!-- Botón Oficial Google OAuth -->
-            <button type="button" class="btn-google-auth" id="btn-page-google">
-              <svg viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.27 21.36 7.34 24 12 24z"/>
-                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.99 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
-                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.27 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-              </svg>
-              <span>Continuar con Google</span>
-            </button>
-
-            <div class="auth-divider">
-              <span>o con tu correo</span>
-            </div>
+              <!-- Aviso de verificación real -->
+              <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:14px; padding:12px 16px; display:flex; gap:10px; align-items:flex-start; margin-bottom:16px;">
+                <span style="font-size:1.3rem; flex-shrink:0;">🛡️</span>
+                <div style="font-size:0.82rem; color:#166534; line-height:1.55;">
+                  <strong style="display:block; margin-bottom:2px;">Datos 100% reales</strong>
+                  Usa tu correo y contraseña reales. El equipo de Pelitos verificará tu número de WhatsApp al agendar tu primera cita.
+                </div>
+              </div>
 
             <!-- Formulario en la página -->
             <form id="form-page-login" novalidate>
@@ -278,16 +297,79 @@
               </form>
             </div>
 
+            <!-- ===== Vista: Verificación de Código de Seguridad (OTP) ===== -->
+            <div data-auth-vista="verificacion" id="auth-vista-verificacion" hidden>
+              <div class="auth-otp-card">
+                <div class="auth-otp-header">
+                  <div class="auth-otp-header__icon">🛡️</div>
+                  <h3>Verificación de Seguridad</h3>
+                  <p>Para activar tu historia clínica real en Pelitos, ingresa el código de 6 dígitos enviado a tus canales oficiales.</p>
+                </div>
+
+                <!-- Destinos del código -->
+                <div class="auth-otp-destinos">
+                  <div class="auth-otp-destino-item">
+                    <span>📧 Correo registrado:</span>
+                    <strong id="otp-dest-email">tucorreo@ejemplo.com</strong>
+                  </div>
+                  <div class="auth-otp-destino-item">
+                    <span>📱 WhatsApp registrado:</span>
+                    <strong id="otp-dest-tel">+51 939 356 376</strong>
+                  </div>
+                </div>
+
+                <!-- Código Generado para validación -->
+                <div class="auth-otp-banner-codigo">
+                  <span class="auth-otp-banner-codigo__label">Código de Verificación Generado</span>
+                  <span class="auth-otp-banner-codigo__num" id="otp-banner-code">------</span>
+                  <span class="auth-otp-banner-codigo__pista">Válido por 5 minutos &bull; Cópialo o ingrésalo en las casillas</span>
+                </div>
+
+                <!-- 6 Casillas de código OTP -->
+                <div>
+                  <label class="auth-label" style="text-align:center; display:block; margin-bottom:8px;">Ingresa los 6 dígitos</label>
+                  <div class="auth-otp-inputs-grid" id="otp-inputs-wrap">
+                    <input type="text" class="auth-otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-otp-idx="0" autocomplete="one-time-code" />
+                    <input type="text" class="auth-otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-otp-idx="1" />
+                    <input type="text" class="auth-otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-otp-idx="2" />
+                    <input type="text" class="auth-otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-otp-idx="3" />
+                    <input type="text" class="auth-otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-otp-idx="4" />
+                    <input type="text" class="auth-otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-otp-idx="5" />
+                  </div>
+                  <div class="auth-otp-error" id="otp-status-msg"></div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="auth-otp-acciones">
+                  <button type="button" class="btn-auth-submit" id="btn-verificar-otp">
+                    <span>Verificar Código y Entrar</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
+
+                  <a href="#" class="auth-btn-whatsapp-otp" id="btn-wa-otp" target="_blank" rel="noopener">
+                    <span>💬 Confirmar y recibir por WhatsApp</span>
+                  </a>
+                </div>
+
+                <div class="auth-otp-links">
+                  <button type="button" id="btn-reenviar-otp">🔄 Reenviar nuevo código</button>
+                  <button type="button" id="btn-cancelar-otp">← Modificar mis datos</button>
+                </div>
+              </div>
+            </div>
+
             <!-- ===== Vista: Dashboard de Cliente Conectado ===== -->
             <div id="auth-panel-conectado" class="auth-panel-conectado" hidden>
               <!-- Tarjeta de Perfil del Tutor -->
               <div class="user-profile-card">
-                <div class="user-avatar-circle" id="dash-user-avatar">🐾</div>
+                <div class="user-avatar-circle" id="dash-user-avatar"></div>
                 <div class="user-profile-details">
-                  <span class="user-status-badge">🟢 Tutor Verificado</span>
-                  <h3 id="dash-user-name">Cliente Pelitos</h3>
-                  <p id="dash-user-email">correo@ejemplo.com</p>
-                  <span id="dash-user-tel" style="font-size:0.8rem; color:#6c3991; font-weight:700; margin-top:2px;"></span>
+                  <span class="user-status-badge" style="background:#dcfce7; color:#15803d; border-color:#86efac;">🛡️ Tutor Verificado con Código OTP</span>
+                  <h3 id="dash-user-name"></h3>
+                  <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+                    <span id="dash-user-email-wrap" style="font-size:0.78rem; background:#eff6ff; color:#1d4ed8; padding:3px 9px; border-radius:8px; font-weight:700;">📧 <span id="dash-user-email"></span> &bull; Verificado ✅</span>
+                    <span id="dash-user-tel-wrap" style="font-size:0.78rem; background:#f0fdf4; color:#15803d; padding:3px 9px; border-radius:8px; font-weight:700;">📱 <span id="dash-user-tel"></span> &bull; WhatsApp Verificado ✅</span>
+                  </div>
                 </div>
               </div>
 
@@ -295,19 +377,19 @@
               <div class="dash-mascota-box" id="dash-mascota-box">
                 <div class="dash-mascota-box__head">
                   <span class="dash-mascota-box__titulo">🐶 Ficha Médica de Mascota</span>
-                  <span class="dash-mascota-box__badge" id="dash-mascota-chart-id">#PEL-1048</span>
+                  <span class="dash-mascota-box__badge" id="dash-mascota-chart-id"></span>
                 </div>
-                
-                <h4 id="dash-mascota-nombre" style="font-size:1.35rem; margin:0 0 4px; color:#1e112d; font-weight:800;">Luna</h4>
-                
+
+                <h4 id="dash-mascota-nombre" style="font-size:1.35rem; margin:0 0 4px; color:#1e112d; font-weight:800;"></h4>
+
                 <div class="dash-mascota-grid">
                   <div class="dash-mascota-dato">
                     <span class="dash-mascota-dato__lbl">Especie &amp; Raza</span>
-                    <span class="dash-mascota-dato__val" id="dash-mascota-raza">Canino &bull; Shih Tzu</span>
+                    <span class="dash-mascota-dato__val" id="dash-mascota-raza"></span>
                   </div>
                   <div class="dash-mascota-dato">
                     <span class="dash-mascota-dato__lbl">Edad estimada</span>
-                    <span class="dash-mascota-dato__val" id="dash-mascota-edad">2 años</span>
+                    <span class="dash-mascota-dato__val" id="dash-mascota-edad"></span>
                   </div>
                   <div class="dash-mascota-dato">
                     <span class="dash-mascota-dato__lbl">Esquema Vacunal</span>
@@ -350,44 +432,6 @@
               </div>
             </div>
 
-            <!-- Modal: Conectar con Google (Real) -->
-            <div id="modal-google-auth" class="modal-editar-perfil" role="dialog" aria-modal="true" aria-labelledby="modal-google-titulo">
-              <div class="modal-editar-caja">
-                <button type="button" class="modal-editar-cerrar" id="btn-cerrar-modal-google" aria-label="Cerrar">&times;</button>
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.27 21.36 7.34 24 12 24z"/>
-                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.99 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
-                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.27 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                  </svg>
-                  <h3 id="modal-google-titulo" style="font-size:1.28rem; margin:0; color:#1e112d;">Acceder con Google</h3>
-                </div>
-                <p style="font-size:0.86rem; color:#64748b; margin:0 0 16px;">Sincroniza tu cuenta real de Google con Pelitos Veterinaria para gestionar a tu engreído.</p>
-                <form id="form-google-real" novalidate>
-                  <div class="auth-form-group">
-                    <label class="auth-label" for="google-nombre">Tu nombre y apellido</label>
-                    <input class="auth-input" type="text" id="google-nombre" placeholder="Ej. Juan Pérez" required maxlength="80" autocomplete="name" />
-                  </div>
-                  <div class="auth-form-group">
-                    <label class="auth-label" for="google-email">Tu correo de Google (Gmail)</label>
-                    <input class="auth-input" type="email" id="google-email" placeholder="ejemplo@gmail.com" required autocomplete="email" />
-                  </div>
-                  <div class="auth-form-group">
-                    <label class="auth-label" for="google-mascota">Nombre de tu mascota</label>
-                    <input class="auth-input" type="text" id="google-mascota" placeholder="Ej. Luna" required maxlength="60" />
-                  </div>
-                  <div class="auth-form-group">
-                    <label class="auth-label" for="google-tel">Celular / WhatsApp (opcional)</label>
-                    <input class="auth-input" type="tel" id="google-tel" placeholder="939356376" maxlength="20" inputmode="tel" />
-                  </div>
-                  <button type="submit" class="btn-auth-submit" style="margin-top:14px; width:100%;">
-                    <span>Continuar con mi cuenta</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </button>
-                </form>
-              </div>
-            </div>
 
             <!-- Modal: Editar Perfil y Datos de Mascota -->
             <div id="modal-editar-perfil" class="modal-editar-perfil" role="dialog" aria-modal="true" aria-labelledby="modal-edit-titulo">
@@ -478,24 +522,5 @@
     </div>
   </footer>
 
-  <!-- Limpieza automática de sesión demo antigua -->
-  <script>
-    (function () {
-      var CLAVE = "pelitos_usuario_sesion";
-      try {
-        var raw = localStorage.getItem(CLAVE);
-        if (raw) {
-          var u = JSON.parse(raw);
-          // Si el nombre o el email coincide con los datos dummy anteriores, limpiar
-          var esDemo = (
-            (u.nombre  && u.nombre.toLowerCase()  === "tutor google") ||
-            (u.email   && u.email.toLowerCase()   === "usuario.google@gmail.com") ||
-            (u.mascota && u.mascota.toLowerCase() === "consentido pelitos")
-          );
-          if (esDemo) localStorage.removeItem(CLAVE);
-        }
-      } catch (e) {}
-    })();
-  </script>
   <script src="../js/main.js" defer></script></body>
 </html>
