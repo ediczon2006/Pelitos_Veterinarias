@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Portal de Clientes | Iniciar Sesión y Registro | Pelitos Veterinaria</title>
-  <meta name="description" content="Accede a tu cuenta de Pelitos Veterinaria con Google o correo. Gestiona citas veterinarias, estética canina y pedidos de PetShop." />
+  <meta name="description" content="Accede a tu cuenta de Pelitos Veterinaria con tu correo verificado. Gestiona citas veterinarias, estética canina y pedidos de PetShop." />
 
     <!-- ============================================================
          VISTA PREVIA AL COMPARTIR EN WHATSAPP Y REDES SOCIALES
@@ -21,13 +23,13 @@
     <meta property="og:site_name" content="Pelitos Veterinaria" />
     <meta property="og:locale" content="es_PE" />
     <meta property="og:title" content="Portal de Clientes | Iniciar Sesión y Registro | Pelitos Veterinaria" />
-    <meta property="og:description" content="Accede a tu cuenta de Pelitos Veterinaria con Google o correo. Gestiona citas veterinarias, estética canina y pedidos de PetShop." />
+    <meta property="og:description" content="Accede a tu cuenta de Pelitos Veterinaria con tu correo verificado. Gestiona citas veterinarias, estética canina y pedidos de PetShop." />
     <meta property="og:image" content="../images/logo/compartir.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Portal de Clientes | Iniciar Sesión y Registro | Pelitos Veterinaria" />
-    <meta name="twitter:description" content="Accede a tu cuenta de Pelitos Veterinaria con Google o correo. Gestiona citas veterinarias, estética canina y pedidos de PetShop." />
+    <meta name="twitter:description" content="Accede a tu cuenta de Pelitos Veterinaria con tu correo verificado. Gestiona citas veterinarias, estética canina y pedidos de PetShop." />
     <meta name="twitter:image" content="../images/logo/compartir.jpg" />
   <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -166,7 +168,7 @@
           <div class="login-split-form-wrap">
             <div style="text-align:center; margin-bottom:18px;">
               <h2 id="auth-box-title" style="font-size:1.5rem; color:var(--morado);">Portal de clientes</h2>
-              <p id="auth-box-subtitle" style="font-size:0.86rem; color:var(--texto-suave); margin-top:4px;">Accede con tu correo real o crea tu cuenta — verificación por WhatsApp</p>
+              <p id="auth-box-subtitle" style="font-size:0.86rem; color:var(--texto-suave); margin-top:4px;">Accede con tu correo o crea tu cuenta verificada</p>
             </div>
 
             <div class="auth-tabs" role="tablist" aria-label="Acceso o registro">
@@ -187,6 +189,9 @@
 
             <!-- Formulario en la página -->
             <form id="form-page-login" novalidate>
+              <!-- Campo trampa antispam / bot protection (oculto para humanos) -->
+              <input type="text" name="hp_login_security" id="hp-login" style="display:none!important;position:absolute;left:-9999px;opacity:0;" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
               <div class="auth-form-group">
                 <label class="auth-label" for="page-email">Correo electrónico</label>
                 <div class="auth-input-wrap">
@@ -231,6 +236,9 @@
             <!-- ===== Vista: crear cuenta ===== -->
             <div data-auth-vista="registro" hidden>
               <form id="form-page-registro" novalidate>
+                <!-- Campo trampa antispam / bot protection (oculto para humanos) -->
+                <input type="text" name="hp_reg_security" id="hp-reg" style="display:none!important;position:absolute;left:-9999px;opacity:0;" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
                 <div class="auth-form-group">
                   <label class="auth-label" for="reg-nombre">Nombre y apellido</label>
                   <div class="auth-input-wrap">

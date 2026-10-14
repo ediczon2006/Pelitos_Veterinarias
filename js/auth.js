@@ -134,14 +134,17 @@
     });
   }
 
-  window.PelitosAuth = {
-    mostrarToast: mostrarToast,
-    guardarUsuario: guardarUsuario,
-    usuarioActual: usuarioActual,
-    abrirModal: abrirModal,
-    mostrarVista: mostrarVista,
-    validarCampo: validar
-  };
+  /* Si ya existe el módulo principal de PelitosAuth (js/main.js), no sobreescribir */
+  if (!window.PelitosAuth) {
+    window.PelitosAuth = {
+      mostrarToast: mostrarToast,
+      guardarUsuario: guardarUsuario,
+      usuarioActual: usuarioActual,
+      abrirModal: abrirModal,
+      mostrarVista: mostrarVista,
+      validarCampo: validar
+    };
+  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", iniciar);

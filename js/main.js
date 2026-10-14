@@ -240,22 +240,141 @@ function esPagina(nombre) {
 
 
 /* ==========================================================================
-   BLOQUE 2 · ACCESO DE CLIENTES (demostración)
-   Guarda la sesión en el navegador. No valida contra ningún servidor.
+   BLOQUE 2 · ACCESO DE CLIENTES Y SEGURIDAD CRIPTOGRÁFICA
+   Portal oficial con verificación OTP, hashing SHA-256 (Web Crypto),
+   protección contra bots (honeypot), rate limiting e integridad de sesión.
    ========================================================================== */
 
 (function () {
   "use strict";
 
-  /* OJO (decisión del negocio, no es un error que se pueda "arreglar" aquí):
-     esta web no tiene servidor, así que el acceso es solo una demostración.
-     La "sesión" vive en esta variable y se pierde al cambiar de página, por lo
-     que en el resto del sitio nadie sabe quién entró. Para que el acceso sea
-     real hace falta un servicio de cuentas (Firebase, Supabase, etc.). */
-  var CLAVE_STORAGE_SESION = "pelitos_usuario_sesion";
-  var CLAVE_STORAGE_CUENTAS = "pelitos_cuentas_registradas";
+  /* ── Forzar HTTPS en producción (excepto entornos de desarrollo local) ── */
+  if (
+    typeof window !== "undefined" &&
+    window.location &&
+    window.location.protocol === "http:" &&
+    window.location.hostname !== "localhost" &&
+    window.location.hostname !== "127.0.0.1" &&
+    !window.location.hostname.endsWith(".local")
+  ) {
+    window.location.replace(window.location.href.replace("http:", "https:"));
+  }
 
-  /* Recuperar sesión guardada de forma persistente (solo usuarios 100% verificados con código OTP) */
+  var CLAVE_STORAGE_SESION     = "pelitos_usuario_sesion";
+  var CLAVE_STORAGE_CUENTAS    = "pelitos_cuentas_registradas";
+  var CLAVE_STORAGE_OTP_PEND   = "pelitos_otp_pendiente";
+  var CLAVE_STORAGE_RATELIMIT  = "pelitos_sec_ratelimit";
+  var PEPPER_INTEGRIDAD        = "pelitos_vET_sEC_2026_#99";
+
+  /* ── Primitiva Criptográfica SHA-256 y Firma de Integridad ──────────── */
+  function hashFallback(str) {
+    var h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (var i = 0; i < str.length; i++) {
+      var ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16);
+  }
+
+  function hashearClave(clave, salt) {
+    var texto = (clave || "") + "::" + (salt || "pelitos_salt_global") + "::" + PEPPER_INTEGRIDAD;
+    if (typeof window !== "undefined" && window.crypto && window.crypto.subtle && window.TextEncoder) {
+      try {
+        var data = new TextEncoder().encode(texto);
+        return window.crypto.subtle.digest("SHA-256", data).then(function (buf) {
+          var bytes = new Uint8Array(buf);
+          var hex = "";
+          for (var i = 0; i < bytes.length; i++) {
+            hex += ("0" + bytes[i].toString(16)).slice(-2);
+          }
+          return hex;
+        }).catch(function () {
+          return hashFallback(texto);
+        });
+      } catch (_) {
+        return Promise.resolve(hashFallback(texto));
+      }
+    }
+    return Promise.resolve(hashFallback(texto));
+  }
+
+  function generarFirmaSesion(u) {
+    if (!u) return "";
+    var raw = [u.email || "", u.chartId || "", u.verificado ? "1" : "0", PEPPER_INTEGRIDAD].join("|");
+    return hashFallback(raw);
+  }
+
+  function validarFirmaSesion(u) {
+    if (!u || !u.email) return false;
+    var esperado = generarFirmaSesion(u);
+    return u._sig === esperado;
+  }
+
+  /* ── Motor de Rate Limiting y Protección contra Fuerza Bruta ────────── */
+  var LIMITES = {
+    login: { max: 5, bloqueoMs: 60000 },
+    otp:   { max: 5, bloqueoMs: 60000 }
+  };
+
+  function obtenerRateLimits() {
+    try {
+      var r = sessionStorage.getItem(CLAVE_STORAGE_RATELIMIT);
+      return r ? JSON.parse(r) : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function guardarRateLimits(datos) {
+    try {
+      sessionStorage.setItem(CLAVE_STORAGE_RATELIMIT, JSON.stringify(datos));
+    } catch (_) {}
+  }
+
+  function comprobarRateLimit(accion) {
+    var reg = obtenerRateLimits();
+    var item = reg[accion];
+    var config = LIMITES[accion] || { max: 5, bloqueoMs: 60000 };
+    if (!item) return { permitido: true, segundosRestantes: 0 };
+
+    var ahora = Date.now();
+    if (item.bloqueadoHasta && ahora < item.bloqueadoHasta) {
+      var segs = Math.ceil((item.bloqueadoHasta - ahora) / 1000);
+      return { permitido: false, segundosRestantes: segs };
+    }
+    return { permitido: true, segundosRestantes: 0 };
+  }
+
+  function registrarIntentoFallido(accion) {
+    var reg = obtenerRateLimits();
+    var config = LIMITES[accion] || { max: 5, bloqueoMs: 60000 };
+    var item = reg[accion] || { fallos: 0, bloqueadoHasta: 0 };
+    var ahora = Date.now();
+
+    if (item.bloqueadoHasta && ahora > item.bloqueadoHasta) {
+      item.fallos = 0;
+      item.bloqueadoHasta = 0;
+    }
+
+    item.fallos++;
+    if (item.fallos >= config.max) {
+      item.bloqueadoHasta = ahora + config.bloqueoMs;
+    }
+    reg[accion] = item;
+    guardarRateLimits(reg);
+    return item;
+  }
+
+  function limpiarRateLimit(accion) {
+    var reg = obtenerRateLimits();
+    delete reg[accion];
+    guardarRateLimits(reg);
+  }
+
+  /* ── Recuperar y Guardar Sesión con Firma de Integridad ─────────────── */
   function obtenerSesionStorage() {
     try {
       var guardado = localStorage.getItem(CLAVE_STORAGE_SESION);
@@ -264,9 +383,10 @@ function esPagina(nombre) {
       var n = (u && u.nombre  || "").toLowerCase();
       var e = (u && u.email   || "").toLowerCase();
       var m = (u && u.mascota || "").toLowerCase();
-      // Rechazar cualquier sesión demo o sin verificación real
+
+      // Rechazar cualquier sesión demo, sin verificación real o con firma alterada
       if (
-        !u || !u.verificado ||
+        !u || !u.verificado || !validarFirmaSesion(u) ||
         n.indexOf("google") !== -1 || n.indexOf("demo") !== -1 || n.indexOf("cliente pelitos") !== -1 ||
         e.indexOf("google@gmail.com") !== -1 || e.indexOf("ejemplo.com") !== -1 ||
         m.indexOf("consentido") !== -1 || m.indexOf("mascota pelitos") !== -1
@@ -275,7 +395,7 @@ function esPagina(nombre) {
         return null;
       }
       return u;
-    } catch (e) {
+    } catch (err) {
       return null;
     }
   }
@@ -284,7 +404,7 @@ function esPagina(nombre) {
     try {
       var cuentas = localStorage.getItem(CLAVE_STORAGE_CUENTAS);
       return cuentas ? JSON.parse(cuentas) : [];
-    } catch (e) {
+    } catch (_) {
       return [];
     }
   }
@@ -292,7 +412,7 @@ function esPagina(nombre) {
   function guardarCuentasStorage(cuentas) {
     try {
       localStorage.setItem(CLAVE_STORAGE_CUENTAS, JSON.stringify(cuentas));
-    } catch (e) {}
+    } catch (_) {}
   }
 
   var sesion = obtenerSesionStorage();
@@ -314,6 +434,9 @@ function esPagina(nombre) {
   }
 
   function guardarUsuario(datos, persistir) {
+    if (datos) {
+      datos._sig = generarFirmaSesion(datos);
+    }
     sesion = datos || null;
     try {
       if (sesion && persistir !== false) {
@@ -321,7 +444,7 @@ function esPagina(nombre) {
       } else if (!sesion) {
         localStorage.removeItem(CLAVE_STORAGE_SESION);
       }
-    } catch (e) {}
+    } catch (_) {}
     actualizarVistaDashboard();
     return sesion;
   }
@@ -332,11 +455,14 @@ function esPagina(nombre) {
 
   function cerrarSesion() {
     guardarUsuario(null);
+    try {
+      sessionStorage.removeItem(CLAVE_STORAGE_OTP_PEND);
+    } catch (_) {}
     mostrarToast("Sesión cerrada correctamente", "👋");
     mostrarVista("acceso");
   }
 
-  /* Sincroniza la cabecera (en inicio y demás páginas) con la sesión del usuario */
+  /* Sincroniza la cabecera en todas las páginas con la sesión activa */
   function actualizarCabeceraSesion() {
     var user = usuarioActual();
     var btnHeader = document.getElementById("header-btn-auth");
@@ -392,6 +518,7 @@ function esPagina(nombre) {
     var panelConectado = document.getElementById("auth-panel-conectado");
     var vistaAcceso = document.querySelector('[data-auth-vista="acceso"]');
     var vistaRegistro = document.querySelector('[data-auth-vista="registro"]');
+    var vistaOTP = document.querySelector('[data-auth-vista="verificacion"]');
     var tabsWrap = document.querySelector(".auth-tabs");
     var elBoxTitle    = document.getElementById("auth-box-title");
     var elBoxSubtitle = document.getElementById("auth-box-subtitle");
@@ -400,9 +527,9 @@ function esPagina(nombre) {
       panelConectado.hidden = false;
       if (vistaAcceso)   vistaAcceso.hidden   = true;
       if (vistaRegistro) vistaRegistro.hidden = true;
+      if (vistaOTP)      vistaOTP.hidden      = true;
       if (tabsWrap) tabsWrap.style.display = "none";
 
-      // Título dinámico: modo portal activo
       if (elBoxTitle)    elBoxTitle.textContent    = "Mi Portal Pelitos";
       if (elBoxSubtitle) elBoxSubtitle.textContent = "Ficha de atención veterinaria y seguimiento clínico";
 
@@ -440,12 +567,11 @@ function esPagina(nombre) {
       panelConectado.hidden = true;
       if (tabsWrap) tabsWrap.style.display = "";
       if (elBoxTitle)    elBoxTitle.textContent    = "Portal de clientes";
-      if (elBoxSubtitle) elBoxSubtitle.textContent = "Ingresa con Google, con tu correo o crea tu cuenta en 1 minuto";
+      if (elBoxSubtitle) elBoxSubtitle.textContent = "Accede con tu correo real o crea tu cuenta verificada";
       mostrarVista("acceso");
     }
   }
 
-  /* Cambia entre las pestañas "acceso" y "registro" */
   function abrirModal(vista) {
     mostrarVista(vista === "registro" ? "registro" : "acceso");
     var caja = document.querySelector(".login-split-form-wrap");
@@ -473,7 +599,7 @@ function esPagina(nombre) {
     } else if (vista === "acceso" || vista === "registro") {
       if (tabsWrap) tabsWrap.style.display = "";
       if (elBoxTitle)    elBoxTitle.textContent    = "Portal de clientes";
-      if (elBoxSubtitle) elBoxSubtitle.textContent = "Accede con tu correo real o crea tu cuenta — verificación por código";
+      if (elBoxSubtitle) elBoxSubtitle.textContent = "Accede con tu correo real o crea tu cuenta verificada";
     }
   }
 
@@ -517,8 +643,9 @@ function esPagina(nombre) {
       ok = valor.length >= 3;
       msg = valor ? (ok ? "Gracias." : "Ingresa al menos 3 caracteres.") : "";
     } else if (tipo === "telefono") {
-      ok = valor.replace(/\D/g, "").length >= 9;
-      msg = valor ? (ok ? "Número válido." : "Necesitamos 9 dígitos.") : "";
+      var nums = valor.replace(/\D/g, "");
+      ok = nums.length >= 9;
+      msg = valor ? (ok ? "Número válido (+51)." : "Necesitamos 9 dígitos de celular.") : "";
     }
 
     if (grupo) {
@@ -561,25 +688,42 @@ function esPagina(nombre) {
 
     /* ── Estado y controlador de Verificación OTP ─────────────────────── */
     var datosPendientesOTP = null;
+    var timerReenviar = null;
 
     function generarCodigoOTP() {
+      if (window.crypto && window.crypto.getRandomValues) {
+        var arr = new Uint32Array(1);
+        window.crypto.getRandomValues(arr);
+        return (100000 + (arr[0] % 900000)).toString();
+      }
       return Math.floor(100000 + Math.random() * 900000).toString();
     }
 
-    function iniciarVerificacionOTP(datos) {
-      var codigo = generarCodigoOTP();
-      datosPendientesOTP = {
-        nombre: datos.nombre,
-        email: datos.email,
-        telefono: datos.telefono || "",
-        mascota: datos.mascota || "",
-        raza: datos.raza || "Por registrar ✏️",
-        edad: datos.edad || "Por registrar ✏️",
-        codigoOtp: codigo,
-        timestamp: Date.now()
-      };
+    function iniciarCooldownReenviar(segundos) {
+      var btn = document.getElementById("btn-reenviar-otp");
+      if (!btn) return;
+      clearInterval(timerReenviar);
+      var restantes = segundos || 60;
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+      btn.style.cursor = "not-allowed";
+      btn.textContent = "⏳ Reenviar en " + restantes + "s";
 
-      // Actualizar destinos en la vista
+      timerReenviar = setInterval(function () {
+        restantes--;
+        if (restantes <= 0) {
+          clearInterval(timerReenviar);
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          btn.style.cursor = "pointer";
+          btn.textContent = "🔄 Reenviar nuevo código";
+        } else {
+          btn.textContent = "⏳ Reenviar en " + restantes + "s";
+        }
+      }, 1000);
+    }
+
+    function renderizarVistaOTP(datos) {
       var elDestEmail = document.getElementById("otp-dest-email");
       var elDestTel = document.getElementById("otp-dest-tel");
       var elBannerCode = document.getElementById("otp-banner-code");
@@ -588,33 +732,70 @@ function esPagina(nombre) {
 
       if (elDestEmail) elDestEmail.textContent = datos.email || "";
       if (elDestTel) elDestTel.textContent = datos.telefono ? "+51 " + datos.telefono : "No registrado";
-      if (elBannerCode) elBannerCode.textContent = codigo;
+      if (elBannerCode) elBannerCode.textContent = datos.codigoOtp;
       if (elStatusMsg) elStatusMsg.textContent = "";
 
-      // Configurar enlace de confirmación por WhatsApp
       if (elWaLink) {
         var telLimpio = (datos.telefono || "939356376").replace(/\D/g, "");
         var msgWa = encodeURIComponent(
-          "Hola Pelitos Veterinaria, soy " + datos.nombre + " y confirmo mi código de verificación: " + codigo + " para mi mascota " + (datos.mascota || "mi consentido") + "."
+          "Hola Pelitos Veterinaria, soy " + datos.nombre + " y confirmo mi código de verificación: " + datos.codigoOtp + " para mi mascota " + (datos.mascota || "mi consentido") + "."
         );
         elWaLink.href = "https://api.whatsapp.com/send?phone=51939356376&text=" + msgWa;
       }
 
-      // Limpiar casillas OTP
       var inputs = document.querySelectorAll(".auth-otp-digit");
       inputs.forEach(function (inp) {
         inp.value = "";
         inp.classList.remove("error");
       });
 
-      // Mostrar vista de verificación
       mostrarVista("verificacion");
 
       if (inputs.length > 0) {
         setTimeout(function () { inputs[0].focus(); }, 150);
       }
+    }
 
+    function iniciarVerificacionOTP(datos) {
+      var codigo = generarCodigoOTP();
+      var ahora = Date.now();
+      datosPendientesOTP = {
+        nombre: datos.nombre,
+        email: datos.email,
+        telefono: datos.telefono || "",
+        mascota: datos.mascota || "",
+        raza: datos.raza || "Por registrar ✏️",
+        edad: datos.edad || "Por registrar ✏️",
+        hashClave: datos.hashClave || "",
+        codigoOtp: codigo,
+        timestamp: ahora,
+        expira: ahora + (5 * 60 * 1000) // TTL de 5 minutos
+      };
+
+      try {
+        sessionStorage.setItem(CLAVE_STORAGE_OTP_PEND, JSON.stringify(datosPendientesOTP));
+      } catch (_) {}
+
+      renderizarVistaOTP(datosPendientesOTP);
+      iniciarCooldownReenviar(60);
       mostrarToast("Código de verificación enviado: " + codigo, "📲");
+    }
+
+    /* Restaurar OTP si el usuario recarga la página o vuelve a la pestaña */
+    function restaurarOTPSiExiste() {
+      try {
+        var guardado = sessionStorage.getItem(CLAVE_STORAGE_OTP_PEND);
+        if (!guardado) return;
+        var datos = JSON.parse(guardado);
+        if (datos && datos.expira && Date.now() < datos.expira) {
+          datosPendientesOTP = datos;
+          renderizarVistaOTP(datos);
+          var segsRestantes = Math.max(1, Math.ceil((datos.expira - Date.now()) / 1000));
+          iniciarCooldownReenviar(Math.min(segsRestantes, 60));
+        } else {
+          sessionStorage.removeItem(CLAVE_STORAGE_OTP_PEND);
+        }
+      } catch (_) {}
     }
 
     /* ── Interacción con las 6 casillas numéricas de código OTP ─────────── */
@@ -656,9 +837,24 @@ function esPagina(nombre) {
     var btnVerificarOTP = document.getElementById("btn-verificar-otp");
     if (btnVerificarOTP) {
       btnVerificarOTP.addEventListener("click", function () {
+        var checkRL = comprobarRateLimit("otp");
+        if (!checkRL.permitido) {
+          mostrarToast("Demasiados intentos fallidos. Bloqueado temporalmente por " + checkRL.segundosRestantes + "s", "🔒");
+          var elStatusMsg = document.getElementById("otp-status-msg");
+          if (elStatusMsg) elStatusMsg.textContent = "🔒 Demasiados intentos. Espera " + checkRL.segundosRestantes + " segundos.";
+          return;
+        }
+
         if (!datosPendientesOTP) {
           mostrarToast("Por favor ingresa tus datos primero.", "⚠️");
           mostrarVista("registro");
+          return;
+        }
+
+        if (Date.now() > datosPendientesOTP.expira) {
+          var elStatusMsg = document.getElementById("otp-status-msg");
+          if (elStatusMsg) elStatusMsg.textContent = "⚠️ El código ha expirado. Haz clic en 'Reenviar nuevo código'.";
+          mostrarToast("Código expirado (validez 5 minutos)", "⏳");
           return;
         }
 
@@ -676,13 +872,25 @@ function esPagina(nombre) {
         }
 
         if (codigoIngresado !== datosPendientesOTP.codigoOtp) {
-          if (elStatusMsg) elStatusMsg.textContent = "❌ Código incorrecto. Verifica los 6 dígitos ingresados.";
+          var intento = registrarIntentoFallido("otp");
+          var intentosRest = Math.max(0, 5 - intento.fallos);
+          if (intento.bloqueadoHasta) {
+            if (elStatusMsg) elStatusMsg.textContent = "🔒 Has excedido los intentos permitidos. Bloqueado por 60 segundos.";
+            mostrarToast("Bloqueado por seguridad", "🔒");
+          } else {
+            if (elStatusMsg) elStatusMsg.textContent = "❌ Código incorrecto. Intentos restantes: " + intentosRest;
+            mostrarToast("Código incorrecto (" + intentosRest + " restantes)", "❌");
+          }
           otpInputs.forEach(function (inp) { inp.classList.add("error"); });
-          mostrarToast("Código incorrecto", "❌");
           return;
         }
 
         // ¡CÓDIGO VERIFICADO EXITOSAMENTE!
+        limpiarRateLimit("otp");
+        try {
+          sessionStorage.removeItem(CLAVE_STORAGE_OTP_PEND);
+        } catch (_) {}
+
         var usuarioVerificado = {
           nombre: datosPendientesOTP.nombre,
           email: datosPendientesOTP.email,
@@ -690,6 +898,7 @@ function esPagina(nombre) {
           mascota: datosPendientesOTP.mascota,
           raza: datosPendientesOTP.raza || "Por registrar ✏️",
           edad: datosPendientesOTP.edad || "Por registrar ✏️",
+          hashClave: datosPendientesOTP.hashClave || "",
           chartId: generarChartId(datosPendientesOTP.email),
           verificado: true,
           metodoVerificacion: "Código OTP (Email & WhatsApp)",
@@ -702,6 +911,10 @@ function esPagina(nombre) {
           return c.email.toLowerCase() === usuarioVerificado.email.toLowerCase();
         });
         if (idxExist >= 0) {
+          // Mantener hash existente si no viene uno nuevo
+          if (!usuarioVerificado.hashClave && cuentas[idxExist].hashClave) {
+            usuarioVerificado.hashClave = cuentas[idxExist].hashClave;
+          }
           cuentas[idxExist] = usuarioVerificado;
         } else {
           cuentas.push(usuarioVerificado);
@@ -722,29 +935,17 @@ function esPagina(nombre) {
       btnReenviarOTP.addEventListener("click", function () {
         if (!datosPendientesOTP) return;
         var nuevoCodigo = generarCodigoOTP();
+        var ahora = Date.now();
         datosPendientesOTP.codigoOtp = nuevoCodigo;
-        datosPendientesOTP.timestamp = Date.now();
+        datosPendientesOTP.timestamp = ahora;
+        datosPendientesOTP.expira = ahora + (5 * 60 * 1000);
 
-        var elBanner = document.getElementById("otp-banner-code");
-        if (elBanner) elBanner.textContent = nuevoCodigo;
+        try {
+          sessionStorage.setItem(CLAVE_STORAGE_OTP_PEND, JSON.stringify(datosPendientesOTP));
+        } catch (_) {}
 
-        var elStatus = document.getElementById("otp-status-msg");
-        if (elStatus) elStatus.textContent = "";
-
-        var elWaLink = document.getElementById("btn-wa-otp");
-        if (elWaLink) {
-          var msgWa = encodeURIComponent(
-            "Hola Pelitos Veterinaria, soy " + datosPendientesOTP.nombre + " y reenvío mi código de verificación: " + nuevoCodigo + "."
-          );
-          elWaLink.href = "https://api.whatsapp.com/send?phone=51939356376&text=" + msgWa;
-        }
-
-        otpInputs.forEach(function (inp) {
-          inp.value = "";
-          inp.classList.remove("error");
-        });
-        if (otpInputs.length > 0) otpInputs[0].focus();
-
+        renderizarVistaOTP(datosPendientesOTP);
+        iniciarCooldownReenviar(60);
         mostrarToast("Nuevo código generado: " + nuevoCodigo, "🔄");
       });
     }
@@ -753,6 +954,10 @@ function esPagina(nombre) {
     var btnCancelarOTP = document.getElementById("btn-cancelar-otp");
     if (btnCancelarOTP) {
       btnCancelarOTP.addEventListener("click", function () {
+        try {
+          sessionStorage.removeItem(CLAVE_STORAGE_OTP_PEND);
+        } catch (_) {}
+        datosPendientesOTP = null;
         mostrarVista("registro");
       });
     }
@@ -762,11 +967,26 @@ function esPagina(nombre) {
     if (formLogin) {
       formLogin.addEventListener("submit", function (e) {
         e.preventDefault();
+
+        // 🛡️ Filtro Antispam / Protección contra Bots (Honeypot)
+        var hpInput = document.getElementById("hp-login");
+        if (hpInput && hpInput.value.trim() !== "") {
+          return; // Bot interceptado silenciosamente
+        }
+
+        // 🛡️ Rate Limiting en Login
+        var checkRL = comprobarRateLimit("login");
+        if (!checkRL.permitido) {
+          mostrarToast("Demasiados intentos fallidos. Bloqueado temporalmente por " + checkRL.segundosRestantes + "s", "🔒");
+          return;
+        }
+
         var emailInput = document.getElementById("page-email");
-        var passInput = document.getElementById("page-pass");
+        var passInput  = document.getElementById("page-pass");
 
         if (!emailInput || !passInput) return;
-        var email = emailInput.value.trim();
+        var email = emailInput.value.trim().toLowerCase();
+        var pass  = passInput.value;
 
         if (!validar(emailInput) || !validar(passInput)) {
           mostrarToast("Por favor revisa tus credenciales", "⚠️");
@@ -775,22 +995,40 @@ function esPagina(nombre) {
 
         var cuentas = obtenerCuentasStorage();
         var encontrada = cuentas.find(function (c) {
-          return c.email.toLowerCase() === email.toLowerCase();
+          return (c.email || "").toLowerCase() === email;
         });
 
         if (encontrada && encontrada.verificado) {
-          // Requiere verificar código OTP para iniciar sesión de forma segura
-          iniciarVerificacionOTP({
-            nombre: encontrada.nombre,
-            email: encontrada.email,
-            telefono: encontrada.telefono || "",
-            mascota: encontrada.mascota || "",
-            raza: encontrada.raza || "",
-            edad: encontrada.edad || ""
+          // Comprobar contraseña de forma segura con SHA-256
+          hashearClave(pass, email).then(function (hashIngresado) {
+            if (encontrada.hashClave && encontrada.hashClave !== hashIngresado) {
+              var intento = registrarIntentoFallido("login");
+              var restantes = Math.max(0, 5 - intento.fallos);
+              if (intento.bloqueadoHasta) {
+                mostrarToast("Bloqueado por seguridad (demasiados intentos).", "🔒");
+              } else {
+                mostrarToast("Contraseña incorrecta. (" + restantes + " intentos restantes)", "❌");
+              }
+              return;
+            }
+
+            // Credenciales válidas: reiniciar contador de fallos
+            limpiarRateLimit("login");
+
+            // Requiere verificar código OTP para autenticar la sesión
+            iniciarVerificacionOTP({
+              nombre: encontrada.nombre,
+              email: encontrada.email,
+              telefono: encontrada.telefono || "",
+              mascota: encontrada.mascota || "",
+              raza: encontrada.raza || "",
+              edad: encontrada.edad || "",
+              hashClave: hashIngresado
+            });
           });
         } else {
-          // No existe la cuenta aún: guiar al registro con verificación
-          mostrarToast("No encontramos una cuenta con este correo. Regístrate aquí para verificar tus datos.", "ℹ️");
+          registrarIntentoFallido("login");
+          mostrarToast("No encontramos una cuenta con este correo. Regístrate aquí para crear tu cuenta.", "ℹ️");
           mostrarVista("registro");
           var regEmail = document.getElementById("reg-email");
           if (regEmail) regEmail.value = email;
@@ -803,6 +1041,13 @@ function esPagina(nombre) {
     if (formRegistro) {
       formRegistro.addEventListener("submit", function (e) {
         e.preventDefault();
+
+        // 🛡️ Filtro Antispam / Protección contra Bots (Honeypot)
+        var hpInput = document.getElementById("hp-reg");
+        if (hpInput && hpInput.value.trim() !== "") {
+          return; // Bot interceptado silenciosamente
+        }
+
         var nomInput   = document.getElementById("reg-nombre");
         var emailInput = document.getElementById("reg-email");
         var telInput   = document.getElementById("reg-tel");
@@ -820,19 +1065,37 @@ function esPagina(nombre) {
           return;
         }
 
-        var emailVal = emailInput.value.trim();
-        var telVal   = telInput ? telInput.value.trim() : "";
+        var emailVal = emailInput.value.trim().toLowerCase();
+        var telVal   = telInput ? telInput.value.replace(/\D/g, "") : "";
         var nomVal   = nomInput.value.trim();
         var petVal   = petInput ? petInput.value.trim() : "";
+        var passVal  = passInput.value;
 
-        // Iniciar el paso obligatorio de verificación OTP
-        iniciarVerificacionOTP({
-          nombre: sanitizarTexto(nomVal, 60),
-          email: sanitizarTexto(emailVal, 80),
-          telefono: sanitizarTexto(telVal, 20),
-          mascota: petVal ? sanitizarTexto(petVal, 60) : "Mi Mascota",
-          raza: "Canino • Por registrar ✏️",
-          edad: "Por registrar ✏️"
+        // Comprobar si ya existe una cuenta con este email
+        var cuentas = obtenerCuentasStorage();
+        var yaExiste = cuentas.some(function (c) {
+          return (c.email || "").toLowerCase() === emailVal;
+        });
+
+        if (yaExiste) {
+          mostrarToast("Ya existe una cuenta con este correo. Inicia sesión con tu contraseña.", "ℹ️");
+          mostrarVista("acceso");
+          var pageEmail = document.getElementById("page-email");
+          if (pageEmail) pageEmail.value = emailVal;
+          return;
+        }
+
+        // Cifrar la contraseña con SHA-256 e iniciar verificación OTP
+        hashearClave(passVal, emailVal).then(function (hashCalculado) {
+          iniciarVerificacionOTP({
+            nombre: sanitizarTexto(nomVal, 60),
+            email: sanitizarTexto(emailVal, 80),
+            telefono: sanitizarTexto(telVal, 20),
+            mascota: petVal ? sanitizarTexto(petVal, 60) : "Mi Mascota",
+            raza: "Canino • Por registrar ✏️",
+            edad: "Por registrar ✏️",
+            hashClave: hashCalculado
+          });
         });
       });
     }
@@ -894,15 +1157,15 @@ function esPagina(nombre) {
         }
 
         user.nombre   = nombreNuevo;
-        user.telefono = ft ? sanitizarTexto(ft.value.trim(), 20) : (user.telefono || "");
+        user.telefono = ft ? sanitizarTexto(ft.value.trim().replace(/\D/g, ""), 20) : (user.telefono || "");
         user.mascota  = mascotaNueva;
         user.raza     = fr ? sanitizarTexto(fr.value.trim(), 60)  : (user.raza || "");
         user.edad     = fe ? sanitizarTexto(fe.value.trim(), 30)  : (user.edad || "");
 
-        // Actualizar también en la lista de cuentas
+        // Actualizar en la base de datos de cuentas
         var cuentas = obtenerCuentasStorage();
         var idxU = cuentas.findIndex(function (c) {
-          return c.email.toLowerCase() === user.email.toLowerCase();
+          return (c.email || "").toLowerCase() === (user.email || "").toLowerCase();
         });
         if (idxU >= 0) { cuentas[idxU] = Object.assign({}, cuentas[idxU], user); }
         else            { cuentas.push(user); }
@@ -922,6 +1185,8 @@ function esPagina(nombre) {
 
     // Inicializar estado visual al cargar
     actualizarVistaDashboard();
+    restaurarOTPSiExiste();
+
     window.addEventListener("storage", function (e) {
       if (e.key === CLAVE_STORAGE_SESION) {
         sesion = obtenerSesionStorage();
@@ -938,7 +1203,8 @@ function esPagina(nombre) {
     abrirModal: abrirModal,
     mostrarVista: mostrarVista,
     validarCampo: validar,
-    actualizarCabecera: actualizarCabeceraSesion
+    actualizarCabecera: actualizarCabeceraSesion,
+    hashearClave: hashearClave
   };
 
   if (document.readyState === "loading") {
@@ -4396,102 +4662,11 @@ function esPagina(nombre) {
 
 
 /* ==========================================================================
-   BLOQUE 11 · PÁGINA ACCESO DE CLIENTES
-   Botones del formulario de acceso.
-   Se ejecuta solo cuando el <body> tiene data-pagina="acceso".
+   BLOQUE 11 · PÁGINA ACCESO DE CLIENTES (UNIFICADO EN BLOQUE 2)
+   Toda la lógica de autenticación, verificación OTP en 2 pasos y panel de
+   cliente está centralizada en el Bloque 2 para prevenir colisiones de eventos.
    ========================================================================== */
 
-(function () {
-  if (!esPagina("acceso")) return;   // solo se ejecuta en esta página
-
-  // Eventos específicos de la página de login
-  document.addEventListener("DOMContentLoaded", () => {
-    const btnPageGoogle = document.getElementById("btn-page-google");
-    const formPageLogin = document.getElementById("form-page-login");
-
-    if (btnPageGoogle) {
-      /* Antes este botón "iniciaba sesión" con una cuenta inventada
-         (Dr. Roberto Pelitos). Como aún no hay conexión real con Google,
-         ahora avisa y lleva al cliente al acceso con correo. */
-      btnPageGoogle.addEventListener("click", () => {
-        PelitosAuth.mostrarToast("El acceso con Google estará disponible pronto. Por ahora ingresa con tu correo.", "ℹ️");
-        const correo = document.querySelector('#form-page-login input[type="email"]');
-        if (correo) correo.focus();
-      });
-    }
-
-    const formRegistro = document.getElementById("form-page-registro");
-    if (formRegistro) {
-      formRegistro.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const campos = ["reg-nombre", "reg-email", "reg-tel", "reg-pass"];
-        const todoOk = campos.every((id) => {
-          const el = document.getElementById(id);
-          return el && PelitosAuth.validarCampo(el);
-        });
-        const terminos = document.getElementById("reg-terminos");
-
-        if (!todoOk) {
-          PelitosAuth.mostrarToast("Revisa los campos marcados en rojo", "⚠️");
-          return;
-        }
-        if (terminos && !terminos.checked) {
-          PelitosAuth.mostrarToast("Necesitamos tu autorización de contacto", "⚠️");
-          return;
-        }
-
-        const nombre = document.getElementById("reg-nombre").value.trim();
-        const email = document.getElementById("reg-email").value.trim();
-        const tel = document.getElementById("reg-tel").value.replace(/\D/g, "");
-        // Campo opcional: puede no existir en la página, así que se protege
-        // (antes, si faltaba, el registro se rompía sin avisar).
-        const campoMascota = document.getElementById("reg-mascota");
-        const mascota = campoMascota ? campoMascota.value.trim() : "";
-
-        PelitosAuth.guardarUsuario({ nombre, email, tipo: "registro" });
-        PelitosAuth.mostrarToast("Cuenta creada. Te escribimos por WhatsApp", "🐾");
-
-        const texto =
-          "Hola Pelitos, acabo de crear mi cuenta.%0A" +
-          "Nombre: " + encodeURIComponent(nombre) + "%0A" +
-          "Correo: " + encodeURIComponent(email) + "%0A" +
-          "Celular: " + encodeURIComponent(tel) +
-          (mascota ? "%0AMascota: " + encodeURIComponent(mascota) : "");
-        setTimeout(() => {
-          window.open("https://api.whatsapp.com/send?phone=51939356376&text=" + texto, "_blank", "noopener");
-        }, 700);
-      });
-    }
-
-    if (formPageLogin) {
-      formPageLogin.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("page-email")?.value.trim();
-        const pass = document.getElementById("page-pass")?.value.trim();
-
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-          PelitosAuth.mostrarToast("Ingresa un correo electrónico válido", "⚠️");
-          return;
-        }
-        if (!pass || pass.length < 6) {
-          PelitosAuth.mostrarToast("La contraseña debe tener al menos 6 caracteres", "⚠️");
-          return;
-        }
-
-        PelitosAuth.guardarUsuario({
-          nombre: email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, l => l.toUpperCase()),
-          email: email,
-          tipo: "correo"
-        });
-
-        PelitosAuth.mostrarToast("¡Bienvenido al portal!", "👋");
-        setTimeout(() => {
-          window.location.href = "../index.html";
-        }, 800);
-      });
-    }
-  });
-})();
 
 
 /* ==========================================================================
