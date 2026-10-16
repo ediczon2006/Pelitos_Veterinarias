@@ -1284,3 +1284,193 @@
 
 
 
+
+/* ==========================================================================
+   22. CORRECCIÓN CABECERA PROFESIONAL — NAVEGACIÓN COMPACTA Y ELEGANTE
+   Aplica en todas las páginas. Resuelve el header "deforme" con demasiados
+   ítems apretados. El nav usa fuente más pequeña, gap mínimo, y los botones
+   de acción se comprimen ligeramente para que todo respire bien.
+   ========================================================================== */
+
+/* ── Contenedor principal: altura fija y sin overflow ─────────────────── */
+.header {
+  min-height: 60px;
+}
+
+.header__inner {
+  gap: 12px !important;
+  padding: 10px 28px !important;
+  flex-wrap: nowrap !important;
+  min-height: 60px;
+}
+
+/* ── Logo: tamaño justo para una barra compacta ──────────────────────── */
+.logo img {
+  height: 44px !important;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ── Navegación: fuente compacta, sin wrapping, centrada ─────────────── */
+.nav {
+  gap: 0 !important;
+  font-size: 0.82rem !important;
+  flex-shrink: 1;
+  flex: 1 1 auto;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.nav a {
+  padding: 7px 9px !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #4a4060 !important;
+  transition: background 0.18s ease, color 0.18s ease !important;
+}
+
+.nav a:hover {
+  background: rgba(108, 57, 145, 0.08) !important;
+  color: var(--morado, #6c3991) !important;
+}
+
+.nav a.activo {
+  color: var(--morado, #6c3991) !important;
+  font-weight: 700 !important;
+  background: rgba(108, 57, 145, 0.07) !important;
+}
+
+/* Subrayado activo: fino y elegante */
+.nav a::after {
+  height: 2px !important;
+  bottom: 3px !important;
+  left: 9px !important;
+  right: 9px !important;
+}
+
+/* ── Acciones del header: gap ajustado ──────────────────────────────── */
+.header__acciones {
+  gap: 8px !important;
+  flex-shrink: 0;
+}
+
+/* ── Botón "Iniciar sesión": tamaño compacto y elegante ─────────────── */
+.header__btn-auth {
+  padding: 7px 13px !important;
+  font-size: 0.8rem !important;
+  border-radius: 999px !important;
+  gap: 6px !important;
+  white-space: nowrap !important;
+}
+
+.header__btn-auth .auth-icon-badge {
+  font-size: 0.85rem !important;
+}
+
+.header__btn-auth .auth-label-text {
+  font-size: 0.8rem !important;
+}
+
+/* ── Botón "Reservar cita": compacto pero visible ───────────────────── */
+.header__acciones .btn--dorado,
+.header__acciones .btn--sm {
+  padding: 8px 16px !important;
+  font-size: 0.82rem !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+  font-weight: 700 !important;
+}
+
+/* ── Pantallas grandes (> 1280px): un poco más de aire ─────────────── */
+@media (min-width: 1280px) {
+  .header__inner {
+    padding: 10px 36px !important;
+    gap: 20px !important;
+  }
+
+  .nav {
+    gap: 2px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .nav a {
+    padding: 7px 11px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .header__btn-auth {
+    padding: 8px 16px !important;
+    font-size: 0.83rem !important;
+  }
+
+  .header__acciones .btn--dorado,
+  .header__acciones .btn--sm {
+    padding: 9px 20px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* ── Pantalla mediana-grande (1080px–1280px): ligeramente más compacto ─ */
+@media (min-width: 1080px) and (max-width: 1279px) {
+  .nav a {
+    padding: 7px 8px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .header__acciones .btn--dorado,
+  .header__acciones .btn--sm {
+    padding: 7px 13px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .header__btn-auth {
+    padding: 7px 11px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Ocultar el texto "Iniciar sesión" y mostrar solo el ícono */
+  .header__btn-auth .auth-label-text {
+    display: none !important;
+  }
+}
+
+/* ── En tablet (981px–1079px): ocultar "Mi Cuenta" del nav también ─── */
+@media (min-width: 981px) and (max-width: 1079px) {
+  .nav a {
+    padding: 6px 7px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .header__btn-auth .auth-label-text {
+    display: none !important;
+  }
+
+  .header__acciones .btn--dorado,
+  .header__acciones .btn--sm {
+    padding: 7px 11px !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Ocultar el enlace "Mi Cuenta" del nav para evitar redundancia */
+  .nav a[data-nav-cuenta] {
+    display: none !important;
+  }
+}
+
+/* ── Ocultar texto del botón auth en pantallas muy comprimidas ────── */
+@media (max-width: 1180px) {
+  .header__btn-auth .auth-label-text {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1181px) {
+  .header__btn-auth .auth-label-text {
+    display: inline !important;
+  }
+}
