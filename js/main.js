@@ -5,7 +5,7 @@
 
    CONTENIDO:
         1. DATOS DEL NEGOCIO Y FUNCIONES COMUNES
-        2. ACCESO DE CLIENTES (demostración)
+        2. ACCESO DE CLIENTES Y SEGURIDAD CRIPTOGRÁFICA
         3. CATÁLOGO DEL PETSHOP (SOLO DATOS)
         4. PETSHOP: CATÁLOGO, FICHAS Y CARRITO
         5. PÁGINA INICIO
@@ -14,8 +14,7 @@
         8. PÁGINA CONTACTO
         9. PÁGINA ESTÉTICA: COTIZADOR
         10. PÁGINA ESTÉTICA: ANTES / DESPUÉS
-        11. PÁGINA ACCESO DE CLIENTES
-        12. ANIMACIONES Y EFECTOS (todas las páginas)
+        11. ANIMACIONES Y EFECTOS (todas las páginas)
    ========================================================================== */
 
 
@@ -321,7 +320,7 @@ function esPagina(nombre) {
 
   function obtenerRateLimits() {
     try {
-      var r = sessionStorage.getItem(CLAVE_STORAGE_RATELIMIT);
+      var r = localStorage.getItem(CLAVE_STORAGE_RATELIMIT) || sessionStorage.getItem(CLAVE_STORAGE_RATELIMIT);
       return r ? JSON.parse(r) : {};
     } catch (_) {
       return {};
@@ -330,6 +329,7 @@ function esPagina(nombre) {
 
   function guardarRateLimits(datos) {
     try {
+      localStorage.setItem(CLAVE_STORAGE_RATELIMIT, JSON.stringify(datos));
       sessionStorage.setItem(CLAVE_STORAGE_RATELIMIT, JSON.stringify(datos));
     } catch (_) {}
   }
@@ -462,7 +462,7 @@ function esPagina(nombre) {
     mostrarVista("acceso");
   }
 
-  /* Sincroniza la cabecera en todas las páginas con la sesión activa */
+  /* Sincroniza la cabecera en todas las páginas con la sesión activa (DOM Safe / Anti-XSS) */
   function actualizarCabeceraSesion() {
     var user = usuarioActual();
     var btnHeader = document.getElementById("header-btn-auth");
@@ -475,11 +475,20 @@ function esPagina(nombre) {
 
       if (btnHeader) {
         btnHeader.className = "header__btn-auth conectado";
-        btnHeader.innerHTML = '<span class="avatar-mini">' + inicial + '</span> <span class="auth-label-text">Hola, ' + primerNombre + '</span>';
-        btnHeader.title = "Sesión activa: " + user.nombre + " — Ir a Mi Cuenta";
+        btnHeader.textContent = "";
+        var elAv = document.createElement("span");
+        elAv.className = "avatar-mini";
+        elAv.textContent = inicial;
+        var elTxt = document.createElement("span");
+        elTxt.className = "auth-label-text";
+        elTxt.textContent = "Hola, " + primerNombre;
+        btnHeader.appendChild(elAv);
+        btnHeader.appendChild(document.createTextNode(" "));
+        btnHeader.appendChild(elTxt);
+        btnHeader.title = "Sesión activa: " + primerNombre + " — Ir a Mi Cuenta";
       }
       if (btnMovil) {
-        btnMovil.innerHTML = '👤 Mi Cuenta (Hola, ' + primerNombre + ')';
+        btnMovil.textContent = "👤 Mi Cuenta (Hola, " + primerNombre + ")";
         btnMovil.classList.add("conectado");
       }
       navCuenta.forEach(function (el) {
@@ -492,7 +501,7 @@ function esPagina(nombre) {
         btnHeader.title = "Iniciar sesión o registrarte";
       }
       if (btnMovil) {
-        btnMovil.innerHTML = '👤 Iniciar Sesión / Mi Cuenta';
+        btnMovil.textContent = "👤 Iniciar Sesión / Mi Cuenta";
         btnMovil.classList.remove("conectado");
       }
       navCuenta.forEach(function (el) {
@@ -501,14 +510,17 @@ function esPagina(nombre) {
     }
   }
 
-  /* Genera un ID de historia clínica único y determinista a partir del email */
+  /* Genera un ID de historia clínica único y determinista a partir del email (algoritmo djb2) */
   function generarChartId(email) {
-    if (!email) return "#PEL-0001";
-    var hash = 0;
-    for (var i = 0; i < email.length; i++) {
-      hash = (hash * 31 + email.charCodeAt(i)) & 0xFFFF;
+    if (!email) return "#PEL-000101";
+    var hash = 5381;
+    var str = String(email).toLowerCase().trim();
+    for (var i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+      hash = hash & hash;
     }
-    return "#PEL-" + (1000 + (hash % 8999));
+    var num = 100000 + (Math.abs(hash) % 900000);
+    return "#PEL-" + num;
   }
 
   /* Actualiza la interfaz del portal de clientes según el estado de la sesión */
@@ -544,9 +556,13 @@ function esPagina(nombre) {
       if (elEmail)  elEmail.textContent  = sanitizarTexto(user.email || "", 80);
       if (elTel)    elTel.textContent    = user.telefono ? "📱 " + sanitizarTexto(user.telefono, 20) : "";
       if (elAvatar) {
-        if (user.foto) {
-          elAvatar.innerHTML = '<img src="' + user.foto
-            + '" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+        elAvatar.textContent = "";
+        if (user.foto && /^https?:\/\//i.test(user.foto)) {
+          var img = document.createElement("img");
+          img.src = user.foto;
+          img.alt = "Avatar de " + nombreLimpio;
+          img.style.cssText = "width:100%;height:100%;object-fit:cover;border-radius:50%;";
+          elAvatar.appendChild(img);
         } else {
           elAvatar.textContent = nombreLimpio.charAt(0).toUpperCase();
         }
@@ -732,7 +748,19 @@ function esPagina(nombre) {
 
       if (elDestEmail) elDestEmail.textContent = datos.email || "";
       if (elDestTel) elDestTel.textContent = datos.telefono ? "+51 " + datos.telefono : "No registrado";
-      if (elBannerCode) elBannerCode.textContent = datos.codigoOtp;
+      if (elBannerCode) {
+        elBannerCode.textContent = "••••••";
+      }
+      var btnRevelar = document.getElementById("btn-revelar-otp");
+      if (btnRevelar) {
+        btnRevelar.textContent = "¿No te llegó? Ver código de verificación";
+        btnRevelar.onclick = function () {
+          if (elBannerCode) {
+            elBannerCode.textContent = datos.codigoOtp;
+          }
+          btnRevelar.textContent = "Código activo: " + datos.codigoOtp;
+        };
+      }
       if (elStatusMsg) elStatusMsg.textContent = "";
 
       if (elWaLink) {
@@ -778,7 +806,7 @@ function esPagina(nombre) {
 
       renderizarVistaOTP(datosPendientesOTP);
       iniciarCooldownReenviar(60);
-      mostrarToast("Código de verificación enviado: " + codigo, "📲");
+      mostrarToast("Código de seguridad enviado a tu WhatsApp y correo", "📲");
     }
 
     /* Restaurar OTP si el usuario recarga la página o vuelve a la pestaña */
@@ -1167,8 +1195,15 @@ function esPagina(nombre) {
         var idxU = cuentas.findIndex(function (c) {
           return (c.email || "").toLowerCase() === (user.email || "").toLowerCase();
         });
-        if (idxU >= 0) { cuentas[idxU] = Object.assign({}, cuentas[idxU], user); }
-        else            { cuentas.push(user); }
+        if (idxU >= 0) {
+          if (!user.hashClave && cuentas[idxU].hashClave) {
+            user.hashClave = cuentas[idxU].hashClave;
+          }
+          user.verificado = true;
+          cuentas[idxU] = Object.assign({}, cuentas[idxU], user);
+        } else {
+          cuentas.push(user);
+        }
         guardarCuentasStorage(cuentas);
 
         guardarUsuario(user, true);
@@ -4659,13 +4694,6 @@ function esPagina(nombre) {
     pintar(50);
   })();
 })();
-
-
-/* ==========================================================================
-   BLOQUE 11 · PÁGINA ACCESO DE CLIENTES (UNIFICADO EN BLOQUE 2)
-   Toda la lógica de autenticación, verificación OTP en 2 pasos y panel de
-   cliente está centralizada en el Bloque 2 para prevenir colisiones de eventos.
-   ========================================================================== */
 
 
 

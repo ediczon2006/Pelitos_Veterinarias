@@ -67,7 +67,6 @@
             m.indexOf("consentido") !== -1 || m.indexOf("mascota pelitos") !== -1
           ) {
             localStorage.removeItem(K);
-            localStorage.removeItem("pelitos_cuentas_registradas");
           }
         }
       } catch (_) {}
@@ -326,11 +325,14 @@
                   </div>
                 </div>
 
-                <!-- Código Generado para validación -->
+                <!-- Código de Seguridad OTP -->
                 <div class="auth-otp-banner-codigo">
-                  <span class="auth-otp-banner-codigo__label">Código de Verificación Generado</span>
-                  <span class="auth-otp-banner-codigo__num" id="otp-banner-code">------</span>
-                  <span class="auth-otp-banner-codigo__pista">Válido por 5 minutos &bull; Cópialo o ingrésalo en las casillas</span>
+                  <span class="auth-otp-banner-codigo__label">Código de Seguridad Enviado</span>
+                  <span class="auth-otp-banner-codigo__num" id="otp-banner-code">••••••</span>
+                  <span class="auth-otp-banner-codigo__pista">Revisa tu WhatsApp o correo registrado &bull; Válido por 5 minutos</span>
+                  <div style="text-align:center; margin-top:6px;">
+                    <button type="button" id="btn-revelar-otp" style="background:none; border:none; color:var(--morado, #6c3991); font-size:0.75rem; text-decoration:underline; cursor:pointer; font-weight:600;">¿No te llegó? Ver código de verificación</button>
+                  </div>
                 </div>
 
                 <!-- 6 Casillas de código OTP -->
