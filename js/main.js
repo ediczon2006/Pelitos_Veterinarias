@@ -974,7 +974,7 @@ function esPagina(nombre) {
 
         renderizarVistaOTP(datosPendientesOTP);
         iniciarCooldownReenviar(60);
-        mostrarToast("Nuevo código generado: " + nuevoCodigo, "🔄");
+        mostrarToast("Nuevo código de seguridad enviado", "🔄");
       });
     }
 
@@ -4636,17 +4636,24 @@ function esPagina(nombre) {
   
   window.abrirFotoGrande = abrirFotoGrande;
 
-  document.getElementById('lightbox-cerrar').addEventListener('click', () => {
-    modalLightbox.classList.remove('abierto');
-    modalLightbox.setAttribute('aria-hidden', 'true');
-  });
+  const btnCerrarLightbox = document.getElementById('lightbox-cerrar');
+  if (btnCerrarLightbox) {
+    btnCerrarLightbox.addEventListener('click', () => {
+      if (modalLightbox) {
+        modalLightbox.classList.remove('abierto');
+        modalLightbox.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
 
-  modalLightbox.addEventListener('click', (e) => {
-    if (e.target === modalLightbox) {
-      modalLightbox.classList.remove('abierto');
-      modalLightbox.setAttribute('aria-hidden', 'true');
-    }
-  });
+  if (modalLightbox) {
+    modalLightbox.addEventListener('click', (e) => {
+      if (e.target === modalLightbox) {
+        modalLightbox.classList.remove('abierto');
+        modalLightbox.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
 })();
 
 
