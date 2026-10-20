@@ -207,6 +207,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const numeroDestino =
         servicio === "Estética" ? SITE.whatsapp.estetica : SITE.whatsapp.consultorio;
 
+      if (window.PelitosAnalytics) {
+        window.PelitosAnalytics.trackContact("Formulario_Cita", {
+          servicio: servicio,
+          tiene_mascota: Boolean(mascota)
+        });
+      }
+
       abrirExterno(enlaceWhatsapp(texto, numeroDestino));
     });
   }
@@ -952,6 +959,13 @@ function esPagina(nombre) {
         // Guardar sesión activa verificada
         guardarUsuario(usuarioVerificado, true);
         datosPendientesOTP = null;
+
+        if (window.PelitosAnalytics) {
+          window.PelitosAnalytics.trackRegistration({
+            metodo: "OTP_Verificado",
+            mascota: usuarioVerificado.mascota
+          });
+        }
 
         mostrarToast("¡Verificación exitosa! Bienvenido/a a Pelitos.", "🎉");
       });
@@ -3311,6 +3325,15 @@ function esPagina(nombre) {
 
     guardarCarrito();
     renderCarrito();
+    if (window.PelitosAnalytics) {
+      window.PelitosAnalytics.trackAddToCart({
+        id: producto.id,
+        titulo: producto.titulo,
+        precio: (precioCon(producto, opciones) || 0) / 100,
+        cantidad: suma,
+        categoria: producto.categoriaTexto || "PetShop"
+      });
+    }
     avisar(producto.titulo + " se añadió al carrito.");
   }
 
@@ -3552,6 +3575,14 @@ function esPagina(nombre) {
         "¿Me confirman stock, el tiempo de entrega en Huánuco y los medios de pago disponibles?"
       ])
       .join("\n");
+
+    if (window.PelitosAnalytics) {
+      window.PelitosAnalytics.trackInitiateCheckout({
+        total: totalCarrito() / 100,
+        moneda: "PEN",
+        cantidad_items: carrito.reduce(function (acc, l) { return acc + l.cantidad; }, 0)
+      });
+    }
 
     abrirExterno(enlaceWhatsapp(texto, WHATSAPP));
   }
