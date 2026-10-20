@@ -17,21 +17,23 @@
   var PelitosDB = {
     estaListo: false,
     modoLocal: true,
+    db: null,
+    auth: null,
+    firestore: null,
 
     /**
      * Inicializa la conexión con Firebase si los datos están presentes
      */
     init: async function () {
+      if (inicializado) return;
       var cfg = window.PELITOS_FIREBASE_CONFIG;
-      if (!cfg || !cfg.apiKey || !cfg.projectId || cfg.apiKey === "") {
-        console.info("[Pelitos DB] Firebase no configurado aún. Operando en modo LocalStorage.");
+      if (!cfg || !cfg.apiKey || !cfg.projectId || cfg.apiKey.trim() === "") {
         this.modoLocal = true;
         this.estaListo = true;
         return;
       }
 
       try {
-        // Carga dinámica de Firebase SDK desde el CDN oficial de Google
         var firebaseApp = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
         var firestore = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
         var firebaseAuth = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
@@ -49,50 +51,68 @@
 
         console.info("[Pelitos DB] Conectado exitosamente a Google Cloud Firestore (" + cfg.projectId + ").");
       } catch (err) {
-        console.warn("[Pelitos DB] Error al conectar con Firebase. Usando fallback local:", err);
+        console.warn("[Pelitos DB] Fallback local activo. Motivo:", err.message);
         this.modoLocal = true;
         this.estaListo = true;
       }
     },
 
     /**
-     * Guarda una nueva cita médica o estética canina
+     * Guarda una nueva cita médica o estética canina (Esquema estricto compatible con firestore.rules)
      */
     guardarCita: async function (datosCita) {
       if (!datosCita) throw new Error("Datos de cita inválidos");
 
-      var citaNormalizada = {
-        clienteNombre: String(datosCita.clienteNombre || datosCita.nombre || '').trim(),
-        telefono: String(datosCita.telefono || datosCita.celular || '').trim(),
-        mascotaNombre: String(datosCita.mascotaNombre || datosCita.mascota || '').trim(),
-        especie: String(datosCita.especie || 'perro').trim().toLowerCase(),
-        servicio: String(datosCita.servicio || 'consulta').trim(),
-        fecha: String(datosCita.fecha || '').trim(),
-        hora: String(datosCita.hora || '').trim(),
-        notas: String(datosCita.notas || '').substring(0, 500),
-        estado: 'pendiente',
-        creadoEl: new Date().toISOString()
+      var telefonoLimpio = String(datosCita.telefono || datosCita.celular || '')
+        .trim()
+        .replace(/[^\d+ -]/g, '')
+        .slice(0, 20);
+
+      if (telefonoLimpio.length < 8) {
+        telefonoLimpio = "+51 " + telefonoLimpio;
+      }
+
+      var citaDoc = {
+        nombre: String(datosCita.nombre || datosCita.clienteNombre || 'Cliente').trim().slice(0, 80),
+        telefono: telefonoLimpio,
+        mascota: String(datosCita.mascota || datosCita.mascotaNombre || 'Mascota').trim().slice(0, 60),
+        servicio: String(datosCita.servicio || 'Consulta').trim().slice(0, 80),
+        fecha: String(datosCita.fecha || new Date().toISOString().split("T")[0]).trim().slice(0, 40),
+        hora: String(datosCita.hora || new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })).trim().slice(0, 25),
+        status: 'pendiente'
       };
 
-      // Si Firebase está activo
+      var mensaje = String(datosCita.mensaje || datosCita.notas || '').trim().slice(0, 600);
+      if (mensaje) {
+        citaDoc.mensaje = mensaje;
+      }
+
+      if (auth && auth.currentUser && auth.currentUser.uid) {
+        citaDoc.userId = auth.currentUser.uid;
+      }
+
+      // Si Firebase está activo, enviar a Firestore
       if (!this.modoLocal && db && this.firestore) {
         try {
+          var payloadFirestore = Object.assign({}, citaDoc, {
+            createdAt: this.firestore.serverTimestamp()
+          });
           var colRef = this.firestore.collection(db, 'citas');
-          var docRef = await this.firestore.addDoc(colRef, citaNormalizada);
-          citaNormalizada.id = docRef.id;
+          var docRef = await this.firestore.addDoc(colRef, payloadFirestore);
+          citaDoc.id = docRef.id;
         } catch (err) {
           console.error("[Pelitos DB] Error al guardar cita en Firestore:", err);
         }
       }
 
-      // Guardar también en localStorage como respaldo offline
+      // Guardar también en localStorage como respaldo local
       try {
         var citasLocales = JSON.parse(localStorage.getItem('pelitos_citas') || '[]');
-        citasLocales.push(citaNormalizada);
+        citasLocales.push(Object.assign({}, citaDoc, { id: citaDoc.id || 'loc_' + Date.now() }));
         localStorage.setItem('pelitos_citas', JSON.stringify(citasLocales));
       } catch (_) {}
 
-      return citaNormalizada;
+      return citaDoc;
     },
 
     /**
@@ -101,17 +121,32 @@
     guardarConsultaIA: async function (triaje) {
       if (!triaje) return;
 
-      var registro = {
-        sintomas: String(triaje.sintomas || '').substring(0, 600),
-        nivelUrgencia: String(triaje.nivelUrgencia || 'leve').toLowerCase(),
-        recomendacion: String(triaje.recomendacion || '').substring(0, 400),
-        fecha: new Date().toISOString()
+      var sintomas = Array.isArray(triaje.sintomasDetectados) && triaje.sintomasDetectados.length > 0
+        ? triaje.sintomasDetectados.join(', ').slice(0, 1000)
+        : String(triaje.sintomas || 'Orientación preventiva').trim().slice(0, 1000);
+
+      var consultaDoc = {
+        tipoMascota: String(triaje.tipoMascota || 'Por identificar').trim().slice(0, 60),
+        sintomas: sintomas,
+        urgencia: String(triaje.urgencia || 'Verde (Informativa)').trim().slice(0, 80),
+        servicioSugerido: String(triaje.servicioSugerido || 'Consulta General').trim().slice(0, 100)
       };
+
+      if (triaje.resumen) {
+        consultaDoc.resumen = String(triaje.resumen).trim().slice(0, 1500);
+      }
+
+      if (auth && auth.currentUser && auth.currentUser.uid) {
+        consultaDoc.userId = auth.currentUser.uid;
+      }
 
       if (!this.modoLocal && db && this.firestore) {
         try {
+          var payloadFirestore = Object.assign({}, consultaDoc, {
+            createdAt: this.firestore.serverTimestamp()
+          });
           var colRef = this.firestore.collection(db, 'ia_consultas');
-          await this.firestore.addDoc(colRef, registro);
+          await this.firestore.addDoc(colRef, payloadFirestore);
         } catch (err) {
           console.warn("[Pelitos DB] Error al registrar triaje IA en Firestore:", err);
         }
@@ -142,7 +177,6 @@
         }
       }
 
-      // Fallback a reseñas en memoria/localStorage
       try {
         return JSON.parse(localStorage.getItem('pelitos_resenas') || '[]');
       } catch (_) {
@@ -151,10 +185,8 @@
     }
   };
 
-  // Exponer globalmente
   window.PelitosDB = PelitosDB;
 
-  // Auto-inicializar cuando el DOM esté listo
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       PelitosDB.init();

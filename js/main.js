@@ -214,6 +214,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
+      if (window.PelitosDB && typeof window.PelitosDB.guardarCita === "function") {
+        window.PelitosDB.guardarCita({
+          nombre: nombre,
+          telefono: telefono,
+          mascota: mascota || "Mascota",
+          servicio: servicio,
+          mensaje: mensaje,
+          fecha: new Date().toISOString().split("T")[0],
+          hora: new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" }),
+          status: "pendiente"
+        }).catch(function (err) {
+          console.warn("[Pelitos] Error al registrar cita en base de datos:", err);
+        });
+      }
+
       abrirExterno(enlaceWhatsapp(texto, numeroDestino));
     });
   }

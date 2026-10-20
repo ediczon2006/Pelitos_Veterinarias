@@ -197,7 +197,7 @@
     }
 
     var endpoint = "https://generativelanguage.googleapis.com/v1beta/models/" +
-                   encodeURIComponent(CONFIG.model) + ":generateContent?key=" + encodeURIComponent(key);
+                   encodeURIComponent(CONFIG.model) + ":generateContent";
 
     // Preparar historial de conversación
     var contents = [
@@ -227,7 +227,10 @@
     try {
       var response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": key
+        },
         body: JSON.stringify({
           contents: contents,
           generationConfig: {
@@ -255,6 +258,12 @@
 
       // Actualizar triaje en paralelo con el analizador local
       LocalTriageEngine.analizarMensaje(mensajeUsuario);
+
+      // Auditoría en base de datos si está conectada
+      if (window.PelitosDB && typeof window.PelitosDB.guardarConsultaIA === "function") {
+        window.PelitosDB.guardarConsultaIA(triageAnalysis);
+      }
+
       return respuestaTexto;
 
     } catch (err) {
@@ -456,7 +465,8 @@
 
       window.open(
         "https://api.whatsapp.com/send?phone=" + numDestino + "&text=" + encodeURIComponent(textoWa),
-        "_blank"
+        "_blank",
+        "noopener,noreferrer"
       );
     });
 
@@ -489,18 +499,23 @@
 
     function agregarMensajeDOM(rol, texto) {
       var msgDiv = document.createElement("div");
-      msgDiv.className = "ia-msg ia-msg--" + rol;
+      msgDiv.className = "ia-msg ia-msg--" + (rol === "user" ? "user" : "assistant");
 
       // Render seguro: formato Markdown básico (negritas y enlaces)
       var p = document.createElement("div");
       p.className = "ia-msg-text";
 
-      // Reemplazo seguro de Markdown básico
-      var contenidoSeguro = texto
-        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      var textoStr = String(texto || "");
+      // Reemplazo seguro de entidades HTML y atributos
+      var contenidoSeguro = textoStr
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;")
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\*(.*?)\*/g, "<em>$1</em>")
-        .replace(/\[(.*?)\]\((https?:\/\/.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=%]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
         .replace(/\n/g, "<br>");
 
       p.innerHTML = contenidoSeguro;
