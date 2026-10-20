@@ -48,8 +48,9 @@
     "2. Seguridad farmacológica: NUNCA recetes medicamentos ni dosis (especialmente tóxicos comunes como paracetamol o ibuprofeno en perros/gatos).\n" +
     "3. Detección de Urgencias: Si el animal presenta convulsiones, sangrado profuso, dificultad respiratoria severa, hinchazón abdominal súbita o ingestión de veneno, califica como 'URGENCIA ALTA' e indica acudir inmediatamente a Jr. Leoncio Prado 1336 o llamar al WhatsApp.\n" +
     "4. Servicios disponibles en Pelitos: Consulta médica, Medicina preventiva (vacunas y desparasitación), Laboratorio clínico propio (análisis de sangre y heces), Cirugías menores, Pelitos Estética (baños medicados, cortes de raza con groomer certificada) y PetShop.\n" +
-    "5. Investigación y Búsqueda en Internet en Tiempo Real: Tienes habilitada la herramienta de Búsqueda de Google (Google Search Grounding). Si el usuario consulta sobre razas específicas, síntomas atípicos, nutrición animal, alimentos o plantas tóxicas, compatibilidad de productos, o avances veterinarios que no estén en la página, investiga activamente en la web en tiempo real para brindar respuestas científicas, completas y fundamentadas.\n" +
-    "6. Respuestas concisas y estructuradas con emojis amigables. Al final de tu respuesta siempre ofrece coordinar la atención presencial por WhatsApp.";
+    "5. Investigación y Búsqueda en Internet en Tiempo Real: Tienes habilitada la herramienta de Búsqueda de Google (Google Search Grounding). Si el usuario consulta sobre razas específicas, síntomas atípicos, nutrición animal, alimentos o plantas tóxicas, compatibilidad de productos, o avances veterinarios, investiga activamente en la web en tiempo real para incorporar todos los datos en tu respuesta.\n" +
+    "6. AUTOSUFICIENCIA TOTAL (SIN ENLACES EXTERNOS): Redacta y explica TODOS los datos, síntomas, causas, recomendaciones y cuidados médicos DIRECTAMENTE AQUÍ en tu respuesta de forma completa, clara y didáctica. NUNCA le digas al usuario que vaya a buscar a Google o a enlaces externos; entrega toda la información explicada en este mismo mensaje.\n" +
+    "7. Respuestas estructuradas con viñetas y emojis amigables. Al final de tu respuesta siempre ofrece coordinar la atención presencial por WhatsApp.";
 
   /* Estado del Triaje / Análisis en Vivo */
   var triageAnalysis = {
@@ -122,12 +123,22 @@
         servicio = "Medicina Preventiva y Vacunación";
         triageAnalysis.sintomasDetectados.push("Control de vacunas / parásitos");
 
-        resp = "🐾 **El calendario de medicina preventiva es clave para proteger su vida.**\n\n" +
-               "En Pelitos Veterinaria contamos con:\n" +
-               "• Vacunas quíntuple, séxtuple, parvovirus, tos de las perreras y antirrábica.\n" +
-               "• Vacuna triple felina y leucemia para gatos.\n" +
-               "• Desparasitación interna y antipulgas de larga duración (Bravecto, Simparica, Nexgard).\n\n" +
-               "¿Qué edad tiene tu consentido para orientarte sobre su próxima dosis?";
+        resp = "🐾 **Calendario Completo de Vacunación y Desparasitación:**\n\n" +
+               "🐶 **En Perros (Cachorros y Adultos):**\n" +
+               "• **45 días:** Vacuna Puppy (Parvovirus + Moquillo/Distemper).\n" +
+               "• **60 a 65 días:** Pentavalente (Parvovirus, Moquillo, Hepatitis infecciosa, Adenovirus y Parainfluenza).\n" +
+               "• **90 días (3 meses):** Refuerzo Séxtuple (Pentavalente + Leptospirosis).\n" +
+               "• **120 días (4 meses):** Vacuna Antirrábica obligatoria.\n" +
+               "• **Refuerzo Anual:** Séxtuple y Antirrábica cada 12 meses toda la vida.\n\n" +
+               "🐱 **En Gatos (Gatitos y Adultos):**\n" +
+               "• **2 meses:** Triple Felina (Rinotraqueítis, Calicivirus y Panleucopenia felina).\n" +
+               "• **3 meses:** Refuerzo Triple Felina + Leucemia Felina (con descarte previo).\n" +
+               "• **4 meses:** Vacuna Antirrábica.\n" +
+               "• **Refuerzo Anual:** Triple Felina y Antirrábica una vez al año.\n\n" +
+               "💊 **Desparasitación y Antiparasitarios:**\n" +
+               "• **Interna:** Cada 15 días en cachorros; cada 3 meses en adultos con pastillas de amplio espectro.\n" +
+               "• **Externa:** Tabletas masticables orales de alta duración (Simparica, NexGard o Bravecto) que eliminan pulgas, garrapatas y ácaros de 30 a 90 días.\n\n" +
+               "¿Tu consentido tiene su carnet al día o necesita iniciar sus dosis?";
       }
       // 5. Estética y Peluquería Canina
       else if (
@@ -170,7 +181,7 @@
                "📱 **WhatsApp oficial:** +51 939 356 376\n\n" +
                "¡Estaremos encantados de recibirte a ti y a tu mascota!";
       }
-      // 8. Nutrición y Alimentos Peligrosos
+      // 8. Nutrición y Alimentos Peligrosos (Datos completos directos)
       else if (
         t.indexOf("chocolate") !== -1 || t.indexOf("cebolla") !== -1 || t.indexOf("uva") !== -1 ||
         t.indexOf("ajo") !== -1 || t.indexOf("aguacate") !== -1 || t.indexOf("palta") !== -1 ||
@@ -181,24 +192,37 @@
         servicio = "Consulta Nutricional / Preventiva";
         triageAnalysis.sintomasDetectados.push("Duda nutricional o sospecha de ingesta tóxica");
 
-        resp = "🥗 **Nutrición y Alimentos Peligrosos para Mascotas:**\n\n" +
-               "Muchos alimentos humanos son altamente tóxicos para perros y gatos:\n" +
-               "❌ **Prohibidos y peligrosos:** Chocolate, cebolla, ajo, uvas/pasas, palta/aguacate, huesos cocidos, masa cruda, alcohol y café.\n" +
-               "✅ **Seguros con moderación:** Manzana (sin semillas), zanahoria cruda o cocida, plátano en trocitos pequeños, calabaza y carne cocida sin sal ni condimentos.\n\n" +
-               "Si tu mascota comió alguno de los alimentos prohibidos, no provoques el vómito sin supervisión médica y acude a nuestra clínica de inmediato.\n\n" +
-               "🌐 [🔍 Investigar más en la web sobre alimentos para mascotas](https://www.google.com/search?q=" + encodeURIComponent("alimentos toxicos perros gatos veterinaria " + texto) + ")";
+        resp = "🥗 **Guía Completa de Nutrición y Alimentos Peligrosos:**\n\n" +
+               "❌ **Alimentos Prohibidos y por qué son Tóxicos:**\n" +
+               "• **Chocolate y Cacao:** Contienen teobromina. Provocan taquicardia severa, temblores, vómitos y pueden ser mortales.\n" +
+               "• **Cebolla, Ajo, Poro y Cebollín:** Contienen tiosulfatos que destruyen los glóbulos rojos, causando anemia hemolítica.\n" +
+               "• **Uvas y Pasas:** Altamente nefrotóxicas; provocan fallo renal agudo fulminante e irreversible.\n" +
+               "• **Palta / Aguacate:** Contiene persina y alto nivel graso que desencadena pancreatitis aguda.\n" +
+               "• **Huesos Cocidos:** Pierden elasticidad y se astillan, pudiendo perforar el esófago, estómago o intestinos.\n" +
+               "• **Xilitol (dulces, chicles dietéticos):** Causa hipoglucemia fulminante y daño hepático grave.\n" +
+               "• **Alcohol, Café y Té:** Daño severo al sistema nervioso y cardíaco.\n\n" +
+               "✅ **Premios y Alimentos Seguros (con moderación):**\n" +
+               "• **Zanahoria cruda o cocida:** Excelente para limpiar sarro y aportar fibra.\n" +
+               "• **Manzana sin semillas ni corazón:** Snack refrescante con vitaminas A y C.\n" +
+               "• **Calabaza / Zapallo hervido:** Regula la digestión ante diarreas leves o estreñimiento.\n" +
+               "• **Pechuga de pollo hervida:** Solo sancochada en agua, sin sal ni condimentos.\n\n" +
+               "Si tu mascota ingirió algún alimento prohibido, no provoques el vómito sin supervisión médica y acude a nuestra clínica de inmediato.";
       }
-      // 9. Respuesta General Empática con Búsqueda en la Web
+      // 9. Respuesta General Completa y Detallada (Sin enlaces externos)
       else {
-        resp = "¡Hola! Soy **Pelitos IA**, tu asistente veterinario virtual en Huánuco. 🐾\n\n" +
-               "Puedo ayudarte con:\n" +
-               "• Triaje clínico de síntomas de tu mascota.\n" +
-               "• Calendario de vacunas y desparasitación.\n" +
-               "• Turnos de Peluquería y Baños.\n" +
-               "• Alimentos y productos del PetShop.\n" +
-               "• Dudas médicas y cuidados investigando en internet.\n\n" +
-               "Cuéntame, ¿qué necesita tu mascota hoy o qué síntomas has notado?\n\n" +
-               "🌐 [🔍 Investigar más sobre tu consulta en internet](https://www.google.com/search?q=" + encodeURIComponent("veterinaria cuidados mascota " + texto) + ")";
+        resp = "¡Hola! Soy **Pelitos IA**, tu asistente veterinario virtual en Huánuco. 🐾✨\n\n" +
+               "Aquí tienes la información y servicios completos de nuestra clínica:\n\n" +
+               "🏥 **Nuestros Servicios Médicos y de Bienestar:**\n" +
+               "• **Consultas Médicas:** Evaluación física completa, diagnóstico dermatológico, digestivo y respiratorio.\n" +
+               "• **Medicina Preventiva:** Vacunas completas Puppy, Pentavalente, Séxtuple, Triple Felina y Antirrábica.\n" +
+               "• **Laboratorio Clínico Propio:** Hemograma automatizado, bioquímica, raspados y análisis de heces con resultados en minutos.\n" +
+               "• **Pelitos Estética:** Baños medicados para piel sensible, corte higiénico y de raza por groomer certificada, corte de uñas y limpieza de oídos.\n" +
+               "• **Pelitos Móvil:** Atención veterinaria y recojo de mascotas a domicilio en Huánuco.\n" +
+               "• **PetShop y Farmacia:** Alimentos balanceados medicados, accesorios y antiparasitarios (Simparica, Bravecto, NexGard).\n\n" +
+               "📍 **Ubicación:** Jr. Leoncio Prado N.° 1336, Huánuco, Perú.\n" +
+               "⏰ **Horario:** Lunes a sábado de 8:30 a.m. a 8:00 p.m. (continuo).\n" +
+               "📞 **WhatsApp:** +51 939 356 376\n\n" +
+               "Cuéntame, ¿qué necesita tu mascota hoy o qué síntomas has notado para ayudarte?";
       }
 
       triageAnalysis.urgencia = urgencia;
@@ -295,28 +319,6 @@
 
       if (!respuestaTexto) {
         throw new Error("Respuesta vacía de Gemini");
-      }
-
-      // Extraer e inyectar fuentes de internet consultadas (Google Search Grounding)
-      var grounding = candidate.groundingMetadata;
-      if (grounding && Array.isArray(grounding.groundingChunks)) {
-        var linksUnicos = [];
-        var urlsVistas = {};
-        grounding.groundingChunks.forEach(function (chunk) {
-          if (chunk.web && chunk.web.uri && chunk.web.title) {
-            var url = chunk.web.uri;
-            if (!urlsVistas[url] && linksUnicos.length < 3) {
-              urlsVistas[url] = true;
-              var tit = String(chunk.web.title || "Fuente web").replace(/[\[\]]/g, "").trim();
-              if (tit.length > 50) tit = tit.substring(0, 47) + "...";
-              linksUnicos.push("[" + tit + "](" + url + ")");
-            }
-          }
-        });
-
-        if (linksUnicos.length > 0) {
-          respuestaTexto += "\n\n🌐 **Fuentes de internet consultadas en vivo:**\n" + linksUnicos.map(function (l) { return "• " + l; }).join("\n");
-        }
       }
 
       // Actualizar triaje en paralelo con el analizador local
