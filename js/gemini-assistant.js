@@ -48,7 +48,8 @@
     "2. Seguridad farmacológica: NUNCA recetes medicamentos ni dosis (especialmente tóxicos comunes como paracetamol o ibuprofeno en perros/gatos).\n" +
     "3. Detección de Urgencias: Si el animal presenta convulsiones, sangrado profuso, dificultad respiratoria severa, hinchazón abdominal súbita o ingestión de veneno, califica como 'URGENCIA ALTA' e indica acudir inmediatamente a Jr. Leoncio Prado 1336 o llamar al WhatsApp.\n" +
     "4. Servicios disponibles en Pelitos: Consulta médica, Medicina preventiva (vacunas y desparasitación), Laboratorio clínico propio (análisis de sangre y heces), Cirugías menores, Pelitos Estética (baños medicados, cortes de raza con groomer certificada) y PetShop.\n" +
-    "5. Respuestas concisas y estructuradas con emojis amigables. Al final de tu respuesta siempre ofrece coordinar la atención por WhatsApp.";
+    "5. Investigación y Búsqueda en Internet en Tiempo Real: Tienes habilitada la herramienta de Búsqueda de Google (Google Search Grounding). Si el usuario consulta sobre razas específicas, síntomas atípicos, nutrición animal, alimentos o plantas tóxicas, compatibilidad de productos, o avances veterinarios que no estén en la página, investiga activamente en la web en tiempo real para brindar respuestas científicas, completas y fundamentadas.\n" +
+    "6. Respuestas concisas y estructuradas con emojis amigables. Al final de tu respuesta siempre ofrece coordinar la atención presencial por WhatsApp.";
 
   /* Estado del Triaje / Análisis en Vivo */
   var triageAnalysis = {
@@ -169,15 +170,35 @@
                "📱 **WhatsApp oficial:** +51 939 356 376\n\n" +
                "¡Estaremos encantados de recibirte a ti y a tu mascota!";
       }
-      // 8. Respuesta General Empática
+      // 8. Nutrición y Alimentos Peligrosos
+      else if (
+        t.indexOf("chocolate") !== -1 || t.indexOf("cebolla") !== -1 || t.indexOf("uva") !== -1 ||
+        t.indexOf("ajo") !== -1 || t.indexOf("aguacate") !== -1 || t.indexOf("palta") !== -1 ||
+        t.indexOf("hueso") !== -1 || t.indexOf("alimento") !== -1 || t.indexOf("comer") !== -1 ||
+        t.indexOf("leche") !== -1 || t.indexOf("comida") !== -1
+      ) {
+        urgencia = "Amarilla (Alerta preventiva)";
+        servicio = "Consulta Nutricional / Preventiva";
+        triageAnalysis.sintomasDetectados.push("Duda nutricional o sospecha de ingesta tóxica");
+
+        resp = "🥗 **Nutrición y Alimentos Peligrosos para Mascotas:**\n\n" +
+               "Muchos alimentos humanos son altamente tóxicos para perros y gatos:\n" +
+               "❌ **Prohibidos y peligrosos:** Chocolate, cebolla, ajo, uvas/pasas, palta/aguacate, huesos cocidos, masa cruda, alcohol y café.\n" +
+               "✅ **Seguros con moderación:** Manzana (sin semillas), zanahoria cruda o cocida, plátano en trocitos pequeños, calabaza y carne cocida sin sal ni condimentos.\n\n" +
+               "Si tu mascota comió alguno de los alimentos prohibidos, no provoques el vómito sin supervisión médica y acude a nuestra clínica de inmediato.\n\n" +
+               "🌐 [🔍 Investigar más en la web sobre alimentos para mascotas](https://www.google.com/search?q=" + encodeURIComponent("alimentos toxicos perros gatos veterinaria " + texto) + ")";
+      }
+      // 9. Respuesta General Empática con Búsqueda en la Web
       else {
         resp = "¡Hola! Soy **Pelitos IA**, tu asistente veterinario virtual en Huánuco. 🐾\n\n" +
                "Puedo ayudarte con:\n" +
                "• Triaje clínico de síntomas de tu mascota.\n" +
                "• Calendario de vacunas y desparasitación.\n" +
                "• Turnos de Peluquería y Baños.\n" +
-               "• Alimentos y productos del PetShop.\n\n" +
-               "Cuéntame, ¿qué necesita tu mascota hoy o qué síntomas has notado?";
+               "• Alimentos y productos del PetShop.\n" +
+               "• Dudas médicas y cuidados investigando en internet.\n\n" +
+               "Cuéntame, ¿qué necesita tu mascota hoy o qué síntomas has notado?\n\n" +
+               "🌐 [🔍 Investigar más sobre tu consulta en internet](https://www.google.com/search?q=" + encodeURIComponent("veterinaria cuidados mascota " + texto) + ")";
       }
 
       triageAnalysis.urgencia = urgencia;
@@ -224,6 +245,19 @@
       parts: [{ text: mensajeUsuario }]
     });
 
+    var payload = {
+      contents: contents,
+      tools: [
+        {
+          googleSearch: {}
+        }
+      ],
+      generationConfig: {
+        temperature: 0.6,
+        maxOutputTokens: 800
+      }
+    };
+
     try {
       var response = await fetch(endpoint, {
         method: "POST",
@@ -231,29 +265,58 @@
           "Content-Type": "application/json",
           "x-goog-api-key": key
         },
-        body: JSON.stringify({
-          contents: contents,
-          generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 600
-          }
-        })
+        body: JSON.stringify(payload)
       });
+
+      // Si el modelo rechaza tools en esta cuenta, reintentar de forma transparente sin tools
+      if (!response.ok && (response.status === 400 || response.status === 404)) {
+        delete payload.tools;
+        response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": key
+          },
+          body: JSON.stringify(payload)
+        });
+      }
 
       if (!response.ok) {
         throw new Error("HTTP " + response.status);
       }
 
       var data = await response.json();
-      var respuestaTexto = data.candidates &&
-                           data.candidates[0] &&
-                           data.candidates[0].content &&
-                           data.candidates[0].content.parts &&
-                           data.candidates[0].content.parts[0] &&
-                           data.candidates[0].content.parts[0].text;
+      var candidate = data.candidates && data.candidates[0];
+      var respuestaTexto = candidate &&
+                           candidate.content &&
+                           candidate.content.parts &&
+                           candidate.content.parts[0] &&
+                           candidate.content.parts[0].text;
 
       if (!respuestaTexto) {
         throw new Error("Respuesta vacía de Gemini");
+      }
+
+      // Extraer e inyectar fuentes de internet consultadas (Google Search Grounding)
+      var grounding = candidate.groundingMetadata;
+      if (grounding && Array.isArray(grounding.groundingChunks)) {
+        var linksUnicos = [];
+        var urlsVistas = {};
+        grounding.groundingChunks.forEach(function (chunk) {
+          if (chunk.web && chunk.web.uri && chunk.web.title) {
+            var url = chunk.web.uri;
+            if (!urlsVistas[url] && linksUnicos.length < 3) {
+              urlsVistas[url] = true;
+              var tit = String(chunk.web.title || "Fuente web").replace(/[\[\]]/g, "").trim();
+              if (tit.length > 50) tit = tit.substring(0, 47) + "...";
+              linksUnicos.push("[" + tit + "](" + url + ")");
+            }
+          }
+        });
+
+        if (linksUnicos.length > 0) {
+          respuestaTexto += "\n\n🌐 **Fuentes de internet consultadas en vivo:**\n" + linksUnicos.map(function (l) { return "• " + l; }).join("\n");
+        }
       }
 
       // Actualizar triaje en paralelo con el analizador local
@@ -304,7 +367,7 @@
       '      <div>' +
       '        <div class="ia-title-row">' +
       '          <h3 class="ia-title">Pelitos IA</h3>' +
-      '          <span class="ia-badge-gemini">Gemini</span>' +
+      '          <span class="ia-badge-gemini" title="Conectado a la Búsqueda de Google en tiempo real">Gemini 🌐 Web</span>' +
       '        </div>' +
       '        <p class="ia-subtitle">Orientación veterinaria en Huánuco</p>' +
       '      </div>' +
@@ -334,8 +397,9 @@
       '  <div class="ia-messages" id="ia-messages-list" role="log" aria-live="polite">' +
       '    <div class="ia-msg ia-msg--assistant">' +
       '      <p>¡Hola! Soy <strong>Pelitos IA</strong>, tu asistente veterinario virtual en Huánuco. 🐾✨</p>' +
-      '      <p>Puedo ayudarte con orientación de salud de tu mascota, vacunas, servicios de peluquería o agendar una cita.</p>' +
+      '      <p>Puedo ayudarte con orientación de salud de tu mascota, vacunas, servicios de peluquería o agendar una cita. ¡También investigo en internet en tiempo real para resolver cualquier duda médica o de cuidados!</p>' +
       '      <div class="ia-quick-chips" id="ia-quick-chips">' +
+      '        <button type="button" class="ia-chip" data-ia-prompt="¿Qué alimentos humanos son tóxicos o peligrosos para perros y gatos?">🥗 Alimentos prohibidos</button>' +
       '        <button type="button" class="ia-chip" data-ia-prompt="¿Qué vacunas necesita mi cachorro?">🐶 Vacunas cachorro</button>' +
       '        <button type="button" class="ia-chip" data-ia-prompt="Quiero reservar un baño y corte">✂️ Baño y Peluquería</button>' +
       '        <button type="button" class="ia-chip" data-ia-prompt="Mi mascota tiene vómitos y no come">🚨 Triaje de malestar</button>' +
