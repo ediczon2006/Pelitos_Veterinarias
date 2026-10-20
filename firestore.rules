@@ -1,0 +1,504 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Application: Pelitos Veterinaria & Estética (Huánuco, Perú)
+// This security rules file assumes the following data structures and collections:
+//
+// Collection: citas
+// Document ID: {citaId} (auto-generated document ID)
+// Fields:
+//   - nombre: string (required, 2-80 chars) - Nombre del tutor o cliente
+//   - telefono: string (required, 8-20 chars) - Teléfono celular o WhatsApp
+//   - fecha: string/timestamp (required, 8-40 chars o timestamp) - Fecha de la cita
+//   - hora: string (required, 3-25 chars) - Hora elegida para la cita
+//   - servicio: string (required, 2-80 chars) - Servicio médico o estético solicitado
+//   - mascota: string (required, 1-60 chars) - Nombre o descripción de la mascota
+//   - mensaje: string (optional, 0-600 chars) - Nota o motivo adicional
+//   - userId: string (optional, 1-128 chars, immutable) - UID del usuario si está autenticado
+//   - status: string (required, enum: ['pendiente', 'confirmada', 'en_proceso', 'completada', 'cancelada'])
+//   - createdAt: timestamp (optional, immutable) - Fecha y hora de creación de la reserva
+//   - updatedAt: timestamp (optional) - Fecha y hora de la última modificación
+//
+// Collection: usuarios
+// Document ID: {userId} (strictly matches request.auth.uid)
+// Fields:
+//   - nombre: string (required, 2-80 chars) - Nombre completo del tutor
+//   - email: string (required, 5-100 chars, valid email format, immutable for non-admin)
+//   - telefono: string (optional, 6-25 chars) - Celular o WhatsApp de contacto
+//   - mascota: string (optional, 1-60 chars) - Nombre principal de la mascota
+//   - raza: string (optional, 1-60 chars) - Raza o descripción de la mascota
+//   - edad: string (optional, 1-30 chars) - Edad aproximada de la mascota
+//   - rol: string (optional, enum: ['cliente', 'admin', 'veterinario'], immutable for non-admin)
+//   - verificado: bool (optional) - Marca de verificación de datos u OTP
+//   - createdAt: timestamp (optional, immutable) - Marca de creación de la cuenta
+//   - updatedAt: timestamp (optional) - Marca de actualización de perfil
+//
+// Collection: resenas
+// Document ID: {resenaId} (auto-generated document ID)
+// Fields:
+//   - nombre: string (required, 2-60 chars) - Nombre del cliente o tutor
+//   - texto: string (required, 10-500 chars) - Testimonio o reseña del servicio
+//   - rating / estrellas: int (required, between 1 and 5) - Puntuación otorgada
+//   - mascota: string (optional, 1-60 chars) - Nombre y raza de la mascota
+//   - status: string (required, enum: ['pendiente', 'aprobada', 'rechazada']) - Moderación
+//   - userId: string (optional, 1-128 chars) - UID del cliente si estaba autenticado
+//   - fecha: string/timestamp (optional, 4-30 chars) - Fecha de la reseña
+//   - createdAt: timestamp (optional) - Fecha de creación del registro
+//   - updatedAt: timestamp (optional) - Fecha de moderación por administración
+//
+// Collection: servicios
+// Document ID: {servicioId} (slug o ID único)
+// Fields:
+//   - titulo: string (required, 2-120 chars) - Nombre del servicio veterinario/estético
+//   - categoria: string (required, 2-50 chars) - Categoría (ej. consultas, vacunas, estetica)
+//   - descripcion: string (optional, 0-2000 chars) - Descripción detallada
+//   - icono: string (optional, 0-100 chars) - Identificador o SVG referencial
+//   - imagen: string (optional, 0-255 chars) - Ruta o URL de imagen
+//   - precio: number (optional, >= 0 and <= 100000) - Precio base en soles
+//   - duracion: string (optional, 0-50 chars) - Tiempo estimado de atención
+//   - destacado: bool (optional) - Si se resalta en la portada
+//   - activo: bool (optional) - Disponibilidad operativa
+//   - beneficios: list (optional, <= 20 items) - Lista de beneficios incluidos
+//   - createdAt: timestamp (optional)
+//   - updatedAt: timestamp (optional)
+//
+// Collection: productos
+// Document ID: {productoId} (slug o ID de producto)
+// Fields:
+//   - titulo: string (required, 2-120 chars) - Nombre comercial del producto
+//   - categoria: string (required, 2-50 chars) - Categoría (alimentos, snacks, etc.)
+//   - precio: number (required, >= 0 and <= 100000) - Precio en soles
+//   - categoriaTexto: string (optional, 0-80 chars) - Subtítulo o marca
+//   - precioAntes: number (optional, >= 0 and <= 100000) - Precio anterior tachado
+//   - resumen: string (optional, 0-1000 chars) - Resumen corto
+//   - descripcion: string (optional, 0-2000 chars) - Descripción completa
+//   - imagen: string (optional, 0-255 chars) - Foto frontal
+//   - imagenReverso: string (optional, 0-255 chars) - Foto del reverso/información nutricional
+//   - destacado: bool (optional) - Si aparece en el recomendador superior
+//   - stock: int (optional, >= 0 and <= 100000) - Unidades disponibles
+//   - activo: bool (optional) - Estado visible en catálogo
+//   - variantes: list (optional, <= 20 items) - Opciones de peso, tamaño o sabor
+//   - ficha: map (optional) - Ficha técnica de ingredientes y análisis
+//   - createdAt: timestamp (optional)
+//   - updatedAt: timestamp (optional)
+//
+// Collection: ia_consultas
+// Document ID: {consultaId} (auto-generated document ID)
+// Fields:
+//   - tipoMascota: string (required, 1-60 chars) - Especie (Canino, Felino, etc.)
+//   - sintomas: string/list (required, string <= 1500 chars o list <= 30 items) - Signos clínicos
+//   - urgencia: string (required, 1-80 chars) - Clasificación de triaje (Verde, Amarillo, Rojo)
+//   - createdAt: timestamp (required, recent within 5 min) - Marca de tiempo del triaje
+//   - servicioSugerido: string (optional, 1-100 chars) - Especialidad sugerida
+//   - resumen: string (optional, 0-2000 chars) - Pre-ficha clínica sintetizada
+//   - userId: string (optional, 1-128 chars) - UID del tutor si está autenticado
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Default Deny Root
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: false;
+    }
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Verifica si la solicitud proviene de un usuario autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Verifica si el usuario autenticado tiene permisos de administrador mediante Custom Claims o bootstrap verificado
+    function isAdmin() {
+      return isAuthenticated() && (
+        ('admin' in request.auth.token && request.auth.token.admin == true) ||
+        ('role' in request.auth.token && request.auth.token.role == 'admin') ||
+        (
+          'email' in request.auth.token &&
+          request.auth.token.email in [
+            'admin@pelitosveterinaria.com',
+            'veterinariapelitos@gmail.com'
+          ] &&
+          'email_verified' in request.auth.token &&
+          request.auth.token.email_verified == true
+        )
+      );
+    }
+
+    // Verifica si el usuario autenticado es el propietario por coincidencia de UID en la ruta
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Valida que el documento contenga todos los campos obligatorios
+    function hasRequiredFields(data, fields) {
+      return data.keys().hasAll(fields);
+    }
+
+    // Valida que el documento contenga únicamente los campos explícitamente permitidos (Strict Schema)
+    function hasOnlyAllowedFields(data, fields) {
+      return data.keys().hasOnly(fields);
+    }
+
+    // Valida que los campos inmutables no hayan sido modificados en una actualización
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Valida cadenas de texto con longitud mínima y máxima
+    function isValidString(val, minLen, maxLen) {
+      return val is string &&
+             val.size() >= minLen &&
+             val.size() <= maxLen;
+    }
+
+    // Valida cadenas de texto opcionales
+    function isValidOptionalString(data, field, minLen, maxLen) {
+      return !(field in data) ||
+             (data[field] is string &&
+              data[field].size() >= minLen &&
+              data[field].size() <= maxLen);
+    }
+
+    // Valida números opcionales dentro de un rango
+    function isValidOptionalNumber(data, field, minVal, maxVal) {
+      return !(field in data) ||
+             (data[field] is number &&
+              data[field] >= minVal &&
+              data[field] <= maxVal);
+    }
+
+    // Valida formato de correo electrónico
+    function isValidEmail(email) {
+      return email is string &&
+             email.size() >= 5 &&
+             email.size() <= 100 &&
+             email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+
+    // Valida número de teléfono (formato local o internacional con WhatsApp)
+    function isValidPhone(phone) {
+      return phone is string &&
+             phone.size() >= 8 &&
+             phone.size() <= 20 &&
+             phone.matches('^\\+?[0-9 -]{8,20}$');
+    }
+
+    // Valida que una marca de tiempo sea reciente (evita ataques de repetición o manipulación temporal)
+    function isRecent(time) {
+      return time is timestamp &&
+             time > request.time - duration.value(5, 'm') &&
+             time <= request.time + duration.value(1, 'm');
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    // Validador de citas médicas y estéticas
+    function validarCita(data) {
+      return hasRequiredFields(data, ['nombre', 'telefono', 'fecha', 'hora', 'servicio', 'mascota', 'status']) &&
+             hasOnlyAllowedFields(data, [
+               'nombre', 'telefono', 'fecha', 'hora', 'servicio', 'mascota',
+               'mensaje', 'userId', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             isValidString(data.nombre, 2, 80) &&
+             isValidPhone(data.telefono) &&
+             (data.fecha is timestamp || (data.fecha is string && data.fecha.size() >= 8 && data.fecha.size() <= 40)) &&
+             isValidString(data.hora, 3, 25) &&
+             isValidString(data.servicio, 2, 80) &&
+             isValidString(data.mascota, 1, 60) &&
+             data.status in ['pendiente', 'confirmada', 'en_proceso', 'completada', 'cancelada'] &&
+             isValidOptionalString(data, 'mensaje', 0, 600) &&
+             isValidOptionalString(data, 'userId', 1, 128) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // Validador de perfiles de usuario
+    function validarUsuario(data) {
+      return hasRequiredFields(data, ['nombre', 'email']) &&
+             hasOnlyAllowedFields(data, [
+               'nombre', 'email', 'telefono', 'mascota', 'raza',
+               'edad', 'rol', 'verificado', 'createdAt', 'updatedAt'
+             ]) &&
+             isValidString(data.nombre, 2, 80) &&
+             isValidEmail(data.email) &&
+             isValidOptionalString(data, 'telefono', 6, 25) &&
+             isValidOptionalString(data, 'mascota', 1, 60) &&
+             isValidOptionalString(data, 'raza', 1, 60) &&
+             isValidOptionalString(data, 'edad', 1, 30) &&
+             (!('rol' in data) || data.rol in ['cliente', 'admin', 'veterinario']) &&
+             (!('verificado' in data) || data.verificado is bool) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // Validador de testimonios y reseñas
+    function validarResena(data) {
+      return hasRequiredFields(data, ['nombre', 'texto', 'status']) &&
+             hasOnlyAllowedFields(data, [
+               'nombre', 'mascota', 'rating', 'estrellas', 'texto',
+               'status', 'userId', 'fecha', 'createdAt', 'updatedAt'
+             ]) &&
+             isValidString(data.nombre, 2, 60) &&
+             isValidString(data.texto, 10, 500) &&
+             isValidOptionalString(data, 'mascota', 1, 60) &&
+             (
+               (!('rating' in data) || (data.rating is int && data.rating >= 1 && data.rating <= 5)) &&
+               (!('estrellas' in data) || (data.estrellas is int && data.estrellas >= 1 && data.estrellas <= 5)) &&
+               (('rating' in data) || ('estrellas' in data))
+             ) &&
+             data.status in ['pendiente', 'aprobada', 'rechazada'] &&
+             isValidOptionalString(data, 'userId', 1, 128) &&
+             (!('fecha' in data) || (data.fecha is string && data.fecha.size() >= 4 && data.fecha.size() <= 30) || data.fecha is timestamp) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // Validador de productos del catálogo de PetShop y Farmacia
+    function validarProducto(data) {
+      return hasRequiredFields(data, ['titulo', 'categoria', 'precio']) &&
+             hasOnlyAllowedFields(data, [
+               'id', 'titulo', 'categoria', 'categoriaTexto', 'precio',
+               'precioAntes', 'resumen', 'descripcion', 'imagen',
+               'imagenReverso', 'destacado', 'stock', 'activo',
+               'variantes', 'ficha', 'createdAt', 'updatedAt'
+             ]) &&
+             isValidString(data.titulo, 2, 120) &&
+             isValidString(data.categoria, 2, 50) &&
+             data.precio is number && data.precio >= 0 && data.precio <= 100000 &&
+             isValidOptionalString(data, 'id', 1, 100) &&
+             isValidOptionalString(data, 'categoriaTexto', 0, 80) &&
+             isValidOptionalNumber(data, 'precioAntes', 0, 100000) &&
+             isValidOptionalString(data, 'resumen', 0, 1000) &&
+             isValidOptionalString(data, 'descripcion', 0, 2000) &&
+             isValidOptionalString(data, 'imagen', 0, 255) &&
+             isValidOptionalString(data, 'imagenReverso', 0, 255) &&
+             (!('destacado' in data) || data.destacado is bool) &&
+             (!('activo' in data) || data.activo is bool) &&
+             (!('stock' in data) || (data.stock is int && data.stock >= 0 && data.stock <= 100000)) &&
+             (!('variantes' in data) || (data.variantes is list && data.variantes.size() <= 20)) &&
+             (!('ficha' in data) || data.ficha is map) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // Validador de servicios veterinarios y de estética
+    function validarServicio(data) {
+      return hasRequiredFields(data, ['titulo', 'categoria']) &&
+             hasOnlyAllowedFields(data, [
+               'id', 'titulo', 'categoria', 'descripcion', 'icono',
+               'imagen', 'precio', 'duracion', 'destacado', 'activo',
+               'beneficios', 'createdAt', 'updatedAt'
+             ]) &&
+             isValidString(data.titulo, 2, 120) &&
+             isValidString(data.categoria, 2, 50) &&
+             isValidOptionalString(data, 'id', 1, 100) &&
+             isValidOptionalString(data, 'descripcion', 0, 2000) &&
+             isValidOptionalString(data, 'icono', 0, 100) &&
+             isValidOptionalString(data, 'imagen', 0, 255) &&
+             isValidOptionalNumber(data, 'precio', 0, 100000) &&
+             isValidOptionalString(data, 'duracion', 0, 50) &&
+             (!('destacado' in data) || data.destacado is bool) &&
+             (!('activo' in data) || data.activo is bool) &&
+             (!('beneficios' in data) || (data.beneficios is list && data.beneficios.size() <= 20)) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // Validador de registros de triaje y resúmenes de Pelitos IA
+    function validarIAConsulta(data) {
+      return hasRequiredFields(data, ['tipoMascota', 'sintomas', 'urgencia', 'createdAt']) &&
+             hasOnlyAllowedFields(data, [
+               'tipoMascota', 'sintomas', 'urgencia', 'servicioSugerido',
+               'resumen', 'userId', 'createdAt'
+             ]) &&
+             isValidString(data.tipoMascota, 1, 60) &&
+             (
+               isValidString(data.sintomas, 1, 1500) ||
+               (data.sintomas is list && data.sintomas.size() <= 30)
+             ) &&
+             isValidString(data.urgencia, 1, 80) &&
+             data.createdAt is timestamp &&
+             isRecent(data.createdAt) &&
+             isValidOptionalString(data, 'servicioSugerido', 1, 100) &&
+             isValidOptionalString(data, 'resumen', 0, 2000) &&
+             isValidOptionalString(data, 'userId', 1, 128);
+    }
+
+    // ===============================================================
+    // Rules by Collection
+    // ===============================================================
+
+    // ---------------------------------------------------------------
+    // 1. CITAS
+    // Reservas de citas médicas o estética canina creadas por clientes
+    // ---------------------------------------------------------------
+    match /citas/{citaId} {
+      // Lectura: Administradores pueden leer y listar todas; clientes autenticados solo sus propias citas
+      allow read: if isAdmin() ||
+                    (
+                      isAuthenticated() &&
+                      'userId' in resource.data &&
+                      resource.data.userId == request.auth.uid
+                    );
+
+      // Crear: Permitido con campos requeridos y tipos válidos. Clientes crean con status 'pendiente'.
+      allow create: if validarCita(request.resource.data) &&
+                      (
+                        isAdmin() ||
+                        (
+                          request.resource.data.status == 'pendiente' &&
+                          (
+                            !('userId' in request.resource.data) ||
+                            (isAuthenticated() && request.resource.data.userId == request.auth.uid)
+                          )
+                        )
+                      );
+
+      // Actualizar: Administrador puede actualizar todo; cliente solo si la cita está 'pendiente' y sin alterar identidad
+      allow update: if (isAdmin() && validarCita(request.resource.data)) ||
+                      (
+                        isAuthenticated() &&
+                        'userId' in resource.data &&
+                        resource.data.userId == request.auth.uid &&
+                        resource.data.status == 'pendiente' &&
+                        validarCita(request.resource.data) &&
+                        areImmutableFieldsUnchanged(['userId', 'createdAt']) &&
+                        request.resource.data.status in ['pendiente', 'cancelada']
+                      );
+
+      // Eliminar: Administrador siempre puede; cliente solo si su propia cita sigue en estado 'pendiente'
+      allow delete: if isAdmin() ||
+                      (
+                        isAuthenticated() &&
+                        'userId' in resource.data &&
+                        resource.data.userId == request.auth.uid &&
+                        resource.data.status == 'pendiente'
+                      );
+    }
+
+    // ---------------------------------------------------------------
+    // 2. USUARIOS
+    // Perfiles y fichas de clientes registrados (Protección estricta de PII)
+    // ---------------------------------------------------------------
+    match /usuarios/{userId} {
+      // Lectura: Solo el propio usuario autenticado o administradores (Sin acceso público ni blanket authenticated)
+      allow read: if isOwner(userId) || isAdmin();
+
+      // Crear: El propio usuario autenticado al registrarse. Previene auto-asignación de roles privilegiados.
+      allow create: if isAuthenticated() &&
+                       isOwner(userId) &&
+                       validarUsuario(request.resource.data) &&
+                       (
+                         !('rol' in request.resource.data) ||
+                         request.resource.data.rol == 'cliente' ||
+                         isAdmin()
+                       );
+
+      // Actualizar: Solo el dueño de la cuenta o admin. Previene escalada de privilegios o cambios en campos sensibles.
+      allow update: if isAuthenticated() &&
+                       validarUsuario(request.resource.data) &&
+                       (
+                         isAdmin() ||
+                         (
+                           isOwner(userId) &&
+                           areImmutableFieldsUnchanged(['rol', 'email', 'createdAt'])
+                         )
+                       );
+
+      // Eliminar: Restringido a administradores para evitar orfandad de registros o borrado descontrolado
+      allow delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // 3. RESEÑAS
+    // Testimonios de tutores y clientes de la clínica
+    // ---------------------------------------------------------------
+    match /resenas/{resenaId} {
+      // Lectura: Público para reseñas aprobadas; administradores pueden leer y auditar pendientes/rechazadas
+      allow read: if resource.data.status == 'aprobada' || isAdmin();
+
+      // Crear: Clientes autenticados o anónimos con validación estricta (status por defecto 'pendiente')
+      allow create: if validarResena(request.resource.data) &&
+                      (
+                        isAdmin() ||
+                        (
+                          request.resource.data.status == 'pendiente' &&
+                          (
+                            !('userId' in request.resource.data) ||
+                            (isAuthenticated() && request.resource.data.userId == request.auth.uid)
+                          )
+                        )
+                      );
+
+      // Actualizar: Exclusivo para administradores (moderación y aprobación de contenido)
+      allow update: if isAdmin() && validarResena(request.resource.data);
+
+      // Eliminar: Exclusivo para administradores
+      allow delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // 4. SERVICIOS Y PRODUCTOS
+    // Catálogo público de la clínica y PetShop
+    // ---------------------------------------------------------------
+    match /servicios/{servicioId} {
+      // Lectura pública para cualquier visitante de la web
+      allow read: if true;
+
+      // Modificación exclusiva para administradores de la clínica
+      allow create: if isAdmin() && validarServicio(request.resource.data);
+      allow update: if isAdmin() && validarServicio(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /productos/{productoId} {
+      // Lectura pública para catálogo y carrito del PetShop
+      allow read: if true;
+
+      // Modificación exclusiva para administradores de la tienda
+      allow create: if isAdmin() && validarProducto(request.resource.data);
+      allow update: if isAdmin() && validarProducto(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // 5. IA_CONSULTAS
+    // Registro de triajes y resúmenes de síntomas generados por Pelitos IA
+    // ---------------------------------------------------------------
+    match /ia_consultas/{consultaId} {
+      // Lectura: Administradores o el propio usuario autenticado autor del triaje
+      allow read: if isAdmin() ||
+                    (
+                      isAuthenticated() &&
+                      'userId' in resource.data &&
+                      resource.data.userId == request.auth.uid
+                    );
+
+      // Crear: Permitido con validación de tamaño y marca temporal reciente
+      allow create: if validarIAConsulta(request.resource.data) &&
+                      (
+                        !('userId' in request.resource.data) ||
+                        (isAuthenticated() && request.resource.data.userId == request.auth.uid) ||
+                        isAdmin()
+                      );
+
+      // Actualizar: Bloqueado (los registros clínicos de triaje son inmutables por auditoría médica)
+      allow update: if false;
+
+      // Eliminar: Restringido a administradores
+      allow delete: if isAdmin();
+    }
+  }
+}
