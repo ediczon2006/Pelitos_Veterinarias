@@ -1575,3 +1575,447 @@
     display: inline !important;
   }
 }
+
+
+/* ==========================================================================
+   34. ASISTENTE VETERINARIO INTELIGENTE: PELITOS IA (GOOGLE GEMINI)
+   Botón flotante en esquina inferior derecha, modal de chat con triaje
+   en vivo y derivación clínica a WhatsApp.
+   ========================================================================== */
+
+.pelitos-ia-container {
+  font-family: var(--tipo-texto, "Satoshi", "Open Sans", sans-serif);
+}
+
+/* Botón Lanzador Flotante (FAB) */
+.pelitos-ia-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 998;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #6d358a 0%, #8b3fa8 50%, #f59e0b 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 28px -6px rgba(109, 53, 138, 0.45), 0 4px 12px rgba(245, 158, 11, 0.3);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.pelitos-ia-fab:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 36px -8px rgba(109, 53, 138, 0.55), 0 6px 16px rgba(245, 158, 11, 0.4);
+}
+
+.pelitos-ia-fab.oculto {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.85);
+}
+
+.ia-fab-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 2px solid rgba(245, 158, 11, 0.6);
+  animation: iaPulso 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes iaPulso {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.15, 1.35); opacity: 0; }
+}
+
+.ia-fab-icon { font-size: 1.25rem; line-height: 1; }
+.ia-fab-sparkle { font-size: 0.95rem; margin-left: -4px; animation: iaBrillo 2s infinite alternate; }
+@keyframes iaBrillo { from { opacity: 0.6; transform: rotate(0deg); } to { opacity: 1; transform: rotate(15deg); } }
+.ia-fab-label { font-size: 0.88rem; font-weight: 750; letter-spacing: 0.02em; }
+
+/* Ventana Modal del Chat */
+.pelitos-ia-modal {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 570px;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(109, 53, 138, 0.16);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px -15px rgba(61, 28, 92, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pelitos-ia-modal.activo {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Cabecera del Chat */
+.ia-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #6d358a 0%, #58227b 70%, #f59e0b 100%);
+  color: #ffffff;
+}
+
+.ia-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ia-avatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.ia-status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid #58227b;
+}
+
+.ia-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ia-title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.ia-badge-gemini {
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 2px 6px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ia-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ia-header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.ia-btn-icon {
+  background: rgba(255, 255, 255, 0.15);
+  border: 0;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s ease;
+  font-size: 0.9rem;
+}
+
+.ia-btn-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Panel de Triaje y Análisis en Vivo */
+.ia-triage-panel {
+  background: #fbf8fe;
+  border-bottom: 1px solid rgba(109, 53, 138, 0.1);
+  padding: 10px 14px;
+}
+
+.ia-triage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.ia-triage-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6d358a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ia-triage-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(109, 53, 138, 0.1);
+  color: #6d358a;
+}
+
+.ia-triage-badge.rojo {
+  background: #fee2e2;
+  color: #dc2626;
+  animation: pulsoUrgencia 1.5s infinite;
+}
+
+.ia-triage-badge.amarillo {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.ia-triage-badge.verde {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+@keyframes pulsoUrgencia {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.ia-triage-body {
+  font-size: 0.78rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #4b5563;
+}
+
+.ia-triage-item strong {
+  color: #111827;
+}
+
+.ia-btn-whatsapp-triage {
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px 12px;
+  background: #25d366;
+  color: #ffffff;
+  border: 0;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 750;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.18s ease;
+}
+
+.ia-btn-whatsapp-triage:hover {
+  background: #1eb956;
+}
+
+/* Área de Mensajes */
+.ia-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.88rem;
+  background: #faf8fd;
+}
+
+.ia-msg {
+  max-width: 86%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.ia-msg--assistant {
+  align-self: flex-start;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid rgba(109, 53, 138, 0.1);
+  box-shadow: 0 4px 12px -2px rgba(61, 28, 92, 0.06);
+  border-bottom-left-radius: 4px;
+}
+
+.ia-msg--assistant a {
+  color: #6d358a;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.ia-msg--user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #6d358a 0%, #7c3aed 100%);
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 12px rgba(109, 53, 138, 0.25);
+}
+
+.ia-msg-sistema {
+  align-self: center;
+  font-size: 0.72rem;
+  color: #6b7280;
+  background: rgba(107, 114, 128, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-align: center;
+}
+
+/* Chips de Preguntas Frecuentes */
+.ia-quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ia-chip {
+  background: rgba(109, 53, 138, 0.08);
+  border: 1px solid rgba(109, 53, 138, 0.2);
+  color: #6d358a;
+  font-size: 0.76rem;
+  font-weight: 650;
+  padding: 6px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+}
+
+.ia-chip:hover {
+  background: #6d358a;
+  color: #ffffff;
+  border-color: #6d358a;
+  transform: translateY(-1px);
+}
+
+/* Indicador de escritura (Thinking) */
+.ia-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+}
+
+.ia-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6d358a;
+  animation: iaTypingDot 1.4s infinite ease-in-out both;
+}
+
+.ia-dot:nth-child(1) { animation-delay: -0.32s; }
+.ia-dot:nth-child(2) { animation-delay: -0.16s; }
+.ia-dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes iaTypingDot {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Barra de Entrada */
+.ia-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border-top: 1px solid rgba(109, 53, 138, 0.12);
+}
+
+.ia-input {
+  flex: 1 1 auto;
+  border: 1.5px solid rgba(109, 53, 138, 0.2);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  color: #1f2937;
+  outline: none;
+  background: #faf8fd;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.ia-input:focus {
+  border-color: #6d358a;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(109, 53, 138, 0.12);
+}
+
+.ia-btn-send {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.ia-btn-send:hover {
+  transform: scale(1.06);
+  background: linear-gradient(135deg, #fbbf24 0%, #ea580c 100%);
+}
+
+/* Celulares / Pantallas Pequeñas */
+@media (max-width: 480px) {
+  .pelitos-ia-modal {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100vw;
+    height: 90vh;
+    height: 90dvh;
+    border-radius: 20px 20px 0 0;
+  }
+  .pelitos-ia-fab {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 16px;
+  }
+}
