@@ -1,0 +1,42 @@
+# Configuración de Netlify para Pelitos Veterinaria & Estética
+# Dominio objetivo: pelitosveterinaria.com
+
+[build]
+  publish = "."
+
+# Página 404 personalizada
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# ─── Cabeceras de seguridad ─────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Protección contra clickjacking
+    X-Frame-Options = "SAMEORIGIN"
+    # Prevenir MIME sniffing
+    X-Content-Type-Options = "nosniff"
+    # Referrer policy
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Permisos de funcionalidades del navegador
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # HSTS: forzar HTTPS por 1 año
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+# ─── Cache para assets estáticos ────────────────────────────────────────────
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
