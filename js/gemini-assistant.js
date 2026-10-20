@@ -63,7 +63,7 @@
   };
 
   /* ==========================================================================
-     2. MOTOR CLÍNICO LOCAL (FALLBACK INTELIGENTE CUANDO NO HAY API KEY)
+     2. MOTOR CLÍNICO LOCAL (RESPUESTA PUNTUAL Y EXACTA A CADA PREGUNTA)
      ========================================================================== */
   var LocalTriageEngine = {
     analizarMensaje: function (texto) {
@@ -79,7 +79,7 @@
         triageAnalysis.tipoMascota = "Felino (Gato)";
       }
 
-      // 2. Triage de Emergencias Críticas (Nivel Rojo)
+      // 2. EMERGENCIA CRÍTICA INMEDIATA
       if (
         t.indexOf("veneno") !== -1 || t.indexOf("intoxic") !== -1 || t.indexOf("sangr") !== -1 ||
         t.indexOf("convuls") !== -1 || t.indexOf("no respira") !== -1 || t.indexOf("atropell") !== -1 ||
@@ -93,136 +93,265 @@
                "Por favor, no pierdas tiempo ni intentes remedios caseros. Traslada a tu mascota inmediatamente a nuestra clínica:\n\n" +
                "📍 **Jr. Leoncio Prado N.° 1336, Huánuco**\n" +
                "📞 **WhatsApp de Urgencias:** [+51 939 356 376](https://api.whatsapp.com/send?phone=51939356376&text=URGENCIA%20VETERINARIA%20PELITOS:%20" + encodeURIComponent(texto) + ")\n\n" +
-               "Haz clic abajo para avisar al equipo médico que estás en camino.";
+               "Haz clic en el enlace para avisar al equipo médico que estás en camino.";
       }
-      // 3. Síntomas Frecuentes (Nivel Amarillo)
-      else if (
-        t.indexOf("vomit") !== -1 || t.indexOf("diarrea") !== -1 || t.indexOf("no come") !== -1 ||
-        t.indexOf("inapet") !== -1 || t.indexOf("triste") !== -1 || t.indexOf("decaid") !== -1 ||
-        t.indexOf("fiebre") !== -1 || t.indexOf("coje") !== -1 || t.indexOf("tos") !== -1
-      ) {
-        urgencia = "⚠️ Amarilla (Requiere Consulta)";
-        servicio = "Consulta Médica Veterinaria";
-        triageAnalysis.sintomasDetectados.push("Malestar digestivo o sistémico");
 
-        resp = "Entiendo tu preocupación por tu " + (triageAnalysis.tipoMascota !== "Por identificar" ? triageAnalysis.tipoMascota : "mascota") + ". " +
-               "Síntomas como vómitos, diarrea o inapetencia pueden deberse a infecciones virales, parásitos o transgresión alimentaria.\n\n" +
-               "💡 **Recomendaciones inmediatas:**\n" +
-               "• Mantén agua fresca a su alcance en pequeñas tomas.\n" +
-               "• ⛔ **Nunca le des analgésicos humanos** (el paracetamol o ibuprofeno son letales para perros y gatos).\n" +
-               "• Te recomendamos agendar una consulta médica para hidratarlo y revisarlo a tiempo.\n\n" +
-               "¿Deseas que reservemos un turno de atención en Jr. Leoncio Prado 1336?";
-      }
-      // 4. Vacunas y Medicina Preventiva
+      // 3. PRECIOS, TARIFAS Y COSTOS (RESPUESTA DIRECTA)
       else if (
-        t.indexOf("vacun") !== -1 || t.indexOf("desparasit") !== -1 || t.indexOf("parvovirus") !== -1 ||
-        t.indexOf("distemper") !== -1 || t.indexOf("rabia") !== -1 || t.indexOf("pipeta") !== -1 ||
-        t.indexOf("garrapata") !== -1 || t.indexOf("pulga") !== -1
+        t.indexOf("precio") !== -1 || t.indexOf("costo") !== -1 || t.indexOf("cuanto") !== -1 ||
+        t.indexOf("cuánto") !== -1 || t.indexOf("tarifa") !== -1 || t.indexOf("vale") !== -1 ||
+        t.indexOf("cobran") !== -1 || t.indexOf("presupuesto") !== -1
       ) {
+        urgencia = "Verde (Comercial)";
+        servicio = "Información de Tarifas";
+        resp = "💰 **Precios y Tarifas de Servicios en Pelitos Veterinaria:**\n\n" +
+               "• **Consulta Médica General:** S/ 25 - S/ 30 (incluye revisión clínica integral, pesaje y temperatura).\n" +
+               "• **Vacunas individuales:** S/ 35 a S/ 50 (Puppy, Pentavalente, Séxtuple o Antirrábica con carnet oficial).\n" +
+               "• **Desparasitación interna:** S/ 15 a S/ 25 según el peso exacto de tu mascota.\n" +
+               "• **Baño y Peluquería Canina:** Desde S/ 25 (razas pequeñas como Shih Tzu, Poodle, Chihuahua), S/ 35 (medianos) hasta S/ 50-70 (grandes). Incluye corte de uñas, limpieza de oídos y perfume.\n" +
+               "• **Hemograma completo en laboratorio:** S/ 35 - S/ 45 con entrega en el día.\n\n" +
+               "¿Deseas el presupuesto exacto para tu mascota?";
+      }
+
+      // 4. PIEL, COMEZÓN, PULGAS, GARRAPATAS, CAÍDA DE PELO Y SARNA
+      else if (
+        t.indexOf("rasca") !== -1 || t.indexOf("pica") !== -1 || t.indexOf("picazon") !== -1 ||
+        t.indexOf("picazón") !== -1 || t.indexOf("pulga") !== -1 || t.indexOf("garrapata") !== -1 ||
+        t.indexOf("sarna") !== -1 || t.indexOf("cae el pelo") !== -1 || t.indexOf("caida de pelo") !== -1 ||
+        t.indexOf("caída de pelo") !== -1 || t.indexOf("alopecia") !== -1 || t.indexOf("hongo") !== -1 ||
+        t.indexOf("caspa") !== -1 || t.indexOf("dermatit") !== -1
+      ) {
+        urgencia = "Amarilla (Dermatología)";
+        servicio = "Dermatología y Antiparasitarios";
+        triageAnalysis.sintomasDetectados.push("Problema dermatológico / parásitos");
+
+        resp = "🩺 **Sobre el rascado, pulgas y problemas de piel:**\n\n" +
+               "Si tu mascota se rasca mucho o pierde pelo, las causas más frecuentes son:\n" +
+               "1. **Dermatitis Alérgica por Picadura de Pulga (DAPP):** Una sola pulga puede causar picazón intensa. Las tabletas masticables (Simparica, Bravecto o NexGard) matan pulgas y garrapatas en horas y protegen por meses.\n" +
+               "2. **Hongos o Ácaros de Sarna:** Requieren un raspado cutáneo rápido en nuestro laboratorio para aplicar el tratamiento exacto.\n" +
+               "3. **Alivio seguro:** Un baño medicado con champú antiséptico calma la comezón de inmediato.\n\n" +
+               "⚠️ **Aviso:** Nunca uses cremas humanas con betametasona o corticoides, porque empeoran hongos y bacterias.";
+      }
+
+      // 5. ESTORNUDOS, TOS, GRIPE Y RESPIRACIÓN
+      else if (
+        t.indexOf("estornud") !== -1 || t.indexOf("tos") !== -1 || t.indexOf("tose") !== -1 ||
+        t.indexOf("gripe") !== -1 || t.indexOf("resfri") !== -1 || t.indexOf("moco") !== -1 ||
+        t.indexOf("respir") !== -1
+      ) {
+        urgencia = "Amarilla (Respiratoria)";
+        servicio = "Consulta Respiratoria";
+        triageAnalysis.sintomasDetectados.push("Síntoma respiratorio (tos / estornudo)");
+
+        resp = "🫁 **Sobre estornudos, tos y dificultades respiratorias:**\n\n" +
+               "• **Estornudos seguidos:** Suelen ser causados por polvo, polen, alérgenos o algún cuerpo extraño (como briznas de pasto) atascado en su fosa nasal.\n" +
+               "• **Tos seca como si se atragantara:** Muy común en la Traqueobronquitis Infecciosa ('Tos de las perreras') o colapso traqueal en perros pequeños.\n" +
+               "• **Secreción con moco o decaimiento:** Indica infección bacteriana o viral que necesita antibióticos veterinarios específicos.\n\n" +
+               "💡 **Cuidados inmediatos:** Mantenlo abrigado sin corrientes de aire, evita desinfectantes o ambientadores cerca y no le des jarabes humanos.";
+      }
+
+      // 6. OJOS, LEGAÑAS, LAGRIMEO Y CONJUNTIVITIS
+      else if (
+        t.indexOf("ojo") !== -1 || t.indexOf("legañ") !== -1 || t.indexOf("lagrime") !== -1 ||
+        t.indexOf("conjuntiv") !== -1 || t.indexOf("rojo el ojo") !== -1 || t.indexOf("cierra el ojo") !== -1
+      ) {
+        urgencia = "Amarilla (Oftalmología)";
+        servicio = "Consulta Oftalmológica";
+        triageAnalysis.sintomasDetectados.push("Molestia ocular / secreción");
+
+        resp = "👁️ **Sobre ojos llorosos, legañas o enrojecimiento:**\n\n" +
+               "• **Causas habituales:** Conjuntivitis alérgica o bacteriana, rasguño/úlcera en la córnea, o ingreso de polvo.\n" +
+               "• **Limpieza segura en casa:** Limpia el ojo de adentro hacia afuera usando una gasa estéril humedecida con **suero fisiológico** (nunca algodón ni manzanilla casera).\n" +
+               "• ⛔ **ALERTA CRÍTICA:** Jamás apliques gotas con corticoides humanos (dexametasona). Si tu mascota tiene una úlcera en la córnea, el corticoide puede perforar el ojo en 24 horas.\n\n" +
+               "Si el ojo está cerrado con dolor o legaña espesa, tráelo a consulta médica.";
+      }
+
+      // 7. VÓMITOS PUNTUALES
+      else if (t.indexOf("vomit") !== -1 || t.indexOf("vomitó") !== -1 || t.indexOf("arcad") !== -1) {
+        urgencia = "Amarilla (Gastroenterología)";
+        servicio = "Consulta Digestiva";
+        triageAnalysis.sintomasDetectados.push("Vómitos");
+
+        resp = "🤢 **Protocolo médico ante vómitos:**\n\n" +
+               "• **Vómito amarillo con espuma:** Es bilis; ocurre por estómago vacío prolongado o gastritis.\n" +
+               "• **Vómito con comida sin digerir:** Regurgitación por comer con desesperación o intolerancia al alimento.\n" +
+               "• **Vómito con sangre o heces:** Alerta roja; tráelo de urgencia.\n\n" +
+               "💡 **Pasos en casa:**\n" +
+               "1. Retira comida sólida por 6 a 8 horas para desinflamar el estómago.\n" +
+               "2. Ofrece agua fresca o suero en pequeñas cantidades (cucharaditas cada 20 minutos).\n" +
+               "3. Si vomita más de 2 veces en el día, ven a la clínica para evitar deshidratación.";
+      }
+
+      // 8. DIARREA O HECES BLANDAS
+      else if (t.indexOf("diarre") !== -1 || t.indexOf("caca") !== -1 || t.indexOf("defec") !== -1 || t.indexOf("suelta") !== -1) {
+        urgencia = "Amarilla (Digestiva)";
+        servicio = "Consulta Digestiva";
+        triageAnalysis.sintomasDetectados.push("Diarrea");
+
+        resp = "💩 **Manejo de diarrea en perros y gatos:**\n\n" +
+               "• **Dieta blanda de recuperación:** Prepara arroz blanco bien sancochado con pechuga de pollo desmenuzada (hervida solo en agua, sin sal, sin aceite, sin cebolla).\n" +
+               "• **Líquidos:** Asegura que beba agua para reponer lo perdido.\n" +
+               "• 🚨 **Alerta:** Si las heces tienen sangre roja, aspecto oscuro/alquitrán o mal olor penetrante, tráelo urgente para descartar Parvovirus o parásitos severos.";
+      }
+
+      // 9. INAPETENCIA O NO QUIERE COMER
+      else if (t.indexOf("no come") !== -1 || t.indexOf("inapet") !== -1 || t.indexOf("decaid") !== -1 || t.indexOf("triste") !== -1 || t.indexOf("sin ganas") !== -1) {
+        urgencia = "Amarilla (Clínica)";
+        servicio = "Consulta Médica General";
+        triageAnalysis.sintomasDetectados.push("Inapetencia / Decaimiento");
+
+        resp = "🥣 **Sobre la falta de apetito y decaimiento:**\n\n" +
+               "• **Causas comunes:** Fiebre, dolor de muelas/encías, gastritis, infección viral o cambio brusco de alimento.\n" +
+               "• **Prueba en casa:** Ofrécele un poquito de pollo sancochado tibio o comida húmeda en lata para estimular su olfato.\n" +
+               "• Si pasa más de 24 horas sin comer nada, o notas su nariz y orejas muy calientes (fiebre), debe ser evaluado por el veterinario.";
+      }
+
+      // 10. ALIMENTOS PERMITIDOS Y SEGUROS (Huevo, Arroz, Pollo, Frutas)
+      else if (
+        t.indexOf("arroz") !== -1 || t.indexOf("huevo") !== -1 || t.indexOf("pollo") !== -1 ||
+        t.indexOf("platano") !== -1 || t.indexOf("plátano") !== -1 || t.indexOf("manzana") !== -1 ||
+        t.indexOf("zanahoria") !== -1 || t.indexOf("sandia") !== -1 || t.indexOf("sandía") !== -1
+      ) {
+        urgencia = "Verde (Nutricional)";
+        servicio = "Nutrición Veterinaria";
+        resp = "🍗 **Alimentos humanos que SÍ puede comer tu mascota:**\n\n" +
+               "• **Huevo:** ¡Muy nutritivo! Siempre cocido o hervido (aporta proteínas y biotina para el pelaje). Nunca crudo por riesgo de Salmonella.\n" +
+               "• **Arroz blanco:** Excelente, hervido solo con agua (sin sal ni ajo). Ideal ante problemas estomacales.\n" +
+               "• **Pechuga de pollo:** Proteína magra perfecta, sancochada y sin huesos.\n" +
+               "• **Zanahoria:** Cruda para limpiar sarro o cocida como premio bajo en calorías.\n" +
+               "• **Manzana y Plátano:** En trocitos con moderación. Retira siempre el corazón y semillas de la manzana.";
+      }
+
+      // 11. ALIMENTOS TÓXICOS Y PELIGROSOS
+      else if (
+        t.indexOf("chocolate") !== -1 || t.indexOf("cebolla") !== -1 || t.indexOf("uva") !== -1 ||
+        t.indexOf("ajo") !== -1 || t.indexOf("palta") !== -1 || t.indexOf("aguacate") !== -1 ||
+        t.indexOf("hueso") !== -1 || t.indexOf("leche") !== -1 || t.indexOf("comida humana") !== -1
+      ) {
+        urgencia = "Amarilla (Toxicología)";
+        servicio = "Consulta de Toxicología";
+        triageAnalysis.sintomasDetectados.push("Consulta de alimentos prohibidos");
+
+        resp = "🚫 **Alimentos Prohibidos y Tóxicos para Mascotas:**\n\n" +
+               "• **Chocolate/Cacao:** Contiene teobromina; causa taquicardia, temblores y puede ser letal.\n" +
+               "• **Cebolla y Ajo:** Destruyen los glóbulos rojos, provocando anemia hemolítica.\n" +
+               "• **Uvas y Pasas:** Altamente tóxicas; inducen fallo renal agudo fulminante.\n" +
+               "• **Palta (Aguacate):** Contiene persina y grasa que detona pancreatitis aguda.\n" +
+               "• **Huesos cocidos:** Se astillan y perforan esófago, estómago o intestinos.\n" +
+               "• **Leche de vaca:** Causa diarreas severas y cólicos por falta de lactasa en perros y gatos.\n\n" +
+               "Si ingirió alguno de estos alimentos, acude a nuestra clínica de inmediato.";
+      }
+
+      // 12. ESTERILIZACIÓN, CASTRACIÓN Y CELO
+      else if (
+        t.indexOf("esteriliz") !== -1 || t.indexOf("castr") !== -1 || t.indexOf("celo") !== -1 ||
+        t.indexOf("operar") !== -1 || t.indexOf("camada") !== -1 || t.indexOf("reproduc") !== -1
+      ) {
+        urgencia = "Verde (Cirugía preventiva)";
+        servicio = "Cirugía y Esterilización";
+        resp = "🩺 **Sobre la Esterilización y Castración:**\n\n" +
+               "• **Edad ideal:** A partir de los 5 a 6 meses de edad.\n" +
+               "• **En hembras:** Previene la infección uterina mortal (piometra) y el cáncer de mama.\n" +
+               "• **En machos:** Evita cáncer testicular, problemas de próstata y reduce el marcaje con orina.\n" +
+               "• **En Pelitos:** Realizamos la cirugía con monitoreo anestésico y recuperación el mismo día.\n\n" +
+               "¿Deseas agendar una evaluación prequirúrgica para tu mascota?";
+      }
+
+      // 13. PELITOS MÓVIL Y ATENCIÓN A DOMICILIO
+      else if (
+        t.indexOf("domicilio") !== -1 || t.indexOf("movil") !== -1 || t.indexOf("móvil") !== -1 ||
+        t.indexOf("van") !== -1 || t.indexOf("casa") !== -1 || t.indexOf("recojo") !== -1
+      ) {
+        urgencia = "Verde (Domicilio)";
+        servicio = "Pelitos Móvil (A Domicilio)";
+        resp = "🚐 **Pelitos Móvil — A Domicilio en Huánuco:**\n\n" +
+               "• **Zonas:** Huánuco Cercado, Amarilis, Pillco Marca y alrededores.\n" +
+               "• **Servicios:** Consulta veterinaria, vacunas, desparasitación y traslado seguro para cirugías o peluquería.\n" +
+               "• **Cero estrés:** Ideal para mascotas que se ponen nerviosas al viajar.\n\n" +
+               "Para agendar la van a tu casa, escríbenos por WhatsApp con tu dirección.";
+      }
+
+      // 14. VACUNAS (CALENDARIO COMPLETO)
+      else if (t.indexOf("vacun") !== -1 || t.indexOf("distemper") !== -1 || t.indexOf("parvovirus") !== -1 || t.indexOf("rabia") !== -1) {
         urgencia = "Verde (Preventiva)";
-        servicio = "Medicina Preventiva y Vacunación";
-        triageAnalysis.sintomasDetectados.push("Control de vacunas / parásitos");
-
-        resp = "🐾 **Calendario Completo de Vacunación y Desparasitación:**\n\n" +
-               "🐶 **En Perros (Cachorros y Adultos):**\n" +
-               "• **45 días:** Vacuna Puppy (Parvovirus + Moquillo/Distemper).\n" +
-               "• **60 a 65 días:** Pentavalente (Parvovirus, Moquillo, Hepatitis infecciosa, Adenovirus y Parainfluenza).\n" +
-               "• **90 días (3 meses):** Refuerzo Séxtuple (Pentavalente + Leptospirosis).\n" +
-               "• **120 días (4 meses):** Vacuna Antirrábica obligatoria.\n" +
-               "• **Refuerzo Anual:** Séxtuple y Antirrábica cada 12 meses toda la vida.\n\n" +
-               "🐱 **En Gatos (Gatitos y Adultos):**\n" +
-               "• **2 meses:** Triple Felina (Rinotraqueítis, Calicivirus y Panleucopenia felina).\n" +
-               "• **3 meses:** Refuerzo Triple Felina + Leucemia Felina (con descarte previo).\n" +
-               "• **4 meses:** Vacuna Antirrábica.\n" +
-               "• **Refuerzo Anual:** Triple Felina y Antirrábica una vez al año.\n\n" +
-               "💊 **Desparasitación y Antiparasitarios:**\n" +
-               "• **Interna:** Cada 15 días en cachorros; cada 3 meses en adultos con pastillas de amplio espectro.\n" +
-               "• **Externa:** Tabletas masticables orales de alta duración (Simparica, NexGard o Bravecto) que eliminan pulgas, garrapatas y ácaros de 30 a 90 días.\n\n" +
-               "¿Tu consentido tiene su carnet al día o necesita iniciar sus dosis?";
+        servicio = "Vacunación";
+        resp = "💉 **Calendario de Vacunación Recomendado:**\n\n" +
+               "🐶 **En Perros:**\n" +
+               "• 45 días: Vacuna Puppy (Parvovirus + Moquillo).\n" +
+               "• 2 meses: Pentavalente (Parvovirus, Moquillo, Hepatitis, Adenovirus, Parainfluenza).\n" +
+               "• 3 meses: Refuerzo Séxtuple (+ Leptospira).\n" +
+               "• 4 meses: Vacuna Antirrábica obligatoria.\n" +
+               "• Refuerzo anual toda la vida.\n\n" +
+               "🐱 **En Gatos:** Triple Felina a los 2 meses, refuerzo a los 3 meses y Antirrábica a los 4 meses.\n\n" +
+               "¿Qué edad tiene tu consentido para indicarte la vacuna exacta?";
       }
-      // 5. Estética y Peluquería Canina
-      else if (
-        t.indexOf("baño") !== -1 || t.indexOf("corte") !== -1 || t.indexOf("estetica") !== -1 ||
-        t.indexOf("estética") !== -1 || t.indexOf("peluquer") !== -1 || t.indexOf("grooming") !== -1 ||
-        t.indexOf("uñas") !== -1
-      ) {
+
+      // 15. BAÑOS Y PELUQUERÍA
+      else if (t.indexOf("baño") !== -1 || t.indexOf("corte") !== -1 || t.indexOf("peluquer") !== -1 || t.indexOf("grooming") !== -1) {
         urgencia = "Verde (Estética)";
-        servicio = "Pelitos Estética Canina";
-        triageAnalysis.sintomasDetectados.push("Higiene y estética");
-
-        resp = "✂️ **¡En Pelitos Estética dejamos a tu mascota impecable y feliz!**\n\n" +
+        servicio = "Pelitos Estética";
+        resp = "✂️ **Servicios de Pelitos Estética Canina:**\n\n" +
                "Nuestros paquetes incluyen:\n" +
-               "• Baño relajante con agua tibia y champú hipoalergénico.\n" +
-               "• Corte higiénico o de raza por nuestra **groomer certificada**.\n" +
-               "• Corte y limado de uñas, limpieza de oídos y perfume para mascotas.\n\n" +
-               "Atendemos previa cita en Jr. Leoncio Prado 1336 o a domicilio con **Pelitos Móvil**. ¿Te gustaría reservar su turno?";
+               "• Baño con agua tibia y champú hipoalergénico medicado.\n" +
+               "• Secado profesional sin jaulas de estrés.\n" +
+               "• Corte de raza o higiénico por **groomer certificada**.\n" +
+               "• Corte y limado de uñas, limpieza de oídos y perfume.\n\n" +
+               "¿Para qué raza de perrito o gatito deseas reservar turno?";
       }
-      // 6. Laboratorio Clínico
-      else if (
-        t.indexOf("laboratorio") !== -1 || t.indexOf("analisis") !== -1 || t.indexOf("análisis") !== -1 ||
-        t.indexOf("hemograma") !== -1 || t.indexOf("sangre") !== -1 || t.indexOf("heces") !== -1
-      ) {
-        urgencia = "Verde (Diagnóstica)";
-        servicio = "Laboratorio Clínico";
-        triageAnalysis.sintomasDetectados.push("Pruebas diagnósticas");
 
-        resp = "🔬 **Contamos con Laboratorio Veterinario Propio en Huánuco.**\n\n" +
-               "Realizamos hemogramas completos, perfiles bioquímicos (hígado, riñón), frotis sanguíneo, análisis de heces y raspados de piel con entrega rápida de resultados para un diagnóstico certero.\n\n" +
-               "¿Tienes una orden médica de exámenes?";
-      }
-      // 7. Horario y Ubicación
+      // 16. HORARIOS Y UBICACIÓN
       else if (
         t.indexOf("horario") !== -1 || t.indexOf("hora") !== -1 || t.indexOf("donde") !== -1 ||
         t.indexOf("dónde") !== -1 || t.indexOf("direccion") !== -1 || t.indexOf("dirección") !== -1 ||
-        t.indexOf("ubicacion") !== -1 || t.indexOf("abierto") !== -1
+        t.indexOf("abren") !== -1 || t.indexOf("domingo") !== -1 || t.indexOf("feriado") !== -1
       ) {
-        resp = "📍 **Estamos ubicados en:** Jr. Leoncio Prado N.° 1336, Huánuco, Perú.\n" +
-               "⏰ **Horario de atención:** Lunes a sábado de 8:30 a.m. a 8:00 p.m. (continuo).\n" +
-               "📱 **WhatsApp oficial:** +51 939 356 376\n\n" +
-               "¡Estaremos encantados de recibirte a ti y a tu mascota!";
+        urgencia = "Verde (Información)";
+        servicio = "Información General";
+        resp = "📍 **Dirección y Horarios de Atención:**\n\n" +
+               "• **Dirección:** Jr. Leoncio Prado N.° 1336, Huánuco, Perú.\n" +
+               "• **Horario:** Lunes a sábado de 8:30 a.m. a 8:00 p.m. (horario continuo).\n" +
+               "• **Domingos:** Urgencias y atención previa coordinación por WhatsApp.\n" +
+               "• **WhatsApp:** +51 939 356 376 (Consultorio) / +51 948 426 656 (Estética).\n\n" +
+               "¡Te esperamos con tu mascota en Jr. Leoncio Prado 1336!";
       }
-      // 8. Nutrición y Alimentos Peligrosos (Datos completos directos)
-      else if (
-        t.indexOf("chocolate") !== -1 || t.indexOf("cebolla") !== -1 || t.indexOf("uva") !== -1 ||
-        t.indexOf("ajo") !== -1 || t.indexOf("aguacate") !== -1 || t.indexOf("palta") !== -1 ||
-        t.indexOf("hueso") !== -1 || t.indexOf("alimento") !== -1 || t.indexOf("comer") !== -1 ||
-        t.indexOf("leche") !== -1 || t.indexOf("comida") !== -1
-      ) {
-        urgencia = "Amarilla (Alerta preventiva)";
-        servicio = "Consulta Nutricional / Preventiva";
-        triageAnalysis.sintomasDetectados.push("Duda nutricional o sospecha de ingesta tóxica");
 
-        resp = "🥗 **Guía Completa de Nutrición y Alimentos Peligrosos:**\n\n" +
-               "❌ **Alimentos Prohibidos y por qué son Tóxicos:**\n" +
-               "• **Chocolate y Cacao:** Contienen teobromina. Provocan taquicardia severa, temblores, vómitos y pueden ser mortales.\n" +
-               "• **Cebolla, Ajo, Poro y Cebollín:** Contienen tiosulfatos que destruyen los glóbulos rojos, causando anemia hemolítica.\n" +
-               "• **Uvas y Pasas:** Altamente nefrotóxicas; provocan fallo renal agudo fulminante e irreversible.\n" +
-               "• **Palta / Aguacate:** Contiene persina y alto nivel graso que desencadena pancreatitis aguda.\n" +
-               "• **Huesos Cocidos:** Pierden elasticidad y se astillan, pudiendo perforar el esófago, estómago o intestinos.\n" +
-               "• **Xilitol (dulces, chicles dietéticos):** Causa hipoglucemia fulminante y daño hepático grave.\n" +
-               "• **Alcohol, Café y Té:** Daño severo al sistema nervioso y cardíaco.\n\n" +
-               "✅ **Premios y Alimentos Seguros (con moderación):**\n" +
-               "• **Zanahoria cruda o cocida:** Excelente para limpiar sarro y aportar fibra.\n" +
-               "• **Manzana sin semillas ni corazón:** Snack refrescante con vitaminas A y C.\n" +
-               "• **Calabaza / Zapallo hervido:** Regula la digestión ante diarreas leves o estreñimiento.\n" +
-               "• **Pechuga de pollo hervida:** Solo sancochada en agua, sin sal ni condimentos.\n\n" +
-               "Si tu mascota ingirió algún alimento prohibido, no provoques el vómito sin supervisión médica y acude a nuestra clínica de inmediato.";
+      // 17. TEMBLORES O DOLOR
+      else if (t.indexOf("tiembla") !== -1 || t.indexOf("temblor") !== -1 || t.indexOf("dolor") !== -1 || t.indexOf("queja") !== -1 || t.indexOf("llora") !== -1) {
+        urgencia = "⚠️ Amarilla (Dolor / Temblores)";
+        servicio = "Consulta Médica General";
+        triageAnalysis.sintomasDetectados.push("Temblores / Dolor");
+
+        resp = "⚠️ **Orientación ante temblores o quejidos:**\n\n" +
+               "Los temblores pueden deberse a:\n" +
+               "• **Dolor agudo:** En columna, cuello o estómago.\n" +
+               "• **Fiebre o frío:** Revisa si sus orejitas están ardiendo o muy heladas.\n" +
+               "• **Baja de azúcar (hipoglucemia):** Frecuente en cachorros pequeños que comieron poco.\n" +
+               "• **Intoxicación:** Si se acompaña de salivación excesiva o pupilas dilatadas.\n\n" +
+               "Abrígalo de inmediato y ven a la clínica para tomarle la temperatura y auscultarlo.";
       }
-      // 9. Respuesta General Completa y Detallada (Sin enlaces externos)
+
+      // 18. GATOS Y CUIDADOS FELINOS
+      else if (t.indexOf("gato") !== -1 || t.indexOf("gata") !== -1 || t.indexOf("arenero") !== -1) {
+        urgencia = "Amarilla (Medicina Felina)";
+        servicio = "Medicina Felina";
+        resp = "🐱 **Cuidados Especiales para Felinos:**\n\n" +
+               "• **Si orina fuera del arenero o le cuesta:** Alerta de infección urinaria o cristales (urgencia en machos).\n" +
+               "• **Agua:** Los gatos no beben suficiente agua; dales comida húmeda (latas o sobres) para proteger sus riñones.\n" +
+               "• **Vacunas:** Requieren Triple Felina anual y descarte de Leucemia Viral.\n\n" +
+               "¿Qué síntoma o comportamiento específico has notado en tu gatito?";
+      }
+
+      // 19. RESPUESTA PUNTUAL PERSONALIZADA PARA CUALQUIER OTRA CONSULTA
       else {
-        resp = "¡Hola! Soy **Pelitos IA**, tu asistente veterinario virtual en Huánuco. 🐾✨\n\n" +
-               "Aquí tienes la información y servicios completos de nuestra clínica:\n\n" +
-               "🏥 **Nuestros Servicios Médicos y de Bienestar:**\n" +
-               "• **Consultas Médicas:** Evaluación física completa, diagnóstico dermatológico, digestivo y respiratorio.\n" +
-               "• **Medicina Preventiva:** Vacunas completas Puppy, Pentavalente, Séxtuple, Triple Felina y Antirrábica.\n" +
-               "• **Laboratorio Clínico Propio:** Hemograma automatizado, bioquímica, raspados y análisis de heces con resultados en minutos.\n" +
-               "• **Pelitos Estética:** Baños medicados para piel sensible, corte higiénico y de raza por groomer certificada, corte de uñas y limpieza de oídos.\n" +
-               "• **Pelitos Móvil:** Atención veterinaria y recojo de mascotas a domicilio en Huánuco.\n" +
-               "• **PetShop y Farmacia:** Alimentos balanceados medicados, accesorios y antiparasitarios (Simparica, Bravecto, NexGard).\n\n" +
-               "📍 **Ubicación:** Jr. Leoncio Prado N.° 1336, Huánuco, Perú.\n" +
-               "⏰ **Horario:** Lunes a sábado de 8:30 a.m. a 8:00 p.m. (continuo).\n" +
-               "📞 **WhatsApp:** +51 939 356 376\n\n" +
-               "Cuéntame, ¿qué necesita tu mascota hoy o qué síntomas has notado para ayudarte?";
+        var temaConsulta = texto.replace(/[?¿!¡]/g, "").trim();
+        if (temaConsulta.length > 50) temaConsulta = temaConsulta.substring(0, 47) + "...";
+
+        resp = "Entiendo tu consulta sobre *\"" + temaConsulta + "\"*. 🐾\n\n" +
+               "Para responderte con la indicación exacta para tu caso:\n" +
+               "1. ¿Qué mascota tienes (perro o gato) y qué edad tiene?\n" +
+               "2. ¿Desde cuándo notas esta situación?\n" +
+               "3. ¿Presenta algún otro síntoma como vómitos, decaimiento o falta de apetito?\n\n" +
+               "Detállame esos puntos y te doy la respuesta veterinaria precisa de inmediato.";
       }
 
       triageAnalysis.urgencia = urgencia;
