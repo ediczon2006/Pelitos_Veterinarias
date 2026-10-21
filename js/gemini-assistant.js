@@ -1073,6 +1073,30 @@
     fab.addEventListener("click", abrirChat);
     btnCerrar.addEventListener("click", cerrarChat);
 
+    // API pública para abrir o cerrar Pelitos IA desde cualquier botón o enlace
+    window.PelitosIA = {
+      abrir: abrirChat,
+      cerrar: cerrarChat
+    };
+
+    // Redirección/apertura automática al hacer clic en cualquier elemento con data-abrir-ia o href="#pelitos-ia"
+    document.addEventListener("click", function (e) {
+      var trigger = e.target.closest("[data-abrir-ia], a[href='#pelitos-ia'], a[href$='#pelitos-ia']");
+      if (trigger) {
+        e.preventDefault();
+        abrirChat();
+        if (inputText) {
+          inputText.placeholder = "¿Qué servicio o duda tienes sobre tu mascota?";
+          inputText.focus();
+        }
+      }
+    });
+
+    // Abrir automáticamente si la URL contiene el ancla #pelitos-ia
+    if (window.location.hash === "#pelitos-ia" || window.location.hash === "#ia") {
+      setTimeout(abrirChat, 400);
+    }
+
     btnConfig.addEventListener("click", function () {
       var actual = localStorage.getItem("pelitos_gemini_api_key") || "";
       var nuevaKey = window.prompt(
