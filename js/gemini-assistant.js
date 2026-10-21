@@ -965,10 +965,11 @@
 
     root.innerHTML =
       '<!-- Botón Lanzador Flotante -->' +
-      '<button type="button" class="pelitos-ia-fab" id="btn-toggle-ia" aria-label="Abrir asistente inteligente Pelitos IA" title="Habla con Pelitos IA (Powered by Gemini)">' +
-      '  <span class="ia-fab-pulse"></span>' +
-      '  <span class="ia-fab-icon">🐾</span>' +
-      '  <span class="ia-fab-sparkle">✨</span>' +
+      '<button type="button" class="pelitos-ia-fab" id="btn-toggle-ia" aria-label="Abrir asistente inteligente Pelitos IA" title="Habla con Pelitos IA">' +
+      '  <span class="ia-fab-icon-wrap">' +
+      '    <svg class="ia-fab-svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16.5" rx="3.8" ry="3"/><circle cx="6.5" cy="11.5" r="1.8"/><circle cx="10" cy="8.5" r="1.8"/><circle cx="14" cy="8.5" r="1.8"/><circle cx="17.5" cy="11.5" r="1.8"/></svg>' +
+      '    <span class="ia-fab-sparkle">✨</span>' +
+      '  </span>' +
       '  <span class="ia-fab-label">Pelitos IA</span>' +
       '</button>' +
 
