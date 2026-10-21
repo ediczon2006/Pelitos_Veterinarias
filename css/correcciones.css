@@ -2233,3 +2233,298 @@ img[src=""] {
   outline-offset: 3px !important;
   border-radius: 6px;
 }
+
+
+/* ==========================================================================
+   SUITE DE TIPOGRAFÍA ELEGANTE, VISUALIZACIÓN Y RESPONSIVIDAD
+   Reemplaza fuentes desproporcionadas por Plus Jakarta Sans, Playfair Display y Manrope.
+   Garantiza contraste óptimo y lectura premium en computadora y celular.
+   ========================================================================== */
+
+/* ── 1. TOKENS TIPOGRÁFICOS DE MÁXIMA ELEGANCIA ── */
+:root {
+  --tipo-display: "Plus Jakarta Sans", "Manrope", system-ui, -apple-system, sans-serif !important;
+  --tipo-texto: "Plus Jakarta Sans", "DM Sans", system-ui, -apple-system, sans-serif !important;
+  --tipo-elegante: "Playfair Display", Georgia, serif !important;
+}
+
+/* ── 2. BASE GLOBAL DE TEXTO ── */
+body {
+  font-family: var(--tipo-texto) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* ── 3. JERARQUÍA DE TÍTULOS EN TODAS LAS PÁGINAS ── */
+h1, h2, h3, h4,
+.portada__titulo,
+.area-cover__titulo,
+.titulo-bloque,
+.seccion-titulo,
+.servicio-card__titulo,
+.producto-card__titulo,
+.laboratorio-card__titulo,
+.consejos-card__titulo,
+.movil-servicio-card__titulo {
+  font-family: var(--tipo-display) !important;
+  letter-spacing: -0.025em !important;
+  text-transform: none !important;
+}
+
+h1 {
+  font-weight: 800 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.08 !important;
+}
+
+h2 {
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.15 !important;
+}
+
+h3 {
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.25 !important;
+}
+
+/* ── 4. CORRECCIÓN DEL TEXTO HUECO / WIREFRAME (ADIÓS LETRAS VACÍAS) ── */
+.hueco,
+.portada__titulo .hueco,
+.area-cover__titulo .hueco,
+.titulo-bloque .hueco,
+.area-cover .hueco {
+  font-family: var(--tipo-display) !important;
+  color: #ffb703 !important;
+  background: linear-gradient(135deg, #ffc02e 0%, #f0791e 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 0 !important;
+  font-weight: 800 !important;
+  display: inline-block !important;
+  filter: drop-shadow(0 2px 10px rgba(240, 121, 30, 0.35));
+}
+
+/* ── 5. PORTADA HERO: CONTRASTE Y LEGIBILIDAD CINEMÁTICA ── */
+.portada {
+  position: relative !important;
+  background-image:
+    linear-gradient(90deg,
+      rgba(18, 7, 32, 0.94) 0%,
+      rgba(24, 10, 42, 0.85) 45%,
+      rgba(24, 10, 42, 0.52) 75%,
+      rgba(18, 7, 32, 0.30) 100%
+    ),
+    var(--foto, none) !important;
+  background-position: center right !important;
+  background-size: cover !important;
+  min-height: 80vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding-top: 130px !important;
+  padding-bottom: 70px !important;
+}
+
+.portada__inner {
+  max-width: 680px !important;
+  margin-left: 0 !important;
+}
+
+.portada__titulo {
+  font-family: var(--tipo-display) !important;
+  font-size: clamp(2.4rem, 6.2vw, 4.6rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.05 !important;
+  color: #ffffff !important;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  margin-top: 14px !important;
+  margin-bottom: 6px !important;
+  text-transform: none !important;
+}
+
+/* Eslogan refinado tipo editorial para Pelitos */
+.portada__eslogan,
+p.nosotros-eslogan {
+  font-family: var(--tipo-elegante) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  font-size: clamp(1.25rem, 2.6vw, 1.85rem) !important;
+  color: #ffd680 !important;
+  letter-spacing: 0.015em !important;
+  line-height: 1.35 !important;
+  margin-top: 4px !important;
+  margin-bottom: 16px !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6) !important;
+  text-transform: none !important;
+}
+
+.portada__bajada {
+  font-family: var(--tipo-texto) !important;
+  font-size: clamp(0.96rem, 1.5vw, 1.12rem) !important;
+  line-height: 1.7 !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  max-width: 540px !important;
+  margin-bottom: 24px !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.portada .badge-abierto {
+  font-family: var(--tipo-texto) !important;
+  font-weight: 600 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.04em !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 999px !important;
+  padding: 7px 16px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25) !important;
+}
+
+.eyebrow {
+  font-family: var(--tipo-texto) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  font-size: 0.72rem !important;
+}
+
+.eyebrow--claro {
+  color: #ffc02e !important;
+}
+
+.eyebrow--claro::before {
+  background: #ffc02e !important;
+}
+
+.portada__pie {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  font-family: var(--tipo-texto) !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
+  padding-top: 16px !important;
+}
+
+.portada__pie span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.portada__pie span:not(:last-child)::after {
+  content: "•";
+  margin-left: 14px;
+  color: #ffb703;
+  opacity: 0.75;
+}
+
+/* ── 6. NAVEGACIÓN PULIDA (LETRA MODERNA Y LEGIBLE) ── */
+.nav a {
+  font-family: var(--tipo-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+}
+
+.nav a.activo {
+  font-weight: 700 !important;
+  color: var(--morado, #5b2a86) !important;
+}
+
+.nav-movil a:not(.btn) {
+  font-family: var(--tipo-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+  font-size: 1.05rem !important;
+}
+
+/* ── 7. RESPONSIVIDAD PARA CELULAR (OPTIMIZACIÓN MÓVIL) ── */
+@media (max-width: 900px) {
+  .portada {
+    background-image:
+      linear-gradient(180deg,
+        rgba(18, 7, 32, 0.92) 0%,
+        rgba(26, 11, 46, 0.88) 50%,
+        rgba(18, 7, 32, 0.96) 100%
+      ),
+      var(--foto, none) !important;
+    background-position: center !important;
+    padding-top: 110px !important;
+    padding-bottom: 50px !important;
+    min-height: auto !important;
+  }
+
+  .portada__inner {
+    max-width: 100% !important;
+  }
+
+  .portada__titulo {
+    font-size: clamp(2rem, 8.5vw, 3rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .portada__eslogan,
+  p.nosotros-eslogan {
+    font-size: clamp(1.15rem, 4.8vw, 1.45rem) !important;
+    line-height: 1.35 !important;
+  }
+
+  .portada__bajada {
+    font-size: 0.95rem !important;
+    line-height: 1.62 !important;
+  }
+
+  .portada__pie {
+    flex-wrap: wrap !important;
+    gap: 8px 14px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .portada__pie span:not(:last-child)::after {
+    margin-left: 10px;
+  }
+}
+
+/* ── 8. SECCIONES Y TARJETAS EN TODAS LAS PÁGINAS ── */
+.area-cover__titulo {
+  font-family: var(--tipo-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.area-cover .hueco {
+  color: #ffb703 !important;
+  -webkit-text-fill-color: #ffb703 !important;
+  -webkit-text-stroke: 0 !important;
+}
+
+.seccion-hero h1,
+.page-hero h1,
+.servicios-hero h1,
+.estetica-hero h1,
+.laboratorio-hero h1,
+.productos-hero h1,
+.consejos-hero h1,
+.contacto-hero h1,
+.login-hero h1 {
+  font-family: var(--tipo-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+}
+
+p, li, span, input, select, textarea {
+  font-family: var(--tipo-texto);
+}
