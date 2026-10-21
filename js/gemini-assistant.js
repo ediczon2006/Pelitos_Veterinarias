@@ -897,27 +897,31 @@
       }
     };
 
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timeoutId = controller ? setTimeout(function () { controller.abort(); }, 9500) : null;
+
     try {
-      var response = await fetch(endpoint, {
+      var fetchOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-goog-api-key": key
         },
         body: JSON.stringify(payload)
-      });
+      };
+      if (controller) {
+        fetchOptions.signal = controller.signal;
+      }
+
+      var response = await fetch(endpoint, fetchOptions);
 
       if (!response.ok && (response.status === 400 || response.status === 404)) {
         delete payload.tools;
-        response = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": key
-          },
-          body: JSON.stringify(payload)
-        });
+        fetchOptions.body = JSON.stringify(payload);
+        response = await fetch(endpoint, fetchOptions);
       }
+
+      if (timeoutId) clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error("HTTP " + response.status);

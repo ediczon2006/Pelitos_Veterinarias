@@ -105,12 +105,20 @@
         }
       }
 
-      // Guardar también en localStorage como respaldo local
+      // Guardar también en localStorage como respaldo local (con límite defensivo de cuota)
       try {
-        var citasLocales = JSON.parse(localStorage.getItem('pelitos_citas') || '[]');
-        citasLocales.push(Object.assign({}, citaDoc, { id: citaDoc.id || 'loc_' + Date.now() }));
-        localStorage.setItem('pelitos_citas', JSON.stringify(citasLocales));
-      } catch (_) {}
+        var rawCitas = localStorage.getItem('pelitos_citas');
+        var citasLocales = rawCitas ? JSON.parse(rawCitas) : [];
+        if (Array.isArray(citasLocales)) {
+          if (citasLocales.length >= 60) {
+            citasLocales = citasLocales.slice(-50);
+          }
+          citasLocales.push(Object.assign({}, citaDoc, { id: citaDoc.id || 'loc_' + Date.now() }));
+          localStorage.setItem('pelitos_citas', JSON.stringify(citasLocales));
+        }
+      } catch (errQuota) {
+        console.warn("[Pelitos DB] Almacenamiento local restringido o cuota excedida:", errQuota);
+      }
 
       return citaDoc;
     },
