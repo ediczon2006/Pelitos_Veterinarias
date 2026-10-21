@@ -2019,3 +2019,217 @@
     padding: 10px 16px;
   }
 }
+
+
+/* ==========================================================================
+   CORRECCIÓN NAVBAR — Fix desbordamiento (logo tapa "Inicio", "Mi Cuenta" cortado)
+   y mejoras generales de todas las páginas.
+   Adicionado: 2026-10-21
+   ========================================================================== */
+
+/* ── 1. Ocultar "Mi Cuenta" del nav desktop (ya existe como botón de acción) ── */
+.nav a[data-nav-cuenta] { display: none !important; }
+
+/* ── 2. Compactar el nav desktop para que todos los items quepan ── */
+.nav {
+  gap: 2px !important;
+  font-size: 0.84rem !important;
+}
+.nav a {
+  padding: 6px 8px !important;
+  border-radius: 8px !important;
+  white-space: nowrap;
+}
+
+/* ── 3. A partir de 1280px usar tamaño normal ── */
+@media (min-width: 1280px) {
+  .nav { gap: 4px !important; font-size: 0.9rem !important; }
+  .nav a { padding: 6px 11px !important; }
+}
+
+/* ── 4. Entre 981px y 1150px: colapsar el nav y mostrar hamburguesa ──
+   (antes el breakpoint era solo en 980px, muy tarde) */
+@media (max-width: 1150px) and (min-width: 981px) {
+  .nav { display: none !important; }
+  .menu-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 12px !important;
+    border: 1.5px solid rgba(108, 57, 145, 0.25) !important;
+    background: #fff;
+    color: var(--morado, #6c3991);
+    cursor: pointer;
+  }
+  .menu-btn[aria-expanded="true"] {
+    background: var(--morado, #6c3991);
+    color: #fff;
+    border-color: var(--morado, #6c3991) !important;
+  }
+}
+
+/* ── 5. Logo: altura coherente entre rangos ── */
+@media (min-width: 981px) and (max-width: 1150px) {
+  .logo img { height: 44px !important; }
+  .header__inner { padding: 12px 18px !important; }
+}
+
+/* ── 6. Botón "Reservar cita / Pedir por WhatsApp" más compacto en 981-1280 ── */
+@media (min-width: 981px) and (max-width: 1279px) {
+  .header__acciones .btn--dorado,
+  .header__acciones .btn--sm {
+    font-size: 0.82rem !important;
+    padding: 8px 14px !important;
+  }
+  .auth-label-text { font-size: 0.82rem !important; }
+}
+
+/* ==========================================================================
+   MEJORAS GENERALES — Todas las páginas internas (pages/)
+   ========================================================================== */
+
+/* ── 7. Hero de páginas internas: aumentar padding y jerarquía visual ── */
+.page-hero,
+.seccion-hero,
+[class*="hero--interno"],
+.servicios-hero,
+.estetica-hero,
+.laboratorio-hero,
+.contacto-hero,
+.consejos-hero,
+.productos-hero,
+.login-hero {
+  padding-top: clamp(56px, 8vw, 96px) !important;
+  padding-bottom: clamp(40px, 6vw, 72px) !important;
+}
+
+/* ── 8. Títulos H1 de secciones internas: escala fluida legible ── */
+.page-hero h1,
+.seccion-hero h1,
+.servicios-hero h1,
+.laboratorio-hero h1,
+.estetica-hero h1,
+.contacto-hero h1,
+.consejos-hero h1,
+.productos-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem) !important;
+  line-height: 1.1 !important;
+}
+
+/* ── 9. Tarjetas de servicio: sombra más elegante y hover mejorado ── */
+.servicio-card,
+.tarjeta,
+.card,
+[class*="servicio-card"],
+[class*="consejos-card"],
+[class*="laboratorio-card"] {
+  transition: transform 0.28s ease, box-shadow 0.28s ease !important;
+  will-change: transform;
+}
+.servicio-card:hover,
+.tarjeta:hover,
+[class*="servicio-card"]:hover,
+[class*="consejos-card"]:hover,
+[class*="laboratorio-card"]:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 48px rgba(91, 42, 134, 0.13) !important;
+}
+
+/* ── 10. Formulario de contacto: campos con mejor apariencia ── */
+.campo input,
+.campo select,
+.campo textarea {
+  border-radius: 12px !important;
+  border: 1.5px solid var(--borde) !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  width: 100%;
+  font-family: inherit;
+}
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none !important;
+  border-color: var(--morado) !important;
+  box-shadow: 0 0 0 3px rgba(91, 42, 134, 0.10) !important;
+}
+
+/* ── 11. Grids de tarjetas: mínimo de 280px para no aplastarse ── */
+.servicios-grid,
+.laboratorio-grid,
+.consejos-grid,
+.estetica-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 24px !important;
+}
+
+/* ── 12. Sección "¿Por qué elegirnos?" / stats / counters ── */
+.stats-grid,
+.por-que-grid,
+.beneficios-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 20px !important;
+}
+
+/* ── 13. Botones globales: radio y sombra más refinada ── */
+.btn {
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(91, 42, 134, 0.18) !important;
+}
+.btn--dorado {
+  background: linear-gradient(135deg, #ffb703 0%, #f0791e 100%) !important;
+  color: #1e1030 !important;
+  border: none !important;
+}
+.btn--dorado:hover {
+  box-shadow: 0 8px 28px rgba(240, 121, 30, 0.38) !important;
+}
+
+/* ── 14. Footer: legibilidad de links ── */
+.footer a:not([class]) {
+  color: rgba(255, 255, 255, 0.80) !important;
+  transition: color 0.2s ease !important;
+}
+.footer a:not([class]):hover { color: #fff !important; }
+
+/* ── 15. Scrollbar del sitio: más elegante en Chrome/Edge ── */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(91, 42, 134, 0.25);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(91, 42, 134, 0.50); }
+
+/* ── 16. Páginas internas: espaciado de secciones más consistente ── */
+@media (min-width: 768px) {
+  .seccion + .seccion,
+  section + section { margin-top: 0; }
+}
+
+/* ── 17. Imagen rota / sin src: placeholder suave ── */
+img:not([src]),
+img[src=""] {
+  content: "";
+  display: block;
+  background: linear-gradient(135deg, #f4eefb, #e8e0f0);
+  min-height: 120px;
+  border-radius: 12px;
+}
+
+/* ── 18. Focus visible accesible en toda la web ── */
+:focus-visible {
+  outline: 2.5px solid var(--morado) !important;
+  outline-offset: 3px !important;
+  border-radius: 6px;
+}
