@@ -1365,8 +1365,8 @@
   flex: 1 1 auto;
   justify-content: center;
   overflow: hidden;
-  display: flex !important;
-  align-items: center !important;
+  display: flex;
+  align-items: center;
 }
 
 .nav a {
@@ -2049,8 +2049,7 @@
 
 /* ── 4. Entre 981px y 1150px: colapsar el nav y mostrar hamburguesa ──
    (antes el breakpoint era solo en 980px, muy tarde) */
-@media (max-width: 1150px) and (min-width: 981px) {
-  .nav { display: none !important; }
+@media (max-width: 1150px) { .nav { display: none !important; }
   .menu-btn {
     display: inline-flex !important;
     align-items: center;
@@ -2527,4 +2526,280 @@ p.nosotros-eslogan {
 
 p, li, span, input, select, textarea {
   font-family: var(--tipo-texto);
+}
+
+
+/* ==========================================================================
+   CORRECCIÓN DEFINITIVA: LETRAS ANARANJADAS PROFESIONALES Y MOBILE PERFECTO
+   ========================================================================== */
+
+/* ── 1. LETRAS ANARANJADAS PROFESIONALES PARA LAS ÁREAS (SIN CONTORNO HUECO) ── */
+.area-cover__titulo {
+  font-family: var(--tipo-display, "Plus Jakarta Sans", "Manrope", sans-serif) !important;
+  font-size: clamp(1.85rem, 2.5vw, 2.5rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.08 !important;
+  text-transform: none !important;
+  
+  /* Color anaranjado vibrante institucional */
+  color: #f0791e !important;
+  background: linear-gradient(135deg, #ffb703 0%, #f0791e 52%, #e05d06 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 0 !important;
+  
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.85)) !important;
+  display: block !important;
+  margin-top: 4px !important;
+}
+
+.area-cover__etiqueta {
+  font-family: var(--tipo-display, "Plus Jakarta Sans", sans-serif) !important;
+  font-size: 0.72rem !important;
+  font-weight: 750 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.22em !important;
+  color: #ffffff !important;
+  opacity: 0.95 !important;
+  display: block !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Fondo oscuro degradado detrás de las tarjetas para que el naranja resalte al máximo */
+.area-cover {
+  background-image:
+    linear-gradient(180deg,
+      rgba(20, 8, 35, 0.15) 0%,
+      rgba(20, 8, 35, 0.55) 50%,
+      rgba(18, 7, 30, 0.96) 100%
+    ),
+    var(--foto, none) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18) !important;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease !important;
+}
+
+.area-cover:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 48px rgba(240, 121, 30, 0.28) !important;
+  border-color: rgba(240, 121, 30, 0.45) !important;
+}
+
+/* Cuadrícula balanceada de las 6 áreas: 3 columnas x 2 filas en PC, 2 en tablet, 1 en celular */
+.areas-portada {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 22px !important;
+  margin-top: 32px !important;
+}
+@media (max-width: 990px) {
+  .areas-portada {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+@media (max-width: 580px) {
+  .areas-portada {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .area-cover {
+    min-height: 220px !important;
+    padding: 22px !important;
+  }
+}
+
+/* ── 2. DESTACADOS DE TEXTO EN ANARANJADO INSTITUCIONAL (#f0791e) ── */
+.titulo-tornasol,
+.destacado-naranja,
+.portada__titulo .hueco,
+.hueco {
+  color: #f0791e !important;
+  background: linear-gradient(135deg, #ffb703 0%, #f0791e 55%, #e05d06 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 0 !important;
+  font-weight: 800 !important;
+  display: inline-block !important;
+  filter: drop-shadow(0 2px 10px rgba(240, 121, 30, 0.35));
+}
+
+/* ── 3. VISUALIZACIÓN EN CELULAR: CABECERA Y NAVEGACIÓN ── */
+/* BLOQUEO TOTAL de .nav en pantallas <= 1150px (resuelve el bug de enlaces apretados en el móvil) */
+@media (max-width: 1150px) {
+  .nav,
+  header .nav,
+  .header__inner .nav {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Ajuste móvil fino (<= 768px): Header limpio, espaciado y botones táctiles */
+@media (max-width: 768px) {
+  .header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 90 !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid var(--borde, #e8e0f0) !important;
+  }
+
+  .header__inner {
+    padding: 10px 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .logo {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .logo img {
+    height: 38px !important;
+    max-height: 38px !important;
+    width: auto !important;
+  }
+
+  .header__acciones {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Ocultar botón auth del header en celulares porque ya está integrado en el menú móvil */
+  .header__btn-auth {
+    display: none !important;
+  }
+
+  /* Botón "Reservar cita" compacto y legible en celular */
+  .header__acciones .btn--dorado,
+  .header__acciones .btn--sm {
+    padding: 8px 14px !important;
+    font-size: 0.78rem !important;
+    font-weight: 750 !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+  }
+
+  /* Botón hamburguesa accesible y nítido */
+  .menu-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 10px !important;
+    padding: 0 !important;
+    border: 1.5px solid rgba(91, 42, 134, 0.22) !important;
+    background: #ffffff !important;
+    color: var(--morado, #5b2a86) !important;
+  }
+
+  /* ── 4. HERO / PORTADA EN CELULAR ── */
+  .portada {
+    padding-top: 92px !important;
+    padding-bottom: 24px !important;
+    min-height: auto !important;
+    background-image:
+      linear-gradient(180deg,
+        rgba(18, 7, 32, 0.94) 0%,
+        rgba(26, 11, 46, 0.90) 55%,
+        rgba(18, 7, 32, 0.97) 100%
+      ),
+      var(--foto, none) !important;
+  }
+
+  .portada__inner {
+    padding: 0 8px !important;
+    max-width: 100% !important;
+  }
+
+  .portada .badge-abierto {
+    font-size: 0.72rem !important;
+    padding: 5px 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .portada__titulo {
+    font-size: clamp(2rem, 7.8vw, 2.7rem) !important;
+    line-height: 1.08 !important;
+    margin-top: 8px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .portada__eslogan,
+  p.nosotros-eslogan {
+    font-size: clamp(1.15rem, 4.4vw, 1.45rem) !important;
+    line-height: 1.3 !important;
+    margin-bottom: 12px !important;
+  }
+
+  .portada__bajada {
+    font-size: 0.90rem !important;
+    line-height: 1.58 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .portada__pie {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px 12px !important;
+    font-size: 0.68rem !important;
+    padding-top: 12px !important;
+  }
+
+  /* ── 5. FORMULARIO BARRA CITA EN CELULAR ── */
+  .barra-cita {
+    margin: 18px 8px 0 !important;
+    border-radius: 18px !important;
+    padding: 14px !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /* ── 6. BUSCADOR "¿QUÉ ESTÁS BUSCANDO HOY?" EN CELULAR ── */
+  .seccion--buscador {
+    padding: 16px 0 !important;
+  }
+
+  .buscador-prompt {
+    padding: 18px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  .buscador-chip {
+    font-size: 0.80rem !important;
+    padding: 7px 12px !important;
+    gap: 5px !important;
+  }
+
+  /* ── 7. BOTÓN FLOTANTE PELITOS IA EN CELULAR ── */
+  .pelitos-ia-fab {
+    bottom: 16px !important;
+    right: 16px !important;
+    padding: 10px 16px !important;
+    font-size: 0.82rem !important;
+  }
 }
