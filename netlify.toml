@@ -1,5 +1,5 @@
 # Configuración de Netlify para Pelitos Veterinaria & Estética
-# Dominio objetivo: pelitosveterinaria.com
+# Dominio objetivo: 
 
 [build]
   publish = "."
