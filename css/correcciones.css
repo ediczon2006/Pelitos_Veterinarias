@@ -2956,3 +2956,246 @@ button.pelitos-ia-fab {
     height: 38px !important;
   }
 }
+
+/* ==========================================================================
+   CANALES OFICIALES DE ATENCIÓN Y REDIRECCIÓN WHATSAPP (3 CANALES ESPECIALIZADOS)
+   ========================================================================== */
+.canales-redireccion-seccion {
+  position: relative;
+  padding: 60px 0 70px;
+  background: #f8fafc;
+}
+
+.canales-banner-header {
+  background: linear-gradient(135deg, #2b0d38 0%, #180521 100%);
+  border-radius: 24px;
+  padding: 48px 36px 84px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: -48px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 20px 40px rgba(43, 13, 56, 0.25);
+}
+
+.canales-banner-header .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(240, 121, 30, 0.18);
+  border: 1px solid rgba(240, 121, 30, 0.35);
+  color: #fca311;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.canales-banner-header h2 {
+  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
+  font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+
+.canales-banner-header p {
+  font-size: 1.02rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.canales-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+}
+
+.canal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 26px 28px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.canal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.canal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+/* Card 1: Pet Shop & Farmacia */
+.canal-card--tienda::before {
+  background: linear-gradient(90deg, #0284c7, #06b6d4);
+}
+.canal-card--tienda .canal-icon-wrap {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+.canal-card--tienda .canal-tag {
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+}
+.canal-card--tienda .canal-phone {
+  color: #0284c7;
+}
+.canal-card--tienda .canal-btn {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+}
+
+/* Card 2: Consultorio Veterinario */
+.canal-card--medico::before {
+  background: linear-gradient(90deg, #059669, #10b981);
+}
+.canal-card--medico .canal-icon-wrap {
+  background: #ecfdf5;
+  color: #059669;
+}
+.canal-card--medico .canal-tag {
+  color: #059669;
+  background: rgba(5, 150, 105, 0.08);
+}
+.canal-card--medico .canal-phone {
+  color: #059669;
+}
+.canal-card--medico .canal-btn {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #ffffff;
+}
+
+/* Card 3: Estética Canina & Spa */
+.canal-card--estetica::before {
+  background: linear-gradient(90deg, #7c3aed, #9333ea);
+}
+.canal-card--estetica .canal-icon-wrap {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+.canal-card--estetica .canal-tag {
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.08);
+}
+.canal-card--estetica .canal-phone {
+  color: #7c3aed;
+}
+.canal-card--estetica .canal-btn {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #ffffff;
+}
+
+.canal-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.canal-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.canal-titulo {
+  font-family: 'Plus Jakarta Sans', 'Manrope', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
+.canal-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.18rem;
+  font-weight: 800;
+  text-decoration: none;
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s ease;
+}
+
+.canal-phone:hover {
+  opacity: 0.85;
+}
+
+.canal-phone-svg {
+  width: 20px;
+  height: 20px;
+  fill: #25d366;
+  flex-shrink: 0;
+}
+
+.canal-desc {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0 0 22px;
+  flex-grow: 1;
+}
+
+.canal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.canal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+}
+
+@media (max-width: 960px) {
+  .canales-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .canales-banner-header {
+    padding: 36px 20px 68px;
+  }
+}

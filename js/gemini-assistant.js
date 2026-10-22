@@ -30,7 +30,8 @@
       direccion: "Jr. Leoncio Prado N.° 1336",
       horario: "Lunes a sábado de 8:30 a.m. a 8:00 p.m.",
       telefonoConsultorio: "51939356376",
-      telefonoEstetica: "51948426656"
+      telefonoEstetica: "51948426656",
+      telefonoPetshop: "51927301122"
     }
   };
 
@@ -38,6 +39,10 @@
   var SYSTEM_PROMPT =
     "Eres 'Pelitos IA', el asistente veterinario inteligente de Pelitos Veterinaria en Huánuco, Perú (Jr. Leoncio Prado 1336). " +
     "Tu rol es atender con empatía, profesionalismo y rapidez a los tutores de perros, gatos y otras mascotas.\n\n" +
+    "CANALES OFICIALES DE ATENCIÓN Y REDIRECCIÓN WHATSAPP (HUÁNUCO):\n" +
+    "• Consultorio Veterinario: +51 939 356 376 (Consultas médicas, vacunas, laboratorio, cirugías y emergencias).\n" +
+    "• Estética Canina & Spa: +51 948 426 656 (Baños medicados, cortes de raza, grooming sin estrés).\n" +
+    "• Pet Shop & Farmacia: +51 927 301 122 (Alimentos balanceados, accesorios, medicamentos formulados y envíos).\n\n" +
     "REGLAS OBLIGATORIAS:\n" +
     "1. RESPONDE SIEMPRE Y DIRECTAMENTE: Responde CUALQUIER pregunta que te hagan, sin importar cómo esté formulada. " +
     "No importa si usan jerga, palabras incompletas, preguntas cortas o largas; siempre da una respuesta completa y útil. " +
@@ -1164,9 +1169,13 @@
         "📝 *Motivo / Síntomas:* " + sintomasStr + "\n\n" +
         "¿Tienen disponibilidad para atendernos en Jr. Leoncio Prado 1336?";
 
-      var numDestino = triageAnalysis.servicioSugerido.indexOf("Estética") !== -1
-        ? CONFIG.clinic.telefonoEstetica
-        : CONFIG.clinic.telefonoConsultorio;
+      var srvLower = (triageAnalysis.servicioSugerido || "").toLowerCase();
+      var numDestino = CONFIG.clinic.telefonoConsultorio;
+      if (srvLower.indexOf("estética") !== -1 || srvLower.indexOf("grooming") !== -1 || srvLower.indexOf("baño") !== -1 || srvLower.indexOf("corte") !== -1) {
+        numDestino = CONFIG.clinic.telefonoEstetica;
+      } else if (srvLower.indexOf("pet") !== -1 || srvLower.indexOf("tienda") !== -1 || srvLower.indexOf("farmacia") !== -1 || srvLower.indexOf("alimento") !== -1 || srvLower.indexOf("accesorio") !== -1) {
+        numDestino = CONFIG.clinic.telefonoPetshop;
+      }
 
       if (window.PelitosAnalytics) {
         window.PelitosAnalytics.trackContact("Chat_Gemini_Derivacion", {

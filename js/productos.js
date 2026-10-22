@@ -34,7 +34,7 @@
   var MAX_UNIDADES = 99;
 
   // Fallbacks por si main.js no estuviera cargado en alguna página.
-  var WHATSAPP = (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.consultorio) || "51939356376";
+  var WHATSAPP = (window.SITE && window.SITE.whatsapp && (window.SITE.whatsapp.recepcion || window.SITE.whatsapp.consultorio)) || "51927301122";
 
   var abrirExterno =
     typeof window.abrirExterno === "function"

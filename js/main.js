@@ -29,12 +29,22 @@
 const SITE = {
   nombre: "Pelitos Veterinaria",
   whatsapp: {
-    consultorio: "51939356376",   // consultas, citas medicas y PetShop
-    estetica: "51948426656",      // Pelitos Estetica y Spa Canino
+    recepcion: "51927301122",     // Orientación general, PetShop y Farmacia
+    petshop: "51927301122",       // Canal Comercial Pet Shop & Farmacia (Diego)
+    consultorio: "51939356376",   // Servicios Médicos, Cirugía, Vacunas y Triaje (Dra. Julia)
+    estetica: "51948426656",      // Pelitos Estética, Grooming y Spa Canino (Antonella)
   },
 };
 
-function enlaceWhatsapp(texto, numero = SITE.whatsapp.consultorio) {
+function normalizarCanalWhatsapp(destino) {
+  if (!destino) return SITE.whatsapp.recepcion;
+  if (SITE.whatsapp[destino]) return SITE.whatsapp[destino];
+  const digitos = String(destino).replace(/\D/g, "");
+  return digitos.length >= 9 ? digitos : SITE.whatsapp.recepcion;
+}
+
+function enlaceWhatsapp(texto, canalODestino = SITE.whatsapp.consultorio) {
+  const numero = normalizarCanalWhatsapp(canalODestino);
   const mensaje = String(texto || "Hola, quiero reservar una cita en Pelitos Veterinaria.");
   return `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
 }
@@ -204,8 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
         `Mensaje: ${mensaje || "-"}`,
       ].join("\n");
 
-      const numeroDestino =
-        servicio === "Estética" ? SITE.whatsapp.estetica : SITE.whatsapp.consultorio;
+      let numeroDestino = SITE.whatsapp.consultorio;
+      if (servicio === "Estética" || servicio === "Grooming") {
+        numeroDestino = SITE.whatsapp.estetica;
+      } else if (servicio === "Pet Shop & Farmacia" || servicio === "PetShop" || servicio === "Farmacia" || servicio === "Canal Comercial") {
+        numeroDestino = SITE.whatsapp.petshop;
+      }
 
       if (window.PelitosAnalytics) {
         window.PelitosAnalytics.trackContact("Formulario_Cita", {
@@ -4516,7 +4530,9 @@ function esPagina(nombre) {
 
     // Descuento oficial por Combo Baño + Corte (10% de descuento lun-vie del menú)
     const aplicaDescuentoCombo = ["express", "spa", "real"].includes(estadoCotizador.servicioId) && costoCorte > 0;
-    const montoDescuento = aplicaDescuentoCombo ? ((precioBase + costoCorte) * 0.10) : 0;
+    // Precision numerica: calculo exacto en centimos para prevenir deriva IEEE-754
+    const subtotalCentimos = Math.round((precioBase + costoCorte) * 100);
+    const montoDescuento = aplicaDescuentoCombo ? (Math.round(subtotalCentimos * 0.10) / 100) : 0;
 
     let extrasMonto = 0;
     estadoCotizador.extras.forEach(e => { extrasMonto += e.costo; });
