@@ -47,7 +47,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
 
   {
     titulo: "Ricocan Cachorro Razas Pequeñas x 1 kg",
-    precio: 12,
+    precio: 12.00,
     foto: "ricocan-cachorros-1kg.jpg",
     categoria: "alimentos",
     resumen:
@@ -195,7 +195,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
      ==================================================================== */
   { // precio: precio referencial de mercado
     titulo: "Simparica 10 mg (2.5 a 5 kg) x 1 tableta",
-    precio: 59,
+    precio: 70,
     foto: "simparica-10.jpg",
     categoria: "salud",
     marca: "Simparica",
@@ -205,7 +205,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: precio referencial de mercado
     titulo: "Simparica 20 mg (5 a 10 kg) x 1 tableta",
-    precio: 67,
+    precio: 80,
     foto: "simparica-20.jpg",
     categoria: "salud",
     marca: "Simparica",
@@ -215,7 +215,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: precio referencial de mercado
     titulo: "Simparica 40 mg (10 a 20 kg) x 1 tableta",
-    precio: 76,
+    precio: 100,
     foto: "simparica-40.jpg",
     categoria: "salud",
     marca: "Simparica",
@@ -235,7 +235,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Proteggo 3M (hasta 4.5 kg)",
-    precio: 50,
+    precio: 110,
     foto: "proteggo-4-5.jpg",
     categoria: "salud",
     marca: "Proteggo",
@@ -247,7 +247,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Proteggo 3M (4.5 a 10 kg)",
-    precio: 60,
+    precio: 130,
     foto: "proteggo-4-10.jpg",
     categoria: "salud",
     marca: "Proteggo",
@@ -259,7 +259,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Proteggo 3M (10 a 20 kg)",
-    precio: 70,
+    precio: 150,
     foto: "proteggo-10-20.jpg",
     categoria: "salud",
     marca: "Proteggo",
@@ -271,7 +271,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Proteggo 3M (20 a 40 kg)",
-    precio: 80,
+    precio: 180,
     foto: "proteggo-20-40.jpg",
     categoria: "salud",
     marca: "Proteggo",
@@ -302,7 +302,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Atomil Plus Polvo Antipulgas",
-    precio: 5,
+    precio: 3,
     foto: "atomil-plus.jpg",
     categoria: "salud",
     marca: "Atomil",
@@ -340,7 +340,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: precio referencial de mercado
     titulo: "Tranquiliss Gotas x 15 ml",
-    precio: 15,
+    precio: 20,
     foto: "tranquiliss-gotas.jpg",
     categoria: "salud",
     marca: "Tranquiliss",
@@ -377,42 +377,10 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
     especie: "gato",
     resumen: "Alimento para gatos adultos sabor carne, pollo y leche. Precio por kilo."
   },
-  { // precio: precio referencial de mercado
-    titulo: "Michicat Adultos Pollo y Sardina x 9 kg",
-    precio: 65,
-    foto: "michicat-9kg.jpg",
-    categoria: "alimentos",
-    marca: "Michicat",
-    especie: "gato",
-    resumen: "Saco de 9 kg de alimento para gatos adultos sabor pollo y sardina."
-  },
-  { // precio: precio referencial de mercado
-    titulo: "Dog Chow Adultos Extra Life x 1 kg",
-    precio: 14,
-    foto: "dog-chow-adultos.jpg",
-    categoria: "alimentos",
-    marca: "Dog Chow",
-    especie: "perro",
-    resumen: "Alimento Purina Dog Chow para perros adultos con Extra Life. Precio por kilo."
-  },
-  { // precio: precio referencial de mercado
-    titulo: "Dog Chow Cachorros Extra Life x 1 kg",
-    precio: 16,
-    foto: "dog-chow-cachorros.jpg",
-    categoria: "alimentos",
-    marca: "Dog Chow",
-    especie: "perro",
-    resumen: "Alimento Purina Dog Chow para cachorros con Extra Life. Precio por kilo."
-  },
-  { // precio: precio referencial de mercado
-    titulo: "Pro Plan Puppy x 1 kg",
-    precio: 34,
-    foto: "pro-plan-puppy.jpg",
-    categoria: "alimentos",
-    marca: "Pro Plan",
-    especie: "perro",
-    resumen: "Purina Pro Plan para cachorros con OptiStart. Precio por kilo."
-  },
+
+
+
+
   { // precio: precio referencial de mercado
     titulo: "Ricocan Lata Paté Cordero x 330 g",
     precio: 6,
@@ -554,7 +522,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Pollo de Hule",
-    precio: 10,
+    precio: 12,
     foto: "pollo-hule.jpg",
     categoria: "accesorios",
     marca: "Pelitos",
@@ -599,7 +567,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Pelota Antiestrés con Luces",
-    precio: 8,
+    precio: 15,
     foto: "pelota-luces.jpg",
     categoria: "accesorios",
     marca: "Pelitos",
@@ -608,7 +576,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Pelota de Tenis Perruna",
-    precio: 8,
+    precio: 15,
     foto: "pelota-tenis.jpg",
     categoria: "accesorios",
     marca: "Pelitos",
@@ -626,7 +594,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Guante Cepillo",
-    precio: 7,
+    precio: 20,
     foto: "guante-cepillo.jpg",
     categoria: "higiene",
     marca: "Pelitos",
@@ -644,7 +612,7 @@ window.PELITOS_PRODUCTOS_NUEVOS = [
   },
   { // precio: catálogo Pelitos
     titulo: "Set de Biberón",
-    precio: 12,
+    precio: 22,
     foto: "set-biberon.jpg",
     categoria: "accesorios",
     marca: "Pelitos",
