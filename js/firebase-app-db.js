@@ -19,6 +19,7 @@
 
   var db = null;
   var auth = null;
+  var authModule = null;
   var inicializado = false;
   var sincronizando = false;
 
@@ -69,6 +70,7 @@
         var app = firebaseApp.initializeApp(cfg);
         db = firestore.getFirestore(app);
         auth = firebaseAuth.getAuth(app);
+        authModule = firebaseAuth;
 
         this.db = db;
         this.auth = auth;
@@ -79,12 +81,33 @@
 
         console.info("[Pelitos DB] Conectado exitosamente a Google Cloud Firestore (" + cfg.projectId + ").");
 
+        // Asegurar sesión autenticada (Anonymous Auth si no hay sesión previa) antes de sincronizar
+        await this.asegurarSesion();
+
         // Disparar sincronización de citas creadas fuera de línea
         this.sincronizarColaPendiente();
       } catch (err) {
         console.warn("[Pelitos DB] Fallback local activo. Motivo:", err.message);
         this.modoLocal = true;
         this.estaListo = true;
+      }
+    },
+
+    /**
+     * Garantiza una sesión activa en Firebase Auth (usuario registrado o Anonymous Auth)
+     * requerida por firestore.rules para prevenir abuso de escrituras no autenticadas.
+     */
+    asegurarSesion: async function () {
+      if (this.modoLocal || !auth || !authModule) return null;
+      if (auth.currentUser && auth.currentUser.uid) {
+        return auth.currentUser.uid;
+      }
+      try {
+        var cred = await authModule.signInAnonymously(auth);
+        return cred && cred.user ? cred.user.uid : null;
+      } catch (errAuth) {
+        console.warn("[Pelitos DB] No se pudo iniciar sesión anónima en Firebase Auth (habilita Anonymous Auth en Firebase Console):", errAuth && errAuth.message ? errAuth.message : errAuth);
+        return null;
       }
     },
 
@@ -124,6 +147,12 @@
 
       sincronizando = true;
       try {
+        var uidActivo = await this.asegurarSesion();
+        if (!uidActivo) {
+          sincronizando = false;
+          return;
+        }
+
         var raw = localStorage.getItem(STORAGE_KEYS.citasPendientes);
         var pendientes = raw ? JSON.parse(raw) : [];
         if (!Array.isArray(pendientes) || pendientes.length === 0) {
@@ -138,11 +167,19 @@
         for (var i = 0; i < pendientes.length; i++) {
           var cita = pendientes[i];
           try {
-            var payload = Object.assign({}, cita, {
-              createdAt: this.firestore.serverTimestamp(),
-              sincronizadoOffline: true
-            });
-            delete payload.id; // Permitir que Firestore genere el docId canónico
+            // Construir payload estricto permitido por firestore.rules (sin campos locales uuid/id)
+            var payload = {
+              nombre: String(cita.nombre || 'Cliente').trim().slice(0, 80),
+              telefono: String(cita.telefono || '').trim().slice(0, 20),
+              mascota: String(cita.mascota || 'Mascota').trim().slice(0, 60),
+              servicio: String(cita.servicio || 'Consulta').trim().slice(0, 80),
+              fecha: String(cita.fecha || '').trim().slice(0, 30),
+              hora: String(cita.hora || '').trim().slice(0, 25),
+              status: 'pendiente',
+              userId: uidActivo,
+              createdAt: this.firestore.serverTimestamp()
+            };
+            if (cita.mensaje) payload.mensaje = String(cita.mensaje).trim().slice(0, 600);
             var docRef = await this.firestore.addDoc(colRef, payload);
             console.info("[Pelitos DB] Cita " + cita.uuid + " sincronizada exitosamente. Doc ID: " + docRef.id);
           } catch (syncErr) {
@@ -204,14 +241,28 @@
       // Si Firestore está listo y hay conexión a internet, intentar guardar en la nube
       if (!this.modoLocal && db && this.firestore && (typeof navigator === 'undefined' || navigator.onLine)) {
         try {
-          var payloadFirestore = Object.assign({}, citaDoc, {
-            createdAt: this.firestore.serverTimestamp()
-          });
-          var colRef = this.firestore.collection(db, 'citas');
-          var docRef = await this.firestore.addDoc(colRef, payloadFirestore);
-          citaDoc.id = docRef.id;
-          guardadoEnNube = true;
-          console.info("[Pelitos DB] Cita guardada en Firestore. ID: " + docRef.id);
+          var uidActivo = await this.asegurarSesion();
+          if (uidActivo) {
+            citaDoc.userId = uidActivo;
+            var payloadFirestore = {
+              nombre: citaDoc.nombre,
+              telefono: citaDoc.telefono,
+              mascota: citaDoc.mascota,
+              servicio: citaDoc.servicio,
+              fecha: citaDoc.fecha.slice(0, 30),
+              hora: citaDoc.hora,
+              status: 'pendiente',
+              userId: uidActivo,
+              createdAt: this.firestore.serverTimestamp()
+            };
+            if (citaDoc.mensaje) payloadFirestore.mensaje = citaDoc.mensaje;
+
+            var colRef = this.firestore.collection(db, 'citas');
+            var docRef = await this.firestore.addDoc(colRef, payloadFirestore);
+            citaDoc.id = docRef.id;
+            guardadoEnNube = true;
+            console.info("[Pelitos DB] Cita guardada en Firestore. ID: " + docRef.id);
+          }
         } catch (err) {
           console.error("[Pelitos DB] Error al guardar cita en Firestore, derivando a cola fuera de línea:", err);
           guardadoEnNube = false;
@@ -269,11 +320,21 @@
 
       if (!this.modoLocal && db && this.firestore && (typeof navigator === 'undefined' || navigator.onLine)) {
         try {
-          var payloadFirestore = Object.assign({}, consultaDoc, {
-            createdAt: this.firestore.serverTimestamp()
-          });
-          var colRef = this.firestore.collection(db, 'ia_consultas');
-          await this.firestore.addDoc(colRef, payloadFirestore);
+          var uidActivo = await this.asegurarSesion();
+          if (uidActivo) {
+            var payloadFirestore = {
+              tipoMascota: consultaDoc.tipoMascota,
+              sintomas: consultaDoc.sintomas,
+              urgencia: consultaDoc.urgencia,
+              servicioSugerido: consultaDoc.servicioSugerido,
+              userId: uidActivo,
+              createdAt: this.firestore.serverTimestamp()
+            };
+            if (consultaDoc.resumen) payloadFirestore.resumen = consultaDoc.resumen;
+
+            var colRef = this.firestore.collection(db, 'ia_consultas');
+            await this.firestore.addDoc(colRef, payloadFirestore);
+          }
         } catch (err) {
           console.warn("[Pelitos DB] Error al registrar triaje IA en Firestore:", err);
         }
@@ -286,19 +347,22 @@
     obtenerResenas: async function () {
       if (!this.modoLocal && db && this.firestore && (typeof navigator === 'undefined' || navigator.onLine)) {
         try {
-          var q = this.firestore.query(
-            this.firestore.collection(db, 'resenas'),
-            this.firestore.where('status', '==', 'aprobada'),
-            this.firestore.limit(20)
-          );
-          var snapshot = await this.firestore.getDocs(q);
-          var resenas = [];
-          snapshot.forEach(function (doc) {
-            var data = doc.data();
-            data.id = doc.id;
-            resenas.push(data);
-          });
-          if (resenas.length > 0) return resenas;
+          var uidActivo = await this.asegurarSesion();
+          if (uidActivo) {
+            var q = this.firestore.query(
+              this.firestore.collection(db, 'resenas'),
+              this.firestore.where('status', '==', 'aprobada'),
+              this.firestore.limit(20)
+            );
+            var snapshot = await this.firestore.getDocs(q);
+            var resenas = [];
+            snapshot.forEach(function (doc) {
+              var data = doc.data();
+              data.id = doc.id;
+              resenas.push(data);
+            });
+            if (resenas.length > 0) return resenas;
+          }
         } catch (err) {
           console.warn("[Pelitos DB] Error al consultar reseñas de Firestore:", err);
         }

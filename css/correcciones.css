@@ -346,7 +346,8 @@
   align-items: center;
   justify-content: center;
 }
-.paso-item__cuerpo h3 {
+.paso-item__cuerpo h3,
+.paso-item__cuerpo h4 {
   font-family: "Manrope", sans-serif;
   font-size: .98rem;
   font-weight: 800;
@@ -451,6 +452,7 @@
   color: #fff;
   z-index: 2;
 }
+.groomer-feature-caption h3,
 .groomer-feature-caption h4 {
   font-size: 1.12rem;
   margin: 0 0 4px;
@@ -2873,6 +2875,12 @@ button.pelitos-ia-fab {
   box-shadow: 0 16px 36px -4px rgba(91, 42, 134, 0.60), 0 6px 18px rgba(240, 121, 30, 0.45) !important;
 }
 
+.pelitos-ia-fab:focus-visible,
+.fab:focus-visible {
+  outline: 3px solid #f59e0b !important;
+  outline-offset: 3px !important;
+}
+
 /* Aura sutil y uniforme de respiración sin deformaciones */
 @keyframes iaAuraRespiracion {
   0% {
@@ -3197,5 +3205,202 @@ button.pelitos-ia-fab {
   }
   .canales-banner-header {
     padding: 36px 20px 68px;
+  }
+}
+
+/* ==========================================================================
+   AUDITORÍA QA · ACCESIBILIDAD, RESPONSIVE (320px–1440px) Y CLS
+   ========================================================================== */
+
+/* Prevención de desbordamiento horizontal sin romper position: sticky */
+html,
+body {
+  overflow-x: clip;
+}
+
+/* Enlace "Saltar al contenido principal" accesible en todas las páginas */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.solo-lectores:focus {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 9999;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 10px 18px;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: #5b2a86;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  outline: 3px solid #f0892a;
+  outline-offset: 2px;
+}
+
+/* Mantener proporción de fotos promocionales cuando tienen width/height intrínsecos */
+.promo-19__foto {
+  height: auto;
+}
+
+/* Coherencia visual si el footer usa h2 en páginas puente (pelitos-movil.html) */
+.footer h2 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+/* Banner de confirmación en formulario de contacto (icono + borde + texto, no solo color) */
+.exito {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  border: 1.5px solid #10b981;
+  color: #065f46;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Chips en héroes de Estética y Laboratorio (reemplaza grid inline de 3 cols fijas) */
+.chips--hero-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* Bloque destacado de Pelitos Móvil en servicios.html */
+.movil-destacado-grid {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.movil-destacado-foto {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(124, 58, 237, 0.16);
+  position: relative;
+  min-height: 360px;
+}
+
+/* Foto de vacunación en servicios.html con altura adaptativa */
+.foto-vacunacion-resp {
+  width: 100%;
+  height: 540px;
+  object-fit: cover;
+  border-radius: 24px;
+  display: block;
+}
+
+/* Galería de Laboratorio (reemplaza 1fr 1fr 1fr inline) */
+.lab-galeria-grid--3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.lab-galeria-item--full {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 7;
+}
+
+/* Doble columna dentro del modal de edición en login.html */
+.modal-editar-doble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Foco visible por teclado en tarjetas interactivas con lightbox */
+.galeria-card-zoom:focus-visible,
+.groomer-feature-media:focus-visible,
+.groomer-card-secundaria:focus-visible,
+.lab-galeria-item:focus-visible,
+.tarjeta-lamina:focus-visible {
+  outline: 3px solid #f0892a;
+  outline-offset: 3px;
+}
+
+.galeria-card-zoom--obra:focus-visible .galeria-card-overlay,
+.galeria-card-zoom:focus-visible .galeria-card-overlay {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .chips--hero-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .movil-destacado-grid {
+    grid-template-columns: 1fr;
+  }
+  .movil-destacado-foto {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .foto-vacunacion-resp {
+    height: clamp(260px, 68vw, 420px);
+  }
+  .lab-galeria-grid--3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .lab-galeria-grid--3 {
+    grid-template-columns: 1fr;
+  }
+  .lab-galeria-item--full {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 420px) {
+  .chips--hero-3 {
+    grid-template-columns: 1fr;
+  }
+  .modal-editar-doble {
+    grid-template-columns: 1fr;
+  }
+  /* Evitar solapamiento de botones flotantes en pantallas muy estrechas (320px–375px) */
+  .fab,
+  a.fab,
+  body .fab {
+    left: 10px !important;
+    bottom: 12px !important;
+    padding: 10px 12px !important;
+    gap: 6px !important;
+  }
+  .pelitos-ia-fab,
+  button.pelitos-ia-fab {
+    right: 10px !important;
+    bottom: 12px !important;
+    padding: 10px 12px !important;
+    gap: 6px !important;
+  }
+  .ia-fab-label {
+    font-size: 0.78rem !important;
   }
 }

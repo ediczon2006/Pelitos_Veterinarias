@@ -2395,6 +2395,7 @@ a.tarjeta:hover, .tarjeta--hover:hover {
   opacity: 0.5;
 }
 
+.timeline-step h3,
 .timeline-step h4 {
   font-size: 1rem;
   margin-bottom: 6px;
@@ -2609,6 +2610,7 @@ a.tarjeta:hover, .tarjeta--hover:hover {
   background: linear-gradient(180deg, rgba(91, 33, 182, 0.15) 25%, rgba(26, 11, 46, 0.98) 100%);
 }
 
+.galeria-card-zoom--obra .galeria-card-overlay h3,
 .galeria-card-zoom--obra .galeria-card-overlay h4 {
   margin: 0 0 2px;
   font-size: 0.92rem;

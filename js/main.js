@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.querySelector("[data-form-cita]");
   if (formulario) {
     const cajaError = formulario.querySelector("[data-error]");
+    const cajaExito = formulario.querySelector("[data-exito]");
     const serviciosPermitidos = [
       "Consulta",
       "Vacunación",
@@ -174,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Laboratorio",
       "Cirugía",
       "Estética",
+      "Pet Shop & Farmacia",
       "Pelitos Móvil",
       "Otro",
     ];
@@ -181,21 +183,42 @@ document.addEventListener("DOMContentLoaded", () => {
     formulario.addEventListener("submit", (evento) => {
       evento.preventDefault();
       const datos = new FormData(formulario);
+      const campoNombre = formulario.querySelector('[name="nombre"]');
+      const campoTelefono = formulario.querySelector('[name="telefono"]');
       const nombre = sanitizarTexto(datos.get("nombre"), 80);
       const telefono = sanitizarTexto(datos.get("telefono"), 20);
       const mascota = sanitizarTexto(datos.get("mascota"), 60);
       const servicioRaw = sanitizarTexto(datos.get("servicio"), 40);
       const servicio = serviciosPermitidos.includes(servicioRaw) ? servicioRaw : "Consulta";
-      const mensaje = sanitizarTexto(datos.get("mensaje"), 400);
+      const mensaje = sanitizarTexto(datos.get("mensaje"), 600);
 
+      const digitosTel = telefono.replace(/\D/g, "");
       let error = "";
-      if (nombre.length < 2) error = "Ingresa tu nombre.";
-      else if (!telefonoValido(telefono)) error = "Ingresa un teléfono válido.";
+      let campoConError = null;
+
+      if (campoNombre) campoNombre.removeAttribute("aria-invalid");
+      if (campoTelefono) campoTelefono.removeAttribute("aria-invalid");
+
+      if (nombre.length < 3) {
+        error = "⚠️ Ingresa tu nombre completo (mínimo 3 caracteres).";
+        campoConError = campoNombre;
+      } else if (!telefonoValido(telefono) || digitosTel.length < 9) {
+        error = "⚠️ Ingresa un número de teléfono válido de al menos 9 dígitos (ej. 939356376).";
+        campoConError = campoTelefono;
+      }
 
       if (error) {
+        if (cajaExito) {
+          cajaExito.textContent = "";
+          cajaExito.hidden = true;
+        }
         if (cajaError) {
           cajaError.textContent = error;
           cajaError.hidden = false;
+        }
+        if (campoConError) {
+          campoConError.setAttribute("aria-invalid", "true");
+          campoConError.focus();
         }
         return;
       }
@@ -241,6 +264,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }).catch(function (err) {
           console.warn("[Pelitos] Error al registrar cita en base de datos:", err);
         });
+      }
+
+      if (cajaExito) {
+        cajaExito.textContent = "✓ ¡Listo! Abrimos WhatsApp con los datos de tu solicitud para confirmar tu cita.";
+        cajaExito.hidden = false;
       }
 
       abrirExterno(enlaceWhatsapp(texto, numeroDestino));
@@ -590,7 +618,7 @@ function esPagina(nombre) {
 
       if (elNombre) elNombre.textContent = nombreLimpio;
       if (elEmail)  elEmail.textContent  = sanitizarTexto(user.email || "", 80);
-      if (elTel)    elTel.textContent    = user.telefono ? "📱 " + sanitizarTexto(user.telefono, 20) : "";
+      if (elTel)    elTel.textContent    = user.telefono ? sanitizarTexto(user.telefono, 20) : "Sin teléfono";
       if (elAvatar) {
         elAvatar.textContent = "";
         if (user.foto && /^https?:\/\//i.test(user.foto)) {
@@ -1127,7 +1155,12 @@ function esPagina(nombre) {
         var terminos   = document.getElementById("reg-terminos");
 
         if (!nomInput || !emailInput || !passInput) return;
-        if (!validar(nomInput) || !validar(emailInput) || !validar(passInput)) {
+        if (
+          !validar(nomInput) ||
+          !validar(emailInput) ||
+          (telInput && !validar(telInput)) ||
+          !validar(passInput)
+        ) {
           mostrarToast("Completa los campos obligatorios correctamente", "⚠️");
           return;
         }
@@ -1177,8 +1210,10 @@ function esPagina(nombre) {
     var btnCerrarEditar   = document.getElementById("btn-cerrar-modal-edit");
     var formEditarPerfil  = document.getElementById("form-editar-perfil");
 
+    var focoAntesEditar = null;
     function abrirModalEditar() {
       if (!modalEditar) return;
+      focoAntesEditar = document.activeElement;
       var user = usuarioActual();
       if (user) {
         var fn = document.getElementById("edit-nombre");
@@ -1193,9 +1228,17 @@ function esPagina(nombre) {
         if (fe) fe.value = user.edad     || "";
       }
       modalEditar.classList.add("abierto");
+      modalEditar.setAttribute("aria-hidden", "false");
+      var primerInput = modalEditar.querySelector("input");
+      if (primerInput) primerInput.focus();
     }
     function cerrarModalEditar() {
-      if (modalEditar) modalEditar.classList.remove("abierto");
+      if (!modalEditar) return;
+      modalEditar.classList.remove("abierto");
+      modalEditar.setAttribute("aria-hidden", "true");
+      if (focoAntesEditar && typeof focoAntesEditar.focus === "function") {
+        focoAntesEditar.focus();
+      }
     }
 
     if (btnAbrirEditar)  btnAbrirEditar.addEventListener("click",  abrirModalEditar);
@@ -1203,6 +1246,11 @@ function esPagina(nombre) {
     if (modalEditar) {
       modalEditar.addEventListener("click", function (e) {
         if (e.target === modalEditar) cerrarModalEditar();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modalEditar.classList.contains("abierto")) {
+          cerrarModalEditar();
+        }
       });
     }
 
@@ -2156,8 +2204,8 @@ function esPagina(nombre) {
   var CLAVE_CARRITO = "pelitos:carrito:v2";
   var MAX_UNIDADES = 99;
 
-  // Fallbacks por si main.js no estuviera cargado en alguna página.
-  var WHATSAPP = (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.consultorio) || "51939356376";
+  // Canal oficial de WhatsApp del PetShop & Farmacia (con fallback por seguridad).
+  var WHATSAPP = (window.SITE && window.SITE.whatsapp && (window.SITE.whatsapp.petshop || window.SITE.whatsapp.recepcion)) || "51927301122";
 
   var abrirExterno =
     typeof window.abrirExterno === "function"
@@ -2403,7 +2451,7 @@ function esPagina(nombre) {
     'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
 
   function abrirDialogo(el) {
-    if (!el || pilaDialogos.indexOf(el) !== -1) return;
+    if (!el || pilaDialogos.some(function (d) { return d.el === el; })) return;
     pilaDialogos.push({ el: el, foco: document.activeElement });
     el.classList.add("abierto");
     el.setAttribute("aria-hidden", "false");
@@ -4147,8 +4195,9 @@ function esPagina(nombre) {
     /* Inicialización inteligente de fecha: evita domingos y horas vencidas */
     if (selectDia && selectDia.type === "date") {
       const hoy = new Date();
+      const minutosAhora = hoy.getHours() * 60 + hoy.getMinutes();
       // Si es domingo (0) o pasadas las 19:30, sugerir siguiente día hábil
-      if (hoy.getDay() === 0 || (hoy.getHours() >= 19 && hoy.getMinutes() >= 30)) {
+      if (hoy.getDay() === 0 || minutosAhora >= 19 * 60 + 30) {
         hoy.setDate(hoy.getDate() + (hoy.getDay() === 0 ? 1 : (hoy.getDay() === 6 ? 2 : 1)));
       }
       const fechaDefecto = formatearISO(hoy);
@@ -4227,15 +4276,29 @@ function esPagina(nombre) {
       const mascota = dato("mascota").slice(0, 40);
       let dia = dato("dia");
 
+      if (selectDia && selectDia.type === "date" && !dia) {
+        selectDia.focus();
+        if (typeof window.PelitosAviso === "function") {
+          window.PelitosAviso("Selecciona una fecha para tu cita.");
+        }
+        return;
+      }
+
       if (/^\d{4}-\d{2}-\d{2}$/.test(dia)) {
         const [a, mm, d] = dia.split("-").map(Number);
         const f = new Date(a, mm - 1, d);
         if (f.getDay() === 0) {
           f.setDate(f.getDate() + 1);
-          dia = formatearISO(f);
         }
         const dias = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-        dia = dias[f.getDay()] + " " + String(d).padStart(2, "0") + "/" + String(mm).padStart(2, "0") + "/" + a;
+        dia =
+          dias[f.getDay()] +
+          " " +
+          String(f.getDate()).padStart(2, "0") +
+          "/" +
+          String(f.getMonth() + 1).padStart(2, "0") +
+          "/" +
+          f.getFullYear();
       }
 
       const hora = dato("hora");
@@ -4246,7 +4309,13 @@ function esPagina(nombre) {
         (dia ? "Cuándo: " + dia + "\n" : "") +
         (hora && dia !== "Solo quiero información" ? "Hora: " + hora : "");
 
-      const urlWhatsApp = enlaceWhatsapp(texto, TELEFONO_CITA);
+      const srvMin = servicio.toLowerCase();
+      const numeroDestino =
+        srvMin.indexOf("estética") !== -1 || srvMin.indexOf("estetica") !== -1 || srvMin.indexOf("baño") !== -1
+          ? (window.SITE && window.SITE.whatsapp && window.SITE.whatsapp.estetica) || "51948426656"
+          : TELEFONO_CITA;
+
+      const urlWhatsApp = enlaceWhatsapp(texto, numeroDestino);
       abrirExterno(urlWhatsApp);
     });
   }
@@ -4618,8 +4687,12 @@ function esPagina(nombre) {
   // Eventos selector de peso
   document.querySelectorAll('#selector-peso .selector-pill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('#selector-peso .selector-pill-btn').forEach(b => b.classList.remove('activo'));
+      document.querySelectorAll('#selector-peso .selector-pill-btn').forEach(b => {
+        b.classList.remove('activo');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('activo');
+      btn.setAttribute('aria-pressed', 'true');
       estadoCotizador.pesoId = btn.dataset.peso;
       estadoCotizador.pesoNombre = btn.dataset.pesoNombre;
       recalcularCotizador();
@@ -4629,8 +4702,12 @@ function esPagina(nombre) {
   // Eventos selector de servicio
   document.querySelectorAll('#selector-servicio .selector-pill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('#selector-servicio .selector-pill-btn').forEach(b => b.classList.remove('activo'));
+      document.querySelectorAll('#selector-servicio .selector-pill-btn').forEach(b => {
+        b.classList.remove('activo');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('activo');
+      btn.setAttribute('aria-pressed', 'true');
       estadoCotizador.servicioId = btn.dataset.servicio;
       estadoCotizador.servicioNombre = btn.dataset.nombre;
       recalcularCotizador();
@@ -4640,8 +4717,12 @@ function esPagina(nombre) {
   // Eventos selector de corte
   document.querySelectorAll('#selector-corte .selector-pill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('#selector-corte .selector-pill-btn').forEach(b => b.classList.remove('activo'));
+      document.querySelectorAll('#selector-corte .selector-pill-btn').forEach(b => {
+        b.classList.remove('activo');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('activo');
+      btn.setAttribute('aria-pressed', 'true');
       estadoCotizador.corteId = btn.dataset.corte;
       estadoCotizador.corteNombre = btn.dataset.corteNombre || btn.querySelector('strong').textContent;
       estadoCotizador.corteCosto = parseFloat(btn.dataset.costo) || 0;
@@ -4671,51 +4752,78 @@ function esPagina(nombre) {
     btn.addEventListener('click', () => {
       const card = btn.closest('.faq-card');
       const estaActivo = card.classList.contains('activo');
-      document.querySelectorAll('.faq-card').forEach(c => c.classList.remove('activo'));
+      document.querySelectorAll('.faq-card').forEach(c => {
+        c.classList.remove('activo');
+        const b = c.querySelector('.faq-pregunta');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
       if (!estaActivo) {
         card.classList.add('activo');
+        btn.setAttribute('aria-expanded', 'true');
       }
     });
   });
+})();
 
-  // Lightbox para fotos
-  
+/* ==========================================================================
+   LIGHTBOX COMPARTIDO PARA ESTÉTICA Y LABORATORIO (#lightbox-modal)
+   Disponible en cualquier página que incluya el modal #lightbox-modal.
+   ========================================================================== */
+(function () {
   const modalLightbox = document.getElementById('lightbox-modal');
   const imgLightbox = document.getElementById('lightbox-img');
   const captionLightbox = document.getElementById('lightbox-caption');
+  if (!modalLightbox || !imgLightbox) return;
+
+  let focoPrevio = null;
 
   function abrirFotoGrande(src, caption) {
-    if (!modalLightbox || !imgLightbox) return;
+    focoPrevio = document.activeElement;
     imgLightbox.src = src;
-    captionLightbox.textContent = caption || "";
+    imgLightbox.alt = caption || 'Foto ampliada';
+    if (captionLightbox) captionLightbox.textContent = caption || '';
     modalLightbox.classList.add('abierto');
     modalLightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const btnCerrar = document.getElementById('lightbox-cerrar');
+    if (btnCerrar) btnCerrar.focus();
   }
 
-  // Las fotos de la galería la llaman desde el HTML con onclick="abrirFotoGrande(...)",
-  // por eso se publica aquí para que el HTML la encuentre.
+  function cerrarFotoGrande() {
+    if (!modalLightbox.classList.contains('abierto')) return;
+    modalLightbox.classList.remove('abierto');
+    modalLightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (focoPrevio && typeof focoPrevio.focus === 'function') {
+      focoPrevio.focus();
+    }
+  }
 
-  
+  // Las fotos de la galería la llaman desde el HTML con onclick="abrirFotoGrande(...)"
   window.abrirFotoGrande = abrirFotoGrande;
 
   const btnCerrarLightbox = document.getElementById('lightbox-cerrar');
   if (btnCerrarLightbox) {
-    btnCerrarLightbox.addEventListener('click', () => {
-      if (modalLightbox) {
-        modalLightbox.classList.remove('abierto');
-        modalLightbox.setAttribute('aria-hidden', 'true');
-      }
-    });
+    btnCerrarLightbox.addEventListener('click', cerrarFotoGrande);
   }
 
-  if (modalLightbox) {
-    modalLightbox.addEventListener('click', (e) => {
-      if (e.target === modalLightbox) {
-        modalLightbox.classList.remove('abierto');
-        modalLightbox.setAttribute('aria-hidden', 'true');
+  modalLightbox.addEventListener('click', (e) => {
+    if (e.target === modalLightbox) cerrarFotoGrande();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalLightbox.classList.contains('abierto')) {
+      cerrarFotoGrande();
+      return;
+    }
+    if (e.key === 'Enter' || e.key === ' ') {
+      const target = e.target && e.target.closest && e.target.closest('[role="button"][onclick*="abrirFotoGrande"]');
+      if (target) {
+        e.preventDefault();
+        target.click();
       }
-    });
-  }
+    }
+  });
 })();
 
 
@@ -5031,7 +5139,8 @@ function esPagina(nombre) {
         var s = img.getAttribute("src") || "";
         return (
           /\/(instalaciones|estetica|servicios|equipo)\//.test(s) &&
-          !img.closest("a")
+          !img.closest("a") &&
+          !img.closest(".galeria-card-zoom, .groomer-feature-media, .groomer-card-secundaria, .lab-galeria-item, .comparador")
         );
       }
     );
@@ -5114,7 +5223,7 @@ function esPagina(nombre) {
         Horario: lunes a sábado, 8:30 a 20:00 (hora de Perú)
      --------------------------------------------------------- */
   function horarioEnVivo() {
-    var badges = document.querySelectorAll(".badge-abierto");
+    var badges = document.querySelectorAll(".badge-abierto:not([data-badge-estatico])");
     if (!badges.length) return;
 
     function estado() {
@@ -5287,6 +5396,9 @@ function esPagina(nombre) {
       btn.setAttribute("aria-expanded", abierto ? "true" : "false");
       var etiqueta = btn.querySelector("[data-abrir]");
       if (etiqueta) {
+        if (!etiqueta.dataset.abrir) {
+          etiqueta.dataset.abrir = etiqueta.textContent.trim() || "Ver más";
+        }
         etiqueta.textContent = abierto
           ? etiqueta.dataset.cerrar || "Ocultar"
           : etiqueta.dataset.abrir || "Ver más";

@@ -21,8 +21,28 @@
   /* ==========================================================================
      1. CONFIGURACIÓN Y CONTEXTO INSTITUCIONAL
      ========================================================================== */
+  function leerStorage(clave) {
+    try {
+      return window.localStorage ? window.localStorage.getItem(clave) || "" : "";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function escribirStorage(clave, valor) {
+    try {
+      if (window.localStorage) window.localStorage.setItem(clave, valor);
+    } catch (_) {}
+  }
+
+  function borrarStorage(clave) {
+    try {
+      if (window.localStorage) window.localStorage.removeItem(clave);
+    } catch (_) {}
+  }
+
   var CONFIG = {
-    apiKey: localStorage.getItem("pelitos_gemini_api_key") || "",
+    apiKey: leerStorage("pelitos_gemini_api_key"),
     model: "gemini-1.5-flash",
     clinic: {
       nombre: "Pelitos Veterinaria",
@@ -873,7 +893,7 @@
       return "🐾 ¡Hola! Escríbeme tu duda o consulta sobre tu mascota y con gusto te oriento.";
     }
 
-    var key = CONFIG.apiKey || localStorage.getItem("pelitos_gemini_api_key");
+    var key = CONFIG.apiKey || leerStorage("pelitos_gemini_api_key");
     if (!key) {
       return LocalTriageEngine.analizarMensaje(entradaLimpia);
     }
@@ -1044,9 +1064,9 @@
 
       '  <!-- Formulario de Entrada -->' +
       '  <form class="ia-input-bar" id="ia-form-chat">' +
-      '    <input type="text" id="ia-input-text" class="ia-input" placeholder="Pregunta cualquier cosa sobre tu mascota…" autocomplete="off" maxlength="300" required />' +
+      '    <input type="text" id="ia-input-text" class="ia-input" aria-label="Escribe tu consulta sobre tu mascota" placeholder="Pregunta cualquier cosa sobre tu mascota…" autocomplete="off" maxlength="300" required />' +
       '    <button type="submit" class="ia-btn-send" id="ia-btn-send" aria-label="Enviar mensaje">' +
-      '      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+      '      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '        <line x1="22" y1="2" x2="11" y2="13"></line>' +
       '        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>' +
       '      </svg>' +
@@ -1089,10 +1109,16 @@
       modal.classList.remove("activo");
       modal.setAttribute("aria-hidden", "true");
       fab.classList.remove("oculto");
+      if (fab && typeof fab.focus === "function") fab.focus();
     }
 
     fab.addEventListener("click", abrirChat);
     btnCerrar.addEventListener("click", cerrarChat);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("activo")) {
+        cerrarChat();
+      }
+    });
 
     // API pública para abrir o cerrar Pelitos IA desde cualquier botón o enlace
     window.PelitosIA = {
@@ -1119,7 +1145,7 @@
     }
 
     btnConfig.addEventListener("click", function () {
-      var actual = localStorage.getItem("pelitos_gemini_api_key") || "";
+      var actual = leerStorage("pelitos_gemini_api_key");
       var nuevaKey = window.prompt(
         "🔑 Configuración de Google Gemini API:\n\n" +
         "Ingresa tu Gemini API Key para habilitar el modelo generativo cloud (o déjalo vacío para usar el motor clínico local):",
@@ -1129,11 +1155,11 @@
       if (nuevaKey !== null) {
         var keyLimpia = nuevaKey.trim();
         if (keyLimpia) {
-          localStorage.setItem("pelitos_gemini_api_key", keyLimpia);
+          escribirStorage("pelitos_gemini_api_key", keyLimpia);
           CONFIG.apiKey = keyLimpia;
           agregarMensajeSistema("✅ Conexión con Google Gemini configurada exitosamente.");
         } else {
-          localStorage.removeItem("pelitos_gemini_api_key");
+          borrarStorage("pelitos_gemini_api_key");
           CONFIG.apiKey = "";
           agregarMensajeSistema("ℹ️ Modo motor local activado.");
         }
@@ -1171,7 +1197,7 @@
 
       var srvLower = (triageAnalysis.servicioSugerido || "").toLowerCase();
       var numDestino = CONFIG.clinic.telefonoConsultorio;
-      if (srvLower.indexOf("estética") !== -1 || srvLower.indexOf("grooming") !== -1 || srvLower.indexOf("baño") !== -1 || srvLower.indexOf("corte") !== -1) {
+      if (srvLower.indexOf("estética") !== -1 || srvLower.indexOf("estetica") !== -1 || srvLower.indexOf("grooming") !== -1 || srvLower.indexOf("baño") !== -1 || srvLower.indexOf("bano") !== -1 || srvLower.indexOf("corte") !== -1) {
         numDestino = CONFIG.clinic.telefonoEstetica;
       } else if (srvLower.indexOf("pet") !== -1 || srvLower.indexOf("tienda") !== -1 || srvLower.indexOf("farmacia") !== -1 || srvLower.indexOf("alimento") !== -1 || srvLower.indexOf("accesorio") !== -1) {
         numDestino = CONFIG.clinic.telefonoPetshop;
